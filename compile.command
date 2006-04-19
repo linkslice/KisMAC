@@ -6,12 +6,12 @@ if [ "x$1" == "x--help" ]; then
 fi
 
 case $1 in
-  "Universal")
-    configuration=Universal;;
+  "Deployment")
+    configuration=Deployment;;
   "Development")
     configuration=Development;;
-  "Deployment" | "" | "image")
-    configuration=Deployment;;
+  "Universal" | "" | "image")
+    configuration=Universal;;
   *)
     echo "Usage ./compile.command [Universal|Development|Deployment] [image]"
     exit 1
