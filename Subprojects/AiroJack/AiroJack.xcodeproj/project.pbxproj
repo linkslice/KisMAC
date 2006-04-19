@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00F0FE4106AC5E79006D4119 /* AiroJackLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3706AC5E79006D4119 /* AiroJackLog.h */; };
+		00F0FE4206AC5E79006D4119 /* AiroJackCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00F0FE3806AC5E79006D4119 /* AiroJackCard.cpp */; };
+		00F0FE4306AC5E79006D4119 /* AiroJackDriverInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3906AC5E79006D4119 /* AiroJackDriverInterface.h */; };
+		00F0FE4406AC5E79006D4119 /* AiroJackDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3A06AC5E79006D4119 /* AiroJackDriver.h */; };
+		00F0FE4506AC5E79006D4119 /* AiroJackCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3B06AC5E79006D4119 /* AiroJackCard.h */; };
+		00F0FE4606AC5E79006D4119 /* AiroJackUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00F0FE3C06AC5E79006D4119 /* AiroJackUserClient.cpp */; };
+		00F0FE4706AC5E79006D4119 /* AiroJackUserClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3D06AC5E79006D4119 /* AiroJackUserClient.h */; };
+		00F0FE4806AC5E79006D4119 /* AiroJackStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE3E06AC5E79006D4119 /* AiroJackStruct.h */; };
+		00F0FE4906AC5E79006D4119 /* AiroJackDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00F0FE3F06AC5E79006D4119 /* AiroJackDriver.cpp */; };
+		00F0FE4A06AC5E79006D4119 /* AiroJackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F0FE4006AC5E79006D4119 /* AiroJackFrame.h */; };
+		00F0FE7806AC5EEF006D4119 /* AiroJack.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 32D94FD00562CBF700B6AF17 /* AiroJack.kext */; };
+		32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		06AA1265FFB2107B11CA28AA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		06AA1266FFB2107B11CA28AA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		00F0FE7706AC5ED4006D4119 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../../../files;
+			dstSubfolderSpec = 16;
+			files = (
+				00F0FE7806AC5EEF006D4119 /* AiroJack.kext in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00F0FE3706AC5E79006D4119 /* AiroJackLog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackLog.h; sourceTree = "<group>"; };
+		00F0FE3806AC5E79006D4119 /* AiroJackCard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackCard.cpp; sourceTree = "<group>"; };
+		00F0FE3906AC5E79006D4119 /* AiroJackDriverInterface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackDriverInterface.h; sourceTree = "<group>"; };
+		00F0FE3A06AC5E79006D4119 /* AiroJackDriver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackDriver.h; sourceTree = "<group>"; };
+		00F0FE3B06AC5E79006D4119 /* AiroJackCard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackCard.h; sourceTree = "<group>"; };
+		00F0FE3C06AC5E79006D4119 /* AiroJackUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackUserClient.cpp; sourceTree = "<group>"; };
+		00F0FE3D06AC5E79006D4119 /* AiroJackUserClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackUserClient.h; sourceTree = "<group>"; };
+		00F0FE3E06AC5E79006D4119 /* AiroJackStruct.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackStruct.h; sourceTree = "<group>"; };
+		00F0FE3F06AC5E79006D4119 /* AiroJackDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackDriver.cpp; sourceTree = "<group>"; };
+		00F0FE4006AC5E79006D4119 /* AiroJackFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AiroJackFrame.h; sourceTree = "<group>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		32D94FD00562CBF700B6AF17 /* AiroJack.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AiroJack.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		32D94FCB0562CBF700B6AF17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* AiroJack */ = {
+			isa = PBXGroup;
+			children = (
+				247142CAFF3F8F9811CA285C /* Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				19C28FB6FE9D52B211CA2CBB /* Products */,
+			);
+			name = AiroJack;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				32D94FCF0562CBF700B6AF17 /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		19C28FB6FE9D52B211CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32D94FD00562CBF700B6AF17 /* AiroJack.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		247142CAFF3F8F9811CA285C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				00F0FE3706AC5E79006D4119 /* AiroJackLog.h */,
+				00F0FE3806AC5E79006D4119 /* AiroJackCard.cpp */,
+				00F0FE3906AC5E79006D4119 /* AiroJackDriverInterface.h */,
+				00F0FE3A06AC5E79006D4119 /* AiroJackDriver.h */,
+				00F0FE3B06AC5E79006D4119 /* AiroJackCard.h */,
+				00F0FE3C06AC5E79006D4119 /* AiroJackUserClient.cpp */,
+				00F0FE3D06AC5E79006D4119 /* AiroJackUserClient.h */,
+				00F0FE3E06AC5E79006D4119 /* AiroJackStruct.h */,
+				00F0FE3F06AC5E79006D4119 /* AiroJackDriver.cpp */,
+				00F0FE4006AC5E79006D4119 /* AiroJackFrame.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		32D94FC50562CBF700B6AF17 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00F0FE4106AC5E79006D4119 /* AiroJackLog.h in Headers */,
+				00F0FE4306AC5E79006D4119 /* AiroJackDriverInterface.h in Headers */,
+				00F0FE4406AC5E79006D4119 /* AiroJackDriver.h in Headers */,
+				00F0FE4506AC5E79006D4119 /* AiroJackCard.h in Headers */,
+				00F0FE4706AC5E79006D4119 /* AiroJackUserClient.h in Headers */,
+				00F0FE4806AC5E79006D4119 /* AiroJackStruct.h in Headers */,
+				00F0FE4A06AC5E79006D4119 /* AiroJackFrame.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		32D94FC30562CBF700B6AF17 /* AiroJack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00AC269B0871410600885CB6 /* Build configuration list for PBXNativeTarget "AiroJack" */;
+			buildPhases = (
+				32D94FC40562CBF700B6AF17 /* ShellScript */,
+				32D94FC50562CBF700B6AF17 /* Headers */,
+				32D94FC70562CBF700B6AF17 /* Resources */,
+				32D94FC90562CBF700B6AF17 /* Sources */,
+				32D94FCB0562CBF700B6AF17 /* Frameworks */,
+				32D94FCC0562CBF700B6AF17 /* Rez */,
+				32D94FCD0562CBF700B6AF17 /* ShellScript */,
+				00F0FE7706AC5ED4006D4119 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.AiroJack;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiroJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+			};
+			dependencies = (
+			);
+			name = AiroJack;
+			productInstallPath = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+			productName = AiroJack;
+			productReference = 32D94FD00562CBF700B6AF17 /* AiroJack.kext */;
+			productType = "com.apple.product-type.kernel-extension.iokit";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 00AC269F0871410600885CB6 /* Build configuration list for PBXProject "AiroJack" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				06AA1265FFB2107B11CA28AA /* Development */,
+				06AA1266FFB2107B11CA28AA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* AiroJack */;
+			projectDirPath = "";
+			targets = (
+				32D94FC30562CBF700B6AF17 /* AiroJack */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		32D94FC70562CBF700B6AF17 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		32D94FCC0562CBF700B6AF17 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32D94FC40562CBF700B6AF17 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPreprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
+		};
+		32D94FCD0562CBF700B6AF17 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPostprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		32D94FC90562CBF700B6AF17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00F0FE4206AC5E79006D4119 /* AiroJackCard.cpp in Sources */,
+				00F0FE4606AC5E79006D4119 /* AiroJackUserClient.cpp in Sources */,
+				00F0FE4906AC5E79006D4119 /* AiroJackDriver.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00AC269C0871410600885CB6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.AiroJack;
+				MODULE_VERSION = 1.0.0d1;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiroJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		00AC269D0871410600885CB6 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.AiroJack;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiroJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		00AC269E0871410600885CB6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.AiroJack;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiroJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Default;
+		};
+		00AC26A00871410600885CB6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Development;
+		};
+		00AC26A10871410600885CB6 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Deployment;
+		};
+		00AC26A20871410600885CB6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Default;
+		};
+		6C03D89E09B551C9005B2316 /* Universal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.AiroJack;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiroJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+				ZERO_LINK = NO;
+			};
+			name = Universal;
+		};
+		6C03D89F09B551C9005B2316 /* Universal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Universal;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00AC269B0871410600885CB6 /* Build configuration list for PBXNativeTarget "AiroJack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AC269C0871410600885CB6 /* Development */,
+				00AC269D0871410600885CB6 /* Deployment */,
+				6C03D89E09B551C9005B2316 /* Universal */,
+				00AC269E0871410600885CB6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		00AC269F0871410600885CB6 /* Build configuration list for PBXProject "AiroJack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AC26A00871410600885CB6 /* Development */,
+				00AC26A10871410600885CB6 /* Deployment */,
+				6C03D89F09B551C9005B2316 /* Universal */,
+				00AC26A20871410600885CB6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

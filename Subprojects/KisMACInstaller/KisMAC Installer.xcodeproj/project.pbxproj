@@ -1,0 +1,585 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00B9E60D0647BA04009FEF35 /* skip_forward_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E6090647BA04009FEF35 /* skip_forward_active.png */; };
+		00B9E60E0647BA04009FEF35 /* skip_forward_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E60A0647BA04009FEF35 /* skip_forward_blue.png */; };
+		00B9E60F0647BA04009FEF35 /* skip_previous_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E60B0647BA04009FEF35 /* skip_previous_active.png */; };
+		00B9E6100647BA04009FEF35 /* skip_previous_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E60C0647BA04009FEF35 /* skip_previous_blue.png */; };
+		00B9E6150647BA2E009FEF35 /* InstallController.h in Headers */ = {isa = PBXBuildFile; fileRef = 00B9E6130647BA2E009FEF35 /* InstallController.h */; };
+		00B9E6160647BA2E009FEF35 /* InstallController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B9E6140647BA2E009FEF35 /* InstallController.m */; };
+		00B9E74A0647BCD4009FEF35 /* binaervarianz.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E7470647BCD4009FEF35 /* binaervarianz.png */; };
+		00B9E74B0647BCD4009FEF35 /* devil.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E7480647BCD4009FEF35 /* devil.icns */; };
+		00B9E74C0647BCD4009FEF35 /* Installer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E7490647BCD4009FEF35 /* Installer.icns */; };
+		00B9E9010647C8C0009FEF35 /* wavelan.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E9000647C8C0009FEF35 /* wavelan.png */; };
+		00B9E9750647DE5B009FEF35 /* stop_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E9730647DE5B009FEF35 /* stop_active.png */; };
+		00B9E9760647DE5C009FEF35 /* stop_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E9740647DE5B009FEF35 /* stop_blue.png */; };
+		00B9E9780647E32B009FEF35 /* PrefApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E9770647E32B009FEF35 /* PrefApp.icns */; };
+		00B9E97A0647E715009FEF35 /* target.png in Resources */ = {isa = PBXBuildFile; fileRef = 00B9E9790647E715009FEF35 /* target.png */; };
+		00B9E97F0647F3B8009FEF35 /* BLAuthentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 00B9E97D0647F3B8009FEF35 /* BLAuthentication.h */; };
+		00B9E9800647F3B8009FEF35 /* BLAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B9E97E0647F3B8009FEF35 /* BLAuthentication.m */; };
+		00D5667109C73AE100FB787B /* airportExtreme.png in Resources */ = {isa = PBXBuildFile; fileRef = 00D5667009C73AE100FB787B /* airportExtreme.png */; };
+		00FC4EEB0647F6C800F2220A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE40647F6C800F2220A /* install.sh */; };
+		00FC4EEC0647F6C800F2220A /* permissions.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE50647F6C800F2220A /* permissions.sh */; };
+		00FC4EED0647F6C800F2220A /* remove.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE60647F6C800F2220A /* remove.sh */; };
+		00FC4EEE0647F6C800F2220A /* sfpatch_install.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE70647F6C800F2220A /* sfpatch_install.sh */; };
+		00FC4EEF0647F6C800F2220A /* sfpatch_overwrite.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE80647F6C800F2220A /* sfpatch_overwrite.sh */; };
+		00FC4EF00647F6C800F2220A /* sfpatch_permissions.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EE90647F6C800F2220A /* sfpatch_permissions.sh */; };
+		00FC4EF10647F6C800F2220A /* sfpatch_remove.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EEA0647F6C800F2220A /* sfpatch_remove.sh */; };
+		00FC4EF60647F70B00F2220A /* remove_prefs.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4EF50647F70B00F2220A /* remove_prefs.sh */; };
+		00FC4F6F0648321500F2220A /* airport.png in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4F6E0648321500F2220A /* airport.png */; };
+		00FC4F710648361200F2220A /* opensource.png in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4F700648361200F2220A /* opensource.png */; };
+		00FC4F73064837B900F2220A /* orinoco.png in Resources */ = {isa = PBXBuildFile; fileRef = 00FC4F72064837B900F2220A /* orinoco.png */; };
+		00FC4F750648496A00F2220A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00FC4F740648496A00F2220A /* Carbon.framework */; };
+		00FC500D0648499F00F2220A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00FC500C0648499F00F2220A /* Security.framework */; };
+		00FC5041064849D000F2220A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00FC5040064849D000F2220A /* IOKit.framework */; };
+		8D1107280486CEB800E47090 /* KisMAC Installer_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32CA4F630368D1EE00C91783 /* KisMAC Installer_Prefix.pch */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		00B9E6090647BA04009FEF35 /* skip_forward_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skip_forward_active.png; sourceTree = "<group>"; };
+		00B9E60A0647BA04009FEF35 /* skip_forward_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skip_forward_blue.png; sourceTree = "<group>"; };
+		00B9E60B0647BA04009FEF35 /* skip_previous_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skip_previous_active.png; sourceTree = "<group>"; };
+		00B9E60C0647BA04009FEF35 /* skip_previous_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skip_previous_blue.png; sourceTree = "<group>"; };
+		00B9E6130647BA2E009FEF35 /* InstallController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallController.h; sourceTree = "<group>"; };
+		00B9E6140647BA2E009FEF35 /* InstallController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallController.m; sourceTree = "<group>"; };
+		00B9E7470647BCD4009FEF35 /* binaervarianz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = binaervarianz.png; sourceTree = "<group>"; };
+		00B9E7480647BCD4009FEF35 /* devil.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = devil.icns; sourceTree = "<group>"; };
+		00B9E7490647BCD4009FEF35 /* Installer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Installer.icns; sourceTree = "<group>"; };
+		00B9E9000647C8C0009FEF35 /* wavelan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wavelan.png; sourceTree = "<group>"; };
+		00B9E9730647DE5B009FEF35 /* stop_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_active.png; sourceTree = "<group>"; };
+		00B9E9740647DE5B009FEF35 /* stop_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_blue.png; sourceTree = "<group>"; };
+		00B9E9770647E32B009FEF35 /* PrefApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = PrefApp.icns; sourceTree = "<group>"; };
+		00B9E9790647E715009FEF35 /* target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = target.png; sourceTree = "<group>"; };
+		00B9E97D0647F3B8009FEF35 /* BLAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BLAuthentication.h; sourceTree = "<group>"; };
+		00B9E97E0647F3B8009FEF35 /* BLAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BLAuthentication.m; sourceTree = "<group>"; };
+		00D5667009C73AE100FB787B /* airportExtreme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airportExtreme.png; sourceTree = "<group>"; };
+		00FC4EE40647F6C800F2220A /* install.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
+		00FC4EE50647F6C800F2220A /* permissions.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = permissions.sh; sourceTree = "<group>"; };
+		00FC4EE60647F6C800F2220A /* remove.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = remove.sh; sourceTree = "<group>"; };
+		00FC4EE70647F6C800F2220A /* sfpatch_install.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = sfpatch_install.sh; sourceTree = "<group>"; };
+		00FC4EE80647F6C800F2220A /* sfpatch_overwrite.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = sfpatch_overwrite.sh; sourceTree = "<group>"; };
+		00FC4EE90647F6C800F2220A /* sfpatch_permissions.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = sfpatch_permissions.sh; sourceTree = "<group>"; };
+		00FC4EEA0647F6C800F2220A /* sfpatch_remove.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = sfpatch_remove.sh; sourceTree = "<group>"; };
+		00FC4EF50647F70B00F2220A /* remove_prefs.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = remove_prefs.sh; sourceTree = "<group>"; };
+		00FC4F6E0648321500F2220A /* airport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airport.png; sourceTree = "<group>"; };
+		00FC4F700648361200F2220A /* opensource.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opensource.png; sourceTree = "<group>"; };
+		00FC4F72064837B900F2220A /* orinoco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orinoco.png; sourceTree = "<group>"; };
+		00FC4F740648496A00F2220A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		00FC500C0648499F00F2220A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		00FC5040064849D000F2220A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* KisMAC Installer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KisMAC Installer_Prefix.pch"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* KisMAC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KisMAC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				00FC4F750648496A00F2220A /* Carbon.framework in Frameworks */,
+				00FC500D0648499F00F2220A /* Security.framework in Frameworks */,
+				00FC5041064849D000F2220A /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00B9E6080647B9E5009FEF35 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				00D5667009C73AE100FB787B /* airportExtreme.png */,
+				00FC4F72064837B900F2220A /* orinoco.png */,
+				00FC4F700648361200F2220A /* opensource.png */,
+				00FC4F6E0648321500F2220A /* airport.png */,
+				00B9E9790647E715009FEF35 /* target.png */,
+				00B9E9770647E32B009FEF35 /* PrefApp.icns */,
+				00B9E9000647C8C0009FEF35 /* wavelan.png */,
+				00B9E7470647BCD4009FEF35 /* binaervarianz.png */,
+				00B9E7480647BCD4009FEF35 /* devil.icns */,
+				00B9E7490647BCD4009FEF35 /* Installer.icns */,
+				00B9E6090647BA04009FEF35 /* skip_forward_active.png */,
+				00B9E60A0647BA04009FEF35 /* skip_forward_blue.png */,
+				00B9E60B0647BA04009FEF35 /* skip_previous_active.png */,
+				00B9E60C0647BA04009FEF35 /* skip_previous_blue.png */,
+				00B9E9730647DE5B009FEF35 /* stop_active.png */,
+				00B9E9740647DE5B009FEF35 /* stop_blue.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		00B9E9810647F5EC009FEF35 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				00FC4EE40647F6C800F2220A /* install.sh */,
+				00FC4EE50647F6C800F2220A /* permissions.sh */,
+				00FC4EE60647F6C800F2220A /* remove.sh */,
+				00FC4EF50647F70B00F2220A /* remove_prefs.sh */,
+				00FC4EE70647F6C800F2220A /* sfpatch_install.sh */,
+				00FC4EE80647F6C800F2220A /* sfpatch_overwrite.sh */,
+				00FC4EE90647F6C800F2220A /* sfpatch_permissions.sh */,
+				00FC4EEA0647F6C800F2220A /* sfpatch_remove.sh */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				00B9E97D0647F3B8009FEF35 /* BLAuthentication.h */,
+				00B9E97E0647F3B8009FEF35 /* BLAuthentication.m */,
+				00B9E6130647BA2E009FEF35 /* InstallController.h */,
+				00B9E6140647BA2E009FEF35 /* InstallController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00FC5040064849D000F2220A /* IOKit.framework */,
+				00FC500C0648499F00F2220A /* Security.framework */,
+				00FC4F740648496A00F2220A /* Carbon.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* KisMAC Installer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* KisMAC Installer */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = "KisMAC Installer";
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* KisMAC Installer_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00B9E9810647F5EC009FEF35 /* Scripts */,
+				00B9E6080647B9E5009FEF35 /* Images */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D1107270486CEB800E47090 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1107280486CEB800E47090 /* KisMAC Installer_Prefix.pch in Headers */,
+				00B9E6150647BA2E009FEF35 /* InstallController.h in Headers */,
+				00B9E97F0647F3B8009FEF35 /* BLAuthentication.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* KisMAC Installer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00AC270C0871437B00885CB6 /* Build configuration list for PBXNativeTarget "KisMAC Installer" */;
+			buildPhases = (
+				8D1107270486CEB800E47090 /* Headers */,
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KisMAC Installer_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "KisMAC Installer";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+			);
+			name = "KisMAC Installer";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "KisMAC Installer";
+			productReference = 8D1107320486CEB800E47090 /* KisMAC Installer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 00AC27100871437B00885CB6 /* Build configuration list for PBXProject "KisMAC Installer" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA /* Development */,
+				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* KisMAC Installer */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* KisMAC Installer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				00B9E60D0647BA04009FEF35 /* skip_forward_active.png in Resources */,
+				00B9E60E0647BA04009FEF35 /* skip_forward_blue.png in Resources */,
+				00B9E60F0647BA04009FEF35 /* skip_previous_active.png in Resources */,
+				00B9E6100647BA04009FEF35 /* skip_previous_blue.png in Resources */,
+				00B9E74A0647BCD4009FEF35 /* binaervarianz.png in Resources */,
+				00B9E74B0647BCD4009FEF35 /* devil.icns in Resources */,
+				00B9E74C0647BCD4009FEF35 /* Installer.icns in Resources */,
+				00B9E9010647C8C0009FEF35 /* wavelan.png in Resources */,
+				00B9E9750647DE5B009FEF35 /* stop_active.png in Resources */,
+				00B9E9760647DE5C009FEF35 /* stop_blue.png in Resources */,
+				00B9E9780647E32B009FEF35 /* PrefApp.icns in Resources */,
+				00B9E97A0647E715009FEF35 /* target.png in Resources */,
+				00FC4EEB0647F6C800F2220A /* install.sh in Resources */,
+				00FC4EEC0647F6C800F2220A /* permissions.sh in Resources */,
+				00FC4EED0647F6C800F2220A /* remove.sh in Resources */,
+				00FC4EEE0647F6C800F2220A /* sfpatch_install.sh in Resources */,
+				00FC4EEF0647F6C800F2220A /* sfpatch_overwrite.sh in Resources */,
+				00FC4EF00647F6C800F2220A /* sfpatch_permissions.sh in Resources */,
+				00FC4EF10647F6C800F2220A /* sfpatch_remove.sh in Resources */,
+				00FC4EF60647F70B00F2220A /* remove_prefs.sh in Resources */,
+				00FC4F6F0648321500F2220A /* airport.png in Resources */,
+				00FC4F710648361200F2220A /* opensource.png in Resources */,
+				00FC4F73064837B900F2220A /* orinoco.png in Resources */,
+				00D5667109C73AE100FB787B /* airportExtreme.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				00B9E6160647BA2E009FEF35 /* InstallController.m in Sources */,
+				00B9E9800647F3B8009FEF35 /* BLAuthentication.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00AC270D0871437B00885CB6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KisMAC Installer_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "KisMAC Installer";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		00AC270E0871437B00885CB6 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KisMAC Installer_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "KisMAC Installer";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		00AC270F0871437B00885CB6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KisMAC Installer_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "KisMAC Installer";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		00AC27110871437B00885CB6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Development;
+		};
+		00AC27120871437B00885CB6 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Deployment;
+		};
+		00AC27130871437B00885CB6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+			};
+			name = Default;
+		};
+		6C03D85409B54FEC005B2316 /* Universal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KisMAC Installer_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "KisMAC Installer";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Universal;
+		};
+		6C03D85509B54FEC005B2316 /* Universal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Universal;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00AC270C0871437B00885CB6 /* Build configuration list for PBXNativeTarget "KisMAC Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AC270D0871437B00885CB6 /* Development */,
+				00AC270E0871437B00885CB6 /* Deployment */,
+				6C03D85409B54FEC005B2316 /* Universal */,
+				00AC270F0871437B00885CB6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		00AC27100871437B00885CB6 /* Build configuration list for PBXProject "KisMAC Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AC27110871437B00885CB6 /* Development */,
+				00AC27120871437B00885CB6 /* Deployment */,
+				6C03D85509B54FEC005B2316 /* Universal */,
+				00AC27130871437B00885CB6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

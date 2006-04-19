@@ -1,0 +1,397 @@
+R124: - Test -BEOFRE- committing!
+
+R121: - Fix problem where advanced prefs wouldn't show up if they had never been set before
+
+R120: - Add Nibs I missed.  When creating new Nibs, be sure to remove the .svn dir from inside the .nib package if you copied an older nib
+
+R119: - Advanced Prefs from themacuser
+
+R118: - Fixed AE Forever for real this time (maybe)
+
+R114: - Fixed APs not being drawn on map (closes #12)
+	  - Added sound feedback to crack attempts (updates #69 - awaiting added preference)
+	  - Changed invalid location position to impossible values (closes #68 part 1)
+	  - Improved auto-center behaviour for map and added shortcut key (closes #68 part 2 & #71)
+	  - added commented pseudocode for trace inclusion in KML export (refer #72)
+	  - added zoom limit patch for map download (re-closes #70)
+
+R112: - fixing a security issue, discovered by Stefan Esser. was introduced with R54
+
+R111: - Added Austrailan Map Server Closes #70 
+
+R108: - Fixed #35, #36 and #54.  When not hopping, still set channel in hopping method.  This avoids a nasty race condition.
+
+R107: - Fixed #51 - deleting a net causes kismac to crash
+	  - Fixed #9 - used Geoffs patch to fix GPS update...
+
+R106: - Fixed some silly warnings as described in #61 note, this is not the patch from 61 because it was incorrect
+
+R102: - improved permanent airport extreme enabling & installing (even more)
+	  - including removal
+	  - fixed serveral small bugs
+	  - added new "build system"
+
+R101: - changes in spanish translation
+
+R100:  This is a big commit, a present for R100.  
+       -Added Client IP Address detection.  I need to think about ways to detect the ip of the ap if possible.
+              --Fixed bug in existing sourceIPAsString() where we were adding sizeof(WLFrame) to the value instead of to the pointer.
+       -Fixed # 29 columns are no longer selected when resizing.
+       -Moved the search catagory menu into the Search cell where it belongs
+       -Better matching to vendors.db  (some macs in vendors.db are in the form xx:xx and we were not checking against these)
+       -AE Passive mode forever now reads setting directly from the .kext.  This should make sure our settings always reflect what is really set.
+       -Add ae passive forever setting to installer for both install and remove.
+       -Add Licence Info to growl controler files
+       -Maybe other stuff I can't remember
+
+R99: Default Map
+
+R98: ASCII values below 32 are not valid in XML.  Fixes Google Earth Export.  Also use UTF-8 cString since that is what our encoding claims to be.
+
+R97: Add option to enable Airport Extreme Monitor Mode forever
+
+R96: Fix Altivec WPA Wordlist crack on ppc that I broke in R91.  This accelerated wpa crack does not work on intel but I'll leave the code there in case anyone wants to investigate further.  Also added a words / sec status to the wpa crack dialog that I used for benchmarking while debigging this problem.
+
+R95: Hopfully fix the last of the build issues some people are having  (including growl link issues)
+
+R94: Fixed Active mode on MacBook Pro (Hopfully) please test
+
+R93: Missed one.  Also changed compile.command to allow us to specify the configuration
+
+R92: Set -arch back to native to allow compile on ppc without the universal sdk.  This also adds a Universal compile configuration to make it easier to make a universal release
+
+R91: First Intel Commit.  Large number of changes
+
+R90: Add growl notifications.  Requires intalation of growl to use feature.  If grow is not installed, this is not a problem. (themacuser)
+
+R89: Apply multi-thread crack patch.  This version sets 1 thread per cpu instead of just 4
+
+R88: 
+
+R87: Change InfoPlist.strings.templ back into a text file so that compile.command can update the revision info in the get info string
+
+R86: More search improvements by themacuser
+
+R85: Fix all active attacks after packet reinjection was cancelled or failed
+
+R84: Fix problem when build path contained a space
+
+R83: Fix Default case in search code thanks themacuser
+
+R82:
+Added Export to Google Maps
+
+R81:
+Improved search patch from themacuser
+
+R80:
+
+Continue scanning after save if we were scanning before saving
+
+R79:
+
+Fixed "Save Filtered Nets" bug with modified patches by themacuser.  
+
+R67:
+
+Deauth All Networks
+fixed bug false WPA detection
+WPA detection in active mode
+
+R66:
+
+can show rates
+fixed minor problem with MACJack cards
+warning if not running tiger
+increasing reliability of Airport reload (aggressive reload)
+
+till R65:
+
+traffic view -> opengl
+new design
+de.binaervarianz.kismac
+moved everything to a new folder (KisMACng)
+parts are apple script now
+    and recordable
+map24 auto-alignment
+scan button mit setstate
+made speech queue working
+reworked delete single net option
+search box is working
+added Prism GT Support
+moved to subversion
+minor bugfixes in installer
+made trace saveable, trace is not continued if no fix recieved
+crosshair cursor for map
+display other information (velocity) in the bottom bar, along with latitude and longitude
+using aircrack code for weak scheduling attacks now
+kismap files use pdf internally to not screw up vector formats (did not work)
+weak scheduling attack works while scanning
+speak again if network found again after 2 minutes
+SSIDs are now interpreted as UTF8
+windows fade out
+applied robin darroches patches for gpscontroller
+reinjection is working again
+usbprism does not need password if not needed for unloading
+suid option removed
+insomnia removed
+atheros support updated
+
+06-29-04 mick   speeded up SpinChannelView by using cached bitmaps (very cool!)
+                speeded up network view
+                fixed a missing connection for nethierarch menu
+                
+06-26-04 mick   added new vendor/device id for new sitecom wl-022 adapters
+
+06-18-04 mick   macjack & airojack cards can be ejected during scan...
+
+05-22-04 mick   some changes to make atheros driver more stable
+
+05-04-04 mick   added a couple of new vendors in vendor.db
+                fixed #59
+                updated Spanish translation from Ferdy
+                
+05-04-04 mick   sheets for loading process too
+                join on double click(tm)
+                wrote a new installer ;)
+                    it includes a simple initial configuration wizard
+                added airvast driver (to be tested)
+
+05-03-04 mick   decrypt can now handle windows passwords
+                improved weak frame detection
+                kismac will ask cards for supported channels
+
+05-02-04 mick   fixed a bug reported by Erik (again :/)
+                optimized Newsham attack speed improvement of factor 4 
+                moved to sheets for waiting dialogs
+                
+05-01-04 mick   work on reinjection attack (probably still not working)
+
+04-30-04 mick   added LEAP crack
+                gave out 0.11b LEAP with LEAP detection
+                
+04-24-04 mick   made WPA crack function altivec compatible
+
+04-19-04 mick   added PRF and generate PTK functions
+
+04-18-04 mick   changes at .kismac webservice
+                parial WPA implementation
+
+04-16-04 mick   tons of small features and bug fixes
+                fixed #43, #22
+                changed version to 0.10a
+                WPA handshakes are now captured and saved
+                
+04-14-04 mick   minor improvements
+
+04-13-04 mick   rudimentary upload to webserver
+                improved gps status handle
+
+04-12-04 mick   work on upload to webserver function
+                reworked GPSController
+                removed a bug from Lucent tunnel handling
+                added support to decrypt tunnels
+                fixed a stupid bug in decrypt dialog
+                
+04-07-04 mick   changed insomnia description in it's prefpane
+                worked the last days on a new webservice =)
+                improvements in Expedia calibration
+                works for usa now too
+                
+04-04-04 mick   multiple bug fixes
+                added JPEG export
+
+03-29-04 mick   Maps from Expedia Europe are now already calibrated
+
+03-27-04 mick   fixed bug in gpsd support, system always showed unreliable
+
+03-26-04 mick   fixed problem with switching altitude to zero
+                fixed bug with WEP-flags that got lost on import of Netstumbler files
+
+03-25-04 mick   fixed KisMAC & Netstumbler Import renumbering problems
+                
+03-23-04 mick   fixed spelling error #44
+                added support for MacSense WUA-700 #45
+
+03-19-04 mick   fixed a couple of security bugs from the day before
+                improved stumble contest file format
+                research for WPA-PSK attack
+
+03-18-04 mick   added netstumbler import
+                speedup of wordlist attacks
+                changed version to 0.09a
+
+03-15-04 mick   added native GPSd support
+
+03-11-04 mick   solved bug #42, filter could not add 01:01:01:01:01:01
+
+03-09-04 mick   added debug mode for injecting beacons
+                fixed a couple of issues with nets that come in at high rate
+                fixed lockup of GPS device (hopefully)
+                
+03-07-04 mick   added Vincents french translation
+
+03-05-04 mick   added debug mode for GPSs
+                need to enable via debug menu
+                "defaults write de.binaervarianz.kismac DebugMode 1"
+
+03-04-04 mick   did some stuff to make atheros support more stable
+
+03-02-04 mick   fixing bugs
+
+03-01-04 mick   prepared everything for translation
+
+02-27-04 mick   remove SUID bug
+                some investigations on airport bug, should be fixed now
+                adjusted vincents translation
+
+02-18-04 mick   removed european yahoo map servers
+                added expedia europe
+                fixed this ugly gps bug (#38)
+                
+02-15-04 mick   added checkbox to disable really want to save question
+
+02-11-04 mick   added vincent malguys french localization for the manual
+
+02-04-04 mick   fixed #32 sorting will not change selection
+                fixed #25 cracking wont work if has been in details
+
+02-03-04 mick   fixed two bugs, new file bug (#35) and a bug which would capture 0byte data packets
+
+01-20-04 mick   started to write in this file again
+                finished atheros support
+                changed version to 0.08a
+                fixed not cycle if channel unsupported bug
+                show warning of unsaved files, only if networks where found
+                scrollbar is automatically added to network table 
+                
+12-07-03 mick   fixed bug #13 clients cannot be sorted
+                fixed bug #12 channel spinner disappears
+
+12-06-03 mick   removed some bug
+
+12-04-03 mick   added support for TerraServer
+
+12-02-03 mick   added MD5 password encryption to decrypt dialog (untested)
+                new scan controller structure (not so hack like)
+                fixed bug #14; location lost
+                fixed bug channel prefs are not applied before restart
+                fixed bug #10; multiple lucent tunnels are shown as one (untested)
+                fixed bug #11; pressing apple w closes main window when preferences close
+                partially fixed bug #13
+                
+11-30-03 mick   made packet injection work on prism2 usb devices
+                added d-link and netgear usb-ids
+
+11-29-03 mick   solved a couple of bugs
+                added WPA and WEP 40 detection
+
+11-27-03 mick   removed bugs in AiroJack and MacJack
+
+11-24-03 geoff  finished gps Elevation
+
+11-24-03 mick   wrote Insomnia kext
+                fixed some bugs
+
+11-23-03 mick   made airojack not so chatty
+                changed some stuff in macjack to make it more stable
+                kismac can import kismac files now ;) (needs testing)
+                ssid-does-not-retain bug solved
+                more work on driver engine
+                channel hopping works now, channel progress not working yet
+
+11-21-03 mick   more work on driver engine
+                could work a little now (channel hopping untested, channel progress not working yet)
+                
+11-20-03 geoff  add preliminary elevation support to gps
+		still lots of work here but it shows up 
+		correctly on the mapping window 
+		not sure if it is compatable with waypoints yet
+		
+11-19-03 geoff  modified some text in sheets to make more user friendly, no .nib changes
+		all changes were in ScanController.m
+		
+07-24-03 mick:  work on automated bug report
+                try injection with hostap
+
+07-23-03 mick:  SUID option
+                better netstumbler export
+                wireless driver compiled with gcc 3.3
+                0.05d released
+
+07-20-03 mick:  wordlist attacks
+                
+07-11-03 mick:  decryption of dumps is working now
+
+07-07-03 mick:  really want to quit question
+                work on decryption dialog
+                made area map quality a float
+                
+07-06-03 mick:  fixed three bugs with mapping (more to go =\)
+
+07-05-03 mick:  made some stuff for Michael Zoellners mapping project
+
+07-04-03 mick:  0.05b3 released
+
+06-30-03 mick:	fixed bug only flashing hidden ssids
+
+06-29-03 mick:  made adv view edges smooth
+
+06-28-03 mick:  stubmblers are shown as nets (yet to be tested)
+                switched to gcc 3.3
+                
+06-24-03 mick:	check now for running driver clients before killing the drivers
+                IO error catched on export
+                fixed bug when showing area of no nets
+                
+06-23-03 mick:	0.05b1 released
+
+06-22-03 mick:	added show all nets area cache
+                bugfixed some crazy stuff, if people dont stop scanning and saved kismac crashed
+
+06-22-03 mick:	made show all nets area work
+                released 0.05b
+                fixed bug, not opening kismap files
+
+06-21-03 mick:  bug fixed a lot of mapping stuff
+                fixed some stuff in wireless driver
+                decided to do release 0.05b tomorrow
+
+06-13-03 mick:  did some stuff to zoom at the current position
+                did changed some stuff in macjack to possible prevent a crash
+                decided to do release 0.05a1
+
+06-05-03 mick:  done with rx Cisco stuff, cannot do packet injection yet
+                decided to do release 0.05a
+
+06-04-03 mick:  even more work on Cisco stuff
+
+06-01-03 mick:  more work on Cisco stuff
+                fixed a bug that caused to show all networks as not wepped
+                
+05-31-03 mick:  working on Cisco support
+
+05-30-03 mick:	many bug fixes
+
+05-19-03 mick:  speeded the details views a little,
+                if you zoom kismac automatically scrolls to the right place
+
+05-18-03 mick:	prepared even more for advanced mapping functions,
+                speeded up the views a little,
+                changed the drawing functions....
+
+05-17-03 mick:	prepared everything for advanced mapping functions,
+                added some stuff to make mapping more reliable,
+                programmed some advanced mapping funtions, need a lot of work though,
+                added Panel to select Map colors, need to change the drawing functions...
+
+05-16-03 mick:	added export for wardriving contest files,
+                added CVS,
+                added set GPS Position function,
+                added show Trace function 
+
+05-13-03 mick:	changes in preferences pane, 
+                channel switching routines reworked,
+                bugfixed some gps code,
+                bugfixed some update code speeding up kismac,
+                added reading of GPGLL sentences

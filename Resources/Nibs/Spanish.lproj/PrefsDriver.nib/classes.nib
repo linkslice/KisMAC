@@ -1,0 +1,51 @@
+{
+    IBClasses = (
+        {CLASS = ColoredRowOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {CLASS = ColoredRowTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {setValueForSender = id; }; 
+            CLASS = PrefsClient; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controlBox = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                enableAEForever = id; 
+                selAddDriver = id; 
+                selAll = id; 
+                selNone = id; 
+                selRemoveDriver = id; 
+            }; 
+            CLASS = PrefsDriver; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_aeForever" = NSButton; 
+                "_channelSel" = NSMatrix; 
+                "_driver" = NSPopUpButton; 
+                "_driverTable" = NSTableView; 
+                "_dumpDestination" = NSTextField; 
+                "_dumpFilter" = NSMatrix; 
+                "_firstChannel" = NSTextField; 
+                "_frequence" = NSTextField; 
+                "_injectionDevice" = NSButton; 
+                "_removeDriver" = NSButton; 
+                "_selAll" = NSButton; 
+                "_selNone" = NSButton; 
+            }; 
+            SUPERCLASS = PrefsClient; 
+        }, 
+        {
+            CLASS = PrefsMap; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_cpColor" = NSColorWell; 
+                "_traceColor" = NSColorWell; 
+                "_wpColor" = NSColorWell; 
+            }; 
+            SUPERCLASS = PrefsClient; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>AiroJack</string>
+	<key>CFBundleGetInfoString</key>
+	<string>AiroJack version 1.0.0d1</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.binaervarianz.iokit.AiroJack</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>AiroJack</string>
+	<key>CFBundlePackageType</key>
+	<string>KEXT</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0d1</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+	<key>IOKitPersonalities</key>
+	<dict>
+		<key>Cisco 350 Series</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.binaervarianz.iokit.AiroJack</string>
+			<key>IOClass</key>
+			<string>AiroJackDriver</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>pccard15f,5</string>
+				<string>pccard15f,a</string>
+				<string>pccard15f,7</string>
+			</array>
+			<key>IOProbeScore</key>
+			<integer>5000</integer>
+			<key>IOProviderClass</key>
+			<string>IOPCCard16Device</string>
+			<key>IOUserClientClass</key>
+			<string>AiroJackUserClient</string>
+		</dict>
+	</dict>
+	<key>OSBundleLibraries</key>
+	<dict>
+		<key>com.apple.iokit.IONetworkingFamily</key>
+		<string>1.1</string>
+		<key>com.apple.iokit.IOPCCardFamily</key>
+		<string>1.1.0</string>
+		<key>com.apple.kernel.iokit</key>
+		<string>6.0</string>
+	</dict>
+</dict>
+</plist>

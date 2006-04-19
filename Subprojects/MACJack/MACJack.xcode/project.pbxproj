@@ -1,0 +1,446 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		00F0FDAF06AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackLog.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB006AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackCard.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB106AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = MACJackCard.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB206AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = MACJackDriver.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB306AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackCardIDs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB406AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = MACJackUserClient.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB506AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackDriver.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB606AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackDriverInterface.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB706AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackFrame.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB806AC59A9006D4119 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MACJackUserClient.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		00F0FDB906AC59A9006D4119 = {
+			fileRef = 00F0FDAF06AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDBA06AC59A9006D4119 = {
+			fileRef = 00F0FDB006AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDBB06AC59A9006D4119 = {
+			fileRef = 00F0FDB106AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+				COMPILER_FLAGS = "-I /usr/include";
+			};
+		};
+		00F0FDBC06AC59A9006D4119 = {
+			fileRef = 00F0FDB206AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDBD06AC59A9006D4119 = {
+			fileRef = 00F0FDB306AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDBE06AC59A9006D4119 = {
+			fileRef = 00F0FDB406AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDBF06AC59A9006D4119 = {
+			fileRef = 00F0FDB506AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDC006AC59A9006D4119 = {
+			fileRef = 00F0FDB606AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDC106AC59A9006D4119 = {
+			fileRef = 00F0FDB706AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDC206AC59A9006D4119 = {
+			fileRef = 00F0FDB806AC59A9006D4119;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F0FDC706AC5A63006D4119 = {
+			buildActionMask = 2147483647;
+			dstPath = ../../files;
+			dstSubfolderSpec = 16;
+			files = (
+				00F0FDD506AC5B2A006D4119,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00F0FDD506AC5B2A006D4119 = {
+			fileRef = 32D94FD00562CBF700B6AF17;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//000
+//001
+//002
+//003
+//004
+//060
+//061
+//062
+//063
+//064
+		06AA1265FFB2107B11CA28AA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		06AA1266FFB2107B11CA28AA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//060
+//061
+//062
+//063
+//064
+//080
+//081
+//082
+//083
+//084
+		089C1669FE841209C02AAC07 = {
+			buildSettings = {
+			};
+			buildStyles = (
+				06AA1265FFB2107B11CA28AA,
+				06AA1266FFB2107B11CA28AA,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 089C166AFE841209C02AAC07;
+			projectDirPath = "";
+			targets = (
+				32D94FC30562CBF700B6AF17,
+			);
+		};
+		089C166AFE841209C02AAC07 = {
+			children = (
+				247142CAFF3F8F9811CA285C,
+				089C167CFE841241C02AAC07,
+				19C28FB6FE9D52B211CA2CBB,
+			);
+			isa = PBXGroup;
+			name = MacJack;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 = {
+			children = (
+				32D94FCF0562CBF700B6AF17,
+				089C167DFE841241C02AAC07,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C167DFE841241C02AAC07 = {
+			children = (
+				089C167EFE841241C02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C167EFE841241C02AAC07 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//080
+//081
+//082
+//083
+//084
+//190
+//191
+//192
+//193
+//194
+		19C28FB6FE9D52B211CA2CBB = {
+			children = (
+				32D94FD00562CBF700B6AF17,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//190
+//191
+//192
+//193
+//194
+//240
+//241
+//242
+//243
+//244
+		247142CAFF3F8F9811CA285C = {
+			children = (
+				00F0FDAF06AC59A9006D4119,
+				00F0FDB006AC59A9006D4119,
+				00F0FDB106AC59A9006D4119,
+				00F0FDB206AC59A9006D4119,
+				00F0FDB306AC59A9006D4119,
+				00F0FDB506AC59A9006D4119,
+				00F0FDB606AC59A9006D4119,
+				00F0FDB706AC59A9006D4119,
+				00F0FDB806AC59A9006D4119,
+				00F0FDB406AC59A9006D4119,
+			);
+			isa = PBXGroup;
+			name = Source;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//240
+//241
+//242
+//243
+//244
+//320
+//321
+//322
+//323
+//324
+		32D94FC30562CBF700B6AF17 = {
+			buildPhases = (
+				32D94FC40562CBF700B6AF17,
+				32D94FC50562CBF700B6AF17,
+				32D94FC70562CBF700B6AF17,
+				32D94FC90562CBF700B6AF17,
+				32D94FCB0562CBF700B6AF17,
+				32D94FCC0562CBF700B6AF17,
+				32D94FCD0562CBF700B6AF17,
+				00F0FDC706AC5A63006D4119,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_NAME = org.binaervarianz.iokit.MACJack;
+				MODULE_VERSION = 1.0.0a1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MACJack;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				WRAPPER_EXTENSION = kext;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = MACJack;
+			productInstallPath = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+			productName = MacJack;
+			productReference = 32D94FD00562CBF700B6AF17;
+			productType = "com.apple.product-type.kernel-extension.iokit";
+		};
+		32D94FC40562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPreprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
+		};
+		32D94FC50562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+				00F0FDB906AC59A9006D4119,
+				00F0FDBA06AC59A9006D4119,
+				00F0FDBD06AC59A9006D4119,
+				00F0FDBF06AC59A9006D4119,
+				00F0FDC006AC59A9006D4119,
+				00F0FDC106AC59A9006D4119,
+				00F0FDC206AC59A9006D4119,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32D94FC70562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+				32D94FC80562CBF700B6AF17,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32D94FC80562CBF700B6AF17 = {
+			fileRef = 089C167DFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		32D94FC90562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+				00F0FDBB06AC59A9006D4119,
+				00F0FDBC06AC59A9006D4119,
+				00F0FDBE06AC59A9006D4119,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32D94FCB0562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32D94FCC0562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32D94FCD0562CBF700B6AF17 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPostprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
+		};
+		32D94FCF0562CBF700B6AF17 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = Info.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		32D94FD00562CBF700B6AF17 = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = MACJack.kext;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+	};
+	rootObject = 089C1669FE841209C02AAC07;
+}

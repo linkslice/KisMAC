@@ -1,0 +1,310 @@
+{
+    IBClasses = (
+        {CLASS = BIButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = BIGLView; LANGUAGE = ObjC; SUPERCLASS = NSOpenGLView; }, 
+        {CLASS = BIToolbarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = BIView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = BIZoomView; LANGUAGE = ObjC; SUPERCLASS = BIGLView; }, 
+        {CLASS = ColoredRowOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            CLASS = ColoredRowTableHeaderView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableHeaderView; 
+        }, 
+        {CLASS = ColoredRowTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            ACTIONS = {animate = id; stopAnimation = id; }; 
+            CLASS = CurrentPointView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {bigger = id; smaller = id; }; 
+            CLASS = CustomScrollView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contView" = NSView; "_smaller" = NSMenuItem; "_view" = NSView; }; 
+            SUPERCLASS = NSScrollView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {commentChanged = id; showNet = id; }; 
+            CLASS = InfoController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_commentField" = NSTextField; 
+                aClientTable = NSTableView; 
+                aShortTable = NSTableView; 
+                aTable = NSTableView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                autoCenter = id; 
+                goDown = id; 
+                goLeft = id; 
+                goRight = id; 
+                goUp = id; 
+                setCurrentPosition = id; 
+                setShowCurrentPosition = id; 
+                setWaypoint1 = id; 
+                setWaypoint2 = id; 
+                zoomIn = id; 
+                zoomOut = id; 
+            }; 
+            CLASS = MapView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_setCurrentPoint" = NSMenuItem; 
+                "_setWayPoint1" = NSMenuItem; 
+                "_setWayPoint2" = NSMenuItem; 
+                "_showCurrentPoint" = NSMenuItem; 
+                "_showNetworks" = NSMenuItem; 
+                "_showTrace" = NSMenuItem; 
+            }; 
+            SUPERCLASS = BIView; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSToolbarClippedItemsIndicator; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {CLASS = NSToolbarItemViewer; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = NSToolbarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                apply = id; 
+                cancel = id; 
+                playSound = id; 
+                selAll = id; 
+                selHop = id; 
+                selNoHop = id; 
+                selNone = id; 
+                showPrefs = id; 
+            }; 
+            CLASS = PrefController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                aChannelSel = id; 
+                aFrequence = id; 
+                aGeigerSensity = id; 
+                aGeigerSounds = id; 
+                aHopSel = id; 
+                aNOWEPSounds = id; 
+                aScanAtStartup = id; 
+                aSelAll = id; 
+                aSelNone = id; 
+                aWEPSounds = id; 
+                aWindow = id; 
+                controller = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                authFloodNetwork = id; 
+                changeSearchType = id; 
+                changeSearchValue = id; 
+                clearNetwork = id; 
+                closeActiveWindow = id; 
+                deautheticateAllNetworks = id; 
+                deautheticateNetwork = id; 
+                debugBeaconFlood = id; 
+                debugExportTrafficView = id; 
+                debugSaveStressTest = id; 
+                debugTestWPAHashingFunction = id; 
+                decryptPCAPFile = id; 
+                exportJPEG = id; 
+                exportKML = id; 
+                exportMacstumbler = id; 
+                exportNS = id; 
+                exportPDF = id; 
+                exportToServer = id; 
+                exportWarD = id; 
+                gpsDebugToConsole = id; 
+                importMapFromServer = id; 
+                importNetstumbler = id; 
+                injectPackets = id; 
+                joinNetwork = id; 
+                openDonateURL = id; 
+                openPCAPInEthereal = id; 
+                openWebsiteURL = id; 
+                restartGPS = id; 
+                selChannel = id; 
+                selChannelRange = id; 
+                setAutoAdjustTimer = id; 
+                showAllNetArea = id; 
+                showClient = id; 
+                showContextHelp = id; 
+                showCurNetArea = id; 
+                showInfo = id; 
+                showNetHierarch = id; 
+                showPrefs = id; 
+            }; 
+            CLASS = ScanController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_authFloodMenu" = NSMenuItem; 
+                "_channelProg" = SpinChannel; 
+                "_container" = WaveContainer; 
+                "_deauthAllMenu" = NSMenuItem; 
+                "_deauthMenu" = NSMenuItem; 
+                "_debugMenu" = NSMenuItem; 
+                "_detailsButton" = NSButton; 
+                "_detailsDrawerMenu" = NSMenuItem; 
+                "_detailsView" = NSView; 
+                "_headerField" = NSTextField; 
+                "_mainView" = NSBox; 
+                "_mapButton" = NSButton; 
+                "_mapView" = NSView; 
+                "_mappingView" = MapView; 
+                "_netHierarchDrawer" = NSDrawer; 
+                "_networkTable" = ColoredRowTableView; 
+                "_networkView" = NSView; 
+                "_networksButton" = NSButton; 
+                "_scanButton" = AMRollOverButton; 
+                "_searchField" = NSSearchField; 
+                "_searchTypeMenu" = id; 
+                "_showAllNetsInMap" = NSMenuItem; 
+                "_showDetails" = NSMenuItem; 
+                "_showHierarch" = NSMenuItem; 
+                "_showMap" = NSMenuItem; 
+                "_showNetInMap" = NSMenuItem; 
+                "_showNetworks" = NSMenuItem; 
+                "_showTraffic" = NSMenuItem; 
+                "_slideView" = BIZoomView; 
+                "_toolBar" = BIToolbarView; 
+                "_trafficButton" = NSButton; 
+                "_trafficController" = TrafficController; 
+                "_trafficModePopUp" = NSPopUpButton; 
+                "_trafficTimePopUp" = NSPopUpButton; 
+                "_trafficView" = NSView; 
+                "_window" = NSWindow; 
+                "_zoomView" = NSView; 
+                aBruteForceMenu = NSMenu; 
+                aChannelMenu = NSMenu; 
+                aCrackMenu = NSMenu; 
+                aDetailsTable = ColoredRowTableView; 
+                aInfoController = InfoController; 
+                aInjPacketsMenu = NSMenuItem; 
+                aNetworkMenu = NSMenu; 
+                aOutView = NSOutlineView; 
+                detailsView = NSView; 
+                prefsController = PrefsController; 
+                prefsWindow = NSWindow; 
+                scanner = WaveScanner; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                bruteforce40bitAll = id; 
+                bruteforce40bitAlpha = id; 
+                bruteforce40bitLow = id; 
+                bruteforceNewsham = id; 
+                importImageForMap = id; 
+                importKisMACFile = id; 
+                importPCPFile = id; 
+                new = id; 
+                openKisMACFile = id; 
+                openKisMAPFile = id; 
+                saveKisMACFile = id; 
+                saveKisMACFileAs = id; 
+                saveKisMAPFile = id; 
+                showDetails = id; 
+                showMap = id; 
+                showNetworks = id; 
+                showNetworksInMap = id; 
+                showTraceInMap = id; 
+                showTrafficView = id; 
+                toggleScan = id; 
+                weakSchedulingAttack104bit = id; 
+                weakSchedulingAttack40And104bit = id; 
+                weakSchedulingAttack40bit = id; 
+                wordlist104bitApple = id; 
+                wordlist104bitMD5 = id; 
+                wordlist40bitApple = id; 
+                wordlistLEAP = id; 
+                wordlistWPA = id; 
+            }; 
+            CLASS = ScriptController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {startAnimation = id; stopAnimation = id; }; 
+            CLASS = SpinChannel; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {setCurrentMode = id; setTimeLength = id; }; 
+            CLASS = TrafficController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_container" = WaveContainer; 
+                "_intervalButton" = NSPopUpButton; 
+                "_modeButton" = NSPopUpButton; 
+                "_scanner" = WaveScanner; 
+                "_view" = BIGLView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {setCurrentMode = id; setTimeLength = id; }; 
+            CLASS = TrafficView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_container" = WaveContainer; 
+                "_intervalButton" = NSPopUpButton; 
+                "_modeButton" = NSPopUpButton; 
+                scanner = WaveScanner; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = WaveContainer; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = WaveScanner; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_container" = WaveContainer; aController = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {animate = id; stopAnimation = id; }; 
+            CLASS = WayPointView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {
+                resetTrace = id; 
+                setCP = id; 
+                setNoWayPoint = id; 
+                setShowNetworks = id; 
+                setWaypoint1 = id; 
+                setWaypoint2 = id; 
+                showTrace = id; 
+            }; 
+            CLASS = ZoomPictureView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_cp" = NSMenuItem; 
+                "_parentView" = NSView; 
+                "_sTrace" = NSMenuItem; 
+                "_scp" = NSMenuItem; 
+                "_scrollView" = CustomScrollView; 
+                "_wp1" = NSMenuItem; 
+                "_wp2" = NSMenuItem; 
+                "_wpView" = WayPointView; 
+            }; 
+            SUPERCLASS = NSImageView; 
+        }, 
+        {
+            CLASS = "_NSToolbarItemViewerLabelCellPopUpCell"; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButtonCell; 
+        }
+    ); 
+    IBVersion = 1; 
+}
