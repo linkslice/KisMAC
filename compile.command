@@ -17,6 +17,11 @@ case $1 in
     exit 1
 esac
 
+if (! [ -d /Developer/SDKs/MacOSX10.4u.sdk ]) && [ $configuration == "Universal" ]; then
+  echo "WARNING! Tried to build for Universal, but SDK is not present. Falling back to Deployment."
+  configuration=Deployment
+fi
+
 echo "Building for configuration... $configuration"
 
 echo -n "Building install image... "
