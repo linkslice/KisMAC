@@ -1,706 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <title>Changelog</title>
-</head>
-
-<body bgcolor="#ffffff">
-
-<div align="left">
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-  <tbody>
-    <tr height="40">
-      <td height="40" width="40"><img src="../gfx/kismacm.png" height="40" width="40"></td>
-      <td height="40" width="6"></td>
-      <td height="40" valign="middle"><font face="Lucida Grande,Helvetica,Arial" size="4"><b>Changelog</b></font></td>
-    </tr>
-  </tbody>
-</table>
-
-</div>
-
-<span style="font-family: Lucida Grande,Geneva,Arial;"></span><font face="Lucida Grande,Geneva,Arial" size="2"><br></font>
-
-  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r90 02-27-06</b></font>
-  <ul>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">Add growl notifications. Requires working installation of growl to use feature. See http://growl.info. Current notifications include start / stop scan, found network (with type), and probe detected. This feature could easily be expanded in the future. Many thanks to themacuser for this patch. </font></li>
-  </ul>
-
-  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r89 02-26-06</b></font>
-  <ul>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">Apply multi-thread crack patch. This version sets 1 thread per cpu instead of just 4 no matter what. Closes #24 </font></li>
-  </ul>
-
-  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r88 02-25-06</b></font>
-  <ul>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed help index </font></li>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #27 (window min size not properly) </font></li>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #18 (weak schedule against both will not work) </font></li>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #37 (thanks peter!)</font></li>
-  </ul>
-	
-  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r87 02-25-06</b></font>
-  <ul>
-    <li><font face="Lucida Grande,Geneva,Arial" size="2">InfoPlist.strings.templ somehow became a binary file some time back in r67, and wasn't being updated by compile.command to the latest revision. Changed back to text now.</font>
-  </ul>
-	
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r86 02-25-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Search by comment, type (ad-hoc/managed/tunnel etc), and channel. (themacuser)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r85 05-25-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fix all active attacks after packet reinjection was cancelled or failed.</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r84 02-14-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed build problems if the path had a space in it (mick).</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r83 02-13-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a minor bug in default case of search code (themacuser)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r82 02-11-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Export to Google Earth (Robin L Darroch.)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r81 02-10-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Now you can search by SSID, BSSID, Vendor or encryption type, not just SSID. (themacuser)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r80 02-10-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Saving doesn't interrupt scanning</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r79 02-10-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the &quot;Save Filtered Nets&quot; bug - where if you had a filter active, and saved, all the nets that weren't filtered are lost. Now it asks whether you want to filter the networks or not. (themacuser)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r78 02-05-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">New vendor.db that includes the entire IEEE MAC address allocation space meaning that EVERY vendor is included (themacuser)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r77 02-01-06</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">New help (Geordie)</font>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Aquaification of metal windows that shouldn't be (themacuser)</font>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Compiles on Xcode 2.2 (Beat Zahnd)</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r76 10-11-05</b></font></p>
-		<ul>
-			<li><font face="Lucida Grande,Geneva,Arial" size="2">Added Spanish translation (Thanks to Jesus Hormigo).</font>
-		</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r75 08-24-05</b></font></p>
-		<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the spinning beachball problem on AP Extreme.</font></li>
-</ul>
-		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r74 08-22-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">The feature we all want: AirPort Extreme Passive Mode Support!</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More bugs fixed and cleanup.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r73 08-15-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Cracking cancel works again (thanks to Hans-Peter Dusel)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Small misc. bugfixes</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r72 06-29-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial checkin of SSIDlister</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More fixing on build system</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GTDriver now compiles on XCode 2.1</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r71 06-28-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More fixing of xcode file.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r70 06-25-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Compilation problems fixed.</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">You now need XCode 2.1 to compile.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r69 06-25-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Lots of bugs fixed.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r67 05-22-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">False WPA detection in passive mode fixed.</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">WPA detection in active mode! (we are the first ;)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Deauth all networks option (needs more investigation)</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r66 05-19-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Show rates that an AP is capable of</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed minor problem with MacJack cards</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Warning if not running Tiger</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixing AirPort reload.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r65 05-12-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">G3 issues fixed</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Website updated</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r64 05-03-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Whoops, forgot to checkin AirPortMenu. It's added now.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r63 05-02-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Now Tiger compatible, and only Tiger compatible. This and all future versions will not run on Panther.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r62 04-30-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">New Atheros driver, working with new 5212 chipset only (netgear WG511T). Code from Reyk Floeter.</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Prism2 USB support no longer needs password unless necessary (i.e. not unless there are 3rd party drivers needing unloading)</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r61 04-23-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">SUID Root script option removed (security risk)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added tiger compatibility patches from Rodney Dyers</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added USB compatibility patch fromm Jeff Matthews</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Started re-intergration of AtheroJack (don't use it, it's dangerous)</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r60 03-17-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a bug in map tracing (thanks, ard)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">WPA detection in passive mode- you need to have at least one data packet.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r59 02-25-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">SSIDL implementation modified slightly</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r58 02-20-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed paths to some files - they were absolute</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r57 02-20-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">UnitKit intergrated so it doesn't have to be installed externally.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r56 02-19-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a bug that resulted in kismac locking up with a non-hopping card.</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added feature - supporting Cisco SSID list feature</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added unit tests</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r55 02-05-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">New save fileformat</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">General speedup, especially with lots of networks</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Documentation update.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r54 01-22-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Bugfixes (thanks to those who sent error reports)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Even more applescript support</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Yet another GPS patch</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r53 01-20-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Improved applescripting</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a few cracking bugs</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Should work on all systems.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r52 01-18-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Serious wep cracking bugs fixed (thanks to Erik Winkler)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP Cracking has a status dialog now</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r51 01-17-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fine-tuned reinjection attack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">General bug fixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a couple of display errors</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r50 01-16-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Packet reinjection works! You need a prism2 card.</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">It seems to be working with prism2 USB devices, but may crash the USB API.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r49 01-14-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Area mapping works again! Thank ard for bugging me.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r48 01-13-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Changed webservice URLs</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugs fixed</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r47 01-04-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed multiple crashes in WEP attacks</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r46 01-04-05</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More changes to .kismac</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPScontroller updated by Robin</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Vendor DB update - nintendo added</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r43 12-18-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak Scheduling Attack should be more reliable</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r42 12-07-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">.kismac slightly changed</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r41 11-29-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Memory optimizations<span style="font-weight: bold;"> </span>made</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r39..40 11-17-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">KisMacng now compiles under Tiger, thanks to Mark Grimmes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">TODO updated</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r38 11-12-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the trace option</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Autocenter should work now, but is untested</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r37 11-08-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">New atheros driver (not working quite yet - problems inside the driver)</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r36 11-08-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">PNG used for mapping as PDF is lowres only...</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r35 10-30-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GUI effects for autocenter in place, autocenter coming soon</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r34 10-28-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Zoom items in menus now work</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map control panel changed to feature Auto-Center (coming soon)</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r33 10-28-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPSd update frequency increased</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Mapping should need less RAM now.</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r32 10-27-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPS controller changes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Scroll with pageup/pagedown</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r31 10-26-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">SSIDs are interpreted as UTF8 strings</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r29 10-25-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Window fades out when closed</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Other visual effects</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">GT cards should be autodetected now</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r28 10-22-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">project - UDPEchoTester</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r27 10-13-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map files use pdf to not screw up vector formats</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak scheduling now works while scanning</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">"Re-encountered network" is spoken</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugfixes</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r26 09-24-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak key attacks working!</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r25 09-28-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Coming soon: weak key attacks on WEP</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r24 09-27-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">compile.command added to sources</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r23 09-27-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Some changes to compile script</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r21..22 09-26-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Internal function to get pointer to IP packet</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">BiViews added</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r19..20&nbsp;09-22-04</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Small optimizations</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Updated help a bit</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r15..18 09-21-2004</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Trace view reworked</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Traces now saved inside .kismac files</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More changes to map view, area mapping coming soon</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map export working again</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r14 09-20-2004</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map import now scriptable</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r13 09-19-2004</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Waypoints can be set</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Current position can be set manually</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r10..12 09-02-2004</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Mapping view working better now</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Showing current position fixed, but 10% cpu usage</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Waypoints can be shown</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Networks shown correctly</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r7..9 08-25-2004:</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Atheros controller changes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">New map view coming soon</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">More Applescript support (wep wordlist attack etc...)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor compiler fixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">New atherojack controller coming soon</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Basic OpenGL map viewing</font></li>
-</ul>
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r1..6 08-09-2004:</b></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial import of KisMACng and GTDriver into Subversion.</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.12a 05-12-2004:</b><br>
-</font></p>
-<div align="left">
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added LEAP wordlist attack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new installer</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">only supported channels are used</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">ejection is better handled</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.11a 04-28-2004:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added WPA wordlist attack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Vincents French translation</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Join Network function (to be tested)</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.10a 04-20-2004:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for .kismac</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">auto-alignment for expedia maps</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">better lucent tunnel handling</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">compatible to d-link driver</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">gps should be more reliable in serial mode</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">JPEG export</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">many of bugfixes</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.09a 03-19-2004:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">netstumbler import</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">speed up of wordlist attacks</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">native GPSd support</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Vincent Malguys partial French translation</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">airport driver should be released cleanly on 10.3.2 or above</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">zillions of bugfixes</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.08a 01-21-2004:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">some bugfixes (not as many as there should be)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for 802.11b/g devices, with Atheros chipset</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.07b 12-07-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">major bugfixes (see bugtracker for details)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for TerraServer maps</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Prism2 USB devices can inject packets now</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Netgear MA111 and D-Link DWL-122</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added detection for WPA encryption</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.07a 11-27-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new driver engine</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">made macjack and airojack more stable</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Prism2 USB devices</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">thanks to Geoff KisMAC can show the elevation</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed bug with flashing SSID</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">replaced kernel patch with Insomnia</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">broke injection</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">lots of bugs added</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.06b 11-11-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixes a couple of ugly bugs.</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.06a 10-22-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">PseudoJack support is official</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new core engine (a lot faster!)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">more compatible with non-standard gpsd's (patch by Maximillian Dornseif)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05f 09-26-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed a bug in the MD5 wordlist attack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">a bit better active attack support (still needs more work)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for GPSd (thanks for the initial patch to Derrick Brashear)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">first fruits of the new documentation effort are visible (thanks to Geoff and Justin)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">average signal of the last 2 seconds is shown</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">legend in the traffic view is now customizeable</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">introduces capture filters</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes two major bugs in macjack and airojack, which prevented kismac from capturing encrypted traffic correctly</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">adds another map server</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05e 09-05-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">general clean-up</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">automated download of maps</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">channel 14 is accessible (subject to be tested)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05d 07-23-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added supported for wordlist crack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed some big problems with 10.2</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">driver in use can be overridden</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">shell extensions are suid 0 now</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05c 07-12-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">switched to gcc 3.3</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">dumps can be decrypted</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">precached area maps introduced</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">check whether loading of replacement driver is possible</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">lots more...</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05b 06-22-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">major bugfixes in areas of mapping and wireless driver</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">area mapping of multiple networks is possible</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05a 06-06-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Cisco Aironet Cards (very cool cards)</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04e 05-31-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">many new graphic options</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new channel switch design</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new preferences</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Kernel Patch for OSX 10.2.6</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04d3 05-12-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">removed FourCoordinates framework</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04d 05-01-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes (yes even more)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">implemented 21-bit attack</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">cracking can be canceled...</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack completely rewritten. GPL now</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">changes in Viha driver</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">SF Patch included in distribution</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Kernel Patch for OSX 10.2.5</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04c 04-14-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">sourceforge driver is loaded and unloaded automatically, if you installed a patch</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">complete rebuild of display routines, making kismac way faster</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bruteforce of WEP keys is 4x faster now. thanks to Dylan Neild</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">various elements moved to the menu</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04b 04-02-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">ioxperts driver is loaded and unloaded automatically</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">maps can be saved now</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">using fourcoordinates library for gps now (instead of our own)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04a 03-11-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">gps support</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">log export (macstumbler and netstumbler format)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">newer kernel file</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03c 02-08-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">help files</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">more supported cards</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">details drawer</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03b 02-08-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">more bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack supports now orinoco cards</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">packet reinjection is experimentally working</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">changes in the WEP cracking process</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">even more visual changes by Michael Thole, they look awesome! (Traffic View, Preferences)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new viha driver (0.02a)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">our own installer, because apples sucks.</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03a 01-15-2003:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack Driver for prism2 cards and active attacks</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">ssid discovery for cloaked networks</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">an active attack (for studies)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">a couple of visual changes by Michael Thole</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">another weak packet algorithm (pre-alpha)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02f 12-12-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">ssids can be spoken now</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">system patch to disable sleep mode</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02e 12-10-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">another installer (cleans everything before upgrading)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02d 12-09-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">i do not want to talk about this</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02c 12-08-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes the bugs of the last release</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">another wep cracking engine, based on airsnort</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">statistics on clients</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new authorization engine</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">traffic view can be zoomed now (by Michael Thole)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">bruteforce attack on 40-bit WEP (takes LONG)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">comment field in detail view</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">we are now open source</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02b 12-04-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes a security problem, thanks to Norbert Rittel</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP cracking eats not all resources</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">traffic view is redesigned by Michael Thole</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02a 12-02-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP CRACKING</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">dates are in local format ;o)</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01c never released to public:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">more bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">better tunnel handling</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">clear network list</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">code cleanup</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">import pcap dumps</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">see extended informations</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">own driver interface</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new auth interface (still not trustworthy, but better)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">load and save logs</font></li>
-</ul>
-
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01b 11-21-2002:</b><br>
-</font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">a couple of bugfixes</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">better control frame handling</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">new viha driver (without leak)</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">switch to gcc 3.0</font></li>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">weak key detection (untested)</font></li>
-</ul>
-
-<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01a 11-19-2002:</b><br></font></p>
-<ul>
-  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial release.</font></li>
-</ul>
-
-</div>
-
-</body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">  <title>Changelog</title></head><body bgcolor="#ffffff"><div align="left"><table border="0" cellpadding="0" cellspacing="0" width="100%">  <tbody>    <tr height="40">      <td height="40" width="40"><img src="../gfx/kismacm.png" height="40" width="40"></td>      <td height="40" width="6"></td>      <td height="40" valign="middle"><font face="Lucida Grande,Helvetica,Arial" size="4"><b>Changelog</b></font></td>    </tr>  </tbody></table></div><span style="font-family: Lucida Grande,Geneva,Arial;"></span><font face="Lucida Grande,Geneva,Arial" size="2"><br></font>
+<font face="Lucida Grande,Geneva,Arial" size="2"><b>r132 2006-04-20</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">updates changes and authors files (thanks Elio)</font></li></ul>
+
+<font face="Lucida Grande,Geneva,Arial" size="2"><b>r131 2006-04-20</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">build script checks for existance of Univeral SDK</font></li></ul>
+  
+<font face="Lucida Grande,Geneva,Arial" size="2"><b>r130 2006-04-19</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2">    <li>updating changes and authors file (not done yet)</li>	<li>building Universal binaries by default now</li>  </font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r127 2006-04-19</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>set version to 0.21a (mick)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r126 2006-04-19</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>commiting BugDaves changes in the documentation [55] Thanks! (mick)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r125 2006-04-19</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Automatic reset code in r122/123 appeared to work, but scanning would not find networks until after a further manual stop and start. This revision adds the original fix (posted but not committed) to the automatic reset following a setChannel() error. Resumed scan (either from sleep while scanning, or when scanning manually stopped before and started after sleep) appears tofind networks again. (robin)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r124 2006-04-19</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Test -BEOFRE- committing! (gkruse)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r122..123 2006-04-18</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>USB Prism2 driver automatically resets if errors occur (e.g. following sleep)</li>	<li>attempts to reconnect to GPSd if connection terminated (e.g. idle timeout after 15 minutes or more asleep)</li>    </font>    <li><font size="2" face="Lucida Grande,Geneva,Arial">Removed unnecessary commented code. (robin) </font></li>    </ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r121 2006-04-18</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Fix problem where advanced prefs wouldn't show up if they had never been set before (gkruse)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r120 2006-04-17</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Add Nibs I missed. When creating new Nibs, be sure to remove the .svn dir from inside the .nib package if you copied an older nib (gkruse)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r119 2006-04-17</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Advanced Prefs from themacuser</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r118 2006-04-17</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Fixed AE Forever for real this time (maybe) (gkruse)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r117 2006-04-13</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>reordering some HAL functions (this is a patch by beat zahnd) </li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r116 2006-04-10</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>KML export now exports trace as well as network locations. Thanks to Jon Steinmetz for Objective-C assistance! (closes #72) (robin)</li>	</font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r114..115 2006-03-26</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>Fixed APs not being drawn on map (ticket #12)</li>    <li>Added sound feedback to crack attempts (ticket #69)</li>    <li>Changed invalid location position to impossible values (ticket #68 part 1)</li>    <li>improved auto-center behaviour for map and added shortcut key (ticket #68 part 2 + ticket #71)</li>    <li>added commented pseudocode for trace inclusion in KML export (ticket #72)</li>    <li>added zoom limit patch for map download (fixes issue raised in ticket #70) (robin)</li></font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r113 2006-03-22</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixing a severe securtiy issue, found by stefan esser (mick)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r112 2006-03-21</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixing build problems, mentioned in mailing list (mick)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r111 2006-03-21</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Added Austrailan Map Server Closes #70 (gkruse)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r110 2006-03-18</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixing bugs regarding the new built system, particulary #66 (mick)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r109 2006-03-18</b></font><ul>    <font face="Lucida Grande,Geneva,Arial" size="2"><li>added robins patch for #65</li>    <li>build system supports now the build of kismac images (./compile.command image) (mick)</li></font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r108 2006-03-17</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed #35, #36 and #54. When not hopping, still set channel in hopping method. This avoids a nasty race condition. (gkruse)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r107 2006-03-16</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed #9 - used Geoffs patch to fix GPS update...</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed #51 - deleting a net causes kismac to crash (mick)</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r106 2006-03-15</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed some silly warnings as described in #61 note, this is not the patch from 61 because it was incorrect</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r105 2006-03-14</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed #23 - thanks for report</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r104 2006-03-14</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing #13 thanks to the themacuser</font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r102 2006-03-14</b></font><ul><font face="Lucida Grande,Geneva,Arial" size="2">    <li>improved permanent airport extreme enabling & installing (even more, was a parallel dev with geoffs :/)</li>    <li>including removal</li>    <li>fixed serveral small bugs</li>    <li>added new "build system" (mick) </li>  </font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r101 2006-03-14</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Bring Spanish .nibs up to date with english. Will need some translation updates (gkruse) </font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r100 2006-03-14</b></font><ul><font face="Lucida Grande,Geneva,Arial" size="2">    <li>This is a big commit, a present for R100.</li>    <li>Added Client IP Address detection. I need to think about ways to detect the ip of the ap if possible.</li>    <li>Fixed bug in existing sourceIPAsString() where we were adding sizeof(WLFrame) to the value instead of to the pointer.</li>    <li>Fixed #29 columns are no longer selected when resizing.</li>    <li>Moved the search catagory menu into the Search cell where it belongs</li>    <li>Better matching to vendors.db (some macs in vendors.db are in the form xx:xx and we were not checking against these)</li>    <li>E Passive mode forever now reads setting directly from the .kext. This should make sure our settings always reflect what is really set.</li>    <li>Add ae passive forever setting to installer for both install and remove.</li>    <li>Add Licence Info to growl controler files</li>    <li>Maybe other stuff I can't remember (gkruse) </li>  </font></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r99 2006-03-09</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">added a default world map (closing ticket #10) (mick) </font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r98 2006-03-06</b></font><ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">ASCII values below 32 are not valid in XML.  Fixes Google Earth Export.  Also use UTF-8 cString since that is what our encoding claims to be. (gkruse) </font></li></ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r97 2006-03-05</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Add option to enable Airport Extreme Monitor Mode forever (gkruse) </font></li>  </ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r96 2006-03-02</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Fix Altivec WPA Wordlist crack on ppc that I broke in R91.  This accelerated wpa crack does not work on intel but I'll leave the code there in case anyone wants to investigate further.  Also added a words / sec status to the wpa crack dialog that I used for benchmarking while debigging this problem. (gkruse) </font></li>  </ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r95 2006-03-02</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Hopfully fix the last of the build issues some people are having (including growl link issues) (gkruse)</font></li>  </ul>  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r94 2006-03-01</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed Active mode on MacBook Pro (Hopfully) (gkruse)</font></li>  </ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r92..93 2006-03-01</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Set -arch back to native to allow compile on ppc macs without the universal sdk. This also adds a universal configuration to facilitate Universal releases.</font></li>	<li><font face="Lucida Grande,Geneva,Arial" size="2">changed compile.command to allow us to specify the configuration (gkruse)</font></li>  </ul><font face="Lucida Grande,Geneva,Arial" size="2"><b>r91 2006-03-01</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">First version to support new Intel Macs;</font></li>    <li><font face="Lucida Grande,Geneva,Arial" size="2">WPA Altivec Wordlist attack "translated" to the new Accelerate framework</font></li>	<li><font face="Lucida Grande,Geneva,Arial" size="2">Airport Extreme Active mode on Mac Book pro. I have no idea why this doesn't work. Probably something to do with the atheros 5424 chip used and its drive</font></li>	<li><font face="Lucida Grande,Geneva,Arial" size="2">Please Test Everything! (gkruse)</font></li>  </ul>  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r90 2006-02-27</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Add growl notifications. Requires working installation of growl to use feature. See http://growl.info. Current notifications include start / stop scan, found network (with type), and probe detected. This feature could easily be expanded in the future. Many thanks to themacuser for this patch. </font></li>  </ul>  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r89 2006-02-26</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">Apply multi-thread crack patch. This version sets 1 thread per cpu instead of just 4 no matter what. Closes #24 </font></li>  </ul>  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r88 2006-02-25</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed help index </font></li>    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #27 (window min size not properly) </font></li>    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #18 (weak schedule against both will not work) </font></li>    <li><font face="Lucida Grande,Geneva,Arial" size="2">closing bug #37 (thanks peter!)</font></li>  </ul>	  <font face="Lucida Grande,Geneva,Arial" size="2"><b>r87 2006-02-25</b></font>  <ul>    <li><font face="Lucida Grande,Geneva,Arial" size="2">InfoPlist.strings.templ somehow became a binary file some time back in r67, and wasn't being updated by compile.command to the latest revision. Changed back to text now.</font>  </ul>			<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r86 2006-02-25</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Search by comment, type (ad-hoc/managed/tunnel etc), and channel. (themacuser)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r85 2006-05-25</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fix all active attacks after packet reinjection was cancelled or failed.</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r84 2006-02-14</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed build problems if the path had a space in it (mick).</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r83 2006-02-13</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a minor bug in default case of search code (themacuser)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r82 2006-02-11</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Export to Google Earth (Robin L Darroch.)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r81 2006-02-10</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Now you can search by SSID, BSSID, Vendor or encryption type, not just SSID. (themacuser)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r80 2006-02-10</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Saving doesn't interrupt scanning</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r79 2006-02-10</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the &quot;Save Filtered Nets&quot; bug - where if you had a filter active, and saved, all the nets that weren't filtered are lost. Now it asks whether you want to filter the networks or not. (themacuser)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r78 2006-02-05</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">New vendor.db that includes the entire IEEE MAC address allocation space meaning that EVERY vendor is included (themacuser)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r77 2006-02-01</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">New help (Geordie)</font>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Aquaification of metal windows that shouldn't be (themacuser)</font>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Compiles on Xcode 2.2 (Beat Zahnd)</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b> r76 2005-10-11</b></font></p>		<ul>			<li><font face="Lucida Grande,Geneva,Arial" size="2">Added Spanish translation (Thanks to Jesus Hormigo).</font>		</ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r75 2005-08-24</b></font></p>		<ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the spinning beachball problem on AP Extreme.</font></li></ul>		<p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r74 2005-08-22</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">The feature we all want: AirPort Extreme Passive Mode Support!</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More bugs fixed and cleanup.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r73 2005-08-15</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Cracking cancel works again (thanks to Hans-Peter Dusel)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Small misc. bugfixes</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r72 2005-06-29</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial checkin of SSIDlister</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More fixing on build system</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GTDriver now compiles on XCode 2.1</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r71 2005-06-28</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More fixing of xcode file.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r70 2005-06-25</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Compilation problems fixed.</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">You now need XCode 2.1 to compile.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r69 2005-06-25</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Lots of bugs fixed.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r67 2005-05-22</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">False WPA detection in passive mode fixed.</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">WPA detection in active mode! (we are the first ;)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Deauth all networks option (needs more investigation)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r66 2005-05-19</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Show rates that an AP is capable of</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed minor problem with MacJack cards</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Warning if not running Tiger</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixing AirPort reload.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r65 2005-05-12</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">G3 issues fixed</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Website updated</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r64 2005-05-03</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Whoops, forgot to checkin AirPortMenu. It's added now.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r63 2005-05-02</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Now Tiger compatible, and only Tiger compatible. This and all future versions will not run on Panther.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r62 2005-04-30</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">New Atheros driver, working with new 5212 chipset only (netgear WG511T). Code from Reyk Floeter.</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Prism2 USB support no longer needs password unless necessary (i.e. not unless there are 3rd party drivers needing unloading)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r61 2005-04-23</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">SUID Root script option removed (security risk)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added tiger compatibility patches from Rodney Dyers</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added USB compatibility patch from Jeff Matthews</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Started re-intergration of AtheroJack (don't use it, it's dangerous)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r60 2005-03-17</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a bug in map tracing (thanks, ard)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">WPA detection in passive mode- you need to have at least one data packet.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r59 2005-02-25</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">SSIDL implementation modified slightly</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r58 2005-02-20</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed paths to some files - they were absolute</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r57 2005-02-20</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">UnitKit integrated so it doesn't have to be installed externally.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r56 2005-02-19</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a bug that resulted in kismac locking up with a non-hopping card.</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added feature - supporting Cisco SSID list feature</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Added unit tests</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r55 2005-02-05</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">New save file format</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">General speedup, especially with lots of networks</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Documentation update.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r54 2005-01-22</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Bugfixes (thanks to those who sent error reports)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Even more applescript support</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Yet another GPS patch</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r53 2005-01-20</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Improved applescripting</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a few cracking bugs</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Should work on all systems.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r52 2005-01-18</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Serious wep cracking bugs fixed (thanks to Erik Winkler)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP Cracking has a status dialogue now</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r51 2005-01-17</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fine-tuned reinjection attack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">General bug fixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed a couple of display errors</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r50 2005-01-16</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Packet reinjection works! You need a prism2 card.</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">It seems to be working with prism2 USB devices, but may crash the USB API.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r49 2005-01-14</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Area mapping works again! Thank ard for bugging me.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r48 2005-01-13</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Changed webservice URLs</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugs fixed</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r47 2005-01-04</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed multiple crashes in WEP attacks</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r46 2005-01-04</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More changes to .kismac</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPScontroller updated by Robin</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Vendor DB update - nintendo added</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r43 2004-12-18</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak Scheduling Attack should be more reliable</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r42 2004-12-07</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">.kismac slightly changed</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r41 2004-11-29</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Memory optimisations<span style="font-weight: bold;"> </span>made</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r39..40 2004-11-17</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">KisMacng now compiles under Tiger, thanks to Mark Grimmes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">TODO updated</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r38 2004-11-12</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixed the trace option</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Autocenter should work now, but is untested</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r37 2004-11-08</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">New atheros driver (not working quite yet - problems inside the driver)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r36 2004-11-08</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">PNG used for mapping as PDF is lowres only...</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r35 2004-10-30</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GUI effects for autocenter in place, autocenter coming soon</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r34 2004-10-28</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Zoom items in menus now work</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map control panel changed to feature Auto-Center (coming soon)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r33 2004-10-28</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPSd update frequency increased</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Mapping should need less RAM now.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r32 2004-10-27</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GPS controller changes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Scroll with pageup/pagedown</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r31 2004-10-26</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">SSIDs are interpreted as UTF8 strings</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r29 2004-10-25</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Window fades out when closed</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Other visual effects</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">GT cards should be autodetected now</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r28 2004-10-22</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">project - UDPEchoTester</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r27 2004-10-13</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map files use pdf to not screw up vector formats</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak scheduling now works while scanning</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">"Re-encountered network" is spoken</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor bugfixes</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r26 2004-09-24</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Weak key attacks working!</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r25 2004-09-28</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Coming soon: weak key attacks on WEP</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r24 2004-09-27</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">compile.command added to sources</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r23 2004-09-27</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Some changes to compile script</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r21..22 2004-09-26</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Internal function to get pointer to IP packet</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">BiViews added</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r19..20&nbsp; 04-09-22</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Small optimisations</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Updated help a bit</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r15..18  2004-09-21</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Trace view reworked</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Traces now saved inside .kismac files</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More changes to map view, area mapping coming soon</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map export working again</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r14  2004-09-20</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Map import now scriptable</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r13  2004-09-19</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Waypoints can be set</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Current position can be set manually</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r10..12  2004-09-02</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Mapping view working better now</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Showing current position fixed, but 10% cpu usage</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Waypoints can be shown</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Networks shown correctly</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r7..9  2004-08-25:</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Atheros controller changes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">New map view coming soon</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">More Applescript support (wep wordlist attack etc...)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Minor compiler fixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">New atherojack controller coming soon</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Basic OpenGL map viewing</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>r1..6  2004-08-09:</b></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial import of KisMACng and GTDriver into Subversion.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.12a  2004-05-12:</b><br></font></p><div align="left"><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added LEAP wordlist attack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new installer</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">only supported channels are used</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">ejection is better handled</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.11a  2004-04-28:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added WPA wordlist attack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Vincents French translation</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Join Network function (to be tested)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.10a  2004-04-20:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for .kismac</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">auto-alignment for expedia maps</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">better lucent tunnel handling</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">compatible to d-link driver</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">gps should be more reliable in serial mode</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">JPEG export</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">many of bugfixes</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.09a  2004-03-19:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">netstumbler import</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">speed up of wordlist attacks</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">native GPSd support</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added Vincent Malguys partial French translation</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">airport driver should be released cleanly on 10.3.2 or above</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">zillions of bugfixes</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.08a  2004-01-21:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">some bugfixes (not as many as there should be)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for 802.11b/g devices, with Atheros chipset</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.07b  2003-12-07:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">major bugfixes (see bugtracker for details)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for TerraServer maps</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Prism2 USB devices can inject packets now</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Netgear MA111 and D-Link DWL-122</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added detection for WPA encryption</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.07a  2003-11-27:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new driver engine</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">made macjack and airojack more stable</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Prism2 USB devices</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">thanks to Geoff KisMAC can show the elevation</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed bug with flashing SSID</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">replaced kernel patch with Insomnia</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">broke injection</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">lots of bugs added</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.06b  2003-11-11:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Fixes a couple of ugly bugs.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.06a  2003-10-22:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">PseudoJack support is official</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new core engine (a lot faster!)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">more compatible with non-standard gpsd's (patch by Maximillian Dornseif)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05f  2003-09-26:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed a bug in the MD5 wordlist attack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">a bit better active attack support (still needs more work)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">support for GPSd (thanks for the initial patch to Derrick Brashear)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">first fruits of the new documentation effort are visible (thanks to Geoff and Justin)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">average signal of the last 2 seconds is shown</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">legend in the traffic view is now customizeable</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">introduces capture filters</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes two major bugs in macjack and airojack, which prevented kismac from capturing encrypted traffic correctly</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">adds another map server</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05e  2003-09-05:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">general clean-up</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">automated download of maps</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">channel 14 is accessible (subject to be tested)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05d  2003-07-23:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added supported for wordlist crack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixed some big problems with 10.2</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">driver in use can be overridden</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">shell extensions are suid 0 now</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05c  2003-07-12:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">switched to gcc 3.3</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">dumps can be decrypted</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">precached area maps introduced</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">check whether loading of replacement driver is possible</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">lots more...</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05b  2003-06-22:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">major bugfixes in areas of mapping and wireless driver</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">area mapping of multiple networks is possible</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.05a  2003-06-06:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">added support for Cisco Aironet Cards (very cool cards)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04e  2003-05-31:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">many new graphic options</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new channel switch design</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new preferences</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Kernel Patch for OSX 10.2.6</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04d3  2003-05-12:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">removed FourCoordinates framework</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04d  2003-05-01:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes (yes even more)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">implemented 21-bit attack</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">cracking can be cancelled...</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack completely rewritten. GPL now</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">changes in Viha driver</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">SF Patch included in distribution</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Kernel Patch for OSX 10.2.5</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04c  2003-04-14:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">sourceforge driver is loaded and unloaded automatically, if you installed a patch</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">complete rebuild of display routines, making kismac way faster</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bruteforce of WEP keys is 4x faster now. thanks to Dylan Neild</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">various elements moved to the menu</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04b  2003-04-02:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">ioxperts driver is loaded and unloaded automatically</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">maps can be saved now</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">using fourcoordinates library for gps now (instead of our own)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.04a  2003-03-11:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">gps support</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">log export (macstumbler and netstumbler format)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">newer kernel file</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03c  2003-02-08:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">help files</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">more supported cards</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">details drawer</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03b  2003-02-08:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">more bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack supports now orinoco cards</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">packet reinjection is experimentally working</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">changes in the WEP cracking process</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">even more visual changes by Michael Thole, they look awesome! (Traffic View, Preferences)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new viha driver (0.02a)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">our own installer, because apples sucks.</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.03a  2003-01-15:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">MACJack Driver for prism2 cards and active attacks</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">ssid discovery for cloaked networks</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">an active attack (for studies)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">a couple of visual changes by Michael Thole</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">another weak packet algorithm (pre-alpha)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02f  2002-12-12:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">ssids can be spoken now</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">system patch to disable sleep mode</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02e  2002-12-10:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">another installer (cleans everything before upgrading)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02d  2002-12-09:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">i do not want to talk about this</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02c  2002-12-08:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes the bugs of the last release</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">another wep cracking engine, based on airsnort</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">statistics on clients</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new authorization engine</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">traffic view can be zoomed now (by Michael Thole)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">bruteforce attack on 40-bit WEP (takes LONG)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">comment field in detail view</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">we are now open source</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02b  2002-12-04:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">fixes a security problem, thanks to Norbert Rittel</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP cracking eats not all resources</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">traffic view is redesigned by Michael Thole</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.02a  2002-12-02:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">WEP CRACKING</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">dates are in local format ;o)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01c never released to public:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">more bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">better tunnel handling</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">clear network list</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">code cleanup</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">import pcap dumps</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">see extended informations</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">own driver interface</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new auth interface (still not trustworthy, but better)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">load and save logs</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01b  2002-11-21:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">a couple of bugfixes</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">better control frame handling</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">new viha driver (without leak)</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">switch to gcc 3.0</font></li>  <li><font face="Lucida Grande,Geneva,Arial" size="2">weak key detection (untested)</font></li></ul><p><font face="Lucida Grande,Geneva,Arial" size="2"><b>0.01a  2002-11-19:</b><br></font></p><ul>  <li><font face="Lucida Grande,Geneva,Arial" size="2">Initial release.</font></li></ul></div></body></html>

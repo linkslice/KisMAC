@@ -1,3 +1,16 @@
+R132: - updates changes and authors files (thanks Elio)
+
+R131: - build script checks for existance of Univeral SDK
+
+R130: - Building Universal binaries by default now
+	updating changes and authors file (not done yet)
+
+R127: - Set version to 0.21a
+
+R126: - BugDaves changes in the documentation
+
+R125: - Automatic reset code fix
+
 R124: - Test -BEOFRE- committing!
 
 R121: - Fix problem where advanced prefs wouldn't show up if they had never been set before
