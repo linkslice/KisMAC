@@ -202,6 +202,14 @@ char WaveDrivers [][30] = { "WaveDriverAirport", "WaveDriverAirportExtreme", "Wa
     return YES;
 }
 
+- (bool) sleepDriver{
+    return YES;
+}
+
+- (bool) wakeDriver{
+    return YES;
+}
+
 - (void)hopToNextChannel {
     int channel = _currentChannel+1, i;
    

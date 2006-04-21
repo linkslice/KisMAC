@@ -173,6 +173,22 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
 	NSLog(@"Registering with Growl");
     aGrowlController = [[GrowlController alloc] init];
 	[aGrowlController registerGrowl];
+    
+    IONotificationPortRef  notifyPortRef;   // notification port allocated by IORegisterForSystemPower
+    io_object_t            notifierObject;  // notifier object, used to deregister later
+    
+    // register to receive system sleep notifications
+    root_port = IORegisterForSystemPower( scanner, &notifyPortRef, NotifySleep, &notifierObject );
+    if ( root_port == nil )
+    {
+        printf("IORegisterForSystemPower failed\n");
+    }
+    
+    // add the notification port to the application runloop
+    CFRunLoopAddSource( CFRunLoopGetCurrent(),
+                        IONotificationPortGetRunLoopSource(notifyPortRef),
+                        kCFRunLoopCommonModes );
+    
 }
 
 #pragma mark -
@@ -609,4 +625,27 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
 		[NSApp terminate:self];
     }
 }
+
+void NotifySleep( void * refCon, io_service_t service,
+                  natural_t messageType, void * messageArgument ){
+
+    switch ( messageType )
+    {
+        
+        case kIOMessageSystemWillSleep:
+            NSLog(@"Going to Sleep, Shutting down dirvers");
+            [(WaveScanner*)refCon sleepDrivers: YES];
+            IOAllowPowerChange( root_port, (long)messageArgument );
+            break;
+        case kIOMessageSystemHasPoweredOn:
+            NSLog(@"System Woken up, Resetting Drivers");
+            [(WaveScanner*)refCon sleepDrivers: NO];
+            break;
+            
+        default:
+            break;
+            
+    }
+}
+
 @end

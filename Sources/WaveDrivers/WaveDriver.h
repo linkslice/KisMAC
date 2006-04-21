@@ -82,6 +82,8 @@ enum WaveDriverType {
 - (bool) setChannel:  (unsigned short)newChannel;
 - (bool) startCapture:(unsigned short)newChannel;
 - (bool) stopCapture;
+- (bool) sleepDriver;
+- (bool) wakeDriver;
 
 // for active scanning
 - (NSArray*) networksInRange;

@@ -1,3 +1,5 @@
+R134: - Patch to receive notifications on sleep and to let drivers know we are going down in flames
+
 R132: - updates changes and authors files (thanks Elio)
 
 R131: - build script checks for existance of Univeral SDK

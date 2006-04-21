@@ -121,6 +121,17 @@ static bool explicitlyLoadedUSBIntersil = NO;
     return _driver->stopCapture();
 }
 
+- (bool) sleepDriver{
+    delete _driver; 
+    return YES;
+}
+
+- (bool) wakeDriver{
+    _driver = new USBIntersilJack;
+    _driver->startMatching();
+    return YES;
+}
+
 #pragma mark -
 
 - (WLFrame*) nextFrame {

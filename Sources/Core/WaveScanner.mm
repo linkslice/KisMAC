@@ -304,6 +304,35 @@ error:
     return YES;
 }
 
+- (bool)sleepDrivers: (bool)isSleepy{
+    WaveDriver *w;
+    NSArray *a;
+    unsigned int i;
+    
+    a = [WaveHelper getWaveDrivers];
+    [WaveHelper secureReplace:&_drivers withObject:a];
+        
+    for (i = 0; i < [_drivers count]; i++) {
+        w = [_drivers objectAtIndex:i];
+        if (isSleepy) {
+            [w sleepDriver];
+        }
+        else {
+            [w wakeDriver];
+        }
+    }
+    if (isSleepy) {
+        _shouldResumeScan = _scanning;
+        [aController stopScan];
+    }else {
+        if (_shouldResumeScan) {
+            [aController startScan];
+        }
+    }
+
+    return YES;
+}
+
 - (void)doChannelHop:(NSTimer*)timer {
     unsigned int i;
     

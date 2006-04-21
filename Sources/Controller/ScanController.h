@@ -30,6 +30,12 @@
 #import "ScanHierarch.h"
 #import "PrefsController.h"
 #import "GrowlController.h"
+//sleep studd
+#include <mach/mach_port.h>
+#include <mach/mach_interface.h>
+#include <mach/mach_init.h>
+#include <IOKit/pwr_mgt/IOPMLib.h>
+#include <IOKit/IOMessage.h>
 
 typedef enum {
     tabInvalid = -1,
@@ -48,6 +54,8 @@ typedef enum {
 @class AMRollOverButton;
 @class ColoredRowTableView;
 @class MapView;
+
+io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 
 //This is the main class. it basically provides an interface between the base and the gui
 @interface ScanController : NSObject {
@@ -100,7 +108,7 @@ typedef enum {
 	
     IBOutlet NSTextField        *_headerField;
     IBOutlet NSSearchField      *_searchField;
-     IBOutlet NSPopUpButton		*_searchTypeMenu;
+    IBOutlet NSPopUpButton		*_searchTypeMenu;
     
     IBOutlet NSButton           *_networksButton;
     IBOutlet NSButton           *_trafficButton;
@@ -196,5 +204,8 @@ typedef enum {
 - (IBAction)debugBeaconFlood:(id)sender;
 - (IBAction)debugTestWPAHashingFunction:(id)sender;
 - (IBAction)debugExportTrafficView:(id)sender;
+
+void NotifySleep( void * refCon, io_service_t service,
+                      natural_t messageType, void * messageArgument );
 
 @end

@@ -80,6 +80,7 @@ struct __beaconFrame {
     int  aPacketType;
     bool aScanRange;
     bool _scanning;
+    bool _shouldResumeScan;
     bool _injecting;
     bool _deauthing;
     double aFreq;
@@ -91,8 +92,9 @@ struct __beaconFrame {
 
     ImportController *_im;
 
-    IBOutlet id aController;
+    IBOutlet ScanController* aController;
     IBOutlet WaveContainer* _container;
+   
 }
 
 - (void)readPCAPDump:(NSString*)dumpFile;
@@ -105,6 +107,7 @@ struct __beaconFrame {
 - (void) setFrequency:(double)newFreq;
 - (bool) startScanning;
 - (bool) stopScanning;
+- (bool) sleepDrivers: (bool)isSleepy;
 - (void) setGeigerInterval:(int)newGeigerInt sound:(NSString*) newSound;
 - (NSTimeInterval) scanInterval;
 
