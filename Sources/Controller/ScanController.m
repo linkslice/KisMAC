@@ -179,16 +179,14 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     
     // register to receive system sleep notifications
     root_port = IORegisterForSystemPower( scanner, &notifyPortRef, NotifySleep, &notifierObject );
-    if ( root_port == nil )
-    {
+    if ( root_port == nil ) {
         printf("IORegisterForSystemPower failed\n");
-    }
-    
-    // add the notification port to the application runloop
-    CFRunLoopAddSource( CFRunLoopGetCurrent(),
-                        IONotificationPortGetRunLoopSource(notifyPortRef),
-                        kCFRunLoopCommonModes );
-    
+    } else {		
+		// add the notification port to the application runloop
+		CFRunLoopAddSource( CFRunLoopGetCurrent(),
+							IONotificationPortGetRunLoopSource(notifyPortRef),
+							kCFRunLoopCommonModes );
+	}
 }
 
 #pragma mark -

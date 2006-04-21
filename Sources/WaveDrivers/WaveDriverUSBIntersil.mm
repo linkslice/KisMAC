@@ -122,7 +122,7 @@ static bool explicitlyLoadedUSBIntersil = NO;
 }
 
 - (bool) sleepDriver{
-    delete _driver; 
+	if (_driver) delete _driver; 
     return YES;
 }
 

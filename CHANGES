@@ -1,3 +1,5 @@
+R135: - Now handles going to sleep properly (will resume scanning if scanning before sleep, and USB Prism2 devices will work immediately after sleep without a dummy scan).
+
 R134: - Patch to receive notifications on sleep and to let drivers know we are going down in flames
 
 R132: - updates changes and authors files (thanks Elio)

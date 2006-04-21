@@ -24,6 +24,7 @@
 */
 #import "WaveScanner.h"
 #import "ScanController.h"
+#import "ScanControllerScriptable.h"
 #import "WaveHelper.h"
 #import "Apple80211.h"
 #import "WaveDriver.h"
@@ -312,19 +313,20 @@ error:
     a = [WaveHelper getWaveDrivers];
     [WaveHelper secureReplace:&_drivers withObject:a];
         
-    for (i = 0; i < [_drivers count]; i++) {
-        w = [_drivers objectAtIndex:i];
-        if (isSleepy) {
-            [w sleepDriver];
-        }
-        else {
-            [w wakeDriver];
-        }
-    }
-    if (isSleepy) {
+   if (isSleepy) {
+		NSLog(@"Going to sleep...");
         _shouldResumeScan = _scanning;
         [aController stopScan];
-    }else {
+		for (i = 0; i < [_drivers count]; i++) {
+			w = [_drivers objectAtIndex:i];
+            [w sleepDriver];
+        }
+    } else {
+		NSLog(@"Waking up...");
+		for (i = 0; i < [_drivers count]; i++) {
+			w = [_drivers objectAtIndex:i];
+            [w wakeDriver];
+		}
         if (_shouldResumeScan) {
             [aController startScan];
         }
