@@ -219,6 +219,21 @@ getTargetAndMethodForIndex(IOService** target, UInt32 index) {
             0,
             0
         },
+        {   // kWiFiUserClientSendFrame
+			0,
+			(IOMethod)&WiFiUserClient::_sendFrame,
+			kIOUCScalarIStructI,
+			1,
+			2364
+		},
+		{
+			// kWiFiUserClientStopSendingFrames
+			0,
+			(IOMethod)&WiFiUserClient::_stopSendingFrames,
+			kIOUCScalarIScalarO,
+			0,
+			0
+		},
 
     };
 
@@ -354,4 +369,15 @@ IOReturn WiFiUserClient::_startCapture(UInt32 frequency) {
 
 IOReturn WiFiUserClient::_stopCapture() {
     return _provider->disable(NULL);
+}
+
+IOReturn WiFiUserClient::_sendFrame(UInt32 repeatTimer, void* pkt, IOByteCount size) {
+	WLLogInfo("WiFiUserClient::_sendFrame()\n");
+	if (size != 2364) return kIOReturnBadArgument;
+	return _provider->sendFrame((UInt8*)pkt, repeatTimer);
+}
+
+IOReturn WiFiUserClient::_stopSendingFrames() {
+	WLLogInfo("WiFiUserClient::_stopSendingFrames()\n");
+	return _provider->stopSendingFrames();
 }

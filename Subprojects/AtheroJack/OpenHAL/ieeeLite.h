@@ -1,8 +1,60 @@
+/*
+ *  ieeeLite.h
+ *  AtheroJack
+ *
+ *  Created by mick on 4/29/05.
+ *  Copyright 2006 Michael Rossberg, Beat Zahnd. All rights reserved.
+ *
+ */
 
 #include <sys/types.h>
 
 #ifndef IEEELITE
 #define IEEELITE
+
+#pragma mark -
+#pragma mark OpenBSD src/sys/net80211/ieee80211.h
+
+/*
+ * Definitions ported from OpenBSD src/sys/net80211/ieee80211.h r1.10
+ */
+
+#define	IEEE80211_ADDR_LEN	6		/* size of 802.11 address */
+/* is 802.11 address multicast/broadcast? */
+#define	IEEE80211_IS_MULTICAST(_a)	(*(_a) & 0x01)
+
+
+/* 
+ * Channel attributes
+ */
+#define	IEEE80211_CHAN_TURBO	0x0010	/* Turbo channel */
+#define	IEEE80211_CHAN_CCK	0x0020	/* CCK channel */
+#define	IEEE80211_CHAN_OFDM	0x0040	/* OFDM channel */
+#define	IEEE80211_CHAN_2GHZ	0x0080	/* 2 GHz spectrum channel. */
+#define	IEEE80211_CHAN_5GHZ	0x0100	/* 5 GHz spectrum channel */
+#define	IEEE80211_CHAN_PASSIVE	0x0200	/* Only passive scan allowed */
+#define	IEEE80211_CHAN_DYN	0x0400	/* Dynamic CCK-OFDM channel */
+#define	IEEE80211_CHAN_GFSK	0x0800	/* GFSK channel (FHSS PHY) */
+#define	IEEE80211_CHAN_XR	0x1000	/* Extended range OFDM channel */
+
+/*
+ * Useful combinations of channel characteristics.
+ */
+#define	IEEE80211_CHAN_FHSS \
+	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_GFSK)
+#define	IEEE80211_CHAN_A \
+	(IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM)
+#define	IEEE80211_CHAN_B \
+	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_CCK)
+#define	IEEE80211_CHAN_PUREG \
+	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_OFDM)
+#define	IEEE80211_CHAN_G \
+	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_DYN)
+#define	IEEE80211_CHAN_T \
+	(IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM | IEEE80211_CHAN_TURBO)
+#define	IEEE80211_CHAN_TG \
+	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_OFDM | IEEE80211_CHAN_TURBO)
+
 
 #define	IEEE80211_WEP_KEYLEN			5	/* 40bit */
 #define	IEEE80211_WEP_NKID			4	/* number of key ids */
@@ -40,9 +92,12 @@
 #define	IEEE80211_MAX_LEN			(2300 + IEEE80211_CRC_LEN + \
     (IEEE80211_WEP_IVLEN + IEEE80211_WEP_KIDLEN + IEEE80211_WEP_CRCLEN))
 
-#define	IEEE80211_ADDR_LEN	6		/* size of 802.11 address */
-/* is 802.11 address multicast/broadcast? */
-#define	IEEE80211_IS_MULTICAST(_a)	(*(_a) & 0x01)
+#pragma mark -
+#pragma mark OpenBSD src/sys/net80211/ieee80211_var.h
+
+/*
+ * Definitions ported from OpenBSD src/sys/net80211/ieee80211_var.h r1.12
+ */
 
 #define	IEEE80211_CHAN_MAX	255
 #define	IEEE80211_CHAN_ANY	0xffff		/* token for ``any channel'' */
@@ -74,7 +129,7 @@ enum ieee80211_phymode {
 
 enum ieee80211_opmode {
 	IEEE80211_M_STA		= 1,	/* infrastructure station */
-	IEEE80211_M_IBSS 	= 0,	/* IBSS (adhoc) station */
+	IEEE80211_M_IBSS	= 0,	/* IBSS (adhoc) station */
 	IEEE80211_M_AHDEMO	= 3,	/* Old lucent compatible adhoc demo */
 	IEEE80211_M_HOSTAP	= 6,	/* Software Access Point */
 	IEEE80211_M_MONITOR	= 8	/* Monitor mode */
@@ -96,36 +151,6 @@ struct ieee80211_channel {
 	u_int16_t	ic_freq;	/* setting in Mhz */
 	u_int16_t	ic_flags;	/* see below */
 };
-
-/* bits 0-3 are for private use by drivers */
-/* channel attributes */
-#define	IEEE80211_CHAN_TURBO	0x0010	/* Turbo channel */
-#define	IEEE80211_CHAN_CCK	0x0020	/* CCK channel */
-#define	IEEE80211_CHAN_OFDM	0x0040	/* OFDM channel */
-#define	IEEE80211_CHAN_2GHZ	0x0080	/* 2 GHz spectrum channel. */
-#define	IEEE80211_CHAN_5GHZ	0x0100	/* 5 GHz spectrum channel */
-#define	IEEE80211_CHAN_PASSIVE	0x0200	/* Only passive scan allowed */
-#define	IEEE80211_CHAN_DYN	0x0400	/* Dynamic CCK-OFDM channel */
-#define	IEEE80211_CHAN_GFSK	0x0800	/* GFSK channel (FHSS PHY) */
-#define	IEEE80211_CHAN_XR	0x1000	/* Extended range OFDM channel */
-
-/*
- * Useful combinations of channel characteristics.
- */
-#define	IEEE80211_CHAN_FHSS \
-	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_GFSK)
-#define	IEEE80211_CHAN_A \
-	(IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM)
-#define	IEEE80211_CHAN_B \
-	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_CCK)
-#define	IEEE80211_CHAN_PUREG \
-	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_OFDM)
-#define	IEEE80211_CHAN_G \
-	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_DYN)
-#define	IEEE80211_CHAN_T \
-	(IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM | IEEE80211_CHAN_TURBO)
-#define	IEEE80211_CHAN_TG \
-	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_OFDM | IEEE80211_CHAN_TURBO)
 
 #define	IEEE80211_IS_CHAN_FHSS(_c) \
 	(((_c)->ic_flags & IEEE80211_CHAN_FHSS) == IEEE80211_CHAN_FHSS)
@@ -165,13 +190,12 @@ struct ieee80211_channel {
 
 #define	IEEE80211_PS_MAX_QUEUE	50	/* maximum saved packets */
 
-
-
 #pragma mark -
+#pragma mark OpenBSD src/sys/net80211/ieee80211_proto.h
 
-
-
-typedef u_int32_t ieee80211_regdomain_t;
+/*
+ * Definitions ported from OpenBSD src/sys/net80211/ieee80211_proto.h r1.4
+ */
 
 enum ieee80211_state {
 	IEEE80211_S_INIT	= 0,	/* default state */
@@ -181,6 +205,15 @@ enum ieee80211_state {
 	IEEE80211_S_RUN		= 4	/* associated */
 };
 #define	IEEE80211_S_MAX		(IEEE80211_S_RUN+1)
+
+#pragma mark -
+#pragma mark OpenBSD src/sys/net80211/ieee80211_regdomain.h
+
+/*
+ * Definitions ported from OpenBSD src/sys/net80211/ieee80211_regdomain.h r1.8
+ */
+
+typedef u_int32_t ieee80211_regdomain_t;
 
 enum ieee80211_regdomain {
 	DMN_DEFAULT		= 0x00,
@@ -933,5 +966,4 @@ struct ieee80211_regchannel {
 	{ 5240, DMN_WORLD, IEEE80211_CHAN_OFDM },			\
 }
 
-
-#endif
+#endif /* IEEELITE */

@@ -43,6 +43,8 @@ typedef enum WLUCMethods {
     kWiFiUserClientSetFirmware,         // kIOUCScalarIStructI, 0, 1
     kWiFiUserClientStartCapture,		// kIOUCScalarIScalarO, 1, 0
     kWiFiUserClientStopCapture,			// kIOUCScalarIScalarO, 0, 0
+	kWiFiUserClientSendFrame,			// kIOUCScalarIStructI, 1, 2364
+	kWiFiUserClientStopSendingFrames,	//kIOUCScalarIScalarO 0, 0
     kWiFiUserClientLastMethod,
 } WLUCMethod;
 

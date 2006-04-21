@@ -2,9 +2,9 @@
         
         File:			WiFiController.cpp
         Program:		AtheroJack
-	Author:			Michael Rossberg
-				mick@binaervarianz.de
-	Description:		AtheroJack is a free driver monitor mode driver for Atheros cards.
+		Author:			Michael Rossberg
+						mick@binaervarianz.de
+		Description:	AtheroJack is a free driver monitor mode driver for Atheros cards.
                 
         This file is part of AtheroJack.
 
@@ -613,3 +613,6 @@ bool WiFiController::getBSSNodesInRange(UInt32 *size, UInt8* data) {
     memcpy(data, _bssList, *size);
     return true;
 }
+
+bool WiFiController::sendFrame(UInt8 *pkt, UInt32 repeatTimer) { return false; }
+bool WiFiController::stopSendingFrames() { return false; }

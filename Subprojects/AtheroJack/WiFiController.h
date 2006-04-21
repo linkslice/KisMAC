@@ -112,6 +112,8 @@ public:
     virtual bool            setMode(wirelessMode mode);
     virtual bool            setFrequency(UInt32 frequency);
     virtual UInt32          getFrequency();
+	virtual bool			sendFrame(UInt8 *pkt, UInt32 repeatTimer);
+	virtual bool			stopSendingFrames();
    
     virtual IOReturn setMulticastMode(bool active);
     virtual IOReturn setMulticastList(IOEthernetAddress * addrs, UInt32 count);

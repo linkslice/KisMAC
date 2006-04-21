@@ -2,9 +2,32 @@
  *  OpenHAL5212.cpp
  *  AtheroJack
  *
- *  Created by mick on 30.03.2005.
- *  Copyright 2005 __MyCompanyName__. All rights reserved.
+ *  The code in this file is based on the code in the OpenBSD file
+ *  sys/dev/ic/ar5212.c r1.28.
  *
+ *  Ported by Michael Rossberg, Beat Zahnd
+ *
+ */
+
+/*
+ * Copyright (c) 2004, 2005 Reyk Floeter <reyk@openbsd.org>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * HAL interface for the Atheros AR5001 Wireless LAN chipset
+ * (AR5212 + AR5111/AR5112).
  */
 
 #include "OpenHAL5212.h"
@@ -12,174 +35,58 @@
 #include "ar5212reg.h"
 #include "../WiFiLogger.h"
 
-#define etherbroadcastaddr "\xFF\xFF\xFF\xFF\xFF\xFF"
-static const struct ar5k_ini_rf ar5112_rf_tofix[] = AR5K_AR5112_INI_RF;
+extern "C" {
+#include <sys/param.h>
+}
+
+static const u_char etherbroadcastaddr[] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 
 OSDefineMetaClassAndStructors(OpenHAL5212, OpenHAL);
 
+#pragma mark -
+
+/*
+ * Initial register setting for the AR5212
+ */
 static const struct ar5k_ar5212_ini ar5212_ini[] =
     AR5K_AR5212_INI;
 static const struct ar5k_ar5212_ini_mode ar5212_mode[] =
     AR5K_AR5212_INI_MODE;
 
-	UInt16 firmwareWAG511[] = {
-0x0013, 0x168c, 0x0200, 0x0001, 0x0000, 0x5001, 0x0000, 0x4610, 0x1385, 0x1c0a, 0x0100, 0x0000, 0x0002, 0x0002, 0xc606, 0x0001, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x1612, 0x5ba0, 0x0009, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x5aa5, 0x0000, 0x0000, 
-0x0313, 0x4943, 0x2053, 0x7104, 0x1202, 0x0400, 0x0306, 0x0001, 0x0000, 0x0500, 0x410e, 0x39b1, 0x1eb5, 0x4e2d, 0x3056, 0xffff, 
-0xe902, 0x0700, 0x0106, 0x0000, 0x0100, 0x1500, 0x0752, 0x4101, 0x6874, 0x7265, 0x736f, 0x4320, 0x6d6f, 0x756d, 0x696e, 0x6163, 
-0x6974, 0x6e6f, 0x2c73, 0x4920, 0x636e, 0x002e, 0x5241, 0x3035, 0x3130, 0x302d, 0x3030, 0x2d30, 0x3030, 0x3030, 0x5700, 0x7269, 
-0x6c65, 0x7365, 0x2073, 0x414c, 0x204e, 0x6552, 0x6566, 0x6572, 0x636e, 0x2065, 0x6143, 0x6472, 0x3000, 0x0030, 0x00ff, 0x2100, 
-0x0602, 0x2201, 0x0205, 0x8d80, 0x005b, 0x0522, 0x4002, 0x8954, 0x2200, 0x0205, 0x1b00, 0x00b7, 0x0522, 0x8002, 0x12a8, 0x2201, 
-0x0205, 0x3600, 0x016e, 0x0522, 0x0002, 0x2551, 0x2202, 0x0205, 0x6c00, 0x02dc, 0x0522, 0x8002, 0x37f9, 0x2203, 0x0205, 0xa200, 
-0x044a, 0x0222, 0x0803, 0x0822, 0x0604, 0x0900, 0xa05b, 0x1216, 0x0222, 0x0105, 0x00ff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0003, 0x0000, 
-0x27f3, 0x4005, 0x0a07, 0x0202, 0x4205, 0x019b, 0x0302, 0x1801, 0x0003, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x2d3c, 0x0081, 0x0000, 0x0108, 0x0000, 0xe049, 0x2492, 0x020f, 0x000e, 0xb0ca, 0x21a3, 0x4024, 
-0x0001, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x2398, 0x0091, 0x0410, 0x4148, 0x2082, 0xda22, 0x021c, 0x0007, 0xb0ff, 0x01a3, 0x4012, 0x0001, 0xac70, 0x17b8, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x3198, 0x0091, 0x0410, 
-0x4148, 0x2082, 0xe022, 0x021c, 0x000e, 0xb0ff, 0x21a3, 0x4012, 0x0051, 0xac70, 0x1320, 0x17b8, 0x0000, 0x0003, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x1013, 0x1112, 0x1440, 0x3031, 0x3234, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x564a, 0x7864, 0xaa8c, 0xcdb9, 0x0000, 0x3113, 0x5041, 0x1155, 0x0000, 0x1900, 0x3214, 0x5042, 0x0d55, 0x0000, 0x1900, 0x3418, 
-0x5043, 0x0d35, 0x0000, 0x1900, 0x361b, 0x5047, 0x0955, 0x0000, 0x1900, 0x381c, 0x5045, 0x0d34, 0x0000, 0x1900, 0x4320, 0x5050, 
-0x0159, 0x0000, 0x1900, 0x4e22, 0x4e4e, 0x0599, 0x0000, 0x1900, 0x4a24, 0x4a4a, 0x0599, 0x0000, 0x1900, 0x4124, 0x504f, 0x0135, 
-0x0000, 0x1900, 0x4225, 0x5050, 0x0115, 0x0000, 0x1900, 0x3d21, 0x5050, 0x0135, 0x0000, 0x1900, 0x3f20, 0x5050, 0x0137, 0x0000, 
-0x1900, 0x3a20, 0x5048, 0x0934, 0x0000, 0x1900, 0x3d22, 0x504d, 0x0135, 0x0000, 0x1900, 0x4c92, 0x071a, 0x5092, 0x071a, 0x6892, 
-0x071a, 0x8c92, 0x071a, 0xb481, 0xc696, 0xbd81, 0xc696, 0xcd81, 0xc696, 0xd281, 0xc696, 0x70a2, 0x8a28, 0xb8a2, 0x8a28, 0x709a, 
-0x481e, 0x939a, 0x481e, 0xac9a, 0x481e, 0x4c58, 0x5c68, 0xbdc1, 0xcd00, 0x2222, 0x2423, 0x2464, 0x2400, 0x5052, 0x5a60, 0x62c0, 
-0xc1c9, 0x2262, 0x2224, 0x2423, 0x6323, 0x7075, 0xa200, 0x0000, 0x0000, 0x2868, 0x2800, 0x0000, 0x0000, 0x7075, 0x9da2, 0x0000, 
-0x0000, 0x2166, 0x6621, 0x0000, 0x0000, 0x8989, 0x0000, 0x0000, 0x0000, 0x2626, 0x0000, 0x0000, 0x0000, 0x4a56, 0x0000, 0x0000, 
-0x0000, 0x3c3c, 0x0000, 0x0000, 0x0000, 0x4c68, 0x8cb4, 0xbdc1, 0xcd00, 0x2424, 0x2424, 0x3c7c, 0x3c00, 0x7075, 0xac00, 0x0000, 
-0x0000, 0x2060, 0x2000, 0x0000, 0x0000, 0x7075, 0xac00, 0x0000, 0x0000, 0x1d5d, 0x1d00, 0x0000, 0x0000, 0x8989, 0x0000, 0x0000, 
-0x0000, 0x1e1e, 0x0000, 0x0000, 0x0000, 0xea0e, 0xc000, 0x0e07, 0x8042, 0xa204, 0x0002, 0x0e03, 0x8186, 0x9858, 0x0000, 0x0fff, 
-0x8225, 0xa214, 0x000c, 0x05ff, 0xc0fd, 0x1001, 0xc8f5, 0x707f, 0xc8fc, 0x1000, 0xdc92, 0x1001, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xcccc, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0x0405, 0x0006, 
-0xbad3, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-};
-	UInt16 firmware[] = {
-0x0013, 0x168c, 0x0200, 0x0001, 0x0000, 0x5001, 0x0000, 0xaa40, 0x14b7, 0x1c0a, 0x0100, 0x0000, 0x0002, 0x0002, 0xc606, 0x0001, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x280b, 0xa64d, 0x0020, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x5aa5, 0x0001, 0x0000, 
-0x0313, 0x4943, 0x2053, 0x2604, 0x1301, 0x0400, 0x0306, 0x0001, 0x0000, 0x0500, 0x410e, 0x39b1, 0x1eb5, 0x4e2d, 0x3056, 0xffff, 
-0xe902, 0x0700, 0x0106, 0x0000, 0x0100, 0x1500, 0x0752, 0x5001, 0x6f72, 0x6978, 0x2c6d, 0x4320, 0x726f, 0x2e70, 0x3800, 0x3230, 
-0x312e, 0x6731, 0x5720, 0x7269, 0x6c65, 0x7365, 0x2073, 0x7055, 0x7267, 0x6461, 0x2065, 0x694b, 0x2e74, 0x4300, 0x5349, 0x5220, 
-0x5645, 0x3120, 0x322e, 0x4300, 0x706f, 0x7279, 0x6769, 0x7468, 0x3220, 0x3030, 0x0033, 0x00ff, 0x0000, 0x0000, 0x0000, 0x2100, 
-0x0602, 0x2201, 0x0205, 0x8d80, 0x005b, 0x0522, 0x4002, 0x8954, 0x2200, 0x0205, 0x1b00, 0x00b7, 0x0522, 0x8002, 0x12a8, 0x2201, 
-0x0205, 0x3600, 0x016e, 0x0522, 0x0002, 0x2551, 0x2202, 0x0205, 0x6c00, 0x02dc, 0x0522, 0x8002, 0x37f9, 0x2203, 0x0205, 0xa200, 
-0x044a, 0x0222, 0x0803, 0x0822, 0x0604, 0x0020, 0xa64d, 0x280b, 0x0222, 0x0105, 0x00ff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x1070, 0x0101, 0x0000, 0x0000, 0x3033, 0x4d54, 0x3239, 0x3031, 0x3339, 0x3338, 0xffff, 0x0000, 0x0000, 0x0000, 0xffff, 0x0060, 
-0x13e6, 0x3004, 0x0ff6, 0x0b06, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x2d2c, 0x0000, 0x0000, 0x0000, 0x0000, 0xe028, 0xa492, 0x1c00, 0x000e, 0xb8ca, 0x01bb, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x2d3c, 0x0118, 0x2100, 0x0850, 0x4400, 0xda22, 0x021c, 0x0007, 0xb0ff, 0x01b7, 0x4012, 0x0001, 0x0170, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x233c, 0x0118, 0x2100, 
-0x0850, 0x4400, 0xe022, 0x021c, 0x000e, 0xb0ff, 0x01b7, 0x401b, 0x0079, 0x8e70, 0x0020, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x1112, 0x3132, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xa875, 0x5659, 0x865b, 0x71e7, 0xe088, 0xc0e5, 0x5761, 0xa6dd, 0x79f8, 
-0x2188, 0xc0e5, 0x5761, 0xa6dd, 0x79f8, 0x2188, 0xd966, 0x5b71, 0xe79f, 0x8208, 0x6288, 0xd966, 0x5b71, 0xe79f, 0x8208, 0x6288, 
-0xd945, 0xd969, 0xc71e, 0x79f8, 0x2188, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x7079, 0xe79e, 0xb879, 0xe79e, 0x7079, 0xc698, 0x9379, 0xc698, 0xac79, 0xc698, 0x7075, 
-0x7a84, 0x8e9d, 0xa2a7, 0x2424, 0x2424, 0x2424, 0x2424, 0x7075, 0x7a84, 0x8e9d, 0xa2a7, 0x1e24, 0x2424, 0x2424, 0x1e24, 0x7075, 
-0x7a84, 0x8e9d, 0xa7ac, 0x2424, 0x2424, 0x2424, 0x2424, 0x7075, 0x7a84, 0x8e9d, 0xa7ac, 0x1e1e, 0x1e1e, 0x1e1e, 0x1e1e, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
-0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 
-0xbad1, 0x0205, 0x0013, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 	
-};
+const void
+OpenHAL5212::ar5k_ar5212_fill()
+{
+	ah_magic = AR5K_AR5212_MAGIC;
+}
 
-//place holder
-HAL_BOOL OpenHAL5212::nic_ath_hal_attach(u_int16_t device, HAL_BUS_TAG st, HAL_BUS_HANDLE sh, HAL_STATUS *status) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_attach(u_int16_t device, bus_space_tag_t st,
+    bus_space_handle_t sh, HAL_STATUS *status)
+{
 	u_int8_t mac[IEEE80211_ADDR_LEN];
 	u_int32_t srev;
 
-	ah_magic = AR5K_AR5212_MAGIC;
-	
+	ar5k_ar5212_fill();
+
 	/* Bring device out of sleep and reset it's units */
 	if (ar5k_ar5212_nic_wakeup(AR5K_INIT_MODE) != AH_TRUE)
 		return (AH_FALSE);
 
 	/* Get MAC, PHY and RADIO revisions */
-	srev = AR5K_REG_READ(AR5K_AR5212_SREV) & AR5K_AR5212_SREV_M;
-	ah_mac_version = srev & AR5K_AR5212_SREV_VERSION;
-	ah_mac_revision = srev & AR5K_AR5212_SREV_REVISION;
+	srev = AR5K_REG_READ(AR5K_AR5212_SREV);
+	ah_mac_srev = srev;
+	ah_mac_version = AR5K_REG_MS(srev, AR5K_AR5212_SREV_VER);
+	ah_mac_revision = AR5K_REG_MS(srev, AR5K_AR5212_SREV_REV);
 	ah_phy_revision = AR5K_REG_READ(AR5K_AR5212_PHY_CHIP_ID) &
 	    0x00ffffffff;
-
 	ah_radio_5ghz_revision =
 	    ar5k_ar5212_radio_revision(HAL_CHIP_5GHZ);
+	ah_radio_2ghz_revision =
+	    ar5k_ar5212_radio_revision(HAL_CHIP_2GHZ);
 
-	/* Get the 2GHz radio revision if it's supported */
-	if (ah_mac_version >= AR5K_SREV_VER_AR5211)
-		ah_radio_2ghz_revision =
-		    ar5k_ar5212_radio_revision(HAL_CHIP_2GHZ);
+	/* Single chip radio */
+	if (ah_radio_2ghz_revision == ah_radio_5ghz_revision)
+		ah_radio_2ghz_revision = 0;
 
 	/* Identify the chipset (this has to be done in an early step) */
 	ah_version = AR5K_AR5212;
@@ -188,16 +95,18 @@ HAL_BOOL OpenHAL5212::nic_ath_hal_attach(u_int16_t device, HAL_BUS_TAG st, HAL_B
 	ah_phy = AR5K_AR5212_PHY(0);
 
 	bcopy(etherbroadcastaddr, mac, IEEE80211_ADDR_LEN);
-	nic_writeAssocid(mac, 0, 0);
-	nic_getMacAddress(mac);
-	nic_setPCUConfig();
+	ar5k_ar5212_set_associd(mac, 0, 0);
+	ar5k_ar5212_get_lladdr(mac);
+	ar5k_ar5212_set_opmode();
 
-	return AH_TRUE;
+	return (AH_TRUE);
 }
 
-HAL_BOOL OpenHAL5212::ar5k_ar5212_nic_reset(u_int32_t val) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_nic_reset(u_int32_t val)
+{
 	HAL_BOOL ret = AH_FALSE;
-	u_int32_t mask = val ? val : 0xFFFFFFFF;
+	u_int32_t mask = val ? val : ~0;
 
 	/* Read-and-clear */
 	AR5K_REG_READ(AR5K_AR5212_RXDP);
@@ -227,7 +136,9 @@ HAL_BOOL OpenHAL5212::ar5k_ar5212_nic_reset(u_int32_t val) {
 	return (ret);
 }
 
-HAL_BOOL OpenHAL5212::ar5k_ar5212_nic_wakeup(u_int16_t flags) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_nic_wakeup(u_int16_t flags)
+{
 	u_int32_t turbo, mode, clock;
 
 	turbo = 0;
@@ -278,13 +189,15 @@ HAL_BOOL OpenHAL5212::ar5k_ar5212_nic_wakeup(u_int16_t flags) {
 	 */
 
 	/* ...reset chipset and PCI device */
-	if (ar5k_ar5212_nic_reset(AR5K_AR5212_RC_CHIP | AR5K_AR5212_RC_PCI) == AH_FALSE) {
+	if (ar5k_ar5212_nic_reset(
+		AR5K_AR5212_RC_CHIP | AR5K_AR5212_RC_PCI) == AH_FALSE) {
 		AR5K_PRINT("failed to reset the AR5212 + PCI chipset\n");
 		return (AH_FALSE);
 	}
 
 	/* ...wakeup */
-	if (nic_setPowerMode(HAL_PM_AWAKE, AH_TRUE, 0) == AH_FALSE) {
+	if (ar5k_ar5212_set_power(
+		HAL_PM_AWAKE, AH_TRUE, 0) == AH_FALSE) {
 		AR5K_PRINT("failed to resume the AR5212 (again)\n");
 		return (AH_FALSE);
 	}
@@ -305,7 +218,9 @@ HAL_BOOL OpenHAL5212::ar5k_ar5212_nic_wakeup(u_int16_t flags) {
 	return (AH_TRUE);
 }
 
-u_int16_t OpenHAL5212::ar5k_ar5212_radio_revision(HAL_CHIP chip) {
+u_int16_t
+OpenHAL5212::ar5k_ar5212_radio_revision(HAL_CHIP chip)
+{
 	int i;
 	u_int32_t srev;
 	u_int16_t ret;
@@ -341,7 +256,9 @@ u_int16_t OpenHAL5212::ar5k_ar5212_radio_revision(HAL_CHIP chip) {
 	return (ret);
 }
 
-const HAL_RATE_TABLE * OpenHAL5212::nic_getRateTable(u_int mode) {
+const HAL_RATE_TABLE *
+OpenHAL5212::ar5k_ar5212_get_rate_table(u_int mode)
+{
 	switch (mode) {
 	case HAL_MODE_11A:
 		return (&ah_rt_11a);
@@ -361,12 +278,17 @@ const HAL_RATE_TABLE * OpenHAL5212::nic_getRateTable(u_int mode) {
 	return (NULL);
 }
 
-void OpenHAL5212::nic_detach() {
+void
+OpenHAL5212::ar5k_ar5212_detach()
+{
 	if (ah_rf_banks != NULL)
-		IOFree(ah_rf_banks, sizeof(ar5112_rf_tofix));
+		IOFree(ah_rf_banks, ah_rf_banks_size);
 }
 
-HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BOOL change_channel, HAL_STATUS *status) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel,
+    HAL_BOOL change_channel, HAL_STATUS *status)
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	u_int8_t mac[IEEE80211_ADDR_LEN];
 	u_int32_t data, s_seq, s_ant, s_led[3];
@@ -390,7 +312,7 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	s_led[2] = AR5K_REG_READ(AR5K_AR5212_GPIODO);
 
 	if (change_channel == AH_TRUE && ah_rf_banks != NULL)
-		nic_getRfGain();
+		ar5k_ar5212_get_rf_gain();
 
 	if (ar5k_ar5212_nic_wakeup(channel->c_channel_flags) == AH_FALSE)
 		return (AH_FALSE);
@@ -491,7 +413,7 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	/*
 	 * Set rate duration table
 	 */
-	rt = nic_getRateTable(
+	rt = ar5k_ar5212_get_rate_table(
 	    channel->c_channel_flags & IEEE80211_CHAN_TURBO ?
 	    HAL_MODE_TURBO : HAL_MODE_XR);
 
@@ -502,7 +424,7 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	}
 
 	if (!(channel->c_channel_flags & IEEE80211_CHAN_TURBO)) {
-		rt = nic_getRateTable(HAL_MODE_11B);
+		rt = ar5k_ar5212_get_rate_table(HAL_MODE_11B);
 		for (i = 0; i < rt->rt_rate_count; i++) {
 			data = AR5K_AR5212_RATE_DUR(rt->rt_info[i].r_rate_code);
 			AR5K_REG_WRITE(data,
@@ -560,6 +482,15 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 		    AR5K_AR5212_PHY_TIMING_3_DSC_EXP, ds_coef_exp);
 	}
 
+	if (ah_radio == AR5K_AR5111) {
+		if (channel->c_channel_flags & IEEE80211_CHAN_B)
+			AR5K_REG_ENABLE_BITS(AR5K_AR5212_TXCFG,
+			    AR5K_AR5212_TXCFG_B_MODE);
+		else
+			AR5K_REG_DISABLE_BITS(AR5K_AR5212_TXCFG,
+			    AR5K_AR5212_TXCFG_B_MODE);
+	}
+
 	/* Set antenna mode */
 	AR5K_REG_MASKED_BITS(AR5K_AR5212_PHY(0x44),
 	    ah_antenna[ee_mode][0], 0xfffffc06);
@@ -570,7 +501,7 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	if (ah_ant_diversity == AH_FALSE) {
 		if (freq == AR5K_INI_RFGAIN_2GHZ)
 			ant[0] = HAL_ANT_FIXED_B;
-		else	
+		else
 			ant[1] = HAL_ANT_FIXED_A;
 	}
 
@@ -631,10 +562,20 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	 * Misc
 	 */
 	bcopy(etherbroadcastaddr, mac, IEEE80211_ADDR_LEN);
-	nic_writeAssocid(mac, 0, 0);
-	nic_setPCUConfig();
+	ar5k_ar5212_set_associd(mac, 0, 0);
+	ar5k_ar5212_set_opmode();
 	AR5K_REG_WRITE(AR5K_AR5212_PISR, 0xffffffff);
 	AR5K_REG_WRITE(AR5K_AR5212_RSSI_THR, AR5K_TUNE_RSSI_THRES);
+
+	/*
+	 * Set Rx/Tx DMA Configuration
+	 */
+	/* not present in old HAL, ask Mick
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_TXCFG, AR5K_AR5212_TXCFG_SDMAMR,
+	    AR5K_AR5212_DMASIZE_512B | AR5K_AR5212_TXCFG_DMASIZE);
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_RXCFG, AR5K_AR5212_RXCFG_SDMAMW,
+	    AR5K_AR5212_DMASIZE_512B);
+	*/
 
 	/*
 	 * Set channel and calibrate the PHY
@@ -676,25 +617,24 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	 */
 	for (i = 0; i < ah_capabilities.cap_queues.q_tx_num; i++) {
 		AR5K_REG_WRITE_Q(AR5K_AR5212_DCU_QCUMASK(i), i);
-		if (nic_resetTxQueue(i) == AH_FALSE) {
+		if (ar5k_ar5212_reset_tx_queue(i) == AH_FALSE) {
 			AR5K_PRINTF("failed to reset TX queue #%d\n", i);
 			return (AH_FALSE);
 		}
 	}
 
 	/* Pre-enable interrupts */
-	nic_setInterrupts(HAL_INT_RX | HAL_INT_TX | HAL_INT_FATAL);
+	ar5k_ar5212_set_intr(HAL_INT_RX | HAL_INT_TX | HAL_INT_FATAL);
 
 	/*
 	 * Set RF kill flags if supported by the device (read from the EEPROM)
 	 */
 	if (AR5K_EEPROM_HDR_RFKILL(ah_capabilities.cap_eeprom.ee_header)) {
-		WLLogDebug("RF Kill supported!");
-		nic_gpioCfgInput(0);
-		if ((ah_gpio[0] = nic_gpioGet(0)) == 0)
-			nic_gpioSetIntr(0, 1);
+		ar5k_ar5212_set_gpio_input(0);
+		if ((ah_gpio[0] = ar5k_ar5212_get_gpio(0)) == 0)
+			ar5k_ar5212_set_gpio_intr(0, 1);
 		else
-			nic_gpioSetIntr(0, 0);
+			ar5k_ar5212_set_gpio_intr(0, 0);
 	}
 
 	/*
@@ -717,7 +657,9 @@ HAL_BOOL OpenHAL5212::nic_reset(HAL_OPMODE op_mode, HAL_CHANNEL *channel, HAL_BO
 	return (AH_TRUE);
 }
 
-void OpenHAL5212::nic_setPCUConfig() {
+void
+OpenHAL5212::ar5k_ar5212_set_opmode()
+{
 	u_int32_t pcu_reg, low_id, high_id;
 
 	pcu_reg = 0;
@@ -745,22 +687,17 @@ void OpenHAL5212::nic_setPCUConfig() {
 	/*
 	 * Set PCU registers
 	 */
-		bcopy(&(ah_sta_id[0]), &low_id, 4);
-        bcopy(&(ah_sta_id[4]), &high_id, 2);
-        AR5K_REG_WRITE(AR5K_AR5212_STA_ID0, low_id);
-        AR5K_REG_WRITE(AR5K_AR5212_STA_ID1, pcu_reg | high_id);
-		
-	//low_id = OSSwapHostToLittleInt32(*((UInt32*)  &ah_sta_id[0]));
-	//high_id = OSSwapHostToLittleInt16(*((UInt16*) &ah_sta_id[4]));
-	
-	//AR5K_REG_WRITE(AR5K_AR5212_STA_ID0, low_id);
-	//AR5K_REG_WRITE(AR5K_AR5212_STA_ID1, pcu_reg | high_id);
+	bcopy(&(ah_sta_id[0]), &low_id, 4);
+	bcopy(&(ah_sta_id[4]), &high_id, 2);
+	AR5K_REG_WRITE(AR5K_AR5212_STA_ID0, low_id);
+	AR5K_REG_WRITE(AR5K_AR5212_STA_ID1, pcu_reg | high_id);
 
 	return;
 }
 
-
-HAL_BOOL OpenHAL5212::nic_perCalibration(HAL_CHANNEL *channel) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_calibrate(HAL_CHANNEL *channel)
+{
 	u_int32_t i_pwr, q_pwr;
 	int32_t iq_corr, i_coff, i_coffd, q_coff, q_coffd;
 
@@ -807,7 +744,123 @@ HAL_BOOL OpenHAL5212::nic_perCalibration(HAL_CHANNEL *channel) {
 
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_resetTxQueue(u_int queue) {
+/*
+ * Transmit functions
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_update_tx_triglevel(HAL_BOOL increase)
+{
+	u_int32_t trigger_level, imr;
+	HAL_BOOL status = AH_FALSE;
+
+	/*
+	 * Disable interrupts by setting the mask
+	 */
+	imr = ar5k_ar5212_set_intr(ah_imr & ~HAL_INT_GLOBAL);
+
+	trigger_level = AR5K_REG_MS(AR5K_REG_READ(AR5K_AR5212_TXCFG),
+	    AR5K_AR5212_TXCFG_TXFULL);
+
+	if (increase == AH_FALSE) {
+		if (--trigger_level < AR5K_TUNE_MIN_TX_FIFO_THRES)
+			goto done;
+	} else
+		trigger_level +=
+		    ((AR5K_TUNE_MAX_TX_FIFO_THRES - trigger_level) / 2);
+
+	/*
+	 * Update trigger level on success
+	 */
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_TXCFG,
+	    AR5K_AR5212_TXCFG_TXFULL, trigger_level);
+	status = AH_TRUE;
+
+ done:
+	/*
+	 * Restore interrupt mask
+	 */
+	ar5k_ar5212_set_intr(imr);
+
+	return (status);
+}
+
+int
+OpenHAL5212::ar5k_ar5212_setup_tx_queue(HAL_TX_QUEUE queue_type,
+    const HAL_TXQ_INFO *queue_info)
+{
+	u_int queue;
+
+	/*
+	 * Get queue by type
+	 */
+	if (queue_type == HAL_TX_QUEUE_DATA) {
+		for (queue = HAL_TX_QUEUE_ID_DATA_MIN;
+		     ah_txq[queue].tqi_type != HAL_TX_QUEUE_INACTIVE;
+		     queue++)
+			if (queue > HAL_TX_QUEUE_ID_DATA_MAX)
+				return (-1);
+	} else if (queue_type == HAL_TX_QUEUE_PSPOLL) {
+		queue = HAL_TX_QUEUE_ID_PSPOLL;
+	} else if (queue_type == HAL_TX_QUEUE_BEACON) {
+		queue = HAL_TX_QUEUE_ID_BEACON;
+	} else if (queue_type == HAL_TX_QUEUE_CAB) {
+		queue = HAL_TX_QUEUE_ID_CAB;
+	} else
+		return (-1);
+
+	/*
+	 * Setup internal queue structure
+	 */
+	bzero(&ah_txq[queue], sizeof(HAL_TXQ_INFO));
+	ah_txq[queue].tqi_type = queue_type;
+
+	if (queue_info != NULL) {
+		if (ar5k_ar5212_setup_tx_queueprops(queue, queue_info)
+		    != AH_TRUE)
+			return (-1);
+	}
+
+	AR5K_Q_ENABLE_BITS(ah_txq_interrupts, queue);
+
+	return (queue);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_setup_tx_queueprops(int queue,
+    const HAL_TXQ_INFO *queue_info)
+{
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	if (ah_txq[queue].tqi_type == HAL_TX_QUEUE_INACTIVE)
+		return (AH_FALSE);
+
+	bcopy(queue_info, &ah_txq[queue], sizeof(HAL_TXQ_INFO));
+
+	if (queue_info->tqi_type == HAL_TX_QUEUE_DATA &&
+	    (queue_info->tqi_subtype >= HAL_WME_AC_VI) &&
+	    (queue_info->tqi_subtype <= HAL_WME_UPSD))
+		ah_txq[queue].tqi_flags |=
+		    AR5K_TXQ_FLAG_POST_FR_BKOFF_DIS;
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_release_tx_queue(u_int queue)
+{
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	/* This queue will be skipped in further operations */
+	ah_txq[queue].tqi_type = HAL_TX_QUEUE_INACTIVE;
+	AR5K_Q_DISABLE_BITS(ah_txq_interrupts, queue);
+
+	return (AH_FALSE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_reset_tx_queue(u_int queue)
+{
 	u_int32_t cw_min, cw_max, retry_lg, retry_sh;
 	struct ieee80211_channel *channel = (struct ieee80211_channel*)
 	    &ah_current_channel;
@@ -985,21 +1038,317 @@ HAL_BOOL OpenHAL5212::nic_resetTxQueue(u_int queue) {
 	return (AH_TRUE);
 }
 
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_tx_buf(u_int queue)
+{
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	/*
+	 * Get the transmit queue descriptor pointer from the selected queue
+	 */
+	return (AR5K_REG_READ(AR5K_AR5212_QCU_TXDP(queue)));
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_put_tx_buf(u_int queue, u_int32_t phys_addr)
+{
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	/*
+	 * Set the transmit queue descriptor pointer for the selected queue
+	 * (this won't work if the queue is still active)
+	 */
+	if (AR5K_REG_READ_Q(AR5K_AR5212_QCU_TXE, queue))
+		return (AH_FALSE);
+
+	AR5K_REG_WRITE(AR5K_AR5212_QCU_TXDP(queue), phys_addr);
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_tx_start(u_int queue)
+{
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	/* Return if queue is disabled */
+	if (AR5K_REG_READ_Q(AR5K_AR5212_QCU_TXD, queue))
+		return (AH_FALSE);
+
+	/* Start queue */
+	AR5K_REG_WRITE_Q(AR5K_AR5212_QCU_TXE, queue);
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_stop_tx_dma(u_int queue)
+{
+	int i = 100, pending;
+
+	AR5K_ASSERT_ENTRY(queue, ah_capabilities.cap_queues.q_tx_num);
+
+	/*
+	 * Schedule TX disable and wait until queue is empty
+	 */
+	AR5K_REG_WRITE_Q(AR5K_AR5212_QCU_TXD, queue);
+
+	do {
+		pending = AR5K_REG_READ(AR5K_AR5212_QCU_STS(queue)) &
+		     AR5K_AR5212_QCU_STS_FRMPENDCNT;
+		AR5K_DELAY(100);
+	} while (--i && pending);
+
+	/* Clear register */
+	AR5K_REG_WRITE(AR5K_AR5212_QCU_TXD, 0);
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_setup_tx_desc(struct ath_desc *desc,
+    u_int packet_length, u_int header_length, HAL_PKT_TYPE type, u_int tx_power,
+    u_int tx_rate0, u_int tx_tries0, u_int key_index, u_int antenna_mode,
+    u_int flags, u_int rtscts_rate, u_int rtscts_duration)
+{
+	struct ar5k_ar5212_tx_desc *tx_desc;
+
+	tx_desc = (struct ar5k_ar5212_tx_desc*)&desc->ds_ctl0;
+
+	/*
+	 * Validate input
+	 */
+	if (tx_tries0 == 0)
+		return (AH_FALSE);
+
+	if ((tx_desc->tx_control_0 = (packet_length &
+	    AR5K_AR5212_DESC_TX_CTL0_FRAME_LEN)) != packet_length)
+		return (AH_FALSE);
+
+	tx_desc->tx_control_0 |=
+	    AR5K_REG_SM(tx_power, AR5K_AR5212_DESC_TX_CTL0_XMIT_POWER) |
+	    AR5K_REG_SM(antenna_mode, AR5K_AR5212_DESC_TX_CTL0_ANT_MODE_XMIT);
+	tx_desc->tx_control_1 =
+	    AR5K_REG_SM(type, AR5K_AR5212_DESC_TX_CTL1_FRAME_TYPE);
+	tx_desc->tx_control_2 =
+	    AR5K_REG_SM(tx_tries0 + AR5K_TUNE_HWTXTRIES,
+	    AR5K_AR5212_DESC_TX_CTL2_XMIT_TRIES0);
+	tx_desc->tx_control_3 =
+	    tx_rate0 & AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE0;
+
+#define _TX_FLAGS(_c, _flag)						\
+	if (flags & HAL_TXDESC_##_flag)					\
+		tx_desc->tx_control_##_c |=				\
+			AR5K_AR5212_DESC_TX_CTL##_c##_##_flag
+
+	_TX_FLAGS(0, CLRDMASK);
+	_TX_FLAGS(0, VEOL);
+	_TX_FLAGS(0, INTREQ);
+	_TX_FLAGS(0, RTSENA);
+	_TX_FLAGS(0, CTSENA);
+	_TX_FLAGS(1, NOACK);
+
+#undef _TX_FLAGS
+
+	/*
+	 * WEP crap
+	 */
+	if (key_index != HAL_TXKEYIX_INVALID) {
+		tx_desc->tx_control_0 |=
+		    AR5K_AR5212_DESC_TX_CTL0_ENCRYPT_KEY_VALID;
+		tx_desc->tx_control_1 |=
+		    AR5K_REG_SM(key_index,
+		    AR5K_AR5212_DESC_TX_CTL1_ENCRYPT_KEY_INDEX);
+	}
+
+	/*
+	 * RTS/CTS
+	 */
+	if (flags & (HAL_TXDESC_RTSENA | HAL_TXDESC_CTSENA)) {
+		if ((flags & HAL_TXDESC_RTSENA) &&
+		    (flags & HAL_TXDESC_CTSENA))
+			return (AH_FALSE);
+		tx_desc->tx_control_2 |=
+		    rtscts_duration & AR5K_AR5212_DESC_TX_CTL2_RTS_DURATION;
+		tx_desc->tx_control_3 |=
+		    AR5K_REG_SM(rtscts_rate,
+		    AR5K_AR5212_DESC_TX_CTL3_RTS_CTS_RATE);
+	}
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_fill_tx_desc(struct ath_desc *desc,
+    u_int segment_length, HAL_BOOL first_segment, HAL_BOOL last_segment)
+{
+	struct ar5k_ar5212_tx_desc *tx_desc;
+
+	tx_desc = (struct ar5k_ar5212_tx_desc*)&desc->ds_ctl0;
+
+	/* Clear status descriptor */
+	bzero((void *)desc->ds_hw, sizeof(desc->ds_hw));
+
+	/* Validate segment length and initialize the descriptor */
+	if ((tx_desc->tx_control_1 = (segment_length &
+	    AR5K_AR5212_DESC_TX_CTL1_BUF_LEN)) != segment_length)
+		return (AH_FALSE);
+
+	if (first_segment != AH_TRUE)
+		tx_desc->tx_control_0 &= ~AR5K_AR5212_DESC_TX_CTL0_FRAME_LEN;
+
+	if (last_segment != AH_TRUE)
+		tx_desc->tx_control_1 |= AR5K_AR5212_DESC_TX_CTL1_MORE;
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_setup_xtx_desc(struct ath_desc *desc,
+    u_int tx_rate1, u_int tx_tries1, u_int tx_rate2, u_int tx_tries2,
+    u_int tx_rate3, u_int tx_tries3)
+{
+	struct ar5k_ar5212_tx_desc *tx_desc;
+
+	tx_desc = (struct ar5k_ar5212_tx_desc*)&desc->ds_ctl0;
+
+#define _XTX_TRIES(_n)							\
+	if (tx_tries##_n) {						\
+		tx_desc->tx_control_2 |=				\
+		    AR5K_REG_SM(tx_tries##_n,				\
+		    AR5K_AR5212_DESC_TX_CTL2_XMIT_TRIES##_n);		\
+		tx_desc->tx_control_3 |=				\
+		    AR5K_REG_SM(tx_rate##_n,				\
+		    AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE##_n);		\
+	}
+
+	_XTX_TRIES(1);
+	_XTX_TRIES(2);
+	_XTX_TRIES(3);
+
+#undef _XTX_TRIES
+
+	return (AH_TRUE);
+}
+
+HAL_STATUS
+OpenHAL5212::ar5k_ar5212_proc_tx_desc(struct ath_desc *desc)
+{
+	struct ar5k_ar5212_tx_status *tx_status;
+	struct ar5k_ar5212_tx_desc *tx_desc;
+
+	tx_desc = (struct ar5k_ar5212_tx_desc*)&desc->ds_ctl0;
+	tx_status = (struct ar5k_ar5212_tx_status*)&desc->ds_hw[2];
+
+	/* No frame has been send or error */
+	if ((tx_status->tx_status_1 & AR5K_AR5212_DESC_TX_STATUS1_DONE) == 0)
+		return (HAL_EINPROGRESS);
+
+	/*
+	 * Get descriptor status
+	 */
+	desc->ds_us.tx.ts_tstamp =
+	    AR5K_REG_MS(tx_status->tx_status_0,
+	    AR5K_AR5212_DESC_TX_STATUS0_SEND_TIMESTAMP);
+	desc->ds_us.tx.ts_shortretry =
+	    AR5K_REG_MS(tx_status->tx_status_0,
+	    AR5K_AR5212_DESC_TX_STATUS0_RTS_FAIL_COUNT);
+	desc->ds_us.tx.ts_longretry =
+	    AR5K_REG_MS(tx_status->tx_status_0,
+	    AR5K_AR5212_DESC_TX_STATUS0_DATA_FAIL_COUNT);
+	desc->ds_us.tx.ts_seqnum =
+	    AR5K_REG_MS(tx_status->tx_status_1,
+	    AR5K_AR5212_DESC_TX_STATUS1_SEQ_NUM);
+	desc->ds_us.tx.ts_rssi =
+	    AR5K_REG_MS(tx_status->tx_status_1,
+	    AR5K_AR5212_DESC_TX_STATUS1_ACK_SIG_STRENGTH);
+	desc->ds_us.tx.ts_antenna = (tx_status->tx_status_1 &
+	    AR5K_AR5212_DESC_TX_STATUS1_XMIT_ANTENNA) ? 2 : 1;
+	desc->ds_us.tx.ts_status = 0;
+
+	switch (AR5K_REG_MS(tx_status->tx_status_1,
+	    AR5K_AR5212_DESC_TX_STATUS1_FINAL_TS_INDEX)) {
+	case 0:
+		desc->ds_us.tx.ts_rate = tx_desc->tx_control_3 &
+		    AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE0;
+		break;
+	case 1:
+		desc->ds_us.tx.ts_rate =
+		    AR5K_REG_MS(tx_desc->tx_control_3,
+		    AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE1);
+		desc->ds_us.tx.ts_longretry +=
+		    AR5K_REG_MS(tx_desc->tx_control_2,
+		    AR5K_AR5212_DESC_TX_CTL2_XMIT_TRIES1);
+		break;
+	case 2:
+		desc->ds_us.tx.ts_rate =
+		    AR5K_REG_MS(tx_desc->tx_control_3,
+		    AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE2);
+		desc->ds_us.tx.ts_longretry +=
+		    AR5K_REG_MS(tx_desc->tx_control_2,
+		    AR5K_AR5212_DESC_TX_CTL2_XMIT_TRIES2);
+		break;
+	case 3:
+		desc->ds_us.tx.ts_rate =
+		    AR5K_REG_MS(tx_desc->tx_control_3,
+		    AR5K_AR5212_DESC_TX_CTL3_XMIT_RATE3);
+		desc->ds_us.tx.ts_longretry +=
+		    AR5K_REG_MS(tx_desc->tx_control_2,
+		    AR5K_AR5212_DESC_TX_CTL2_XMIT_TRIES3);
+		break;
+	}
+
+	if ((tx_status->tx_status_0 &
+	    AR5K_AR5212_DESC_TX_STATUS0_FRAME_XMIT_OK) == 0) {
+		if (tx_status->tx_status_0 &
+		    AR5K_AR5212_DESC_TX_STATUS0_EXCESSIVE_RETRIES)
+			desc->ds_us.tx.ts_status |= HAL_TXERR_XRETRY;
+
+		if (tx_status->tx_status_0 &
+		    AR5K_AR5212_DESC_TX_STATUS0_FIFO_UNDERRUN)
+			desc->ds_us.tx.ts_status |= HAL_TXERR_FIFO;
+
+		if (tx_status->tx_status_0 &
+		    AR5K_AR5212_DESC_TX_STATUS0_FILTERED)
+			desc->ds_us.tx.ts_status |= HAL_TXERR_FILT;
+	}
+
+	return (HAL_OK);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_has_veol()
+{
+	return (AH_TRUE);
+}
+
 #pragma mark -
 
-u_int32_t OpenHAL5212::nic_getRxDP() {
+/*
+ * Receive functions
+ */
+
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_rx_buf()
+{
 	return (AR5K_REG_READ(AR5K_AR5212_RXDP));
 }
 
-void OpenHAL5212::nic_setRxDP(u_int32_t phys_addr) {
+void
+OpenHAL5212::ar5k_ar5212_put_rx_buf(u_int32_t phys_addr)
+{
 	AR5K_REG_WRITE(AR5K_AR5212_RXDP, phys_addr);
 }
 
-void OpenHAL5212::nic_enableReceive() {
+void
+OpenHAL5212::ar5k_ar5212_start_rx()
+{
 	AR5K_REG_WRITE(AR5K_AR5212_CR, AR5K_AR5212_CR_RXE);
 }
 
-HAL_BOOL OpenHAL5212::nic_stopDmaReceive() {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_stop_rx_dma()
+{
 	int i;
 
 	AR5K_REG_WRITE(AR5K_AR5212_CR, AR5K_AR5212_CR_RXD);
@@ -1015,15 +1364,63 @@ HAL_BOOL OpenHAL5212::nic_stopDmaReceive() {
 	return (i > 0 ? AH_TRUE : AH_FALSE);
 }
 
-void OpenHAL5212::nic_startPcuReceive() {
+void
+OpenHAL5212::ar5k_ar5212_start_rx_pcu()
+{
 	AR5K_REG_DISABLE_BITS(AR5K_AR5212_DIAG_SW, AR5K_AR5212_DIAG_SW_DIS_RX);
 }
 
-void OpenHAL5212::nic_stopPcuReceive() {
+void
+OpenHAL5212::ar5k_ar5212_stop_pcu_recv()
+{
 	AR5K_REG_ENABLE_BITS(AR5K_AR5212_DIAG_SW, AR5K_AR5212_DIAG_SW_DIS_RX);
 }
 
-u_int32_t OpenHAL5212::nic_getRxFilter() {
+void
+OpenHAL5212::ar5k_ar5212_set_mcast_filter(u_int32_t filter0,
+    u_int32_t filter1)
+{
+	/* Set the multicat filter */
+	AR5K_REG_WRITE(AR5K_AR5212_MCAST_FIL0, filter0);
+	AR5K_REG_WRITE(AR5K_AR5212_MCAST_FIL1, filter1);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_mcast_filterindex(u_int32_t index)
+{
+	if (index >= 64) {
+	    return (AH_FALSE);
+	} else if (index >= 32) {
+	    AR5K_REG_ENABLE_BITS(AR5K_AR5212_MCAST_FIL1,
+		(1 << (index - 32)));
+	} else {
+	    AR5K_REG_ENABLE_BITS(AR5K_AR5212_MCAST_FIL0,
+		(1 << index));
+	}
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_clear_mcast_filter_idx(u_int32_t index)
+{
+
+	if (index >= 64) {
+	    return (AH_FALSE);
+	} else if (index >= 32) {
+	    AR5K_REG_DISABLE_BITS(AR5K_AR5212_MCAST_FIL1,
+		(1 << (index - 32)));
+	} else {
+	    AR5K_REG_DISABLE_BITS(AR5K_AR5212_MCAST_FIL0,
+		(1 << index));
+	}
+
+	return (AH_TRUE);
+}
+
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_rx_filter()
+{
 	u_int32_t data, filter = 0;
 
 	filter = AR5K_REG_READ(AR5K_AR5212_RX_FILTER);
@@ -1038,7 +1435,9 @@ u_int32_t OpenHAL5212::nic_getRxFilter() {
 	return (filter);
 }
 
-void OpenHAL5212::nic_setRxFilter(u_int32_t filter) {
+void
+OpenHAL5212::ar5k_ar5212_set_rx_filter(u_int32_t filter)
+{
 	u_int32_t data = 0;
 
 	if (filter & HAL_RX_FILTER_PHYRADAR)
@@ -1059,30 +1458,31 @@ void OpenHAL5212::nic_setRxFilter(u_int32_t filter) {
 	AR5K_REG_WRITE(AR5K_AR5212_PHY_ERR_FIL, data);
 }
 
-HAL_BOOL OpenHAL5212::nic_setupRxDesc(struct ath_desc *desc, u_int32_t size, u_int flags) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_setup_rx_desc(struct ath_desc *desc,
+    u_int32_t size, u_int flags)
+{
 	struct ar5k_ar5212_rx_desc *rx_desc;
-
-	/* Reset descriptor */
-	desc->ds_ctl0 = 0;
-	desc->ds_ctl1 = 0;
-	bzero((void*)&desc->ds_hw[0], sizeof(struct ar5k_ar5212_rx_status));
 
 	rx_desc = (struct ar5k_ar5212_rx_desc*)&desc->ds_ctl0;
 
 	if ((rx_desc->rx_control_1 = (size &
-	    AR5K_AR5212_DESC_RX_CTL1_BUF_LEN)) != (size))
+	    AR5K_AR5212_DESC_RX_CTL1_BUF_LEN)) != size)
 		return (AH_FALSE);
 
 	if (flags & HAL_RXDESC_INTREQ)
-		rx_desc->rx_control_1 |= (AR5K_AR5212_DESC_RX_CTL1_INTREQ);
+		rx_desc->rx_control_1 |= AR5K_AR5212_DESC_RX_CTL1_INTREQ;
 
 	return (AH_TRUE);
 }
 
-HAL_STATUS OpenHAL5212::nic_procRxDesc(struct ath_desc *desc, u_int32_t phys_addr, struct ath_desc *next) {
+HAL_STATUS
+OpenHAL5212::ar5k_ar5212_proc_rx_desc(struct ath_desc *desc,
+    u_int32_t phys_addr, struct ath_desc *next)
+{
 	struct ar5k_ar5212_rx_status *rx_status;
 	struct ar5k_ar5212_rx_error *rx_err;
-	
+
 	rx_status = (struct ar5k_ar5212_rx_status*)&desc->ds_hw[0];
 
 	/* Overlay on error */
@@ -1153,16 +1553,28 @@ HAL_STATUS OpenHAL5212::nic_procRxDesc(struct ath_desc *desc, u_int32_t phys_add
 	return (HAL_OK);
 }
 
-void OpenHAL5212::nic_rxMonitor() {
+void
+OpenHAL5212::ar5k_ar5212_set_rx_signal()
+{
+	/* Signal state monitoring is not yet supported */
+	
+	/* went away in OpenBSD HAL, ask Reyk */
 	AR5K_REG_ENABLE_BITS(AR5K_AR5212_RX_FILTER,
-	    AR5K_AR5212_RX_FILTER_PROMISC);
+		AR5K_AR5212_RX_FILTER_PROMISC);
 }
 
 #pragma mark -
 
-void OpenHAL5212::dumpState() {
-#define AR5K_PRINT_REGISTER(_x)						\
-	IOLog("(%s: %08x) ", #_x, AR5K_REG_READ(AR5K_AR5212_##_x));\
+/*
+ * Misc functions
+ */
+
+void
+OpenHAL5212::ar5k_ar5212_dump_state()
+{
+#ifdef AR5K_DEBUG
+#define AR5K_PRINT_REGISTER(_x)									\
+	IOLog("(%s: %08x)\n", #_x, AR5K_REG_READ(AR5K_AR5212_##_x));	\
 	IOSleep(100);
 
 	IOLog("MAC registers:\n");
@@ -1259,13 +1671,29 @@ void OpenHAL5212::dumpState() {
 	AR5K_PRINT_REGISTER(PHY_ANT_SWITCH_TABLE_0);
 	AR5K_PRINT_REGISTER(PHY_ANT_SWITCH_TABLE_1);
 	IOLog("\n");
+#endif
 }
 
-void OpenHAL5212::nic_getMacAddress(u_int8_t *mac) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_get_diag_state(int id, void **device,
+    u_int *size)
+{
+	/*
+	 * We'll ignore this right now. This seems to be some kind of an obscure
+	 * debugging interface for the binary-only HAL.
+	 */
+	return (AH_FALSE);
+}
+
+void
+OpenHAL5212::ar5k_ar5212_get_lladdr(u_int8_t *mac)
+{
 	bcopy(ah_sta_id, mac, IEEE80211_ADDR_LEN);
 }
 
-HAL_BOOL OpenHAL5212::nic_setMacAddress(const u_int8_t *mac) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_lladdr(const u_int8_t *mac)
+{
 	u_int32_t low_id, high_id;
 
 	/* Set new station ID */
@@ -1281,13 +1709,16 @@ HAL_BOOL OpenHAL5212::nic_setMacAddress(const u_int8_t *mac) {
 	return (AH_TRUE);
 }
 
-
-HAL_BOOL OpenHAL5212::nic_setRegulatoryDomain(u_int16_t regdomain, HAL_STATUS *status) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_regdomain(u_int16_t regdomain,
+    HAL_STATUS *status)
+{
 	ieee80211_regdomain_t ieee_regdomain;
 
 	ieee_regdomain = ar5k_regdomain_to_ieee(regdomain);
 
-	if (ar5k_eeprom_regulation_domain(AH_TRUE, &ieee_regdomain) == AH_TRUE) {
+	if (ar5k_eeprom_regulation_domain(AH_TRUE,
+		&ieee_regdomain) == AH_TRUE) {
 		*status = HAL_OK;
 		return (AH_TRUE);
 	}
@@ -1297,7 +1728,9 @@ HAL_BOOL OpenHAL5212::nic_setRegulatoryDomain(u_int16_t regdomain, HAL_STATUS *s
 	return (AH_FALSE);
 }
 
-void OpenHAL5212::nic_setLedState(HAL_LED_STATE state) {
+void
+OpenHAL5212::ar5k_ar5212_set_ledstate(HAL_LED_STATE state)
+{
 	u_int32_t led;
 
 	AR5K_REG_DISABLE_BITS(AR5K_AR5212_PCICFG,
@@ -1333,7 +1766,10 @@ void OpenHAL5212::nic_setLedState(HAL_LED_STATE state) {
 	AR5K_REG_ENABLE_BITS(AR5K_AR5212_PCICFG, led);
 }
 
-void OpenHAL5212::nic_writeAssocid(const u_int8_t *bssid, u_int16_t assoc_id, u_int16_t tim_offset) {
+void
+OpenHAL5212::ar5k_ar5212_set_associd(const u_int8_t *bssid,
+    u_int16_t assoc_id, u_int16_t tim_offset)
+{
 	u_int32_t low_id, high_id;
 
 	/*
@@ -1345,25 +1781,15 @@ void OpenHAL5212::nic_writeAssocid(const u_int8_t *bssid, u_int16_t assoc_id, u_
 	/*
 	 * Set BSSID which triggers the "SME Join" operation
 	 */
-	
 	bcopy(bssid, &low_id, 4);
 	bcopy(bssid + 4, &high_id, 2);
 	AR5K_REG_WRITE(AR5K_AR5212_BSS_ID0, OSSwapHostToLittleInt32(low_id));
 	AR5K_REG_WRITE(AR5K_AR5212_BSS_ID1, OSSwapHostToLittleInt32(high_id) |
-		((assoc_id & 0x3fff) << AR5K_AR5212_BSS_ID1_AID_S));
-
-	/*low_id = OSSwapHostToLittleInt32(*((UInt32*)  &bssid[0]));
-	high_id = OSSwapHostToLittleInt16(*((UInt16*) &bssid[4]));
-	
-	AR5K_REG_WRITE(AR5K_AR5212_BSS_ID0, low_id);
-	AR5K_REG_WRITE(AR5K_AR5212_BSS_ID1, high_id |
 	    ((assoc_id & 0x3fff) << AR5K_AR5212_BSS_ID1_AID_S));
-	*/
-	
 	bcopy(bssid, &ah_bssid, IEEE80211_ADDR_LEN);
 
 	if (assoc_id == 0) {
-		nic_disablePSPoll();
+		ar5k_ar5212_disable_pspoll();
 		return;
 	}
 
@@ -1374,10 +1800,25 @@ void OpenHAL5212::nic_writeAssocid(const u_int8_t *bssid, u_int16_t assoc_id, u_
 	    AR5K_AR5212_BEACON_TIM_S) &
 	    AR5K_AR5212_BEACON_TIM));
 
-	nic_enablePSPoll(NULL, 0);
+	ar5k_ar5212_enable_pspoll(NULL, 0);
 }
 
-HAL_BOOL OpenHAL5212::nic_gpioCfgInput(u_int32_t gpio) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_gpio_output(u_int32_t gpio)
+{
+	if (gpio > AR5K_AR5212_NUM_GPIO)
+		return (AH_FALSE);
+
+	AR5K_REG_WRITE(AR5K_AR5212_GPIOCR,
+	    (AR5K_REG_READ(AR5K_AR5212_GPIOCR) &~ AR5K_AR5212_GPIOCR_ALL(gpio))
+	    | AR5K_AR5212_GPIOCR_ALL(gpio));
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_gpio_input(u_int32_t gpio)
+{
 	if (gpio > AR5K_AR5212_NUM_GPIO)
 		return (AH_FALSE);
 
@@ -1388,7 +1829,9 @@ HAL_BOOL OpenHAL5212::nic_gpioCfgInput(u_int32_t gpio) {
 	return (AH_TRUE);
 }
 
-u_int32_t OpenHAL5212::nic_gpioGet(u_int32_t gpio) {
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_gpio(u_int32_t gpio)
+{
 	if (gpio > AR5K_AR5212_NUM_GPIO)
 		return (0xffffffff);
 
@@ -1397,7 +1840,29 @@ u_int32_t OpenHAL5212::nic_gpioGet(u_int32_t gpio) {
 	    AR5K_AR5212_GPIODI_M) >> gpio) & 0x1);
 }
 
-void OpenHAL5212::nic_gpioSetIntr(u_int gpio, u_int32_t interrupt_level) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_gpio(u_int32_t gpio, u_int32_t val)
+{
+	u_int32_t data;
+
+	if (gpio > AR5K_AR5212_NUM_GPIO)
+		return (AH_FALSE);
+
+	/* GPIO output magic */
+	data =  AR5K_REG_READ(AR5K_AR5212_GPIODO);
+
+	data &= ~(1 << gpio);
+	data |= (val&1) << gpio;
+
+	AR5K_REG_WRITE(AR5K_AR5212_GPIODO, data);
+
+	return (AH_TRUE);
+}
+
+void
+OpenHAL5212::ar5k_ar5212_set_gpio_intr(u_int gpio,
+    u_int32_t interrupt_level)
+{
 	u_int32_t data;
 
 	if (gpio > AR5K_AR5212_NUM_GPIO)
@@ -1420,7 +1885,69 @@ void OpenHAL5212::nic_gpioSetIntr(u_int gpio, u_int32_t interrupt_level) {
 	AR5K_REG_ENABLE_BITS(AR5K_AR5212_PIMR, AR5K_AR5212_PIMR_GPIO);
 }
 
-HAL_RFGAIN OpenHAL5212::nic_getRfGain() {
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_tsf32()
+{
+	return (AR5K_REG_READ(AR5K_AR5212_TSF_L32));
+}
+
+u_int64_t
+OpenHAL5212::ar5k_ar5212_get_tsf64()
+{
+	u_int64_t tsf = AR5K_REG_READ(AR5K_AR5212_TSF_U32);
+
+	return (AR5K_REG_READ(AR5K_AR5212_TSF_L32) | (tsf << 32));
+}
+
+void
+OpenHAL5212::ar5k_ar5212_reset_tsf()
+{
+	AR5K_REG_ENABLE_BITS(AR5K_AR5212_BEACON,
+	    AR5K_AR5212_BEACON_RESET_TSF);
+}
+
+u_int16_t
+OpenHAL5212::ar5k_ar5212_get_regdomain()
+{
+	return (ar5k_get_regdomain());
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_detect_card_present()
+{
+	u_int16_t magic;
+
+	/*
+	 * Checking the EEPROM's magic value could be an indication
+	 * if the card is still present. I didn't find another suitable
+	 * way to do this.
+	 */
+	if (ar5k_ar5212_eeprom_read(AR5K_EEPROM_MAGIC, &magic) != 0)
+		return (AH_FALSE);
+
+	return (magic == AR5K_EEPROM_MAGIC_VALUE ? AH_TRUE : AH_FALSE);
+}
+
+void
+OpenHAL5212::ar5k_ar5212_update_mib_counters(HAL_MIB_STATS *statistics)
+{
+	/* Read-And-Clear */
+	statistics->ackrcv_bad += AR5K_REG_READ(AR5K_AR5212_ACK_FAIL);
+	statistics->rts_bad += AR5K_REG_READ(AR5K_AR5212_RTS_FAIL);
+	statistics->rts_good += AR5K_REG_READ(AR5K_AR5212_RTS_OK);
+	statistics->fcs_bad += AR5K_REG_READ(AR5K_AR5212_FCS_FAIL);
+	statistics->beacons += AR5K_REG_READ(AR5K_AR5212_BEACON_CNT);
+
+	/* Reset profile count registers */
+	AR5K_REG_WRITE(AR5K_AR5212_PROFCNT_TX, 0);
+	AR5K_REG_WRITE(AR5K_AR5212_PROFCNT_RX, 0);
+	AR5K_REG_WRITE(AR5K_AR5212_PROFCNT_RXCLR, 0);
+	AR5K_REG_WRITE(AR5K_AR5212_PROFCNT_CYCLE, 0);
+}
+
+HAL_RFGAIN
+OpenHAL5212::ar5k_ar5212_get_rf_gain()
+{
 	u_int32_t data, type;
 
 	if ((ah_rf_banks == NULL) || (!ah_gain.g_active))
@@ -1457,9 +1984,90 @@ HAL_RFGAIN OpenHAL5212::nic_getRfGain() {
 	return (ah_rf_gain);
 }
 
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_slot_time(u_int slot_time)
+{
+	if (slot_time < HAL_SLOT_TIME_9 || slot_time > HAL_SLOT_TIME_MAX)
+		return (AH_FALSE);
+
+	AR5K_REG_WRITE(AR5K_AR5212_DCU_GBL_IFS_SLOT, slot_time);
+
+	return (AH_TRUE);
+}
+
+u_int
+OpenHAL5212::ar5k_ar5212_get_slot_time()
+{
+	return (AR5K_REG_READ(AR5K_AR5212_DCU_GBL_IFS_SLOT) & 0xffff);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_ack_timeout(u_int timeout)
+{
+	if (ar5k_clocktoh(AR5K_REG_MS(0xffffffff, AR5K_AR5212_TIME_OUT_ACK),
+	    ah_turbo) <= timeout)
+		return (AH_FALSE);
+
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_TIME_OUT, AR5K_AR5212_TIME_OUT_ACK,
+	    ar5k_htoclock(timeout, ah_turbo));
+
+	return (AH_TRUE);
+}
+
+u_int
+OpenHAL5212::ar5k_ar5212_get_ack_timeout()
+{
+	return (ar5k_clocktoh(AR5K_REG_MS(AR5K_REG_READ(AR5K_AR5212_TIME_OUT),
+	    AR5K_AR5212_TIME_OUT_ACK), ah_turbo));
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_cts_timeout(u_int timeout)
+{
+	if (ar5k_clocktoh(AR5K_REG_MS(0xffffffff, AR5K_AR5212_TIME_OUT_CTS),
+	    ah_turbo) <= timeout)
+		return (AH_FALSE);
+
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_TIME_OUT, AR5K_AR5212_TIME_OUT_CTS,
+	    ar5k_htoclock(timeout, ah_turbo));
+
+	return (AH_TRUE);
+}
+
+u_int
+OpenHAL5212::ar5k_ar5212_get_cts_timeout()
+{
+	return (ar5k_clocktoh(AR5K_REG_MS(AR5K_REG_READ(AR5K_AR5212_TIME_OUT),
+	    AR5K_AR5212_TIME_OUT_CTS), ah_turbo));
+}
+
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_resetKeyCacheEntry(u_int16_t entry) {
+/*
+ * Key table (WEP) functions
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_is_cipher_supported(HAL_CIPHER cipher)
+{
+	/*
+	 * The AR5212 only supports WEP
+	 */
+	if (cipher == HAL_CIPHER_WEP)
+		return (AH_TRUE);
+
+	return (AH_FALSE);
+}
+
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_keycache_size()
+{
+	return (AR5K_AR5212_KEYCACHE_SIZE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_reset_key(u_int16_t entry)
+{
 	int i;
 
 	AR5K_ASSERT_ENTRY(entry, AR5K_AR5212_KEYTABLE_SIZE);
@@ -1474,17 +2082,118 @@ HAL_BOOL OpenHAL5212::nic_resetKeyCacheEntry(u_int16_t entry) {
 	return (AH_FALSE);
 }
 
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_is_key_valid(u_int16_t entry)
+{
+	AR5K_ASSERT_ENTRY(entry, AR5K_AR5212_KEYTABLE_SIZE);
+
+	/*
+	 * Check the validation flag at the end of the entry
+	 */
+	if (AR5K_REG_READ(AR5K_AR5212_KEYTABLE_MAC1(entry)) &
+	    AR5K_AR5212_KEYTABLE_VALID)
+		return (AH_TRUE);
+
+	return (AH_FALSE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_key(u_int16_t entry,
+    const HAL_KEYVAL *keyval, const u_int8_t *mac, int xor_notused)
+{
+	int i;
+	u_int32_t key_v[AR5K_AR5212_KEYCACHE_SIZE - 2];
+
+	AR5K_ASSERT_ENTRY(entry, AR5K_AR5212_KEYTABLE_SIZE);
+
+	bzero(&key_v, sizeof(key_v));
+
+	switch (keyval->wk_len) {
+	case AR5K_KEYVAL_LENGTH_40:
+		bcopy(keyval->wk_key, &key_v[0], 4);
+		bcopy(keyval->wk_key + 4, &key_v[1], 1);
+		key_v[5] = AR5K_AR5212_KEYTABLE_TYPE_40;
+		break;
+
+	case AR5K_KEYVAL_LENGTH_104:
+		bcopy(keyval->wk_key, &key_v[0], 4);
+		bcopy(keyval->wk_key + 4, &key_v[1], 2);
+		bcopy(keyval->wk_key + 6, &key_v[2], 4);
+		bcopy(keyval->wk_key + 10, &key_v[3], 2);
+		bcopy(keyval->wk_key + 12, &key_v[4], 1);
+		key_v[5] = AR5K_AR5212_KEYTABLE_TYPE_104;
+		break;
+
+	case AR5K_KEYVAL_LENGTH_128:
+		bcopy(keyval->wk_key, &key_v[0], 4);
+		bcopy(keyval->wk_key + 4, &key_v[1], 2);
+		bcopy(keyval->wk_key + 6, &key_v[2], 4);
+		bcopy(keyval->wk_key + 10, &key_v[3], 2);
+		bcopy(keyval->wk_key + 12, &key_v[4], 4);
+		key_v[5] = AR5K_AR5212_KEYTABLE_TYPE_128;
+		break;
+
+	default:
+		/* Unsupported key length (not WEP40/104/128) */
+		return (AH_FALSE);
+	}
+
+	for (i = 0; i < AR5K_ELEMENTS(key_v); i++)
+		AR5K_REG_WRITE(AR5K_AR5212_KEYTABLE_OFF(entry, i), key_v[i]);
+
+	return (ar5k_ar5212_set_key_lladdr(entry, mac));
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_key_lladdr(u_int16_t entry,
+    const u_int8_t *mac)
+{
+	u_int32_t low_id, high_id;
+	const u_int8_t *mac_v;
+
+	/*
+	 * Invalid entry (key table overflow)
+	 */
+	AR5K_ASSERT_ENTRY(entry, AR5K_AR5212_KEYTABLE_SIZE);
+
+	/* MAC may be NULL if it's a broadcast key */
+	mac_v = mac == NULL ? etherbroadcastaddr : mac;
+
+	bcopy(mac_v, &low_id, 4);
+	bcopy(mac_v + 4, &high_id, 2);
+	high_id |= AR5K_AR5212_KEYTABLE_VALID;
+
+	AR5K_REG_WRITE(AR5K_AR5212_KEYTABLE_MAC0(entry), low_id);
+	AR5K_REG_WRITE(AR5K_AR5212_KEYTABLE_MAC1(entry), high_id);
+
+	return (AH_TRUE);
+}
+
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_setPowerMode(HAL_POWER_MODE mode, HAL_BOOL set_chip, u_int16_t sleep_duration) {
+/*
+ * Power management functions
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_set_power(HAL_POWER_MODE mode,
+    HAL_BOOL set_chip, u_int16_t sleep_duration)
+{
+	u_int32_t staid;
 	int i;
+
+	staid = AR5K_REG_READ(AR5K_AR5212_STA_ID1);
 
 	switch (mode) {
 	case HAL_PM_AUTO:
+		staid &= ~AR5K_AR5212_STA_ID1_DEFAULT_ANTENNA;
+		/* fallthrough */
+	case HAL_PM_NETWORK_SLEEP:
 		if (set_chip == AH_TRUE) {
 			AR5K_REG_WRITE(AR5K_AR5212_SCR,
 			    AR5K_AR5212_SCR_SLE | sleep_duration);
 		}
+		staid |= AR5K_AR5212_STA_ID1_PWR_SV;
 		break;
 
 	case HAL_PM_FULL_SLEEP:
@@ -1492,6 +2201,7 @@ HAL_BOOL OpenHAL5212::nic_setPowerMode(HAL_POWER_MODE mode, HAL_BOOL set_chip, u
 			AR5K_REG_WRITE(AR5K_AR5212_SCR,
 			    AR5K_AR5212_SCR_SLE_SLP);
 		}
+		staid |= AR5K_AR5212_STA_ID1_PWR_SV;
 		break;
 
 	case HAL_PM_AWAKE:
@@ -1515,10 +2225,10 @@ HAL_BOOL OpenHAL5212::nic_setPowerMode(HAL_POWER_MODE mode, HAL_BOOL set_chip, u
 		/* Fail if the AR5212 didn't wake up */
 		if (i <= 0)
 			return (AH_FALSE);
+
+		staid &= ~AR5K_AR5212_STA_ID1_PWR_SV;
 		break;
 
-	case HAL_PM_NETWORK_SLEEP:
-	case HAL_PM_UNDEFINED:
 	default:
 		return (AH_FALSE);
 	}
@@ -1526,21 +2236,235 @@ HAL_BOOL OpenHAL5212::nic_setPowerMode(HAL_POWER_MODE mode, HAL_BOOL set_chip, u
  commit:
 	ah_power_mode = mode;
 
-	AR5K_REG_DISABLE_BITS(AR5K_AR5212_STA_ID1,
-	    AR5K_AR5212_STA_ID1_DEFAULT_ANTENNA);
-	AR5K_REG_ENABLE_BITS(AR5K_AR5212_STA_ID1,
-	    AR5K_AR5212_STA_ID1_PWR_SV);
+	AR5K_REG_WRITE(AR5K_AR5212_STA_ID1, staid);
 
 	return (AH_TRUE);
 }
 
+HAL_POWER_MODE
+OpenHAL5212::ar5k_ar5212_get_power_mode()
+{
+	return (ah_power_mode);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_query_pspoll_support()
+{
+	/* nope */
+	return (AH_FALSE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_init_pspoll()
+{
+	/*
+	 * Not used on the AR5212
+	 */
+	return (AH_FALSE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_enable_pspoll(u_int8_t *bssid,
+    u_int16_t assoc_id)
+{
+	return (AH_FALSE);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_disable_pspoll()
+{
+	return (AH_FALSE);
+}
+
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_isInterruptPending() {
+/*
+ * Beacon functions
+ */
+
+void
+OpenHAL5212::ar5k_ar5212_init_beacon(u_int32_t next_beacon,
+    u_int32_t interval)
+{
+	u_int32_t timer1, timer2, timer3;
+
+	/*
+	 * Set the additional timers by mode
+	 */
+	switch (ah_op_mode) {
+	case HAL_M_STA:
+		timer1 = 0x0000ffff;
+		timer2 = 0x0007ffff;
+		break;
+
+	default:
+		timer1 = (next_beacon - AR5K_TUNE_DMA_BEACON_RESP) <<
+		    0x00000003;
+		timer2 = (next_beacon - AR5K_TUNE_SW_BEACON_RESP) <<
+		    0x00000003;
+	}
+
+	timer3 = next_beacon +
+	    (ah_atim_window ? ah_atim_window : 1);
+
+	/*
+	 * Enable all timers and set the beacon register
+	 * (next beacon, DMA beacon, software beacon, ATIM window time)
+	 */
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER0, next_beacon);
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER1, timer1);
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER2, timer2);
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER3, timer3);
+
+	AR5K_REG_WRITE(AR5K_AR5212_BEACON, interval &
+	    (AR5K_AR5212_BEACON_PERIOD | AR5K_AR5212_BEACON_RESET_TSF |
+	    AR5K_AR5212_BEACON_ENABLE));
+}
+
+void
+OpenHAL5212::ar5k_ar5212_set_beacon_timers(
+    const HAL_BEACON_STATE *state, u_int32_t tsf, u_int32_t dtim_count,
+    u_int32_t cfp_count)
+{
+	u_int32_t cfp_period, next_cfp, dtim, interval, next_beacon;
+
+	/* Return on an invalid beacon state */
+	if (state->bs_interval < 1)
+		return;
+
+	interval = state->bs_intval;
+	dtim = state->bs_dtimperiod;
+
+	/*
+	 * PCF support?
+	 */
+	if (state->bs_cfp_period > 0) {
+		/* Enable CFP mode and set the CFP and timer registers */
+		cfp_period = state->bs_cfp_period * state->bs_dtim_period *
+		    state->bs_interval;
+		next_cfp = (cfp_count * state->bs_dtim_period + dtim_count) *
+		    state->bs_interval;
+
+		AR5K_REG_ENABLE_BITS(AR5K_AR5212_STA_ID1,
+		    AR5K_AR5212_STA_ID1_PCF);
+		AR5K_REG_WRITE(AR5K_AR5212_CFP_PERIOD, cfp_period);
+		AR5K_REG_WRITE(AR5K_AR5212_CFP_DUR, state->bs_cfp_max_duration);
+		AR5K_REG_WRITE(AR5K_AR5212_TIMER2,
+		    (tsf + (next_cfp == 0 ? cfp_period : next_cfp)) << 3);
+	} else {
+		/* Disable PCF mode */
+		AR5K_REG_DISABLE_BITS(AR5K_AR5212_STA_ID1,
+		    AR5K_AR5212_STA_ID1_PCF);
+	}
+
+	/*
+	 * Enable the beacon timer register
+	 */
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER0, state->bs_next_beacon);
+
+	/*
+	 * Start the beacon timers
+	 */
+	AR5K_REG_WRITE(AR5K_AR5212_BEACON,
+	    (AR5K_REG_READ(AR5K_AR5212_BEACON) &~
+	    (AR5K_AR5212_BEACON_PERIOD | AR5K_AR5212_BEACON_TIM)) |
+	    AR5K_REG_SM(state->bs_tim_offset ? state->bs_tim_offset + 4 : 0,
+	    AR5K_AR5212_BEACON_TIM) | AR5K_REG_SM(state->bs_interval,
+	    AR5K_AR5212_BEACON_PERIOD));
+
+	/*
+	 * Write new beacon miss threshold, if it appears to be valid
+	 */
+	if ((AR5K_AR5212_RSSI_THR_BMISS >> AR5K_AR5212_RSSI_THR_BMISS_S) <
+	    state->bs_bmiss_threshold)
+		return;
+
+	AR5K_REG_WRITE_BITS(AR5K_AR5212_RSSI_THR_M,
+	    AR5K_AR5212_RSSI_THR_BMISS, state->bs_bmiss_threshold);
+
+	/*
+	 * Set sleep registers
+	 */
+	if ((state->bs_sleepduration > state->bs_interval) &&
+	    (roundup(state->bs_sleepduration, interval) ==
+	    state->bs_sleepduration))
+		interval = state->bs_sleepduration;
+
+	if (state->bs_sleepduration > dtim &&
+	    (dtim == 0 || roundup(state->bs_sleepduration, dtim) ==
+	    state->bs_sleepduration))
+		dtim = state->bs_sleepduration;
+
+	if (interval > dtim)
+		return;
+
+	next_beacon = interval == dtim ?
+	    state->bs_nextdtim: state->bs_nexttbtt;
+
+	AR5K_REG_WRITE(AR5K_AR5212_SLEEP0,
+	    AR5K_REG_SM((state->bs_nextdtim - 3) << 3,
+	    AR5K_AR5212_SLEEP0_NEXT_DTIM) |
+	    AR5K_REG_SM(10, AR5K_AR5212_SLEEP0_CABTO) |
+	    AR5K_AR5212_SLEEP0_ENH_SLEEP_EN |
+	    AR5K_AR5212_SLEEP0_ASSUME_DTIM);
+	AR5K_REG_WRITE(AR5K_AR5212_SLEEP1,
+	    AR5K_REG_SM((next_beacon - 3) << 3,
+	    AR5K_AR5212_SLEEP1_NEXT_TIM) |
+	    AR5K_REG_SM(10, AR5K_AR5212_SLEEP1_BEACON_TO));
+	AR5K_REG_WRITE(AR5K_AR5212_SLEEP2,
+	    AR5K_REG_SM(interval, AR5K_AR5212_SLEEP2_TIM_PER) |
+	    AR5K_REG_SM(dtim, AR5K_AR5212_SLEEP2_DTIM_PER));
+}
+
+void
+OpenHAL5212::ar5k_ar5212_reset_beacon()
+{
+	/*
+	 * Disable beacon timer
+	 */
+	AR5K_REG_WRITE(AR5K_AR5212_TIMER0, 0);
+
+	/*
+	 * Disable some beacon register values
+	 */
+	AR5K_REG_DISABLE_BITS(AR5K_AR5212_STA_ID1,
+	    AR5K_AR5212_STA_ID1_DEFAULT_ANTENNA | AR5K_AR5212_STA_ID1_PCF);
+	AR5K_REG_WRITE(AR5K_AR5212_BEACON, AR5K_AR5212_BEACON_PERIOD);
+}
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_wait_for_beacon(bus_addr_t phys_addr)
+{
+	HAL_BOOL ret;
+
+	/*
+	 * Wait for beaconn queue to be done
+	 */
+	ret = ar5k_register_timeout(
+	    AR5K_AR5212_QCU_STS(HAL_TX_QUEUE_ID_BEACON),
+	    AR5K_AR5212_QCU_STS_FRMPENDCNT, 0, AH_FALSE);
+
+	if (AR5K_REG_READ_Q(AR5K_AR5212_QCU_TXE, HAL_TX_QUEUE_ID_BEACON))
+		return (AH_FALSE);
+
+	return (ret);
+}
+
+#pragma mark -
+
+/*
+ * Interrupt handling
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_is_intr_pending()
+{
 	return (AR5K_REG_READ(AR5K_AR5212_INTPEND) == 0 ? AH_FALSE : AH_TRUE);
 }
 
-HAL_BOOL OpenHAL5212::nic_getPendingInterrupts(u_int32_t *interrupt_mask) {
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_get_isr(u_int32_t *interrupt_mask)
+{
 	u_int32_t data;
 
 	/*
@@ -1566,21 +2490,28 @@ HAL_BOOL OpenHAL5212::nic_getPendingInterrupts(u_int32_t *interrupt_mask) {
 		*interrupt_mask |= HAL_INT_FATAL;
 
 	/*
-	 * Special interrupt handling (not catched by the driver)
+	 * Special interrupt handling (not caught by the driver)
 	 */
-	//WE ARE A PASSIVE DRIVER implement in an active driver!!!
-	//if (((*interrupt_mask) & AR5K_AR5212_PISR_RXPHY) && ah_radar.r_enabled == AH_TRUE)
-	//	ar5k_radar_alert();
+	if (((*interrupt_mask) & AR5K_AR5212_PISR_RXPHY) &&
+	    ah_radar.r_enabled == AH_TRUE)
+		ar5k_radar_alert();
+
+	if (*interrupt_mask == 0)
+		AR5K_PRINTF("0x%08x\n", data);
 
 	return (AH_TRUE);
 }
 
-u_int32_t OpenHAL5212::nic_getInterrupts() {
+u_int32_t
+OpenHAL5212::ar5k_ar5212_get_intr()
+{
 	/* Return the interrupt mask stored previously */
 	return (ah_imr);
 }
 
-HAL_INT OpenHAL5212::nic_setInterrupts(HAL_INT new_mask) {
+HAL_INT
+OpenHAL5212::ar5k_ar5212_set_intr(HAL_INT new_mask)
+{
 	HAL_INT old_mask, int_mask;
 
 	/*
@@ -1619,12 +2550,6 @@ HAL_INT OpenHAL5212::nic_setInterrupts(HAL_INT new_mask) {
 		    AR5K_AR5212_SIMR2_DPERR);
 	}
 
-	if (ah_op_mode & HAL_M_HOSTAP) {
-		int_mask |= AR5K_AR5212_PIMR_MIB;
-	} else {
-		int_mask &= ~AR5K_AR5212_PIMR_MIB;
-	}
-
 	AR5K_REG_WRITE(AR5K_AR5212_PIMR, int_mask);
 
 	/* Store new interrupt mask */
@@ -1638,7 +2563,12 @@ HAL_INT OpenHAL5212::nic_setInterrupts(HAL_INT new_mask) {
 
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_get_capabilities()
+/*
+ * Misc internal functions
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_get_capabilities()
 {
 	u_int16_t ee_header;
 
@@ -1689,31 +2619,51 @@ HAL_BOOL OpenHAL5212::nic_get_capabilities()
 	return (AH_TRUE);
 }
 
+void
+OpenHAL5212::ar5k_ar5212_radar_alert(HAL_BOOL enable)
+{
+	/*
+	 * Enable radar detection
+	 */
+	AR5K_REG_WRITE(AR5K_AR5212_IER, AR5K_AR5212_IER_DISABLE);
+
+	if (enable == AH_TRUE) {
+		AR5K_REG_WRITE(AR5K_AR5212_PHY_RADAR,
+		    AR5K_AR5212_PHY_RADAR_ENABLE);
+		AR5K_REG_ENABLE_BITS(AR5K_AR5212_PIMR,
+		    AR5K_AR5212_PIMR_RXPHY);
+	} else {
+		AR5K_REG_WRITE(AR5K_AR5212_PHY_RADAR,
+		    AR5K_AR5212_PHY_RADAR_DISABLE);
+		AR5K_REG_DISABLE_BITS(AR5K_AR5212_PIMR,
+		    AR5K_AR5212_PIMR_RXPHY);
+	}
+
+	AR5K_REG_WRITE(AR5K_AR5212_IER, AR5K_AR5212_IER_ENABLE);
+}
+
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::nic_eeprom_is_busy() {
+/*
+ * EEPROM access functions
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_eeprom_is_busy()
+{
 	return (AR5K_REG_READ(AR5K_AR5212_CFG) & AR5K_AR5212_CFG_EEBS ?
 	    AH_TRUE : AH_FALSE);
 }
 
-HAL_STATUS OpenHAL5212::nic_eeprom_read(u_int32_t offset, u_int16_t *data)
+HAL_STATUS
+OpenHAL5212::ar5k_ar5212_eeprom_read(u_int32_t offset, u_int16_t *data)
 {
 	u_int32_t status, i;
-	u_int32_t o = offset;
+
 	/*
 	 * Initialize EEPROM access
 	 */
-	 
-	if (ah_device == 0xff13) {
-		if (offset >= 0x400) {
-			AR5K_PRINTF("EEPROM access out of bounds (offset = 0x%x)", offset);
-			return HAL_EIO;
-		}
-		*data = firmware[offset];
-		return HAL_OK;
-	}
-	
-	AR5K_REG_WRITE(AR5K_AR5212_EEPROM_BASE, o);
+	AR5K_REG_WRITE(AR5K_AR5212_EEPROM_BASE, (u_int8_t)offset);
 	AR5K_REG_ENABLE_BITS(AR5K_AR5212_EEPROM_CMD,
 	    AR5K_AR5212_EEPROM_CMD_READ);
 
@@ -1728,12 +2678,12 @@ HAL_STATUS OpenHAL5212::nic_eeprom_read(u_int32_t offset, u_int16_t *data)
 		}
 		AR5K_DELAY(15);
 	}
-	
-	AR5K_PRINTF("Could not read EEPROM at pos 0x%x. Timeout. Status 0x%x\n", offset, status);
-	return (HAL_EEREAD);
+
+	return (HAL_EIO);
 }
 
-HAL_STATUS OpenHAL5212::nic_eeprom_write(u_int32_t offset, u_int16_t data)
+HAL_STATUS
+OpenHAL5212::ar5k_ar5212_eeprom_write(u_int32_t offset, u_int16_t data)
 {
 	u_int32_t status, timeout;
 
@@ -1759,7 +2709,13 @@ HAL_STATUS OpenHAL5212::nic_eeprom_write(u_int32_t offset, u_int16_t data)
 
 #pragma mark -
 
-HAL_BOOL OpenHAL5212::ar5k_ar5212_txpower(HAL_CHANNEL *channel, u_int txpower) {
+/*
+ * TX power setup
+ */
+
+HAL_BOOL
+OpenHAL5212::ar5k_ar5212_txpower(HAL_CHANNEL *channel, u_int txpower)
+{
 	HAL_BOOL tpc = ah_txpower.txp_tpc;
 	int i;
 
@@ -1810,51 +2766,6 @@ HAL_BOOL OpenHAL5212::ar5k_ar5212_txpower(HAL_CHANNEL *channel, u_int txpower) {
 		    AR5K_AR5212_PHY_TXPOWER_RATE_MAX |
 		    AR5K_TUNE_MAX_TXPOWER);
 	}
-
-	return (AH_TRUE);
-}
-
-#pragma mark -
-
-HAL_BOOL OpenHAL5212::nic_channel(HAL_CHANNEL *channel) {
-	u_int32_t data, data0, data1, data2;
-	u_int16_t c;
-
-	data = data0 = data1 = data2 = 0;
-	c = channel->c_channel;
-
-	/*
-	 * Set the channel on the AR5112 or newer
-	 */
-	if (c < 4800) {
-		if (!((c - 2224) % 5)) {
-			data0 = ((2 * (c - 704)) - 3040) / 10;
-			data1 = 1;
-		} else if (!((c - 2192) % 5)) {
-			data0 = ((2 * (c - 672)) - 3040) / 10;
-			data1 = 0;
-		} else
-			return (AH_FALSE);
-
-		data0 = ar5k_bitswap((data0 << 2) & 0xff, 8);
-	} else {
-		if (!(c % 20) && c >= 5120) {
-			data0 = ar5k_bitswap(((c - 4800) / 20 << 2), 8);
-			data2 = ar5k_bitswap(3, 2);
-		} else if (!(c % 10)) {
-			data0 = ar5k_bitswap(((c - 4800) / 10 << 1), 8);
-			data2 = ar5k_bitswap(2, 2);
-		} else if (!(c % 5)) {
-			data0 = ar5k_bitswap((c - 4800) / 5, 8);
-			data2 = ar5k_bitswap(1, 2);
-		} else
-			return (AH_FALSE);
-	}
-
-	data = (data0 << 4) | (data1 << 1) | (data2 << 2) | 0x1001;
-
-	AR5K_PHY_WRITE(0x27, data & 0xff);
-	AR5K_PHY_WRITE(0x36, (data >> 8) & 0x7f);
 
 	return (AH_TRUE);
 }

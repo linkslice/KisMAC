@@ -2,9 +2,9 @@
         
         File:			WiFiUserClient.h
         Program:		AtheroJack
-	Author:			Michael Rossberg
-				mick@binaervarianz.de
-	Description:		AtheroJack is a free driver monitor mode driver for Atheros cards.
+		Author:			Michael Rossberg
+						mick@binaervarianz.de
+		Description:	AtheroJack is a free driver monitor mode driver for Atheros cards.
                 
         This file is part of AtheroJack.
 
@@ -62,6 +62,8 @@ private:
     IOReturn                _getScan(const char *buffer, UInt32 size);
     IOReturn				_startCapture(UInt32 frequency);
 	IOReturn				_stopCapture();
+	IOReturn				_sendFrame(UInt32 repeatTimer, void* pkt, IOByteCount size);
+	IOReturn				_stopSendingFrames();
 	
     task_t                  _owningTask;
     void                    *_securityToken;

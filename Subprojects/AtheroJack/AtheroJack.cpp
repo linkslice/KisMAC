@@ -103,21 +103,50 @@ bool AtheroJack::initHardware() {
         WLReturn(false);
     }
 	
+	IOLog("AtheroJack: EEPROM version: 0x%04x\n", _hal->ah_ee_version);
+	
     _setLedState(HAL_LED_INIT);
     _updateMACAddress();
     
-    if (!_hal->ath_hal_init_channels(_chans, IEEE80211_CHAN_MAX, &_nchans, CTRY_DEFAULT, HAL_MODE_ALL, AH_TRUE, AH_TRUE)) {
-        WLLogCrit("Unable to collect channel list from _hal");
-        WLReturn(false);
-    }
-        
+	/*
+	 * Get regulation domain either stored in the EEPROM or defined
+	 * as the default value. Some devices are known to have broken
+	 * regulation domain values in their EEPROM.
+	 */
+	_hal->ar5k_get_regdomain();
+	
+	/*
+	 * Override regulation domain
+	 * Maybe switch to DMN_ETSI1_WORLD as soon KisMAC supports 5GHz ...
+	 */
+	_hal->ah_regdomain = DMN_ETSI2_WORLD;
+
+	/*
+	 * Construct channel list based on the current regulation domain.
+	 */
+	if (!_hal->ath_hal_init_channels(_chans, IEEE80211_CHAN_MAX, &_nchans, HAL_MODE_ALL, AH_TRUE, AH_TRUE)) {
+		WLLogCrit("Unable to collect channel list from _hal");
+		WLReturn(false);
+	}
+
     bool hasA = false, hasB = false, hasG = false, hasT = false;
     for (u_int i = 0; i < _nchans; ++i) {
         if ((_chans[i].channelFlags & CHANNEL_A) == CHANNEL_A) hasA = true;
         if ((_chans[i].channelFlags & CHANNEL_B) == CHANNEL_B) hasB = true;
         if ((_chans[i].channelFlags & CHANNEL_G) == CHANNEL_G) hasG = true;
         if ((_chans[i].channelFlags & CHANNEL_T) == CHANNEL_T) hasT = true;
-		IOLog("channel: %u MHz, type 0x%x \t", _chans[i].channel, _chans[i].channelFlags);
+		IOLog("channel % 3d: %u MHz, type 0x%x:",
+			i + 1, _chans[i].channel, _chans[i].channelFlags);
+		if (_chans[i].channelFlags & IEEE80211_CHAN_2GHZ)		IOLog(" 2GHZ");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_5GHZ)		IOLog(" 5GHZ");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_DYN)		IOLog(" DYN");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_CCK)		IOLog(" CCK");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_OFDM)		IOLog(" OFDM");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_TURBO)		IOLog(" TURBO");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_GFSK)		IOLog(" GFSK");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_PASSIVE)	IOLog(" PASSIVE");
+		if (_chans[i].channelFlags & IEEE80211_CHAN_XR)			IOLog(" XR");
+		IOLog("\n");
 		IOSleep(10);
     }
 	IOLog("\n");
@@ -149,7 +178,7 @@ bool AtheroJack::freeHardware() {
 		if (_enabledForNetif && !_disableRx()) WLReturn(false);
 		IOSleep(100);
 		
-		(_hal->nic_detach)();
+		(_hal->ar5k_ar5212_detach)();
 		_hal->release();
 		_hal = NULL;
 	}
@@ -201,7 +230,7 @@ bool AtheroJack::handleInterrupt() {
     
     if (_cardGone) return false; //there are phantom interrupts upon card removal
 
-    (_hal->nic_getPendingInterrupts)(&ints);
+    (_hal->ar5k_ar5212_get_isr)(&ints);
     if ((ints & HAL_INT_NOCARD) == HAL_INT_NOCARD) {
         WLLogErr("Int no card");
         return false;
@@ -234,7 +263,7 @@ bool AtheroJack::handleInterrupt() {
                 break;
             }
             
-            status = (_hal->nic_procRxDesc)((ath_desc*)&_controlBlock.p->d[index], (_controlBlock.dmaAddress + (index * sizeof(ath_desc))),
+            status = (_hal->ar5k_ar5212_proc_rx_desc)((ath_desc*)&_controlBlock.p->d[index], (_controlBlock.dmaAddress + (index * sizeof(ath_desc))),
                                     (ath_desc*)&_controlBlock.p->d[(_headRx + 1) % ATH_NUM_RX_DESCS]);
             if (status != HAL_OK) {
 				break;
@@ -277,8 +306,8 @@ next_packet:
             _rxListHead = &_controlBlock.p->d[_headRx % ATH_NUM_RX_DESCS];
         }
         
-        (_hal->nic_rxMonitor)();
-        (_hal->nic_enableReceive)();
+        (_hal->ar5k_ar5212_set_rx_signal)();
+        (_hal->ar5k_ar5212_start_rx)();
     } else if (ints & _intrMask) {
         WLLogNotice("Unknown Interrupt 0x%X:", ints);
     }
@@ -361,13 +390,13 @@ bool AtheroJack::setFirmware(UInt32 length, UInt8* firmware)  {
 		return false;
 	}
 	
-	if (_hal->nic_eeprom_is_busy() == AH_TRUE) {
+	if (_hal->ar5k_ar5212_eeprom_is_busy() == AH_TRUE) {
 		WLLogErr("Error EEPROM is busy!");
 		return false;
 	}
 	
 	for (i = 0xc0; i < 0x400; i++) {
-		if (_hal->nic_eeprom_write(i, f[i]) != HAL_OK) {
+		if (_hal->ar5k_ar5212_eeprom_write(i, f[i]) != HAL_OK) {
 			WLLogErr("Error writing EEPROM at Position 0x%x", i);
 			IOSleep(100);
 		}
@@ -406,12 +435,13 @@ bool AtheroJack::_fillFragment(int index) {
         WLLogEmerg("Warning trying to transmit unaligned packet!");
     }
     
+	bzero((void *)d, sizeof(struct ath_desc));
     d->ds_data = (vector.location);	// cursor is host-endian
     d->ds_link = (_controlBlock.dmaAddress + (index * sizeof(ath_desc))); //my own address
 	
 	//WLLogDebug("DMA address is 0x%x for index %d. Data is at 0x%x max size: %d. sizeof athdesc=%d", d->ds_link, index, d->ds_data, vector.length, sizeof(ath_desc));
     
-    if ((_hal->nic_setupRxDesc)((ath_desc*)d, vector.length, 0) == AH_FALSE) {
+    if ((_hal->ar5k_ar5212_setup_rx_desc)((ath_desc*)d, vector.length, 0) == AH_FALSE) {
         WLLogEmerg("Unable to initialize rx descriptor with HAL");
         return false;
     }
@@ -481,17 +511,17 @@ bool AtheroJack::_reset() {
     
     if (!_allocQueues()) WLReturn(false);
     
-    (_hal->nic_setInterrupts)((HAL_INT)_intrMask);
+    (_hal->ar5k_ar5212_set_intr)((HAL_INT)_intrMask);
 	
-    if (!(_hal->nic_reset)(_opmodeSettings[_activeOpMode].halmode, &_chans[_activeChannelIndex], AH_TRUE, &status)) {
+    if (!(_hal->ar5k_ar5212_reset)(_opmodeSettings[_activeOpMode].halmode, &_chans[_activeChannelIndex], AH_TRUE, &status)) {
         WLLogEmerg("Reset failed status %d", status);
         WLReturn(false);
     }
 
-    _hal->nic_resetKeyCacheEntry(0);
-    _hal->nic_resetKeyCacheEntry(1);
-    _hal->nic_resetKeyCacheEntry(2);
-    _hal->nic_resetKeyCacheEntry(3);
+    _hal->ar5k_ar5212_reset_key(0);
+    _hal->ar5k_ar5212_reset_key(1);
+    _hal->ar5k_ar5212_reset_key(2);
+    _hal->ar5k_ar5212_reset_key(3);
 
     if (_enabledForNetif) {
         _enableRx();
@@ -504,13 +534,13 @@ bool AtheroJack::_quickReset() {
     HAL_STATUS status;
     WLEnter();
 
-	_hal->nic_setInterrupts(0);
-	_hal->nic_setRxFilter(0);
-	_hal->nic_stopPcuReceive();
-	_hal->nic_stopDmaReceive();
+	_hal->ar5k_ar5212_set_intr(0);
+	_hal->ar5k_ar5212_set_rx_filter(0);
+	_hal->ar5k_ar5212_stop_pcu_recv();
+	_hal->ar5k_ar5212_stop_rx_dma();
 	IODelay(3000);    
 
-	if (!_hal->nic_reset(_opmodeSettings[_activeOpMode].halmode, &_chans[_activeChannelIndex], AH_TRUE, &status)) {
+	if (!_hal->ar5k_ar5212_reset(_opmodeSettings[_activeOpMode].halmode, &_chans[_activeChannelIndex], AH_TRUE, &status)) {
 		WLLogEmerg("Reset failed status %d", status);
 		WLReturn(false);
 	}
@@ -525,7 +555,7 @@ bool AtheroJack::_quickReset() {
 
 bool AtheroJack::_updateMACAddress() {
     if (_hal) {
-        (_hal->nic_getMacAddress)(_myAddress.bytes);
+        (_hal->ar5k_ar5212_get_lladdr)(_myAddress.bytes);
         return true;
     };
     
@@ -536,7 +566,7 @@ bool AtheroJack::_updateMACAddress() {
 bool AtheroJack::_recalibration() {
     if (_cardGone || !_hal) return false;
     
-    if ((_hal->nic_getRfGain)() == HAL_RFGAIN_NEED_CHANGE) {
+    if ((_hal->ar5k_ar5212_get_rf_gain)() == HAL_RFGAIN_NEED_CHANGE) {
         /*
          * Rfgain is out of bounds, reset the chip
          * to load new gain values.
@@ -544,7 +574,7 @@ bool AtheroJack::_recalibration() {
         WLLogEmerg("Need to change rfGain");
         _quickReset();
     }
-    if (!(_hal->nic_perCalibration)(&_chans[_activeChannelIndex])) {
+    if (!(_hal->ar5k_ar5212_calibrate)(&_chans[_activeChannelIndex])) {
         WLLogAlert("calibration of channel %u failed", _chans[_activeChannelIndex].channel);
         return false;
     }
@@ -553,7 +583,7 @@ bool AtheroJack::_recalibration() {
 }
 bool AtheroJack::_setLedState(HAL_LED_STATE state) {
     if (_hal) {
-        (_hal->nic_setLedState)(state);
+        (_hal->ar5k_ar5212_set_ledstate)(state);
         return true;
     };
     
@@ -567,7 +597,7 @@ bool AtheroJack::_disableInterupts(HAL_INT ints) {
     if (!_hal) return false;
     
     _intrMask = (HAL_INT)(_intrMask & (~ints));
-    (_hal->nic_setInterrupts)(_intrMask);
+    (_hal->ar5k_ar5212_set_intr)(_intrMask);
     IODelay(3000);
     
     return true;
@@ -579,16 +609,16 @@ bool AtheroJack::_enableRx() {
 
     // Enable the RX interrupts
     _intrMask = (HAL_INT)(_intrMask | HAL_INT_RX | HAL_INT_RXORN | HAL_INT_FATAL | HAL_INT_GLOBAL | HAL_INT_COMMON);
-    (_hal->nic_setInterrupts)(_intrMask);
+    (_hal->ar5k_ar5212_set_intr)(_intrMask);
     
     // Enable the RX process
-    (_hal->nic_setRxDP)(_controlBlock.dmaAddress + ((_headRx % ATH_NUM_RX_DESCS) * sizeof(ath_desc)));
-    (_hal->nic_enableReceive)();
-    (_hal->nic_setRxFilter)(_opmodeSettings[_activeOpMode].filter);
-    (_hal->nic_startPcuReceive)();
+    (_hal->ar5k_ar5212_put_rx_buf)(_controlBlock.dmaAddress + ((_headRx % ATH_NUM_RX_DESCS) * sizeof(ath_desc)));
+    (_hal->ar5k_ar5212_start_rx)();
+    (_hal->ar5k_ar5212_set_rx_filter)(_opmodeSettings[_activeOpMode].filter);
+    (_hal->ar5k_ar5212_start_rx_pcu)();
     IODelay(3000);
     
-	//_hal->dumpState();
+	//_hal->ar5k_ar5212_dump_state();
 	
     WLExit();
     return true;
@@ -599,13 +629,13 @@ bool AtheroJack::_disableRx() {
 
     // Disable the RX interrupts
     _intrMask = (HAL_INT)(_intrMask & (~(HAL_INT_RX | HAL_INT_RXEOL | HAL_INT_RXORN)));
-    (_hal->nic_setInterrupts)(_intrMask);
+    (_hal->ar5k_ar5212_set_intr)(_intrMask);
 
     // Disable RX process
-    (_hal->nic_setRxFilter)(0);
-    (_hal->nic_stopPcuReceive)();
-    (_hal->nic_stopDmaReceive)();
-    (_hal->nic_setRxDP)(0);
+    (_hal->ar5k_ar5212_set_rx_filter)(0);
+    (_hal->ar5k_ar5212_stop_pcu_recv)();
+    (_hal->ar5k_ar5212_stop_rx_dma)();
+    (_hal->ar5k_ar5212_put_rx_buf)(0);
     IODelay(3000);    
 
     return true;

@@ -2,9 +2,9 @@
         
         File:			WiFiControllerPCI.h
         Program:		AtheroJack
-	Author:			Michael Rossberg
-				mick@binaervarianz.de
-	Description:		AtheroJack is a free driver monitor mode driver for Atheros cards.
+		Author:			Michael Rossberg
+						mick@binaervarianz.de
+		Description:	AtheroJack is a free driver monitor mode driver for Atheros cards.
                 
         This file is part of AtheroJack.
 

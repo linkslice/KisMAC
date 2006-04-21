@@ -2,9 +2,32 @@
  *  OpenHAL.cpp
  *  AtheroJack
  *
- *  Created by mick on 30.03.2005.
- *  Copyright 2005 __MyCompanyName__. All rights reserved.
+ *  The code in this file is based on the code in the OpenBSD file
+ *  sys/dev/ic/ar5xxx.c r1.32.
  *
+ *  Ported by Michael Rossberg, Beat Zahnd
+ *
+ */
+
+/*
+ * Copyright (c) 2004, 2005 Reyk Floeter <reyk@openbsd.org>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * HAL interface for Atheros Wireless LAN devices.
+ * (Please have a look at ar5xxx.h for further information)
  */
 
 #include "OpenHAL.h"
@@ -16,6 +39,14 @@ bool OpenHAL::init() {
 	ah_rf_banks = NULL;
 	return true;
 }
+
+static const HAL_RATE_TABLE ar5k_rt_11a = AR5K_RATES_11A;
+static const HAL_RATE_TABLE ar5k_rt_11b = AR5K_RATES_11B;
+static const HAL_RATE_TABLE ar5k_rt_11g = AR5K_RATES_11G;
+static const HAL_RATE_TABLE ar5k_rt_turbo = AR5K_RATES_TURBO;
+static const HAL_RATE_TABLE ar5k_rt_xr = AR5K_RATES_XR;
+
+#pragma mark -
 
 /*
  * Supported channels
@@ -38,24 +69,30 @@ static const struct ar5k_ini_rf ar5111_rf[] = AR5K_AR5111_INI_RF;
 static const struct ar5k_ini_rf ar5112_rf[] = AR5K_AR5112_INI_RF;
 static const struct ar5k_ini_rfgain ar5k_rfg[] = AR5K_INI_RFGAIN;
 
-static const struct ieee80211_regdomainmap ieee80211_r_map[] = IEEE80211_REGDOMAIN_MAP;
+/*
+ * Enable to overwrite the country code (use "00" for debug)
+ */
+#if 0
+#define COUNTRYCODE "00"
+#endif
 
-#pragma mark -
-
-//implementation
-bool OpenHAL::ath_hal_attach(u_int16_t device, void *sc, HAL_BUS_TAG st, HAL_BUS_HANDLE sh, HAL_STATUS *status)
+/*
+ * Fills in the HAL structure and initialises the device
+ */
+HAL_BOOL
+OpenHAL::ath_hal_attach(u_int16_t device, void *sc, bus_space_tag_t st,
+    bus_space_handle_t sh, HAL_STATUS *status)
 {
-	ieee80211_regdomain_t ieee_regdomain;
-	HAL_RATE_TABLE rt_11a = AR5K_RATES_11A;
-	HAL_RATE_TABLE rt_11b = AR5K_RATES_11B;
-	HAL_RATE_TABLE rt_11g = AR5K_RATES_11G;
-	HAL_RATE_TABLE rt_turbo = AR5K_RATES_TURBO;
-	HAL_RATE_TABLE rt_xr = AR5K_RATES_XR;
-	u_int16_t regdomain;
+	HAL_BOOL (OpenHAL::*attach)(u_int16_t, bus_space_tag_t, bus_space_handle_t, HAL_STATUS *) = NULL;
 	u_int8_t mac[IEEE80211_ADDR_LEN];
 	int i;
 
 	*status = HAL_EINVAL;
+
+	/*
+	 * Call the chipset-dependent attach routine by device id
+	 */
+	attach = &OpenHAL::ar5k_ar5212_attach;
 
 	ah_sc = sc;
 	ah_st = st;
@@ -67,8 +104,6 @@ bool OpenHAL::ath_hal_attach(u_int16_t device, void *sc, HAL_BUS_TAG st, HAL_BUS
 	 * HAL information
 	 */
 	ah_abi = HAL_ABI_VERSION;
-	ah_country_code = CTRY_DEFAULT;
-	ah_capabilities.cap_regdomain.reg_current = AR5K_TUNE_REGDOMAIN;
 	ah_op_mode = HAL_M_STA;
 	ah_radar.r_enabled = AR5K_TUNE_RADAR_ALERT;
 	ah_turbo = AH_FALSE;
@@ -80,65 +115,50 @@ bool OpenHAL::ath_hal_attach(u_int16_t device, void *sc, HAL_BUS_TAG st, HAL_BUS
 	ah_limit_tx_retries = AR5K_INIT_TX_RETRY;
 	ah_software_retry = AH_FALSE;
 	ah_ant_diversity = AR5K_TUNE_ANT_DIVERSITY;
-	
-	if (nic_ath_hal_attach(device, st, sh, status) == AH_FALSE)
+
+	if ((*this.*attach)(device, st, sh, status) == AH_FALSE)
 		goto failed;
 
 #ifdef AR5K_DEBUG
-	ah_dumpState(hal);
+	ar5k_ar5212_dump_state();
 #endif
 
 	/*
 	 * Get card capabilities, values, ...
 	 */
-	
-	if ((i = ar5k_eeprom_init()) != 0) {
-		AR5K_PRINTF("unable to init EEPROM: %u\n", i);
+
+	if (ar5k_eeprom_init() != 0) {
+		AR5K_PRINT("unable to init EEPROM\n");
 		goto failed;
 	}
 
-	/* Set regulation domain */
-	if ((regdomain =
-		ah_capabilities.cap_eeprom.ee_regdomain) != 0) {
-		ah_capabilities.cap_regdomain.reg_current =
-		    ieee_regdomain = ar5k_regdomain_to_ieee(regdomain);
-	} else {
-		ieee_regdomain =
-		    ah_capabilities.cap_regdomain.reg_current;
-
-		/* Try to write default regulation domain to EEPROM */
-		ar5k_eeprom_regulation_domain(AH_TRUE, &ieee_regdomain);
-	}
-
-	ah_capabilities.cap_regdomain.reg_hw = ieee_regdomain;
-
 	/* Get misc capabilities */
-	if (nic_get_capabilities() != AH_TRUE) {
+	if (ar5k_ar5212_get_capabilities() != AH_TRUE) {
 		AR5K_PRINTF("unable to get device capabilities: 0x%04x\n",
 		    device);
 		goto failed;
 	}
 
 	/* Get MAC address */
-	if ((*status = ar5k_eeprom_read_mac(mac)) != HAL_OK) {
+	if ((*status = ar5k_eeprom_read_mac(mac)) != 0) {
 		AR5K_PRINTF("unable to read address from EEPROM: 0x%04x\n",
 		    device);
 		goto failed;
 	}
 
-	nic_setMacAddress(mac);
+	ar5k_ar5212_set_lladdr(mac);
 
 	/* Get rate tables */
 	if (ah_capabilities.cap_mode & HAL_MODE_11A)
-		ar5k_rt_copy(&ah_rt_11a, &rt_11a);
+		ar5k_rt_copy(&ah_rt_11a, &ar5k_rt_11a);
 	if (ah_capabilities.cap_mode & HAL_MODE_11B)
-		ar5k_rt_copy(&ah_rt_11b, &rt_11b);
+		ar5k_rt_copy(&ah_rt_11b, &ar5k_rt_11b);
 	if (ah_capabilities.cap_mode & HAL_MODE_11G)
-		ar5k_rt_copy(&ah_rt_11g, &rt_11g);
+		ar5k_rt_copy(&ah_rt_11g, &ar5k_rt_11g);
 	if (ah_capabilities.cap_mode & HAL_MODE_TURBO)
-		ar5k_rt_copy(&ah_rt_turbo, &rt_turbo);
+		ar5k_rt_copy(&ah_rt_turbo, &ar5k_rt_turbo);
 	if (ah_capabilities.cap_mode & HAL_MODE_XR)
-		ar5k_rt_copy(&ah_rt_xr, &rt_xr);
+		ar5k_rt_copy(&ah_rt_xr, &ar5k_rt_xr);
 
 	/* Initialize the gain optimization values */
 	if (ah_radio == AR5K_AR5111) {
@@ -159,13 +179,16 @@ bool OpenHAL::ath_hal_attach(u_int16_t device, void *sc, HAL_BUS_TAG st, HAL_BUS
 
 	*status = HAL_OK;
 
-	return true;
+	return AH_TRUE;
 
  failed:
-	return false;
+	return AH_FALSE;
 }
 
-u_int16_t OpenHAL::ath_hal_computetxtime(const HAL_RATE_TABLE *rates, u_int32_t frame_length, u_int16_t rate_index, HAL_BOOL short_preamble) {
+u_int16_t
+OpenHAL::ath_hal_computetxtime(const HAL_RATE_TABLE *rates,
+    u_int32_t frame_length, u_int16_t rate_index, HAL_BOOL short_preamble)
+{
 	const HAL_RATE *rate;
 	u_int32_t value;
 
@@ -224,55 +247,21 @@ u_int16_t OpenHAL::ath_hal_computetxtime(const HAL_RATE_TABLE *rates, u_int32_t 
 	return (value);
 }
 
-/*
- * Convert MHz frequency to IEEE channel number.
- */
-u_int OpenHAL::ieee80211_mhz2ieee(u_int freq, u_int flags) {
-	if (flags & IEEE80211_CHAN_2GHZ) {	/* 2GHz band */
-		if (freq == 2484)
-			return 14;
-		if (freq < 2484)
-			return (freq - 2407) / 5;
-		else
-			return 15 + ((freq - 2512) / 20);
-	} else if (flags & IEEE80211_CHAN_5GHZ) {	/* 5Ghz band */
-		return (freq - 5000) / 5;
-	} else {				/* either, guess */
-		if (freq == 2484)
-			return 14;
-		if (freq < 2484)
-			return (freq - 2407) / 5;
-		if (freq < 5000)
-			return 15 + ((freq - 2512) / 20);
-		return (freq - 5000) / 5;
-	}
+u_int
+OpenHAL::ath_hal_mhz2ieee(u_int mhz, u_int flags)
+{
+	return (ieee80211_mhz2ieee(mhz, flags));
 }
 
-/*
- * Convert IEEE channel number to MHz frequency.
- */
-u_int OpenHAL::ieee80211_ieee2mhz(u_int chan, u_int flags) {
-	if (flags & IEEE80211_CHAN_2GHZ) {	/* 2GHz band */
-		if (chan == 14)
-			return 2484;
-		if (chan < 14)
-			return 2407 + chan*5;
-		else
-			return 2512 + ((chan-15)*20);
-	} else if (flags & IEEE80211_CHAN_5GHZ) {/* 5Ghz band */
-		return 5000 + (chan*5);
-	} else {				/* either, guess */
-		if (chan == 14)
-			return 2484;
-		if (chan < 14)			/* 0-13 */
-			return 2407 + chan*5;
-		if (chan < 27)			/* 15-26 */
-			return 2512 + ((chan-15)*20);
-		return 5000 + (chan*5);
-	}
+u_int
+OpenHAL::ath_hal_ieee2mhz(u_int ieee, u_int flags)
+{
+	return (ieee80211_ieee2mhz(ieee, flags));
 }
 
-HAL_BOOL OpenHAL::ar5k_check_channel(u_int16_t freq, u_int flags) {
+HAL_BOOL
+OpenHAL::ar5k_check_channel(u_int16_t freq, u_int flags)
+{
 	/* Check if the channel is in our supported range */
 	if (flags & IEEE80211_CHAN_2GHZ) {
 		if ((freq >= ah_capabilities.cap_range.range_2ghz_min) &&
@@ -287,14 +276,21 @@ HAL_BOOL OpenHAL::ar5k_check_channel(u_int16_t freq, u_int flags) {
 	return (AH_FALSE);
 }
 
-HAL_BOOL OpenHAL::ath_hal_init_channels(HAL_CHANNEL *channels, u_int max_channels, u_int *channels_size, HAL_CTRY_CODE country, u_int16_t mode, HAL_BOOL outdoor, HAL_BOOL extended) {
+HAL_BOOL
+OpenHAL::ath_hal_init_channels(HAL_CHANNEL *channels,
+    u_int max_channels, u_int *channels_size, u_int16_t mode,
+    HAL_BOOL outdoor, HAL_BOOL extended)
+{
 	u_int i, c;
 	u_int32_t domain_current;
 	u_int domain_5ghz, domain_2ghz;
-	HAL_CHANNEL all_channels[max_channels];
+	HAL_CHANNEL *all_channels;
+
+	if ((all_channels = (HAL_CHANNEL *)IOMalloc(sizeof(HAL_CHANNEL) * max_channels)) == NULL)
+		return (AH_FALSE);
 
 	i = c = 0;
-	domain_current = ar5k_get_regdomain();
+	domain_current = ah_regdomain;
 
 	/*
 	 * In debugging mode, enable all channels supported by the chipset
@@ -345,7 +341,8 @@ HAL_BOOL OpenHAL::ath_hal_init_channels(HAL_CHANNEL *channels, u_int max_channel
 		 (i < AR5K_ELEMENTS(ar5k_5ghz_channels)) &&
 		 (c < max_channels); i++) {
 		/* Check if channel is supported by the chipset */
-		if (ar5k_check_channel(ar5k_5ghz_channels[i].rc_channel,
+		if (ar5k_check_channel(
+		    ar5k_5ghz_channels[i].rc_channel,
 		    IEEE80211_CHAN_5GHZ) == AH_FALSE)
 			continue;
 
@@ -374,7 +371,8 @@ HAL_BOOL OpenHAL::ath_hal_init_channels(HAL_CHANNEL *channels, u_int max_channel
 		 (i < AR5K_ELEMENTS(ar5k_2ghz_channels)) &&
 		 (c < max_channels); i++) {
 		/* Check if channel is supported by the chipset */
-		if (ar5k_check_channel(ar5k_2ghz_channels[i].rc_channel,
+		if (ar5k_check_channel(
+		    ar5k_2ghz_channels[i].rc_channel,
 		    IEEE80211_CHAN_2GHZ) == AH_FALSE)
 			continue;
 
@@ -401,57 +399,119 @@ HAL_BOOL OpenHAL::ath_hal_init_channels(HAL_CHANNEL *channels, u_int max_channel
 	}
 
  done:
-	bcopy(all_channels, channels, sizeof(all_channels));
+	bcopy(all_channels, channels, sizeof(HAL_CHANNEL) * max_channels);
 	*channels_size = c;
-
+	IOFree(all_channels, sizeof(HAL_CHANNEL) * max_channels);
 	return (AH_TRUE);
 }
 
 #pragma mark -
 
-u_int16_t OpenHAL::ar5k_regdomain_from_ieee(ieee80211_regdomain_t ieee) {
-	u_int32_t regdomain = (u_int32_t)ieee;
+/*
+ * Common internal functions
+ */
 
-	if (regdomain & 0xf0000000)
-		return ((u_int16_t)AR5K_TUNE_REGDOMAIN);
+const char *
+OpenHAL::ar5k_printver(enum ar5k_srev_type type, u_int32_t val)
+{
+	struct ar5k_srev_name names[] = AR5K_SREV_NAME;
+	const char *name = "xxxx";
+	int i;
 
-	return (regdomain & 0xff);
+	for (i = 0; i < AR5K_ELEMENTS(names); i++) {
+		if (names[i].sr_type != type ||
+		    names[i].sr_val == AR5K_SREV_UNKNOWN)
+			continue;
+		if ((val & 0xff) < names[i + 1].sr_val) {
+			name = names[i].sr_name;
+			break;
+		}
+	}
+
+	return (name);
 }
 
-ieee80211_regdomain_t OpenHAL::ar5k_regdomain_to_ieee(u_int16_t regdomain) {
-	ieee80211_regdomain_t ieee = (ieee80211_regdomain_t)regdomain & 0xff;
+void
+OpenHAL::ar5k_radar_alert()
+{
+	u_int32_t secs, usecs, tenths;
+	
+	/*
+	 * Limit ~1/s
+	 */
+	clock_get_system_microtime(&secs, &usecs);
+	tenths = secs * 10 + usecs / 100000UL;
+	
+	if (ah_radar.r_last_channel.channel ==
+	    ah_current_channel.channel &&
+	    tenths  < (ah_radar.r_last_alert + 10))
+		return;
+
+	ah_radar.r_last_channel.channel =
+	    ah_current_channel.channel;
+	ah_radar.r_last_channel.c_channel_flags =
+	    ah_current_channel.c_channel_flags;
+	ah_radar.r_last_alert = tenths;
+
+	AR5K_PRINTF("Possible radar activity detected at %u MHz (tick %u)\n",
+	    ah_radar.r_last_alert, ah_current_channel.channel);
+}
+
+u_int16_t
+OpenHAL::ar5k_regdomain_from_ieee(ieee80211_regdomain_t ieee)
+{
+	u_int32_t regdomain = (u_int32_t)ieee;
+
+	/*
+	 * Use the default regulation domain if the value is empty
+	 * or not supported by the net80211 regulation code.
+	 */
+	if (ieee80211_regdomain2flag(regdomain,
+	    IEEE80211_CHANNELS_5GHZ_MIN) == DMN_DEBUG)
+		return ((u_int16_t)AR5K_TUNE_REGDOMAIN);
+
+	/* It is supported, just return the value */
+	return (regdomain);
+}
+
+ieee80211_regdomain_t
+OpenHAL::ar5k_regdomain_to_ieee(u_int16_t regdomain)
+{
+	ieee80211_regdomain_t ieee = (ieee80211_regdomain_t)regdomain;
+
 	return (ieee);
 }
 
-
-u_int16_t OpenHAL::ar5k_get_regdomain() {
-#ifndef COUNTRYCODE
-	/*
-	 * Use the regulation domain found in the EEPROM, if not
-	 * forced by a static country code.
-	 */
+u_int16_t
+OpenHAL::ar5k_get_regdomain()
+{
 	u_int16_t regdomain;
 	ieee80211_regdomain_t ieee_regdomain;
+#ifdef COUNTRYCODE
+	u_int16_t code;
+#endif
 
-	if (ar5k_eeprom_regulation_domain(AH_FALSE, &ieee_regdomain) == AH_TRUE) {
-		if ((regdomain = ar5k_regdomain_from_ieee(ieee_regdomain)))
-			return (regdomain);
-	}
+	ar5k_eeprom_regulation_domain(AH_FALSE, &ieee_regdomain);
+	ah_capabilities.cap_regdomain.reg_hw = ieee_regdomain;
 
-	return (ah_regdomain);
-#else
+#ifdef COUNTRYCODE
 	/*
 	 * Get the regulation domain by country code. This will ignore
 	 * the settings found in the EEPROM.
 	 */
-	u_int16_t code;
-
 	code = ieee80211_name2countrycode(COUNTRYCODE);
-	return (ieee80211_countrycode2regdomain(code));
+	ieee_regdomain = ieee80211_countrycode2regdomain(code);
 #endif
+
+	regdomain = ar5k_regdomain_from_ieee(ieee_regdomain);
+	ah_capabilities.cap_regdomain.reg_current = regdomain;
+
+	return (regdomain);
 }
 
-u_int32_t OpenHAL::ar5k_bitswap(u_int32_t val, u_int bits) {
+u_int32_t
+OpenHAL::ar5k_bitswap(u_int32_t val, u_int bits)
+{
 	u_int32_t retval = 0, bit, i;
 
 	for (i = 0; i < bits; i++) {
@@ -462,13 +522,30 @@ u_int32_t OpenHAL::ar5k_bitswap(u_int32_t val, u_int bits) {
 	return (retval);
 }
 
-void OpenHAL::ar5k_rt_copy(HAL_RATE_TABLE *dst, HAL_RATE_TABLE *src) {
+u_int
+OpenHAL::ar5k_htoclock(u_int usec, HAL_BOOL turbo)
+{
+	return (turbo == AH_TRUE ? (usec * 80) : (usec * 40));
+}
+
+u_int
+OpenHAL::ar5k_clocktoh(u_int clock, HAL_BOOL turbo)
+{
+	return (turbo == AH_TRUE ? (clock / 80) : (clock / 40));
+}
+
+void
+OpenHAL::ar5k_rt_copy(HAL_RATE_TABLE *dst, const HAL_RATE_TABLE *src)
+{
 	bzero(dst, sizeof(HAL_RATE_TABLE));
 	dst->rateCount = src->rateCount;
 	bcopy(src->info, dst->info, sizeof(dst->info));
 }
 
-HAL_BOOL OpenHAL::ar5k_register_timeout(u_int32_t reg, u_int32_t flag, u_int32_t val, HAL_BOOL is_set) {
+HAL_BOOL
+OpenHAL::ar5k_register_timeout(u_int32_t reg, u_int32_t flag,
+    u_int32_t val, HAL_BOOL is_set)
+{
 	int i;
 	u_int32_t data;
 
@@ -489,7 +566,13 @@ HAL_BOOL OpenHAL::ar5k_register_timeout(u_int32_t reg, u_int32_t flag, u_int32_t
 
 #pragma mark -
 
-u_int16_t OpenHAL::ar5k_eeprom_bin2freq(u_int16_t bin, u_int mode) {
+/*
+ * Common ar5xx EEPROM access functions
+ */
+
+u_int16_t
+OpenHAL::ar5k_eeprom_bin2freq(u_int16_t bin, u_int mode)
+{
 	u_int16_t val;
 
 	if (bin == AR5K_EEPROM_CHANNEL_DIS)
@@ -512,7 +595,9 @@ u_int16_t OpenHAL::ar5k_eeprom_bin2freq(u_int16_t bin, u_int mode) {
 	return (val);
 }
 
-int OpenHAL::ar5k_eeprom_read_ants(u_int32_t *offset, u_int mode) {
+int
+OpenHAL::ar5k_eeprom_read_ants(u_int32_t *offset, u_int mode)
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	u_int32_t o = *offset;
 	u_int16_t val;
@@ -566,7 +651,9 @@ int OpenHAL::ar5k_eeprom_read_ants(u_int32_t *offset, u_int mode) {
 	return (0);
 }
 
-int OpenHAL::ar5k_eeprom_read_modes(u_int32_t *offset, u_int mode) {
+int
+OpenHAL::ar5k_eeprom_read_modes(u_int32_t *offset, u_int mode)
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	u_int32_t o = *offset;
 	u_int16_t val;
@@ -645,19 +732,15 @@ int OpenHAL::ar5k_eeprom_read_modes(u_int32_t *offset, u_int mode) {
 	return (0);
 }
 
-int OpenHAL::ar5k_eeprom_init() {
+int
+OpenHAL::ar5k_eeprom_init()
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	u_int32_t offset;
 	u_int16_t val;
 	int ret, i;
 	u_int mode;
 
-	/* Check if EEPROM is busy */
-	if (nic_eeprom_is_busy() == AH_TRUE) {
-		AR5K_PRINT("EEPROM locked!");
-		return (HAL_EELOCKED);
-	}
-	
 	/* Initial TX thermal adjustment values */
 	ee->ee_tx_clip = 4;
 	ee->ee_pwd_84 = ee->ee_pwd_90 = 1;
@@ -675,10 +758,7 @@ int OpenHAL::ar5k_eeprom_init() {
 	/* Return if we have an old EEPROM */
 	if (ah_ee_version < AR5K_EEPROM_VERSION_3_0)
 		return (0);
-		
-	WLLogDebug("EEPROM version 0x%x", ah_ee_version);
-	ar5k_check_eeprom();
-	
+
 	AR5K_EEPROM_READ_HDR(AR5K_EEPROM_ANT_GAIN(ah_ee_version),
 	    ee_ant_gain);
 
@@ -719,11 +799,9 @@ int OpenHAL::ar5k_eeprom_init() {
 
 	offset = AR5K_EEPROM_MODES_11A(ah_ee_version);
 
-	if ((ret = ar5k_eeprom_read_ants(&offset, mode)) != 0) {
-		AR5K_PRINT("Error reading antenna config 11a");
+	if ((ret = ar5k_eeprom_read_ants(&offset, mode)) != 0)
 		return (ret);
-	}
-	
+
 	AR5K_EEPROM_READ(offset++, val);
 	ee->ee_adc_desired_size[mode]	= (int8_t)((val >> 8) & 0xff);
 	ee->ee_ob[mode][3]		= (val >> 5) & 0x7;
@@ -738,11 +816,9 @@ int OpenHAL::ar5k_eeprom_init() {
 	ee->ee_ob[mode][0]		= (val >> 3) & 0x7;
 	ee->ee_db[mode][0]		= val & 0x7;
 
-	if ((ret = ar5k_eeprom_read_modes(&offset, mode)) != 0) {
-		AR5K_PRINT("Error reading modes 11a");
+	if ((ret = ar5k_eeprom_read_modes(&offset, mode)) != 0)
 		return (ret);
-	}
-	
+
 	if (ah_ee_version >= AR5K_EEPROM_VERSION_4_1) {
 		AR5K_EEPROM_READ(offset++, val);
 		ee->ee_margin_tx_rx[mode] = val & 0x3f;
@@ -754,11 +830,9 @@ int OpenHAL::ar5k_eeprom_init() {
 	mode = AR5K_EEPROM_MODE_11B;
 	offset = AR5K_EEPROM_MODES_11B(ah_ee_version);
 
-	if ((ret = ar5k_eeprom_read_ants(&offset, mode)) != 0) {
-		AR5K_PRINT("Error reading antenna config 11b");
+	if ((ret = ar5k_eeprom_read_ants(&offset, mode)) != 0)
 		return (ret);
-	}
-	
+
 	AR5K_EEPROM_READ(offset++, val);
 	ee->ee_adc_desired_size[mode]	= (int8_t)((val >> 8) & 0xff);
 	ee->ee_ob[mode][1]		= (val >> 4) & 0x7;
@@ -836,7 +910,9 @@ int OpenHAL::ar5k_eeprom_init() {
 	return (0);
 }
 
-HAL_STATUS OpenHAL::ar5k_eeprom_read_mac(u_int8_t *mac) {
+HAL_STATUS
+OpenHAL::ar5k_eeprom_read_mac(u_int8_t *mac)
+{
 	u_int32_t total, offset;
 	u_int16_t data;
 	int octet;
@@ -845,15 +921,12 @@ HAL_STATUS OpenHAL::ar5k_eeprom_read_mac(u_int8_t *mac) {
 	bzero(mac, IEEE80211_ADDR_LEN);
 	bzero(&mac_d, IEEE80211_ADDR_LEN);
 
-	if (nic_eeprom_is_busy())
-		return (HAL_EELOCKED);
-
-	if (nic_eeprom_read(0x20, &data) != 0)
+	if (ar5k_ar5212_eeprom_read(0x20, &data) != 0)
 		return (HAL_EIO);
 
 	for (offset = 0x1f, octet = 0, total = 0;
 	     offset >= 0x1d; offset--) {
-		if (nic_eeprom_read(offset, &data) != 0)
+		if (ar5k_ar5212_eeprom_read(offset, &data) != 0)
 			return (HAL_EIO);
 
 		total += data;
@@ -870,58 +943,43 @@ HAL_STATUS OpenHAL::ar5k_eeprom_read_mac(u_int8_t *mac) {
 	return (HAL_OK);
 }
 
-HAL_BOOL OpenHAL::ar5k_eeprom_regulation_domain(HAL_BOOL write, ieee80211_regdomain_t *regdomain)
+HAL_BOOL
+OpenHAL::ar5k_eeprom_regulation_domain(HAL_BOOL write,
+    ieee80211_regdomain_t *regdomain)
 {
+	u_int16_t ee_regdomain;
+
 	/* Read current value */
 	if (write != AH_TRUE) {
-		*regdomain = ah_capabilities.cap_regdomain.reg_current;
+		ee_regdomain = ah_capabilities.cap_eeprom.ee_regdomain;
+		*regdomain = ar5k_regdomain_to_ieee(ee_regdomain);
 		return (AH_TRUE);
 	}
 
-	/* Try to write a new value */
-	ah_capabilities.cap_regdomain.reg_current = *regdomain;
+	ee_regdomain = ar5k_regdomain_from_ieee(*regdomain);
 
+	/* Try to write a new value */
 	if (ah_capabilities.cap_eeprom.ee_protect &
 	    AR5K_EEPROM_PROTECT_WR_128_191)
 		return (AH_FALSE);
-
-	if (nic_eeprom_write(AR5K_EEPROM_REG_DOMAIN,
-	    ah_capabilities.cap_eeprom.ee_regdomain) != 0)
+	if (ar5k_ar5212_eeprom_write(AR5K_EEPROM_REG_DOMAIN,
+	    ee_regdomain) != 0)
 		return (AH_FALSE);
 
-	ah_capabilities.cap_eeprom.ee_regdomain =
-	    ar5k_regdomain_from_ieee(*regdomain);
+	ah_capabilities.cap_eeprom.ee_regdomain = ee_regdomain;
 
 	return (AH_TRUE);
 }
 
-int OpenHAL::ar5k_check_eeprom() {
-	u_int32_t addr;
-	u_int16_t data[0x400], chksum = 0;
-	int ret;
-	
-    for (addr = 0; addr < AR5K_EEPROM_INFO_BASE + AR5K_EEPROM_INFO_MAX; addr++) {
-        AR5K_EEPROM_READ(addr, data[addr]);
-        if (addr >= AR5K_EEPROM_INFO_BASE) chksum ^= data[addr];
-    }
-
-    /*for (addr = 0; addr < AR5K_EEPROM_INFO_BASE + AR5K_EEPROM_INFO_MAX; addr+=16) {
-        IOLog("0x%04x %04x%04x%04x%04x %04x%04x%04x%04x %04x%04x%04x%04x %04x%04x%04x%04x\n", addr, data[addr], data[addr + 1], data[addr + 2], data[addr + 3], data[addr + 4], data[addr + 5], data[addr + 6], data[addr + 7], data[addr + 8], data[addr + 9], data[addr + 10], data[addr + 11], data[addr + 12], data[addr + 13], data[addr + 14], data[addr + 15]);
-		IOSleep(100);
-    }*/
-
-
-    if (chksum != 0xffff) {
-        AR5K_PRINTF("Checksum 0x%04x != 0xffff\n", chksum);
-        return HAL_EEBADSUM;
-    }
-
-    return HAL_OK;
-}
-
 #pragma mark -
 
-HAL_BOOL OpenHAL::ar5k_channel(HAL_CHANNEL *channel) {
+/*
+ * PHY/RF access functions
+ */
+
+HAL_BOOL
+OpenHAL::ar5k_channel(HAL_CHANNEL *channel)
+{
 	HAL_BOOL ret;
 
 	/*
@@ -940,11 +998,16 @@ HAL_BOOL OpenHAL::ar5k_channel(HAL_CHANNEL *channel) {
 	/*
 	 * Set the channel and wait
 	 */
-	if (nic_channel(channel) == AH_FALSE) {
-		AR5K_PRINT("Could not set channel!!!");
-		return (AH_FALSE);
-	}
-	
+	if (ah_radio == AR5K_AR5110)
+		ret = ar5k_ar5110_channel(channel);
+	else if (ah_radio == AR5K_AR5111)
+		ret = ar5k_ar5111_channel(channel);
+	else
+		ret = ar5k_ar5112_channel(channel);
+
+	if (ret == AH_FALSE)
+		return (ret);
+
 	ah_current_channel.c_channel = channel->c_channel;
 	ah_current_channel.c_channel_flags = channel->c_channel_flags;
 	ah_turbo = channel->c_channel_flags == CHANNEL_T ?
@@ -953,7 +1016,156 @@ HAL_BOOL OpenHAL::ar5k_channel(HAL_CHANNEL *channel) {
 	return (AH_TRUE);
 }
 
-u_int OpenHAL::ar5k_rfregs_op(u_int32_t *rf, u_int32_t offset, u_int32_t reg, u_int32_t bits, u_int32_t first, u_int32_t col, HAL_BOOL set) {
+u_int32_t
+OpenHAL::ar5k_ar5110_chan2athchan(HAL_CHANNEL *channel)
+{
+	u_int32_t athchan;
+
+	/*
+	 * Convert IEEE channel/MHz to an internal channel value used
+	 * by the AR5210 chipset. This has not been verified with
+	 * newer chipsets like the AR5212A who have a completely
+	 * different RF/PHY part.
+	 */
+	athchan = (ar5k_bitswap((ieee80211_mhz2ieee(channel->c_channel,
+	    channel->c_channel_flags) - 24) / 2, 5) << 1) |
+	    (1 << 6) | 0x1;
+
+	return (athchan);
+}
+
+HAL_BOOL
+OpenHAL::ar5k_ar5110_channel(HAL_CHANNEL *channel)
+{
+	u_int32_t data;
+
+	/*
+	 * Set the channel and wait
+	 */
+	data = ar5k_ar5110_chan2athchan(channel);
+	AR5K_PHY_WRITE(0x27, data);
+	AR5K_PHY_WRITE(0x30, 0);
+	AR5K_DELAY(1000);
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL::ar5k_ar5111_chan2athchan(u_int ieee, struct ar5k_athchan_2ghz *athchan)
+{
+	int channel;
+
+	/* Cast this value to catch negative channel numbers (>= -19) */ 
+	channel = (int)ieee;
+
+	/*
+	 * Map 2GHz IEEE channel to 5GHz Atheros channel
+	 */
+	if (channel <= 13) {
+		athchan->a2_athchan = 115 + channel;
+		athchan->a2_flags = 0x46;
+	} else if (channel == 14) {
+		athchan->a2_athchan = 124;
+		athchan->a2_flags = 0x44;
+	} else if (channel >= 15 && channel <= 26) {
+		athchan->a2_athchan = ((channel - 14) * 4) + 132;
+		athchan->a2_flags = 0x46;
+	} else
+		return (AH_FALSE);
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL::ar5k_ar5111_channel(HAL_CHANNEL *channel)
+{
+	u_int ieee_channel, ath_channel;
+	u_int32_t data0, data1, clock;
+	struct ar5k_athchan_2ghz ath_channel_2ghz;
+
+	/*
+	 * Set the channel on the AR5111 radio
+	 */
+	data0 = data1 = 0;
+	ath_channel = ieee_channel = ath_hal_mhz2ieee(channel->c_channel,
+	    channel->c_channel_flags);
+
+	if (channel->c_channel_flags & IEEE80211_CHAN_2GHZ) {
+		/* Map 2GHz channel to 5GHz Atheros channel ID */
+		if (ar5k_ar5111_chan2athchan(ieee_channel,
+			&ath_channel_2ghz) == AH_FALSE)
+			return (AH_FALSE);
+
+		ath_channel = ath_channel_2ghz.a2_athchan;
+		data0 = ((ar5k_bitswap(ath_channel_2ghz.a2_flags, 8) & 0xff)
+		    << 5) | (1 << 4);
+	}
+
+	if (ath_channel < 145 || !(ath_channel & 1)) {
+		clock = 1;
+		data1 = ((ar5k_bitswap(ath_channel - 24, 8) & 0xff) << 2)
+		    | (clock << 1) | (1 << 10) | 1;
+	} else {
+		clock = 0;
+		data1 = ((ar5k_bitswap((ath_channel - 24) / 2, 8) & 0xff) << 2)
+		    | (clock << 1) | (1 << 10) | 1;
+	}
+
+	AR5K_PHY_WRITE(0x27, (data1 & 0xff) | ((data0 & 0xff) << 8));
+	AR5K_PHY_WRITE(0x34, ((data1 >> 8) & 0xff) | (data0 & 0xff00));
+
+	return (AH_TRUE);
+}
+
+HAL_BOOL
+OpenHAL::ar5k_ar5112_channel(HAL_CHANNEL *channel)
+{
+	u_int32_t data, data0, data1, data2;
+	u_int16_t c;
+
+	data = data0 = data1 = data2 = 0;
+	c = channel->c_channel;
+
+	/*
+	 * Set the channel on the AR5112 or newer
+	 */
+	if (c < 4800) {
+		if (!((c - 2224) % 5)) {
+			data0 = ((2 * (c - 704)) - 3040) / 10;
+			data1 = 1;
+		} else if (!((c - 2192) % 5)) {
+			data0 = ((2 * (c - 672)) - 3040) / 10;
+			data1 = 0;
+		} else
+			return (AH_FALSE);
+
+		data0 = ar5k_bitswap((data0 << 2) & 0xff, 8);
+	} else {
+		if (!(c % 20) && c >= 5120) {
+			data0 = ar5k_bitswap(((c - 4800) / 20 << 2), 8);
+			data2 = ar5k_bitswap(3, 2);
+		} else if (!(c % 10)) {
+			data0 = ar5k_bitswap(((c - 4800) / 10 << 1), 8);
+			data2 = ar5k_bitswap(2, 2);
+		} else if (!(c % 5)) {
+			data0 = ar5k_bitswap((c - 4800) / 5, 8);
+			data2 = ar5k_bitswap(1, 2);
+		} else
+			return (AH_FALSE);
+	}
+
+	data = (data0 << 4) | (data1 << 1) | (data2 << 2) | 0x1001;
+
+	AR5K_PHY_WRITE(0x27, data & 0xff);
+	AR5K_PHY_WRITE(0x36, (data >> 8) & 0x7f);
+
+	return (AH_TRUE);
+}
+
+u_int
+OpenHAL::ar5k_rfregs_op(u_int32_t *rf, u_int32_t offset, u_int32_t reg, u_int32_t bits,
+    u_int32_t first, u_int32_t col, HAL_BOOL set)
+{
 	u_int32_t mask, entry, last, data, shift, position;
 	int32_t left;
 	int i;
@@ -997,7 +1209,9 @@ u_int OpenHAL::ar5k_rfregs_op(u_int32_t *rf, u_int32_t offset, u_int32_t reg, u_
 	return (data);
 }
 
-u_int32_t OpenHAL::ar5k_rfregs_gainf_corr() {
+u_int32_t
+OpenHAL::ar5k_rfregs_gainf_corr()
+{
 	u_int32_t mix, step;
 	u_int32_t *rf;
 
@@ -1031,7 +1245,9 @@ u_int32_t OpenHAL::ar5k_rfregs_gainf_corr() {
 	return (ah_gain.g_f_corr);
 }
 
-HAL_BOOL OpenHAL::ar5k_rfregs_gain_readback() {
+HAL_BOOL
+OpenHAL::ar5k_rfregs_gain_readback()
+{
 	u_int32_t step, mix, level[4];
 	u_int32_t *rf;
 
@@ -1071,7 +1287,9 @@ HAL_BOOL OpenHAL::ar5k_rfregs_gain_readback() {
 	    ah_gain.g_current <= level[3])) ? AH_TRUE : AH_FALSE;
 }
 
-int32_t OpenHAL::ar5k_rfregs_gain_adjust() {
+int32_t
+OpenHAL::ar5k_rfregs_gain_adjust()
+{
 	int ret = 0;
 	const struct ar5k_gain_opt *go;
 
@@ -1117,7 +1335,7 @@ int32_t OpenHAL::ar5k_rfregs_gain_adjust() {
  done:
 #ifdef AR5K_DEBUG
 	AR5K_PRINTF("ret %d, gain step %u, current gain %u, target gain %u\n",
-	    g,
+	    ret,
 	    ah_gain.g_step_idx,
 	    ah_gain.g_current,
 	    ah_gain.g_target);
@@ -1126,13 +1344,18 @@ int32_t OpenHAL::ar5k_rfregs_gain_adjust() {
 	return (ret);
 }
 
-HAL_BOOL OpenHAL::ar5k_rfregs(HAL_CHANNEL *channel, u_int mode) {
+HAL_BOOL
+OpenHAL::ar5k_rfregs(HAL_CHANNEL *channel, u_int mode)
+{
+	HAL_BOOL (OpenHAL::*func)(HAL_CHANNEL *, u_int) = NULL;
 	HAL_BOOL ret;
-
+	
 	if (ah_radio == AR5K_AR5111) {
 		ah_rf_banks_size = sizeof(ar5111_rf);
-	} else if (ah_radio == AR5K_AR5112) {		
+		func = &OpenHAL::ar5k_ar5111_rfregs;
+	} else if (ah_radio == AR5K_AR5112) {
 		ah_rf_banks_size = sizeof(ar5112_rf);
+		func = &OpenHAL::ar5k_ar5112_rfregs;
 	} else
 		return (AH_FALSE);
 
@@ -1144,11 +1367,7 @@ HAL_BOOL OpenHAL::ar5k_rfregs(HAL_CHANNEL *channel, u_int mode) {
 		}
 	}
 
-	if (ah_radio == AR5K_AR5111) {
-		ret = ar5k_ar5111_rfregs(channel, mode);
-	} else if (ah_radio == AR5K_AR5112) {		
-		ret = ar5k_ar5112_rfregs(channel, mode);
-	}
+	ret = (*this.*func)(channel, mode);
 
 	if (ret == AH_TRUE)
 		ah_rf_gain = HAL_RFGAIN_INACTIVE;
@@ -1156,7 +1375,9 @@ HAL_BOOL OpenHAL::ar5k_rfregs(HAL_CHANNEL *channel, u_int mode) {
 	return (ret);
 }
 
-HAL_BOOL OpenHAL::ar5k_ar5111_rfregs(HAL_CHANNEL *channel, u_int mode) {
+HAL_BOOL
+OpenHAL::ar5k_ar5111_rfregs(HAL_CHANNEL *channel, u_int mode)
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	const u_int rf_size = AR5K_ELEMENTS(ar5111_rf);
 	u_int32_t *rf;
@@ -1249,7 +1470,9 @@ HAL_BOOL OpenHAL::ar5k_ar5111_rfregs(HAL_CHANNEL *channel, u_int mode) {
 	return (AH_TRUE);
 }
 
-HAL_BOOL OpenHAL::ar5k_ar5112_rfregs(HAL_CHANNEL *channel, u_int mode) {
+HAL_BOOL
+OpenHAL::ar5k_ar5112_rfregs(HAL_CHANNEL *channel, u_int mode)
+{
 	struct ar5k_eeprom_info *ee = &ah_capabilities.cap_eeprom;
 	const u_int rf_size = AR5K_ELEMENTS(ar5112_rf);
 	u_int32_t *rf;
@@ -1323,15 +1546,15 @@ HAL_BOOL OpenHAL::ar5k_ar5112_rfregs(HAL_CHANNEL *channel, u_int mode) {
 		return (AH_FALSE);
 
 	/* Write RF values */
-	for (i = 0; i < rf_size; i++) {
+	for (i = 0; i < rf_size; i++)
 		AR5K_REG_WRITE(ar5112_rf[i].rf_register, rf[i]);
-		AR5K_DELAY(1);
-	}
 
 	return (AH_TRUE);
 }
 
-HAL_BOOL OpenHAL::ar5k_rfgain(u_int phy, u_int freq) {
+HAL_BOOL
+OpenHAL::ar5k_rfgain(u_int phy, u_int freq)
+{
 	int i;
 
 	switch (phy) {
@@ -1361,10 +1584,15 @@ HAL_BOOL OpenHAL::ar5k_rfgain(u_int phy, u_int freq) {
 
 #pragma mark -
 
-void OpenHAL::ar5k_txpower_table(HAL_CHANNEL *channel, int16_t max_power) {
+/*
+ * Common TX power setup
+ */
+void
+OpenHAL::ar5k_txpower_table(HAL_CHANNEL *channel, int16_t max_power)
+{
 	u_int16_t txpower, *rates;
 	int i;
-	
+
 	rates = ah_txpower.txp_rates;
 
 	txpower = AR5K_TUNE_DEFAULT_TXPOWER * 2;
@@ -1384,23 +1612,4 @@ void OpenHAL::ar5k_txpower_table(HAL_CHANNEL *channel, int16_t max_power) {
 
 	for (i = 0; i < AR5K_ELEMENTS(ah_txpower.txp_pcdac); i++)
 		ah_txpower.txp_pcdac[i] = AR5K_EEPROM_PCDAC_START;
-}
-
-#pragma mark -
-
-u_int32_t OpenHAL::ieee80211_regdomain2flag(u_int16_t regdomain, u_int16_t mhz) {
-	int i;
-	
-	for(i = 0; i < (sizeof(ieee80211_r_map) / 
-		sizeof(ieee80211_r_map[0])); i++) {
-		if(ieee80211_r_map[i].rm_domain == regdomain) {
-			if(mhz >= 2000 && mhz <= 3000)
-				return((u_int32_t)ieee80211_r_map[i].rm_domain_2ghz);
-			if(mhz >= IEEE80211_CHANNELS_5GHZ_MIN && 
-			    mhz <= IEEE80211_CHANNELS_5GHZ_MAX)
-				return((u_int32_t)ieee80211_r_map[i].rm_domain_5ghz);
-		}
-	}
-
-	return((u_int32_t)DMN_DEBUG);
 }

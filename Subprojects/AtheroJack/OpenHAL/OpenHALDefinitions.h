@@ -1,8 +1,52 @@
+/*
+ *  OpenHALDefinitions.h
+ *  AtheroJack
+ *
+ *  The code in this file is based on the code in the OpenBSD file
+ *  sys/dev/ic/ar5xxx.h r1.30.
+ *
+ *  Ported by Michael Rossberg, Beat Zahnd
+ *
+ */
+
+/*
+ * Copyright (c) 2004, 2005 Reyk Floeter <reyk@openbsd.org>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * HAL interface for Atheros Wireless LAN devices.
+ *
+ * ar5k is a free replacement of the binary-only HAL used by some drivers
+ * for Atheros chipsets. While using a different ABI, it tries to be
+ * source-compatible with the original (non-free) HAL interface.
+ *
+ * Many thanks to various contributors who supported the development of
+ * ar5k with hard work and useful information. And, of course, for all the
+ * people who encouraged me to continue this work which has been based
+ * on my initial approach found on http://team.vantronix.net/ar5k/.
+ */
+
+#ifndef _AR5K_H
+#define _AR5K_H
 
 #include "ieeeLite.h"
+#define __packed __attribute__((__packed__))
 
-#ifndef OPENHALDEF
-#define OPENHALDEF
+/*
+ * Possible chipsets (could appear in different combinations)
+ */
 
 enum ar5k_version {
 	AR5K_AR5210	= 0,
@@ -21,8 +65,8 @@ enum ar5k_radio {
  */
 
 typedef enum {
-	AH_FALSE = 0,		/* NB: lots of code assumes false is zero */
-	AH_TRUE  = 1,
+	AH_FALSE = 0,
+	AH_TRUE,
 } HAL_BOOL;
 
 typedef enum {
@@ -37,17 +81,17 @@ typedef enum {
 } HAL_MODE;
 
 typedef enum {
-	HAL_ANT_VARIABLE = 0,			/* variable by programming */
-	HAL_ANT_FIXED_A	 = 1,			/* fixed to 11a frequencies */
-	HAL_ANT_FIXED_B	 = 2,			/* fixed to 11b frequencies */
+	HAL_ANT_VARIABLE = 0,
+	HAL_ANT_FIXED_A = 1,
+	HAL_ANT_FIXED_B	= 2,
 	HAL_ANT_MAX = 3,
 } HAL_ANT_SETTING;
 
 typedef enum {
-	HAL_M_STA	= 1,			/* infrastructure station */
-	HAL_M_IBSS	= 0,			/* IBSS (adhoc) station */
-	HAL_M_HOSTAP	= 6,			/* Software Access Point */
-	HAL_M_MONITOR	= 8			/* Monitor mode */
+	HAL_M_STA = 1,
+	HAL_M_IBSS = 0,
+	HAL_M_HOSTAP = 6,
+	HAL_M_MONITOR = 8,
 } HAL_OPMODE;
 
 typedef enum {
@@ -73,18 +117,12 @@ typedef enum {
  * TX queues
  */
 
-
-/*
- * Transmit queue types/numbers.  These are used to tag
- * each transmit queue in the hardware and to identify a set
- * of transmit queues for operations such as start/stop dma.
- */
 typedef enum {
-	HAL_TX_QUEUE_INACTIVE	= 0,		/* queue is inactive/unused */
-	HAL_TX_QUEUE_DATA	= 1,		/* data xmit q's */
-	HAL_TX_QUEUE_BEACON	= 2,		/* beacon xmit q */
-	HAL_TX_QUEUE_CAB	= 3,		/* "crap after beacon" xmit q */
-	HAL_TX_QUEUE_PSPOLL	= 4,		/* power-save poll xmit q */
+	HAL_TX_QUEUE_INACTIVE = 0,
+	HAL_TX_QUEUE_DATA,
+	HAL_TX_QUEUE_BEACON,
+	HAL_TX_QUEUE_CAB,
+	HAL_TX_QUEUE_PSPOLL,
 } HAL_TX_QUEUE;
 
 #define HAL_NUM_TX_QUEUES	10
@@ -254,11 +292,11 @@ typedef struct {
  */
 
 typedef enum {
-	HAL_PM_UNDEFINED	= 0,
-	HAL_PM_AUTO		= 1,
-	HAL_PM_AWAKE		= 2,
-	HAL_PM_FULL_SLEEP	= 3,
-	HAL_PM_NETWORK_SLEEP	= 4
+	HAL_PM_UNDEFINED = 0,
+	HAL_PM_AUTO,
+	HAL_PM_AWAKE,
+	HAL_PM_FULL_SLEEP,
+	HAL_PM_NETWORK_SLEEP,
 } HAL_POWER_MODE;
 
 /*
@@ -266,16 +304,19 @@ typedef enum {
  */
 
 typedef enum {
-	HAL_CIPHER_WEP		= 0,
-	HAL_CIPHER_AES_CCM	= 1,
-	HAL_CIPHER_CKIP		= 2
+	HAL_CIPHER_WEP = 0,
+	HAL_CIPHER_AES_CCM,
+	HAL_CIPHER_CKIP,
 } HAL_CIPHER;
 
-#define AR5K_MAX_KEYS	16
+#define AR5K_KEYVAL_LENGTH_40	5
+#define AR5K_KEYVAL_LENGTH_104	13
+#define AR5K_KEYVAL_LENGTH_128	16
+#define AR5K_KEYVAL_LENGTH_MAX	AR5K_KEYVAL_LENGTH_128
 
 typedef struct {
 	int		wk_len;
-	u_int8_t	wk_key[AR5K_MAX_KEYS];
+	u_int8_t	wk_key[AR5K_KEYVAL_LENGTH_MAX];
 } HAL_KEYVAL;
 
 #define AR5K_ASSERT_ENTRY(_e, _s) do {					\
@@ -338,19 +379,19 @@ typedef struct {
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,	\
 	3, 2, 1, 0, 255, 255, 255, 255 }, {				\
 	{ 1, IEEE80211_T_CCK, 1000, 27, 0x00, 130, 0 },			\
-	{ 1, IEEE80211_T_CCK, 2000, 26, 0x00, 132, 1 },			\
-	{ 1, IEEE80211_T_CCK, 5500, 25, 0x00, 139, 1 },			\
-	{ 1, IEEE80211_T_CCK, 11000, 24, 0x00, 150, 1 } }		\
+	{ 1, IEEE80211_T_CCK, 2000, 26, 0x04, 132, 1 },			\
+	{ 1, IEEE80211_T_CCK, 5500, 25, 0x04, 139, 1 },			\
+	{ 1, IEEE80211_T_CCK, 11000, 24, 0x04, 150, 1 } }		\
 }
 
 #define AR5K_RATES_11G { 12, {						\
 	255, 255, 255, 255, 255, 255, 255, 255, 10, 8, 6, 4,		\
 	11, 9, 7, 5, 255, 255, 255, 255, 255, 255, 255, 255,		\
 	3, 2, 1, 0, 255, 255, 255, 255 }, {				\
-	{ 1, IEEE80211_T_CCK, 1000, 27, 0x00, 130, 0 },			\
-	{ 1, IEEE80211_T_CCK, 2000, 26, 0x00, 132, 1 },			\
-	{ 1, IEEE80211_T_CCK, 5500, 25, 0x00, 139, 1 },			\
-	{ 1, IEEE80211_T_CCK, 11000, 24, 0x00, 150, 1 },		\
+	{ 1, IEEE80211_T_CCK, 1000, 27, 0x00, 2, 0 },			\
+	{ 1, IEEE80211_T_CCK, 2000, 26, 0x04, 4, 1 },			\
+	{ 1, IEEE80211_T_CCK, 5500, 25, 0x04, 11, 1 },			\
+	{ 1, IEEE80211_T_CCK, 11000, 24, 0x04, 22, 1 },			\
 	{ 0, IEEE80211_T_OFDM, 6000, 11, 0, 12, 4 },			\
 	{ 0, IEEE80211_T_OFDM, 9000, 15, 0, 18, 4 },			\
 	{ 1, IEEE80211_T_OFDM, 12000, 10, 0, 24, 6 },			\
@@ -395,8 +436,8 @@ typedef struct {
 
 typedef enum {
 	HAL_RFGAIN_INACTIVE = 0,
-	HAL_RFGAIN_READ_REQUESTED	= 1,
-	HAL_RFGAIN_NEED_CHANGE		= 2
+	HAL_RFGAIN_READ_REQUESTED,
+	HAL_RFGAIN_NEED_CHANGE,
 } HAL_RFGAIN;
 
 typedef struct {
@@ -408,9 +449,9 @@ typedef struct {
 
 } HAL_CHANNEL;
 
-#define HAL_SLOT_TIME_9		9
-#define HAL_SLOT_TIME_20	20
-#define HAL_SLOT_TIME_MAX	ar5k_clocktoh(0xffff, hal->ah_turbo)
+#define HAL_SLOT_TIME_9		396
+#define HAL_SLOT_TIME_20	880
+#define HAL_SLOT_TIME_MAX	0xffff
 
 #define CHANNEL_A	(IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM)
 #define CHANNEL_B	(IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_CCK)
@@ -483,6 +524,11 @@ typedef enum ieee80211_state HAL_LED_STATE;
 #define HAL_LED_AUTH	IEEE80211_S_AUTH
 #define HAL_LED_ASSOC	IEEE80211_S_ASSOC
 #define HAL_LED_RUN	IEEE80211_S_RUN
+
+/* GPIO-controlled software LED */
+#define AR5K_SOFTLED_PIN	0
+#define AR5K_SOFTLED_ON		0
+#define AR5K_SOFTLED_OFF	1
 
 /*
  * Gain settings
@@ -868,7 +914,7 @@ struct ath_desc {
 
 #define ds_rxstat ds_us.rx
 #define ds_txstat ds_us.tx
-} __attribute__((__packed__));
+} __packed;
 
 #define HAL_RXDESC_INTREQ	0x0020
 
@@ -882,33 +928,62 @@ struct ath_desc {
 /*
  * Common silicon revision/version values
  */
-#define AR5K_SREV_REV_FPGA	1
-#define AR5K_SREV_REV_PROTO	2
-#define AR5K_SREV_REV_PROTOA	3
-#define AR5K_SREV_REV_AR5210	4
-#define AR5K_SREV_REV_AR5210M	5
-#define AR5K_SREV_REV_AR5210M23	7
-#define AR5K_SREV_REV_AR521023	8
+enum ar5k_srev_type {
+	AR5K_VERSION_VER,
+	AR5K_VERSION_REV,
+	AR5K_VERSION_RAD
+};
 
-#define AR5K_SREV_VER_AR5210	0
-#define AR5K_SREV_VER_AR5311	1
-#define AR5K_SREV_VER_AR5311A	2
-#define AR5K_SREV_VER_AR5311B	3
-#define AR5K_SREV_VER_AR5211	4
-#define AR5K_SREV_VER_AR5212	5
+struct ar5k_srev_name {
+	const char		*sr_name;
+	enum ar5k_srev_type	sr_type;
+	u_int			sr_val;
+};
 
+#define AR5K_SREV_NAME	{						\
+	{ "5210",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5210 },	\
+	{ "5311",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5311 },	\
+	{ "5311a",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5311A },\
+	{ "5311b",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5311B },\
+	{ "5211",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5211 },	\
+	{ "5212",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5212 },	\
+	{ "5213",	AR5K_VERSION_VER,	AR5K_SREV_VER_AR5213 },	\
+	{ "xxxx",	AR5K_VERSION_VER,	AR5K_SREV_UNKNOWN },	\
+	{ "5110",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_5110 },	\
+	{ "5111",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_5111 },	\
+	{ "2111",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_2111 },	\
+	{ "5112",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_5112 },	\
+	{ "2112",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_2112 },	\
+	{ "2112a",	AR5K_VERSION_RAD,	AR5K_SREV_RAD_2112A },	\
+	{ "xxxx",	AR5K_VERSION_RAD,	AR5K_SREV_UNKNOWN }	\
+}
+
+#define AR5K_SREV_UNKNOWN	0xffff
+
+#define AR5K_SREV_VER_AR5210	0x00
+#define AR5K_SREV_VER_AR5311	0x10
+#define AR5K_SREV_VER_AR5311A	0x20
+#define AR5K_SREV_VER_AR5311B	0x30
+#define AR5K_SREV_VER_AR5211	0x40
+#define AR5K_SREV_VER_AR5212	0x50
+#define AR5K_SREV_VER_AR5213	0x55
+#define AR5K_SREV_VER_UNSUPP	0x60
+
+#define AR5K_SREV_RAD_5110	0x00
 #define AR5K_SREV_RAD_5111	0x10
 #define AR5K_SREV_RAD_5111A	0x15
 #define AR5K_SREV_RAD_2111	0x20
 #define AR5K_SREV_RAD_5112	0x30
 #define AR5K_SREV_RAD_5112A	0x35
+#define AR5K_SREV_RAD_2112	0x40
 #define AR5K_SREV_RAD_2112A	0x45
+#define AR5K_SREV_RAD_UNSUPP	0x50
 
 /*
  * Misc defines
  */
 
-#define HAL_ABI_VERSION		0x03112500 /* YYMMDDnn */
+#define HAL_ABI_VERSION		0x04090901 /* YYMMDDnn */
 
 #define AR5K_PRINTF(fmt, ...)	IOLog("%s: " fmt, __func__, ##__VA_ARGS__)
 #define AR5K_PRINT(fmt)		IOLog("%s: " fmt, __func__)
@@ -919,9 +994,6 @@ struct ath_desc {
 #endif
 #define AR5K_DELAY(_n)		IODelay(_n)
 #define AR5K_ELEMENTS(_array)	(sizeof(_array) / sizeof(_array[0]))
-
-typedef HAL_BOOL (ar5k_rfgain_t)
-	(struct ath_hal *, HAL_CHANNEL *, u_int);
 
 /*
  * Some tuneable values (these should be changeable by the user)
@@ -951,17 +1023,17 @@ typedef HAL_BOOL (ar5k_rfgain_t)
 #define AR5K_TUNE_DEFAULT_TXPOWER		30
 #define AR5K_TUNE_TPC_TXPOWER			AH_TRUE
 #define AR5K_TUNE_ANT_DIVERSITY			AH_TRUE
+#define AR5K_TUNE_HWTXTRIES			4
 
 /* Default regulation domain if stored value EEPROM value is invalid */
-#define AR5K_TUNE_REGDOMAIN	DMN_FCC1_FCCA
-#define AR5K_TUNE_CTRY		CTRY_DEFAULT
+#define AR5K_TUNE_REGDOMAIN	DMN_FCC2_FCCA	/* Canada */
 
 /*
  * Common initial register values
  */
 
 #define AR5K_INIT_MODE				(			\
-	IEEE80211_CHAN_2GHZ | IEEE80211_CHAN_DYN			\
+	IEEE80211_CHAN_5GHZ | IEEE80211_CHAN_OFDM			\
 )
 #define AR5K_INIT_TX_LATENCY			502
 #define AR5K_INIT_USEC				39
@@ -972,7 +1044,7 @@ typedef HAL_BOOL (ar5k_rfgain_t)
 #define AR5K_INIT_PROG_IFS_TURBO		960
 #define AR5K_INIT_EIFS				3440
 #define AR5K_INIT_EIFS_TURBO			6880
-#define AR5K_INIT_SLOT_TIME			360
+#define AR5K_INIT_SLOT_TIME			396
 #define AR5K_INIT_SLOT_TIME_TURBO		480
 #define AR5K_INIT_ACK_CTS_TIMEOUT		1024
 #define AR5K_INIT_ACK_CTS_TIMEOUT_TURBO		0x08000800
@@ -1037,12 +1109,7 @@ __bswap32(u_int32_t _x)
 		__bswap32(*((volatile u_int32_t *)((char*)ah_sh + (_reg)))) 
 		
 #define AR5K_REG_WRITE(reg, val) OS_REG_WRITE_RED(reg, val)
-//				\
-//    ((reg < 0x4000 || reg >= 0x5000) ? OSWriteLittleInt32(ah_sh, reg, val) : OSWriteBigInt32(ah_sh, reg, val))
-
 #define AR5K_REG_READ(reg) OS_REG_READ_RED(reg)
-//						\
-//    ((reg < 0x4000 || reg >= 0x5000) ? OSReadLittleInt32(ah_sh, reg) :  OSReadBigInt32(ah_sh, reg))
 
 #else
 
@@ -1056,12 +1123,7 @@ __bswap32(u_int32_t _x)
 *((volatile u_int32_t *)((char*)ah_sh + (_reg))) 
 
 #define AR5K_REG_WRITE(reg, val) OS_REG_WRITE_RED(reg, val)
-//                             \
-//    ((reg < 0x4000 || reg >= 0x5000) ? OSWriteLittleInt32(ah_sh, reg, val) : OSWriteBigInt32(ah_sh, reg, val))
-
 #define AR5K_REG_READ(reg) OS_REG_READ_RED(reg)
-//                                             \
-//    ((reg < 0x4000 || reg >= 0x5000) ? OSReadLittleInt32(ah_sh, reg) :  OSReadBigInt32(ah_sh, reg))
 
 #endif
 
@@ -1090,7 +1152,7 @@ __bswap32(u_int32_t _x)
 		AR5K_DELAY(1);
 
 #define AR5K_EEPROM_READ(_o, _v)	{				\
-	if ((ret = nic_eeprom_read((_o),			\
+	if ((ret = ar5k_ar5212_eeprom_read((_o),			\
 		 &(_v))) != 0)						\
 		return (ret);						\
 }
@@ -1514,5 +1576,4 @@ struct ar5k_ini_rfgain {
 		{ 0x000000c6, 0x000000fd }, { 0x000000fc, 0x000000fc } } },	\
 }
 
-#endif
-
+#endif /* _AR5K_H */

@@ -27,6 +27,7 @@
 		006E2B4507FB286D008BA14E /* OpenHAL5212.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 006E2B4307FB286D008BA14E /* OpenHAL5212.cpp */; };
 		006E2CBA07FB5660008BA14E /* ar5212var.h in Headers */ = {isa = PBXBuildFile; fileRef = 006E2CB807FB5660008BA14E /* ar5212var.h */; };
 		006E2CBB07FB5660008BA14E /* ar5212reg.h in Headers */ = {isa = PBXBuildFile; fileRef = 006E2CB907FB5660008BA14E /* ar5212reg.h */; };
+		2274D09609E9A2A600BE03D9 /* ieeeLite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2274D09509E9A2A600BE03D9 /* ieeeLite.cpp */; };
 		32D94FC60562CBF700B6AF17 /* AtheroJack.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A224C3EFF42367911CA2CB7 /* AtheroJack.h */; };
 		32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,7 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A224C3EFF42367911CA2CB7 /* AtheroJack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtheroJack.h; sourceTree = "<group>"; };
 		1A224C3FFF42367911CA2CB7 /* AtheroJack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtheroJack.cpp; sourceTree = "<group>"; };
+		2274D09509E9A2A600BE03D9 /* ieeeLite.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ieeeLite.cpp; path = OpenHAL/ieeeLite.cpp; sourceTree = "<group>"; };
 		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		32D94FD00562CBF700B6AF17 /* AtheroJack.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtheroJack.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DA80CCF06AD972A00E5AC22 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = /System/Library/Frameworks/Kernel.framework; sourceTree = "<absolute>"; };
@@ -111,11 +113,12 @@
 		006E29B807FB150D008BA14E /* OpenHAL */ = {
 			isa = PBXGroup;
 			children = (
-				006E2A6307FB1D34008BA14E /* OpenHALDefinitions.h */,
 				006E2A4707FB1C36008BA14E /* ieeeLite.h */,
+				2274D09509E9A2A600BE03D9 /* ieeeLite.cpp */,
 				006E29B907FB152F008BA14E /* OpenHAL.h */,
 				006E29BA07FB152F008BA14E /* OpenHAL.cpp */,
 				00658D4C07FC1F320045E387 /* OpenHALAbstracts.cpp */,
+				006E2A6307FB1D34008BA14E /* OpenHALDefinitions.h */,
 				006E2B4207FB286D008BA14E /* OpenHAL5212.h */,
 				006E2B4307FB286D008BA14E /* OpenHAL5212.cpp */,
 				006E2CB807FB5660008BA14E /* ar5212var.h */,
@@ -280,6 +283,7 @@
 				006E29BC07FB152F008BA14E /* OpenHAL.cpp in Sources */,
 				006E2B4507FB286D008BA14E /* OpenHAL5212.cpp in Sources */,
 				00658D4D07FC1F320045E387 /* OpenHALAbstracts.cpp in Sources */,
+				2274D09609E9A2A600BE03D9 /* ieeeLite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +312,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
 				MODULE_NAME = de.binaervarianz.driver.AtheroJack;
-				MODULE_VERSION = 1.0.0d1;
+				MODULE_VERSION = 1.1.0d1;
 				OPTIMIZATION_CFLAGS = "-O0";
 				PRODUCT_NAME = AtheroJack;
 				UNSTRIPPED_PRODUCT = YES;

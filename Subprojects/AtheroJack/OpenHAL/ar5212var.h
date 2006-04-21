@@ -1,7 +1,7 @@
-/*	$OpenBSD: ar5212var.h,v 1.6 2005/04/09 00:20:42 reyk Exp $	*/
+/*	$OpenBSD: ar5212var.h,v 1.10 2005/12/18 17:59:58 reyk Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005 Reyk Floeter <reyk@vantronix.net>
+ * Copyright (c) 2004, 2005 Reyk Floeter <reyk@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,6 +24,7 @@
 #ifndef _AR5K_AR5212_VAR_H
 #define _AR5K_AR5212_VAR_H
 
+//#include <dev/ic/ar5xxx.h>
 #define __packed __attribute__((__packed__))
 
 /*
@@ -35,13 +36,11 @@
 
 #if BYTE_ORDER == BIG_ENDIAN
 #define AR5K_AR5212_INIT_CFG	(					\
-	AR5K_AR5212_CFG_SWTD | AR5K_AR5212_CFG_SWRD		\
+	AR5K_AR5212_CFG_SWTD | AR5K_AR5212_CFG_SWRD			\
 )
 #else
-//not really sure what we should do here, this is way over my head
-#define AR5K_AR5212_INIT_CFG   0x00000000
+#define AR5K_AR5212_INIT_CFG	0x00000000
 #endif
-
 
 /*
  * Internal RX/TX descriptor structures
@@ -70,7 +69,7 @@ struct ar5k_ar5212_rx_status {
 	 * RX status word 0
 	 */
 	u_int32_t	rx_status_0;
-	
+
 #define AR5K_AR5212_DESC_RX_STATUS0_DATA_LEN		0x00000fff
 #define AR5K_AR5212_DESC_RX_STATUS0_MORE		0x00001000
 #define AR5K_AR5212_DESC_RX_STATUS0_DECOMP_CRC_ERROR	0x00002000
@@ -229,6 +228,11 @@ struct ar5k_ar5212_tx_status {
 #define AR5K_AR5212_DESC_TX_STATUS1_COMP_SUCCESS	0x00800000
 #define AR5K_AR5212_DESC_TX_STATUS1_XMIT_ANTENNA	0x01000000
 } __packed;
+
+/*
+ * Public function prototypes
+ */
+//extern ar5k_attach_t ar5k_ar5212_attach;
 
 /*
  * Initial register values which have to be loaded into the
@@ -627,7 +631,7 @@ struct ar5k_ar5212_ini_mode {
 #define AR5K_AR5212_INI_MODE {							\
 	{ 0x0030, AR5K_INI_FLAG_511X, {						\
 		{ 0, },								\
-		{ 0x00008015, 0x00008015, 0x00008015, 0x00008015, 0x00008015 }	\
+		{ 0x00008107, 0x00008107, 0x00008107, 0x00008107, 0x00008107 }	\
 	} },									\
 	{ 0x1040, AR5K_INI_FLAG_511X, {						\
 		{ 0, },								\
@@ -742,7 +746,7 @@ struct ar5k_ar5212_ini_mode {
 		{ 0x00000000, 0x00000000, 0x00000000, 0x00000108, 0x00000000 }	\
 	} },									\
 	{ 0x801c, AR5K_INI_FLAG_BOTH, {						\
-		{ 0x128d8fa7, 0x09880fcf, 0x04e00f95, 0x128d8fab, 0x09880fcf },	\
+		{ 0x128d8fa7, 0x09880fcf, 0x04e00f95, 0x128d8fab, 0x09880fcf }, \
 		{ 0x128d93a7, 0x098813cf, 0x04e01395, 0x128d93ab, 0x098813cf }	\
 	} },									\
 	{ 0x9824, AR5K_INI_FLAG_BOTH, {						\
