@@ -88,12 +88,7 @@ static struct identStruct devices[] = {
 bool USBIntersilJack::startCapture(UInt16 channel) {
     if (!_devicePresent) return false;
     if (!_deviceInit) return false;
-    
-    if (_doCommand(wlcInit, 0) != kIOReturnSuccess) {
-        NSLog(@"USBIntersilJack::startCapture: _doCommand(wlcInit, 0) failed\n");
-        return false;
-    }
-	
+    	
     if ((!_isEnabled) && (_disable() != kIOReturnSuccess)) {
         NSLog(@"USBIntersilJack::::startCapture: Couldn't disable card\n");
         return false;
@@ -712,6 +707,10 @@ readon:
     kr = (*me->_interface)->ReadPipeAsync((me->_interface), kInPipe, &me->_recieveBuffer, sizeof(me->_recieveBuffer), (IOAsyncCallback1)_interruptRecieved, refCon);
     if (kIOReturnSuccess != kr) {
         NSLog(@"unable to do async interrupt read (%08x). this means the card is stopped!\n", kr);
+		// I haven't been able to reproduce the error that caused it to hit this point in the code again since adding the following lines
+		// however, when it hit this point previously, the only solution was to kill and relaunch KisMAC, so at least this won't make anything worse
+		NSLog(@"Attempting to re-initialise adapter...");
+		if (me->_init() != kIOReturnSuccess) NSLog(@"USBIntersilJack::_interruptReceived: _init() failed\n");
     }
         
 }
