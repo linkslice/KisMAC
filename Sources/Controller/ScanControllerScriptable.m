@@ -89,11 +89,11 @@
         [_scanButton setTitle:@" Stop Scan "];
         [_scanButton setState: NSOnState];
         result=[scanner startScanning];
-    }
+		[GrowlController notifyGrowlStartScan];
+	}
     
     [self updateChannelMenu];
-	[GrowlController notifyGrowlStartScan];
-    return YES;
+	return YES;
 }
 
 - (BOOL)stopScan {

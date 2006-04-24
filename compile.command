@@ -72,6 +72,10 @@ cd ..
 
 echo -n "Decompressing Growl framework... "
 cd Resources
+if [ -d Growl.framework ]; then
+  rm -rf Growl.framework
+fi
+
 tar -xzf growl.tgz
 if ! [ -d Growl.framework ]; then
   echo "*FAILED*"

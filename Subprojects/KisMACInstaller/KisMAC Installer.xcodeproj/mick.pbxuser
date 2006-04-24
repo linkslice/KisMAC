@@ -8,6 +8,40 @@
 		isa = PBXBookmark;
 		fRef = 00FC4F72064837B900F2220A /* orinoco.png */;
 	};
+	004C1F4B09FD781D0008620D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00B9E6130647BA2E009FEF35 /* InstallController.h */;
+		name = _installPatch;
+		rLen = 13;
+		rLoc = 1895;
+		rType = 0;
+		vrLen = 1403;
+		vrLoc = 1699;
+	};
+	004C1F4C09FD781D0008620D /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 00B9E6140647BA2E009FEF35 /* InstallController.m */;
+	};
+	004C1F4D09FD781D0008620D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00B9E6130647BA2E009FEF35 /* InstallController.h */;
+		name = _installPatch;
+		rLen = 13;
+		rLoc = 1895;
+		rType = 0;
+		vrLen = 1403;
+		vrLoc = 1699;
+	};
+	004C1F4E09FD781D0008620D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00B9E6140647BA2E009FEF35 /* InstallController.m */;
+		name = "InstallController.m: isDeviceAvailable:";
+		rLen = 618;
+		rLoc = 13095;
+		rType = 0;
+		vrLen = 1652;
+		vrLoc = 12217;
+	};
 	0054928308E6EF8800307083 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 00B9E97D0647F3B8009FEF35 /* BLAuthentication.h */;
@@ -67,17 +101,17 @@
 	};
 	00B9E6130647BA2E009FEF35 /* InstallController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 1456}}";
+			sepNavIntBoundsRect = "{{0, 0}, {945, 1456}}";
 			sepNavSelRange = "{1895, 13}";
-			sepNavVisRect = "{{0, 770}, {939, 662}}";
+			sepNavVisRect = "{{0, 770}, {945, 662}}";
 			sepNavWindowFrame = "{{15, 32}, {750, 795}}";
 		};
 	};
 	00B9E6140647BA2E009FEF35 /* InstallController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2324, 12488}}";
-			sepNavSelRange = "{14277, 0}";
-			sepNavVisRect = "{{0, 4940}, {939, 662}}";
+			sepNavIntBoundsRect = "{{0, 0}, {2324, 12516}}";
+			sepNavSelRange = "{13095, 618}";
+			sepNavVisRect = "{{0, 4492}, {945, 662}}";
 			sepNavWindowFrame = "{{15, 62}, {945, 765}}";
 		};
 	};
@@ -94,16 +128,6 @@
 			sepNavSelRange = "{9001, 20}";
 			sepNavVisRect = "{{0, 3635}, {1057, 668}}";
 		};
-	};
-	00D5632209C478C300FB787B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 00B9E6130647BA2E009FEF35 /* InstallController.h */;
-		name = _installPatch;
-		rLen = 13;
-		rLoc = 1895;
-		rType = 0;
-		vrLen = 1403;
-		vrLoc = 1699;
 	};
 	00D5632409C478C300FB787B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -255,7 +279,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 164061357;
+			PBXPerProjectTemplateStateSaveDate = 167605953;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -734,14 +758,17 @@
 				PBXModuleWindowStatusBarHidden = YES;
 				RubberWindowFrame = "267 358 745 464 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 164061357;
+			PBXWorkspaceStateSaveDate = 167605953;
 		};
 		perUserProjectItems = {
 			0017842B09C1E48500530D82 /* PBXBookmark */ = 0017842B09C1E48500530D82 /* PBXBookmark */;
 			0017842F09C1E48500530D82 /* PBXBookmark */ = 0017842F09C1E48500530D82 /* PBXBookmark */;
+			004C1F4B09FD781D0008620D /* PBXTextBookmark */ = 004C1F4B09FD781D0008620D /* PBXTextBookmark */;
+			004C1F4C09FD781D0008620D /* PBXBookmark */ = 004C1F4C09FD781D0008620D /* PBXBookmark */;
+			004C1F4D09FD781D0008620D /* PBXTextBookmark */ = 004C1F4D09FD781D0008620D /* PBXTextBookmark */;
+			004C1F4E09FD781D0008620D /* PBXTextBookmark */ = 004C1F4E09FD781D0008620D /* PBXTextBookmark */;
 			0054928308E6EF8800307083 /* PBXTextBookmark */ = 0054928308E6EF8800307083 /* PBXTextBookmark */;
 			00B1200D09C1F95C00AD6B0D /* PBXTextBookmark */ = 00B1200D09C1F95C00AD6B0D /* PBXTextBookmark */;
-			00D5632209C478C300FB787B /* PBXTextBookmark */ = 00D5632209C478C300FB787B /* PBXTextBookmark */;
 			00D5632409C478C300FB787B /* PBXTextBookmark */ = 00D5632409C478C300FB787B /* PBXTextBookmark */;
 			00D5667809C73B6D00FB787B /* PBXBookmark */ = 00D5667809C73B6D00FB787B /* PBXBookmark */;
 		};

@@ -374,9 +374,11 @@ OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
         [_selectedDriver addItemWithTitle:@"Apple Airport Card, active mode"];
         [[_selectedDriver lastItem] setTag: 2];
     }
-    if ([self isServiceAvailable:"AirPortPCI"] || [self isServiceAvailable:"AirPortPCI_MM"]) {
+    if ([self isServiceAvailable:"AirPortPCI"] || [self isServiceAvailable:"AirPortPCI_MM"] || [self isServiceAvailable:"AirPort_Athr5424"] ) {
         [_selectedDriver addItemWithTitle:@"Apple Airport Extreme Card, active mode"];
         [[_selectedDriver lastItem] setTag: 2];
+	}
+	if ([self isServiceAvailable:"AirPortPCI"] || [self isServiceAvailable:"AirPortPCI_MM"]) {
 		[_selectedDriver addItemWithTitle:@"Apple Airport Extreme Card, passive mode"];
         [[_selectedDriver lastItem] setTag: 8];
     }

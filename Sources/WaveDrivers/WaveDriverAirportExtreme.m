@@ -28,10 +28,6 @@
 #import "WaveHelper.h"
 #import <BIGeneric/BIGeneric.h>
 
-//#define devicePath @"wlt1"
-#define optionsFile @"/System/Library/Extensions/AppleAirPort2.kext/Contents/Info.plist"
-//#define devFile @"/dev/bpf0"
-
 static bool explicitlyLoadedAirportExtremeDriver = NO;
 
 @implementation WaveDriverAirportExtreme
@@ -119,7 +115,25 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
     
     NSUserDefaults *defs;
     
-    defs = [NSUserDefaults standardUserDefaults];
+	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
+		NSLog(@"User has a Atheros card.");
+		NSRunCriticalAlertPanel(
+		NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
+		NSLocalizedString(@"Passive mode for Airport Extreme does not work with MacBookPros and recent Mac Minis, as they have different Airport Extreme Hardware.", "Error dialog description"),
+		OK, nil, nil);
+		return 2;
+	}
+	
+	if(![WaveHelper isServiceAvailable:"AirPortPCI_MM"]) {
+		NSLog(@"User has no Broadcom card.");
+		NSRunCriticalAlertPanel(
+		NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
+		NSLocalizedString(@"Your Airport Extreme driver has not been found.", "Error dialog description"),
+		OK, nil, nil);
+		return 2;
+	}
+	
+	defs = [NSUserDefaults standardUserDefaults];
     if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
     if (![[defs objectForKey:@"aeForever"] boolValue]){
         NSLog(@"Loading AE Passive for this session only!");
@@ -162,7 +176,7 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 	NSLog(@"Could not enable monitor mode for Airport Extreme.");
 	NSRunCriticalAlertPanel(
 		NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
-		NSLocalizedString(@"Could not load Monitor Mode for Airport Extreme. Drivers were not found.  If you just enabled Monitor Mode permanently, you must reboot.", "Error dialog description"),
+		NSLocalizedString(@"Could not load Monitor Mode for Airport Extreme. Drivers were not found.  If you just enabled Monitor Mode permanently, you must reboot. Please note that passive mode does not work with MacBookPros and recent Mac Minis.", "Error dialog description"),
 		OK, nil, nil);
 	
 	return 2;
