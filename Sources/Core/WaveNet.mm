@@ -65,14 +65,21 @@ int lengthSort(id string1, id string2, void *context)
 @implementation WaveNet
 
 -(id)initWithID:(int)netID {
+    waypoint cp;
+    GPSController *gpsc;
+
     self = [super init];
     
     if (!self) return nil;
     
     _dataLock = [[NSRecursiveLock alloc] init];
     [_dataLock lock];
-    _netView = [[NetView alloc] initWithNetwork:self];
-    
+	// we should only create a _netView for this network if we have the information to see it
+	// check with GPSController if we have a location or not!
+	gpsc = [WaveHelper gpsController];
+	cp = [gpsc currentPoint];    
+	if (cp._lat != 100) _netView = [[NetView alloc] initWithNetwork:self];
+	
     _ID = nil;
 	graphData = &zeroGraphData;
 	
@@ -210,11 +217,13 @@ int lengthSort(id string1, id string2, void *context)
     if (_primaryChannel == 0) _primaryChannel = _channel;
     _gotData = NO;
     
-    _netView = [[NetView alloc] initWithNetwork:self];
-    [_netView setWep:_isWep];
-    [_netView setName:_SSID];
-    [_netView setCoord:wp];
-    
+    if (wp._long != 100) {
+		_netView = [[NetView alloc] initWithNetwork:self];
+		[_netView setWep:_isWep];
+		[_netView setName:_SSID];
+		[_netView setCoord:wp];
+	}
+	
     _firstPacket = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:KisMACUserDefaultsChanged object:nil];
@@ -281,11 +290,13 @@ int lengthSort(id string1, id string2, void *context)
     wp._long = ew_coord * (ew_dir == 'E' ? 1.0 : -1.0);
     wp._elevation = 0;
 
-    _netView = [[NetView alloc] initWithNetwork:self];
-    [_netView setWep:_isWep];
-    [_netView setName:_SSID];
-    [_netView setCoord:wp];
-    
+	if (!(wp._long == 100 || (wp._lat == 0 && wp._long == 0))) {
+		_netView = [[NetView alloc] initWithNetwork:self];
+		[_netView setWep:_isWep];
+		[_netView setName:_SSID];
+		[_netView setCoord:wp];
+	}
+		
     _packetsLog = [[NSMutableArray arrayWithCapacity:20] retain];
     _ARPLog  = [[NSMutableArray arrayWithCapacity:20] retain];
     _ACKLog  = [[NSMutableArray arrayWithCapacity:20] retain];
@@ -443,11 +454,13 @@ int lengthSort(id string1, id string2, void *context)
     if (_primaryChannel == 0) _primaryChannel = _channel;
     _gotData = NO;
     
-    _netView = [[NetView alloc] initWithNetwork:self];
-    [_netView setWep:_isWep];
-    [_netView setName:_SSID];
-    [_netView setCoord:wp];
-    
+	if(wp._long != 100) {
+		_netView = [[NetView alloc] initWithNetwork:self];
+		[_netView setWep:_isWep];
+		[_netView setName:_SSID];
+		[_netView setCoord:wp];
+	}
+	
     _firstPacket = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:KisMACUserDefaultsChanged object:nil];
@@ -588,7 +601,7 @@ int lengthSort(id string1, id string2, void *context)
 	} else {
 		[WaveHelper secureReplace:&_SSID withObject:newSSID];
 	}
-	
+
 	[_netView setName:_SSID];
 	if (!_firstPacket) [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
 
@@ -631,14 +644,14 @@ int lengthSort(id string1, id string2, void *context)
 		//after the first packet we should play some sound 
 		if (_date == Nil) {
 			if (cp._lat != 100) {
-				// we have a GPS position and this is the first time we've seen the network - initialise _netView
+				// we have a new network with a GPS position - initialise _netView
 				_netView = [[NetView alloc] initWithNetwork:self];
 				[_netView setWep:_isWep];
-				if (_SSID==Nil) [_netView setName:_BSSID]; //draw BSSID into the map
+				if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
 				else [_netView setName:_SSID];
 				[_netView setCoord:cp];
 			}
-			
+						
 			if (_isWep >= encryptionTypeWEP) [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"WEPSound"]] play];
 			else [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"noWEPSound"]] play];
 			
@@ -669,17 +682,25 @@ int lengthSort(id string1, id string2, void *context)
             if ((v==Nil) || ([v intValue]<_curSignal))
                 [_coordinates setObject:[NSNumber numberWithInt:_curSignal] forKey:pV];
             [pV release];
+			if(_curSignal>=_maxSignal || ([aLat floatValue] == 0)) {
+				if(!_netView) {
+					// we didn't have a GPS position when this was first found, so initialise _netView now
+					NSLog(@"First GPS fix for net %@ - initialising",_BSSID);
+					_netView = [[NetView alloc] initWithNetwork:self];
+					[_netView setWep:_isWep];
+					if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
+					else [_netView setName:_SSID];
+				}
+				gpsc = [WaveHelper gpsController];
+				s = [gpsc NSCoord];
+				if (s) [WaveHelper secureReplace:&aLat withObject:s];
+				s = [gpsc EWCoord];
+				if (s) [WaveHelper secureReplace:&aLong withObject:s];
+				s = [gpsc ElevCoord];
+				if (s) [WaveHelper secureReplace:&aElev withObject:s];
+				[_netView setCoord:cp];
+			}
         }
-		if(_curSignal>=_maxSignal || ([aLat floatValue] == 0 && [aLong floatValue] == 0)) {
-            gpsc = [WaveHelper gpsController];
-            s = [gpsc NSCoord];
-            if (s) [WaveHelper secureReplace:&aLat withObject:s];
-            s = [gpsc EWCoord];
-            if (s) [WaveHelper secureReplace:&aLong withObject:s];
-            s = [gpsc ElevCoord];
-            if (s) [WaveHelper secureReplace:&aElev withObject:s];
-			[_netView setCoord:cp];
-		}
     }
     
     if(_curSignal>=_maxSignal) _maxSignal=_curSignal;

@@ -55,7 +55,7 @@ static NSImage* _networkStrange;
 		_netImg = [_networkUnkEnc retain];
         _netColor = [[NSColor yellowColor] retain];
         _wep = 0;
-        _wp._lat = 0;
+        _wp._lat = 100;
         _wp._long = 0;
 		_wp._elevation = 0;
         _network = network;

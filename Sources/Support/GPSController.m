@@ -203,22 +203,20 @@ struct termios ttyset;
 						NSLocalizedString(@"Time", "GPS status string."), 
 						[self lastUpdate],[self QualData]];
             else
-                return [NSString stringWithFormat:@"%@: %@ %@\n%@: %@\n%@: %@%@%@", 
+                return [NSString stringWithFormat:@"%@: %@ %@\n%@: %@\n%@: %@%@", 
                         NSLocalizedString(@"Position", "GPS status string."), 
                         [self NSCoord],[self EWCoord],
                         NSLocalizedString(@"Elevation", "GPS status string."), 
                         [self ElevCoord],
 						NSLocalizedString(@"Time", "GPS status string."), 
 						[self lastUpdate],
-                        _reliable ? @"" : NSLocalizedString(@" -- NO FIX", "GPS status string. Needs leading space"),
-                        [self QualData]];
+                        _reliable ? [self QualData] : NSLocalizedString(@" -- NO FIX", "GPS status string. Needs leading space")];
         else
-            return [NSString stringWithFormat:@"%@: %@ %@\n%@%@", 
+            return [NSString stringWithFormat:@"%@: %@ %@\n%@", 
                 NSLocalizedString(@"Position", "GPS status string."), 
                 [self NSCoord],[self EWCoord],
                 [self lastUpdate],
-                _reliable ? @"" : NSLocalizedString(@" -- NO FIX", "GPS status string. Needs leading space"),
-				[self QualData]];
+                _reliable ? [self QualData] : NSLocalizedString(@" -- NO FIX", "GPS status string. Needs leading space")];
 
     else if ([(NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"GPSDevice"] length]) {
         if (_gpsThreadUp) return NSLocalizedString(@"GPS subsystem works, but there is no data.\nIf you are using gpsd, there may be no GPS connected.\nOtherwise, your GPS is probably connected but not yet reporting a position.", "GPS status string");
@@ -526,65 +524,63 @@ int ss(char* inp, char* outp) {
 		
 		timeinterval = [date timeIntervalSinceDate:_lastUpdate];
         [WaveHelper secureReplace:&_lastUpdate withObject:date];
-
-
-        if ((_reliable)||(_onNoFix==0)) {
-            if (ns >= 0) _ns.dir = 'N';
-            else _ns.dir = 'S';
-            
-            if (ew >= 0) _ew.dir = 'E';
-            else _ew.dir = 'W';
-            
-            _ns.coordinates   = fabs(ns);
-            _ew.coordinates   = fabs(ew);
-            _elev.coordinates = elev;
-			if ((velkt > 0) && (_velkt==0)) {
-				_peakvel = 0;
-				_sectordist = 0;
-				_sectortime = 0;
-				[WaveHelper secureReplace:&_sectorStart withObject:date];
-			} else if ((velkt > 0) || (_velkt > 0)) {
-				// update distances only if we're moving (or just stopped)
-				displacement = (velkt + _velkt)*timeinterval/7200;
-				_sectordist += displacement;
-				_sectortime += timeinterval;
-				_totaldist += displacement;
-			}
-			_velkt = velkt;
-			veldir = (int)fveldir;
-			_veldir = veldir;
-			if (velkt > _peakvel) _peakvel = velkt;
-			if (velkt > _maxvel) _maxvel = velkt;
-
-			if (numsat > -1) {
-				_numsat = numsat;
-				_hdop = hdop;
-			}
-		} else if(_onNoFix==2) {
-            _ns.dir = 'N';
-            _ew.dir = 'E';
-            
-            _elev.coordinates = -10000;
-            _ns.coordinates = 100;
-            _ew.coordinates = 0;
-            _velkt = 0;
-        }
-
-		if (_reliable) {
-            if (([_lastUpdate timeIntervalSinceDate:_lastAdd]>_traceInterval) && (_traceInterval != 100)) {
-                waypoint w;
-                w._lat  = _ns.coordinates * ((_ns.dir=='N') ? 1.0 : -1.0);
-                w._long = _ew.coordinates * ((_ew.dir=='E') ? 1.0 : -1.0);
-                if ([[WaveHelper trace] addPoint:w]) [WaveHelper secureReplace:&_lastAdd withObject:date];
-            }
-        } else {
-            [[WaveHelper trace] cut];
-        }
-
     } else {
-// be quiet for now
-//        NSLog(@"GPSd parsing failure - received: %s",gpsbuf);
+		_reliable = NO;
     }
+
+	if ((_reliable)||(_onNoFix==0)) {
+		if (ns >= 0) _ns.dir = 'N';
+		else _ns.dir = 'S';
+		
+		if (ew >= 0) _ew.dir = 'E';
+		else _ew.dir = 'W';
+		
+		_ns.coordinates   = fabs(ns);
+		_ew.coordinates   = fabs(ew);
+		_elev.coordinates = elev;
+		if ((velkt > 0) && (_velkt==0)) {
+			_peakvel = 0;
+			_sectordist = 0;
+			_sectortime = 0;
+			[WaveHelper secureReplace:&_sectorStart withObject:date];
+		} else if ((velkt > 0) || (_velkt > 0)) {
+			// update distances only if we're moving (or just stopped)
+			displacement = (velkt + _velkt)*timeinterval/7200;
+			_sectordist += displacement;
+			_sectortime += timeinterval;
+			_totaldist += displacement;
+		}
+		_velkt = velkt;
+		veldir = (int)fveldir;
+		_veldir = veldir;
+		if (velkt > _peakvel) _peakvel = velkt;
+		if (velkt > _maxvel) _maxvel = velkt;
+
+		if (numsat > -1) {
+			_numsat = numsat;
+			_hdop = hdop;
+		}
+	} else if(_onNoFix==2) {
+		_ns.dir = 'N';
+		_ew.dir = 'E';
+		
+		_elev.coordinates = -10000;
+		_ns.coordinates = 100;
+		_ew.coordinates = 0;
+		_velkt = 0;
+	}
+
+	if (_reliable) {
+		if (([_lastUpdate timeIntervalSinceDate:_lastAdd]>_traceInterval) && (_traceInterval != 100)) {
+			waypoint w;
+			w._lat  = _ns.coordinates * ((_ns.dir=='N') ? 1.0 : -1.0);
+			w._long = _ew.coordinates * ((_ew.dir=='E') ? 1.0 : -1.0);
+			if ([[WaveHelper trace] addPoint:w]) [WaveHelper secureReplace:&_lastAdd withObject:date];
+		}
+	} else {
+		[[WaveHelper trace] cut];
+	}
+
     
     [date release];
     [subpool release];
