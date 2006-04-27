@@ -103,7 +103,6 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 	
 	if ([[defs objectForKey:@"aeForever"] boolValue]) {
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/rm" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions.kextcache"]];
-		//[[BLAuthentication sharedInstance] executeCommand:@"/usr/sbin/kextcache" withArgs:[NSArray arrayWithObjects:@"-k", @"/System/Library/Extensions", nil]];
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/rm" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions.mkext"]];
 	}
 }
@@ -112,7 +111,8 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 + (int) initBackend {
 	BOOL ret;
     int x;
-    
+    NSString *kextFile;
+	
     NSUserDefaults *defs;
     
 	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
@@ -132,6 +132,13 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 		OK, nil, nil);
 		return 2;
 	}
+	
+	if([[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/Extensions/IO80211Family.kext"]) {
+		kextFile = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext";
+	} else {
+		kextFile = @"/System/Library/Extensions/AppleAirPort2.kext";
+	}
+
 	
 	defs = [NSUserDefaults standardUserDefaults];
     if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
@@ -159,14 +166,14 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 	
         for (x=0; x<5; x++) {
             [NSThread sleep:1.0];
-            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions/AppleAirPort2.kext"]];
+            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
 		
             if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
         }
         [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", @"com.apple.iokit.AppleAirPort2", nil]];
         for (x=0; x<5; x++) {
             [NSThread sleep:1.0];
-            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions/AppleAirPort2.kext"]];
+            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
     
             if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
         }
@@ -211,14 +218,21 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 
 + (bool) unloadBackend {
 	BOOL ret;
+	NSString *kextFile;
+	
     if (explicitlyLoadedAirportExtremeDriver) {
 		ret = [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", @"com.apple.iokit.AppleAirPort2", nil]];
 		if (!ret) {
 			NSLog(@"WARNING!!! User canceled password dialog for: kextunload");
 			return NO;
 		}
+		if([[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/Extensions/IO80211Family.kext"]) {
+			kextFile = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext";
+		} else {
+			kextFile = @"/System/Library/Extensions/AppleAirPort2.kext";
+		}
 		[WaveDriverAirportExtreme setMonitorMode:NO];
-		[[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions/AppleAirPort2.kext"]];
+		[[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
 
 		[NSThread sleep:1.0];
 	}
