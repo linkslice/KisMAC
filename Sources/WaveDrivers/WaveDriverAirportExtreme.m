@@ -134,8 +134,10 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 	}
 	
 	if([[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/Extensions/IO80211Family.kext"]) {
+		NSLog(@"Enabling for new Intel Mac");
 		kextFile = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext";
 	} else {
+		NSLog(@"Enabling for Mac of the old school");
 		kextFile = @"/System/Library/Extensions/AppleAirPort2.kext";
 	}
 
