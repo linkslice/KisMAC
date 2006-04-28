@@ -73,6 +73,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"None", @"WEPSound",
         @"None", @"noWEPSound",
         @"None", @"GeigerSound",
+		[NSNumber numberWithBool:TRUE], @"playCrackSounds",
         @"", @"GPSDevice",
         [NSNumber numberWithInt:2], @"GPSTrace",
         [NSNumber numberWithInt:0], @"GPSNoFix",

@@ -257,6 +257,7 @@
     _importOpen--;
 	NSParameterAssert(_importOpen == 0);
 	[self menuSetEnabled:YES menu:[NSApp mainMenu]];
+	NSUserDefaults *defs;
 
 	[aInfoController reloadData];
     
@@ -264,9 +265,12 @@
     [_importController stopAnimation];
 
     if (returnCode == -1 && ![_importController canceled]) {
-		for (i=0;i<3;i++) {
-			[[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"WEPSound"]] play];
-			sleep(1);
+		defs = [NSUserDefaults standardUserDefaults];
+		if([[defs objectForKey:@"playCrackSounds"] intValue]) {
+			for (i=0;i<3;i++) {
+				[[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"WEPSound"]] play];
+				sleep(1);
+			}
 		}
 		switch(_crackType) {
         case 1:
@@ -313,9 +317,12 @@
             [aInjPacketsMenu setState:NSOnState];
             [aInjPacketsMenu setTitle:[NSLocalizedString(@"Reinjecting into ", "menu item") stringByAppendingString:[_curNet BSSID]]];
         } else {
-			for (i=0;i<3;i++) {
-				[[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"noWEPSound"]] play];
-				sleep(1);
+			defs = [NSUserDefaults standardUserDefaults];
+			if([[defs objectForKey:@"playCrackSounds"] intValue]) {
+				for (i=0;i<3;i++) {
+					[[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"noWEPSound"]] play];
+					sleep(1);
+				}
 			}
 			NSBeginAlertSheet(NSLocalizedString(@"Cracking successful", "Crack dialog title"),
                 OK, NULL, NULL, _window, self, NULL, NULL, NULL, 

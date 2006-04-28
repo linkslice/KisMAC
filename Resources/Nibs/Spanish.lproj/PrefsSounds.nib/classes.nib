@@ -18,6 +18,7 @@
                 aNOWEPSounds = id; 
                 aVoices = id; 
                 aWEPSounds = id; 
+                useSounds = id; 
             }; 
             SUPERCLASS = PrefsClient; 
         }

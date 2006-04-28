@@ -18,6 +18,7 @@
     IBOutlet id aVoices;
     IBOutlet id aGeigerSounds;
     IBOutlet id aGeigerSensity;    
+	IBOutlet id useSounds;
 }
 
 - (IBAction)playVoice:(id)sender;
