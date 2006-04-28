@@ -27,8 +27,10 @@
 #import "ImportController.h"
 #import "WaveHelper.h"
 #import <BIGeneric/BIGeneric.h>
+#import "Apple80211.h"
 
 static bool explicitlyLoadedAirportExtremeDriver = NO;
+WirelessContextPtr gWCtxt = NULL;
 
 @implementation WaveDriverAirportExtreme
 
@@ -274,9 +276,25 @@ static bool explicitlyLoadedAirportExtremeDriver = NO;
 	return _currentChannel;
 }
 
+WIErr
+wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) {
+	if (!buffer) bufsize = 0;
+	int* buf = malloc(bufsize+8);
+	buf[0] = 3; 
+	buf[1] = command;
+	if (bufsize && buffer)
+		memcpy(&buf[2], buffer, bufsize);
+	return WirelessPrivate(gWCtxt, buf, bufsize+8, out, outsize);
+}
+
+int chanint;
+
 - (bool) setChannel:(unsigned short)newChannel {
-   [[NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport"
-		arguments:[NSArray arrayWithObjects:@"-z", [NSString stringWithFormat:@"--channel=%u", newChannel], nil]] waitUntilExit];
+	chanint = newChannel;
+	WirelessAttach(&gWCtxt, 0);
+	wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
+	wlc_ioctl(30, 8, &chanint, 0, NULL); // set channel
+	WirelessDetach(gWCtxt);
 	_currentChannel = newChannel;
     return YES;
 }

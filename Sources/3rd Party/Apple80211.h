@@ -409,6 +409,13 @@ extern WIErr WirelessHCF_GetInfo(
 	void *outBuf);
 
 
+extern WIErr WirelessPrivate(
+							 WirelessContextPtr inContext,
+							 void* in_ptr,
+							 int in_bytes,
+							 void* out_ptr,
+							 int out_bytes);
+
 /*
 	***** MISSING FUNCTIONS *****
 	

@@ -26,11 +26,13 @@
 #import <Cocoa/Cocoa.h>
 #import <pcap.h>
 #import "WaveDriver.h"
+#import "Apple80211.h"
 
 @interface WaveDriverAirportExtreme : WaveDriver {
 	pcap_t *_device;
 }
 
+WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out);
 + (BOOL)monitorModeEnabled;
 + (void)setMonitorMode:(BOOL)enable;
 
