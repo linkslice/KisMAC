@@ -248,6 +248,7 @@
 - (IBAction)selAddDriver:(id)sender {
     NSMutableArray *drivers;
     NSString *driverClassName;
+	int result;
     
     driverClassName = [NSString stringWithCString:WaveDrivers[[[_driver selectedItem] tag]]];
     
@@ -276,6 +277,21 @@
         nil]];
     [controller setObject:drivers forKey:@"ActiveDrivers"];
     
+	if (([_driver indexOfSelectedItem] == 1) && ![_aeForever state]) {
+		// user has chosen Airport Extreme - STRONGLY suggest enabling persistent passive mode
+		result = NSRunAlertPanel(NSLocalizedString(@"Please enable persistent Airport Extreme passive.", "Persistent dialog title"),
+								 NSLocalizedString(@"Airport Extreme passive may not work without persistent passive support enabled.  Some users have reported errors and even system crashes when attempting to use without persistent passive support.  Enable persistent passive support now?", "Persistent dialog description"),
+								 NSLocalizedString(@"Yes please!","Yes button"), NSLocalizedString(@"No, I like kernel panics.","No button"), nil);
+		if (result == 1) {
+			[_aeForever setState:1];
+			[self enableAEForever:_aeForever];
+		} else {
+			NSRunAlertPanel(NSLocalizedString(@"Don't say we didn't warn you!", "Persistent dialog title"),
+							NSLocalizedString(@"There's just no helping some people.", "Persistent dialog description"),
+							OK,nil, nil);
+		}
+	}
+	
     [_driverTable reloadData];
     [_driverTable selectRow:[drivers count]-1 byExtendingSelection:NO];
     [self updateUI];

@@ -1,3 +1,25 @@
+R147: - added prompt to enable persistent support for Airport Extreme passive.  User still has full control, but suitable warnings now accompany attempts to use AE passive without persistent support.
+
+R146: - themacuser's patch to remove the "airport" tool from Airport Extreme passive mode channel switching.  Large improvement in overall CPU load.
+
+R145: - back port of all patches to the 0.2x tree
+
+R144: - Added preference to sound preference pane for sounds at end of crack attempt - thanks to themacuser!
+
+R143: - Fix for nets without GPS data being drawn onto map
+	  - Improved some logic in GPS data handling (e.g. loss of GPS position, some GPSd handling)
+
+R142: - added possibe fix for AP Extreme, non permanent mode on Intel iMac
+
+R141: - installer fix
+
+R138: - general cleanup
+	  - fixed some macbook pro related bugs
+
+R137: - added missing file from last commit (thanks geoff)
+
+R136: - added Beat Zahnds OpenHAL patches
+
 R135: - Now handles going to sleep properly (will resume scanning if scanning before sleep, and USB Prism2 devices will work immediately after sleep without a dummy scan).
 
 R134: - Patch to receive notifications on sleep and to let drivers know we are going down in flames

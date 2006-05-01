@@ -187,7 +187,7 @@ WirelessContextPtr gWCtxt = NULL;
 	NSLog(@"Could not enable monitor mode for Airport Extreme.");
 	NSRunCriticalAlertPanel(
 		NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
-		NSLocalizedString(@"Could not load Monitor Mode for Airport Extreme. Drivers were not found.  If you just enabled Monitor Mode permanently, you must reboot. Please note that passive mode does not work with MacBookPros and recent Mac Minis.", "Error dialog description"),
+		NSLocalizedString(@"Could not load Monitor Mode for Airport Extreme. Drivers were not found.  If you just enabled persistent passive support, you must reboot. Please note that passive mode does not work with MacBookPros and recent Mac Minis.", "Error dialog description"),
 		OK, nil, nil);
 	
 	return 2;
