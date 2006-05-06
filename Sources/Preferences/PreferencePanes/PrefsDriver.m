@@ -277,7 +277,7 @@
         nil]];
     [controller setObject:drivers forKey:@"ActiveDrivers"];
     
-	if (([_driver indexOfSelectedItem] == 1) && ![_aeForever state]) {
+	if (([_driver indexOfSelectedItem] == 1) && ![_aeForever state] && ![WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
 		// user has chosen Airport Extreme - STRONGLY suggest enabling persistent passive mode
 		result = NSRunAlertPanel(NSLocalizedString(@"Please enable persistent Airport Extreme passive.", "Persistent dialog title"),
 								 NSLocalizedString(@"Airport Extreme passive may not work without persistent passive support enabled.  Some users have reported errors and even system crashes when attempting to use without persistent passive support.  Enable persistent passive support now?", "Persistent dialog description"),
@@ -334,7 +334,16 @@
                                 OK, nil, nil);
         return;
 	}
-    [WaveDriverAirportExtreme setMonitorMode: [_aeForever state]];
+	if ([_aeForever state] == NSOnState && [WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
+		[_aeForever setState:NSOffState];
+		NSRunCriticalAlertPanel(
+                                NSLocalizedString(@"Not Needed.", "Error dialog title"),
+                                NSLocalizedString(@"Atheros based Airport Extreme cards keep track of monitor mode themselves.", "Error dialog description"),
+                                OK, nil, nil);
+        return;
+	
+	}
+    [WaveDriverAirportExtreme setMonitorMode: [_aeForever state] == NSOnState];
     [self setValueForSender:sender];
     NSRunCriticalAlertPanel(
                             NSLocalizedString(@"You Must Reboot.", "Error dialog title"),

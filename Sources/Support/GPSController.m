@@ -43,7 +43,6 @@
 #include <netdb.h>
 #include <string.h>
 #include <errno.h>
-
 #include <sys/termios.h>
 
 struct termios ttyset;

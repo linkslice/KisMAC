@@ -28,8 +28,15 @@
 #import "WaveDriver.h"
 #import "Apple80211.h"
 
+enum APExtType {
+	APExtTypeUnknown,
+	APExtTypeBcm,
+	APExtTypeAth5414
+};
+
 @interface WaveDriverAirportExtreme : WaveDriver {
 	pcap_t *_device;
+	enum APExtType _apeType;
 }
 
 WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out);
