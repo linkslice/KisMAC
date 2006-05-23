@@ -17,6 +17,7 @@
                 "KisMAC.ImportKisMAC"           = "importKisMAC:";
                 "KisMAC.ImportImageForMap"      = "importImageForMap:";
                 "KisMAC.ImportPCAP"             = "importPCAP:";
+                "KisMAC.ExportKML"             = "exportKML:";
                 "NSCoreSuite.Save"              = "save:";
                 "KisMAC.saveAs"                 = "saveAs:";
                 "KisMAC.SelectNetworkAtIndex"   = "selectNetworkAtIndex:";
@@ -87,6 +88,11 @@
         }; 
 		ImportPCAP = {
             AppleEventCode = KImP; 
+            CommandClass = NSScriptCommand;
+            UnnamedArgument = { Optional = NO; Type = "NSString<FilePath>"; };
+        }; 
+        ExportKML = {
+            AppleEventCode = KKML; 
             CommandClass = NSScriptCommand;
             UnnamedArgument = { Optional = NO; Type = "NSString<FilePath>"; };
         }; 

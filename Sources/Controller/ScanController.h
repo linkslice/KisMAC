@@ -169,6 +169,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)importMapFromServer:(id)sender;
 
 - (IBAction)exportNS:(id)sender;
+- (IBAction)exportKMLFile:(id)sender;
 - (IBAction)exportWarD:(id)sender;
 - (IBAction)exportMacstumbler:(id)sender;
 - (IBAction)exportToServer:(id)sender;

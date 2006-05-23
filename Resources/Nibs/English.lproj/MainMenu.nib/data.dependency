@@ -4,8 +4,8 @@
 <dict>
 	<key>IBPaletteDependency</key>
 	<array>
-		<string>RollOverButtonPalette</string>
 		<string>ASKPalette</string>
+		<string>RollOverButtonPalette</string>
 	</array>
 </dict>
 </plist>

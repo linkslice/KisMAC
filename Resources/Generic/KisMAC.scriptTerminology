@@ -54,6 +54,11 @@
             Description = "imports a PCAP file, with 802.11 packets and without prism headers";
             UnnamedArgument = { Description = "The file to be imported."; };
         };
+        ExportKML = {
+            Name = exportKML;
+            Description = "exports a Google Earth KML file";
+            UnnamedArgument = { Description = "The file to be exported."; };
+        };
         DownloadMap = {
             Name = downloadMapFrom;
             Description = "imports a map for a specific coordinate from some server";

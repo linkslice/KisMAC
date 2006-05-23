@@ -106,6 +106,7 @@
                 authFloodNetwork = id; 
                 changeSearchType = id; 
                 changeSearchValue = id; 
+                checkFilter = id; 
                 clearNetwork = id; 
                 closeActiveWindow = id; 
                 deautheticateAllNetworks = id; 
@@ -116,7 +117,7 @@
                 debugTestWPAHashingFunction = id; 
                 decryptPCAPFile = id; 
                 exportJPEG = id; 
-                exportKML = id; 
+                exportKMLFile = id; 
                 exportMacstumbler = id; 
                 exportNS = id; 
                 exportPDF = id; 
@@ -128,14 +129,12 @@
                 injectPackets = id; 
                 joinNetwork = id; 
                 openDonateURL = id; 
-                openPCAPInEthereal = id; 
                 openWebsiteURL = id; 
                 restartGPS = id; 
                 selChannel = id; 
                 selChannelRange = id; 
                 setAutoAdjustTimer = id; 
                 showAllNetArea = id; 
-                showClient = id; 
                 showContextHelp = id; 
                 showCurNetArea = id; 
                 showInfo = id; 
@@ -165,7 +164,7 @@
                 "_networksButton" = NSButton; 
                 "_scanButton" = AMRollOverButton; 
                 "_searchField" = NSSearchField; 
-                "_searchTypeMenu" = id; 
+                "_searchTypeMenu" = NSPopUpButton; 
                 "_showAllNetsInMap" = NSMenuItem; 
                 "_showDetails" = NSMenuItem; 
                 "_showHierarch" = NSMenuItem; 
@@ -186,12 +185,12 @@
                 aChannelMenu = NSMenu; 
                 aCrackMenu = NSMenu; 
                 aDetailsTable = ColoredRowTableView; 
+                aGrowlController = GrowlController; 
                 aInfoController = InfoController; 
                 aInjPacketsMenu = NSMenuItem; 
                 aNetworkMenu = NSMenu; 
                 aOutView = NSOutlineView; 
                 detailsView = NSView; 
-                myOutlet = id; 
                 prefsController = PrefsController; 
                 prefsWindow = NSWindow; 
                 scanner = WaveScanner; 

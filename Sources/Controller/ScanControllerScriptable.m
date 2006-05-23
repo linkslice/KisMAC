@@ -266,6 +266,12 @@
     return NO;
 }
 
+- (BOOL)exportKML:(NSString*)filename {
+    [self showBusy:@selector(performExportKML:) withArg:filename];
+    if (_asyncFailure) [self showExportFailureDialog];
+    return !_asyncFailure;
+}
+
 - (BOOL)downloadMapFrom:(NSString*)server forPoint:(waypoint)w resolution:(NSSize)size zoomLevel:(int)zoom {
     NSImage *map;
     MapDownload *md;

@@ -42,6 +42,7 @@
 - (id)importKisMAC:(NSScriptCommand *)command;
 - (id)importImageForMap:(NSScriptCommand *)command;
 - (id)importPCAP:(NSScriptCommand *)command;
+- (id)exportKML:(NSScriptCommand *)command;
 - (id)downloadMap:(NSScriptCommand*)command;
 
 - (id)selectNetworkAtIndex:(NSScriptCommand *)command;
