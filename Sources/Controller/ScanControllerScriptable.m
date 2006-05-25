@@ -267,6 +267,8 @@
 }
 
 - (BOOL)exportKML:(NSString*)filename {
+    NSParameterAssert(filename);
+    filename = [filename standardPath];
     [self showBusy:@selector(performExportKML:) withArg:filename];
     if (_asyncFailure) [self showExportFailureDialog];
     return !_asyncFailure;

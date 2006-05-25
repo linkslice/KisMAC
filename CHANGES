@@ -1,3 +1,5 @@
+R151: - Fix path issure in KML export AppleScript
+
 R150: - Fix compile on xCode 2.3
 
 R149: - added export KML to script library to support "Realtime" export of kml
