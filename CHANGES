@@ -1,3 +1,5 @@
+R150: - Fix compile on xCode 2.3
+
 R149: - added export KML to script library to support "Realtime" export of kml
 
 R147: - added prompt to enable persistent support for Airport Extreme passive.  User still has full control, but suitable warnings now accompany attempts to use AE passive without persistent support.

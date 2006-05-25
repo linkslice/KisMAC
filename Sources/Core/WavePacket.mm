@@ -115,7 +115,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 					if ((len -= slen) < 0) break;
 					
 					@try  {
-						memcpy(ssid, ssidl, slen);
+						memcpy((void*)ssid, ssidl, slen);
 						ssid[slen]=0;
 						[_SSIDs addObject:[NSString stringWithUTF8String:ssid]];
 					}
