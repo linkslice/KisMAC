@@ -39,7 +39,7 @@ public:
     bool    setChannel(UInt16 channel);
     bool    devicePresent();
     
-    WLFrame *recieveFrame();
+    WLFrame *receiveFrame();
     bool    sendFrame(UInt8* data);
     
     void    startMatching();

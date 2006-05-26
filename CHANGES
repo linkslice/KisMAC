@@ -1,4 +1,8 @@
-R151: - Fix path issure in KML export AppleScript
+R152: - Added near-real-time Google Earth output (in AppleScript samples folder)
+      - Corrected spelling error in function name
+      - Attempt to handle USB errors more gracefully (although still not perfect)
+
+R151: - Fix path issue in KML export AppleScript
 
 R150: - Fix compile on xCode 2.3
 

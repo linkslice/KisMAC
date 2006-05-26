@@ -33,6 +33,8 @@
     //stuff for timed sending
     float           _interval;
     bool            _transmitting;
+	
+	int				_errors;
 }
 
 @end

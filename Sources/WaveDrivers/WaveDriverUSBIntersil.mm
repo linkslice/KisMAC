@@ -36,6 +36,8 @@ static bool explicitlyLoadedUSBIntersil = NO;
     _driver = new USBIntersilJack;
     _driver->startMatching();
     
+	_errors = 0;
+	
     return self;
 }
 
@@ -137,12 +139,19 @@ static bool explicitlyLoadedUSBIntersil = NO;
 - (WLFrame*) nextFrame {
     WLFrame *f;
     
-    f = _driver->recieveFrame();
+    f = _driver->receiveFrame();
     if (f==NULL) {
-        if (_packets) {
-            delete _driver; 
-            _driver = new USBIntersilJack;
-            _driver->startMatching();
+		_errors++;
+        if (_packets && _driver) {
+			if (_errors < 3) {
+				NSLog(@"USB receiveFrame failed - attempting to reload driver");
+				delete _driver;
+				_driver = new USBIntersilJack;
+				_driver->startMatching();
+			} else {
+				NSLog(@"Excessive errors received - terminating driver");
+				delete _driver;
+			}
         }
         NSRunCriticalAlertPanel(NSLocalizedString(@"USB Prism2 error", "Error box title"),
                 NSLocalizedString(@"USB Prism2 error description", "LONG Error description"),
@@ -150,8 +159,10 @@ static bool explicitlyLoadedUSBIntersil = NO;
                 //"be canceled. Errors may have be printed to console.log."
                 OK, Nil, Nil);
 
-    } else
+    } else {
         _packets++;
+		_errors=0;
+	}
     
     return f;
 }

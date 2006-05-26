@@ -185,7 +185,7 @@ bool USBIntersilJack::devicePresent() {
     return _devicePresent;
 }
 
-WLFrame *USBIntersilJack::recieveFrame() {
+WLFrame *USBIntersilJack::receiveFrame() {
     WLFrame* ret;
     
     if (!_devicePresent) return NULL;
