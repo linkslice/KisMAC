@@ -136,6 +136,8 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     IBOutlet NSMenuItem         *_deauthMenu;
 	IBOutlet NSMenuItem			*_deauthAllMenu;
     IBOutlet NSMenuItem         *_authFloodMenu;
+	IBOutlet NSMenuItem			*_monitorMenu;
+	IBOutlet NSMenuItem			*_monitorAllMenu;
     IBOutlet NSMenuItem         *aInjPacketsMenu;
     IBOutlet NSMenuItem         *_showNetInMap;
     IBOutlet NSMenuItem         *_showAllNetsInMap;
@@ -188,6 +190,8 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)deautheticateNetwork:(id)sender;
 - (IBAction)deautheticateAllNetworks:(id)sender;
 - (IBAction)authFloodNetwork:(id)sender;
+- (IBAction)monitorSignal:(id)sender;
+- (IBAction)monitorAllNetworks:(id)sender;
 - (IBAction)injectPackets:(id)sender;
 
 - (IBAction)restartGPS:(id)sender;
@@ -205,7 +209,6 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)debugBeaconFlood:(id)sender;
 - (IBAction)debugTestWPAHashingFunction:(id)sender;
 - (IBAction)debugExportTrafficView:(id)sender;
-
 void NotifySleep( void * refCon, io_service_t service,
                       natural_t messageType, void * messageArgument );
 

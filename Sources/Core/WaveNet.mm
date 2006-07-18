@@ -43,6 +43,14 @@
 
 #define min(a, b)	(a) < (b) ? a : b
 
+
+int _numMidi;
+NoteAllocator   na, na2;
+NoteChannel     nc, nc2;
+NoteRequest     nr, nr2;
+NSString *trackString,*trackStringClient;
+
+
 struct graphStruct zeroGraphData;
 
 struct signalCoords {
@@ -816,9 +824,56 @@ int lengthSort(id string1, id string2, void *context)
         graphData->trafficData[graphLength] += [w length];
         graphData->packetData[graphLength] += 1;
         curSignalData += _curSignal;
+		
+		// themacuser - sounds here
+		
+		 if (([[w BSSIDString] isEqualToString:trackString] || [trackString isEqualToString:@"any"]) && ([[w clientFromID] isEqualToString:trackStringClient] || [trackStringClient isEqualToString:@"any"])) {
+			
+			if (_numMidi == 200)
+			{
+				[self openChannel2:7];
+			}
+			
+			if (_numMidi == 255)
+			{
+				_numMidi = 0;
+				[self closeChannel];
+				na = na2;
+				nc = nc2;
+				nr = nr2;
+			}
+			
+			if (!nc || !na)
+			{
+				ComponentResult  thisError;
+				na = 0;
+				nc = 0;
+				// Open up the note allocator.
+				na = OpenDefaultComponent(kNoteAllocatorComponentType, 0);
+				if (!na)
+					NSLog(@"Error initializing QuickTime Component");
+				
+				BigEndianShort s = (BigEndianShort){EndianS16_NtoB(8)};
+				BigEndianFixed f = (BigEndianFixed){EndianS16_NtoB(0x00010000)};
+				
+				// Fill out a NoteRequest using NAStuffToneDescription to help, and
+				// allocate a NoteChannel.
+				nr.info.flags = 0;
+				nr.info.polyphony = s;   // simultaneous tones
+				nr.info.typicalPolyphony = f; // usually just one note
+				thisError = NAStuffToneDescription(na, 7, &nr.tone); // 1 is piano
+				thisError = NANewNoteChannel(na, &nr, &nc);			
+			}
+
+		[self playChord:_curSignal];
+		_numMidi++;
+		//	[self closeChannel];
+		}
+		
         curPacketData++;
         curTrafficData += [w length];
     }
+
     
     if (_BSSID==Nil) {
         _BSSID=[[NSString stringWithString:[w BSSIDString]] retain];
@@ -942,8 +997,55 @@ int lengthSort(id string1, id string2, void *context)
         _BSSID = [[NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", _rawBSSID[0], _rawBSSID[1], _rawBSSID[2],
                 _rawBSSID[3], _rawBSSID[4], _rawBSSID[5]] retain];
     }
-        
-    _curSignal = [[info objectForKey:@"signal"] intValue] - [[info objectForKey:@"noise"] intValue];
+	
+	if ([_BSSID isEqualToString:trackString] || [trackString isEqualToString:@"any"]) {
+		
+		if (_numMidi == 200)
+		{
+			[self openChannel2:7];
+		}
+		
+		if (_numMidi == 255)
+		{
+			_numMidi = 0;
+			[self closeChannel];
+			na = na2;
+			nc = nc2;
+			nr = nr2;
+		}
+		
+		if (!nc || !na)
+		{
+			ComponentResult  thisError;
+			na = 0;
+			nc = 0;
+			// Open up the note allocator.
+			na = OpenDefaultComponent(kNoteAllocatorComponentType, 0);
+			if (!na)
+				NSLog(@"Error initializing QuickTime Component");
+			
+			BigEndianShort s = (BigEndianShort){EndianS16_NtoB(8)};
+			BigEndianFixed f = (BigEndianFixed){EndianS16_NtoB(0x00010000)};
+			
+			// Fill out a NoteRequest using NAStuffToneDescription to help, and
+			// allocate a NoteChannel.
+			nr.info.flags = 0;
+			nr.info.polyphony = s;   // simultaneous tones
+			nr.info.typicalPolyphony = f; // usually just one note
+			thisError = NAStuffToneDescription(na, 7, &nr.tone); // 1 is piano
+			thisError = NANewNoteChannel(na, &nr, &nc);			
+		}
+		
+		[self playChord:_curSignal];
+		_numMidi++;
+		//	[self closeChannel];
+	}
+	
+	
+	
+	
+    
+	_curSignal = [[info objectForKey:@"signal"] intValue] - [[info objectForKey:@"noise"] intValue];
     if (_curSignal<0) _curSignal = 0;
     
     _primaryChannel = _channel = [[info objectForKey:@"channel"] intValue];
@@ -1693,6 +1795,8 @@ typedef int (*SORTFUNC)(id, id, void *);
     [NSThread detachNewThreadSelector:@selector(doReinjectWithScanner:) toTarget:self withObject:scanner];
 }
 
+
+
 #pragma mark -
 
 - (void)dealloc {
@@ -1733,5 +1837,58 @@ typedef int (*SORTFUNC)(id, id, void *);
 	
     [super dealloc];
 }
+
+- (void)openChannel2:(int)note {
+	ComponentResult  thisError;
+    na2 = 0;
+    nc2 = 0;
+    // Open up the note allocator.
+    na2 = OpenDefaultComponent(kNoteAllocatorComponentType, 0);
+    if (!na2)
+		NSLog(@"Error initializing QuickTime Component");
+	
+	BigEndianShort s = (BigEndianShort){EndianS16_NtoB(8)};
+	BigEndianFixed f = (BigEndianFixed){EndianS16_NtoB(0x00010000)};
+	
+    // Fill out a NoteRequest using NAStuffToneDescription to help, and
+    // allocate a NoteChannel.
+    nr2.info.flags = 0;
+    nr2.info.polyphony = s;   // simultaneous tones
+    nr2.info.typicalPolyphony = f; // usually just one note
+    thisError = NAStuffToneDescription(na2, note, &nr2.tone); // 1 is piano
+    thisError = NANewNoteChannel(na2, &nr2, &nc2); 	
+}
+
+
+
+- (void) playChord:(int)note{
+	int the_note = note; //  middle C == 60
+	NAPlayNote(na, nc, the_note, 127);     // note at velocity 80
+	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+	the_note = 60 + 0 - 13;
+	NAPlayNote(na, nc, the_note, 0);     // note at velocity 80
+	
+}
+
+- (void)closeChannel {
+	if (nc)
+		NADisposeNoteChannel(na, nc);
+	if (na)
+		CloseComponent(na);
+	
+}
+
++ (void)setTrackString:(NSString*)cs{
+	 [WaveHelper secureReplace:&trackString withObject:cs];
+}
+
++ (void)setTrackStringClient:(NSString*)cs{
+	[WaveHelper secureReplace:&trackStringClient withObject:cs];
+}
+
++ (NSString*)trackString{
+	return trackString;
+}
+
 
 @end

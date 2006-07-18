@@ -25,6 +25,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <UnitKit/UnitKit.h>
+#include <QuickTime/QuickTime.h>
 #import "WavePacket.h"
 #import "ImportController.h"
 #import "GrowlController.h"
@@ -106,10 +107,9 @@ struct graphStruct {
     int curPacketData;		// for setting graphData
     int curSignalData;		// for setting graphData
     int _avgTime;               // how many seconds are take for average?
-
     ImportController *_im;
-	
 
+		
 }
 
 - (id)initWithID:(int)netID;
@@ -196,5 +196,11 @@ struct graphStruct {
 - (void)reinjectWithImportController:(ImportController*)im andScanner:(id)scanner;
 
 - (NSString*)crackError;
+
+- (void)openChannel2:(int)note;
+- (void)playChord:(int)	note;
+- (void)closeChannel;
++ (void)setTrackString:(NSString*)cs;
++ (void)setTrackStringClient:(NSString*)cs;
 
 @end

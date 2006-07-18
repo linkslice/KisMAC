@@ -37,6 +37,7 @@
 #import "MapView.h"
 #import "MapViewAreaView.h"
 #import "WaveStorageController.h"
+#import "WaveNet.h"
 
 @implementation ScanController(MenuExtension)
 
@@ -563,6 +564,42 @@
     } else {
         [self stopActiveAttacks];
     }
+}
+
+- (IBAction)monitorSignal:(id)sender {
+	   if ([_monitorMenu state]==NSOffState) {
+		   [_monitorMenu setState:NSOnState];
+		   
+		   [_monitorAllMenu setState:NSOffState];
+
+		   [_monitorMenu setTitle:[NSLocalizedString(@"Monitoring ", "menu item") stringByAppendingString:[_curNet BSSID]]];
+		   
+		   [WaveNet setTrackString:[_curNet BSSID]];
+		   [WaveNet setTrackStringClient:@"any"];
+	   } else {
+			[_monitorMenu setState:NSOffState];
+			[_monitorMenu setTitle:NSLocalizedString(@"Monitor Signal Strength", "menu item")];
+
+			[WaveNet setTrackString:@""];
+			[WaveNet setTrackStringClient:@""];
+	   }	
+}
+
+- (IBAction)monitorAllNetworks:(id)sender {
+	if ([_monitorAllMenu state]==NSOffState) {
+		[_monitorAllMenu setState:NSOnState];
+		
+		[_monitorMenu setState:NSOffState];
+		[_monitorMenu setTitle:NSLocalizedString(@"Monitor Signal Strength", "menu item")];
+		
+		[WaveNet setTrackString:@"any"];
+		[WaveNet setTrackStringClient:@"any"];
+	   } else {
+		   [_monitorAllMenu setState:NSOffState];
+		   [_monitorAllMenu setTitle:NSLocalizedString(@"Monitor all signals", "menu item")];
+		   [WaveNet setTrackString:@""];
+		   [WaveNet setTrackStringClient:@""];
+	   }	
 }
 
 #pragma mark -
