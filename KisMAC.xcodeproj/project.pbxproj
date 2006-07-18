@@ -407,6 +407,7 @@
 		00C5F12C06DE0C98001EC02F /* MapViewPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C5F12A06DE0C98001EC02F /* MapViewPrivate.h */; };
 		00C5F12D06DE0C98001EC02F /* MapViewPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C5F12B06DE0C98001EC02F /* MapViewPrivate.m */; };
 		00C5F13406DE0EAF001EC02F /* MapViewAreaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C5F13206DE0EAF001EC02F /* MapViewAreaView.h */; };
+		00C8DE630A6D23F000BB597C /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C8DE620A6D23EF00BB597C /* QuickTime.framework */; };
 		00CBA25A06DB7D0A000ACD19 /* WaveNetWEPWordlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CBA25806DB7D09000ACD19 /* WaveNetWEPWordlist.h */; };
 		00CBA25B06DB7D0A000ACD19 /* WaveNetWEPWordlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CBA25906DB7D0A000ACD19 /* WaveNetWEPWordlist.m */; };
 		00CBA34006DB8FDE000ACD19 /* MapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CBA33E06DB8FDE000ACD19 /* MapView.h */; };
@@ -750,6 +751,7 @@
 		00C5F12A06DE0C98001EC02F /* MapViewPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewPrivate.h; sourceTree = "<group>"; };
 		00C5F12B06DE0C98001EC02F /* MapViewPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewPrivate.m; sourceTree = "<group>"; };
 		00C5F13206DE0EAF001EC02F /* MapViewAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAreaView.h; sourceTree = "<group>"; };
+		00C8DE620A6D23EF00BB597C /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		00CBA25806DB7D09000ACD19 /* WaveNetWEPWordlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveNetWEPWordlist.h; sourceTree = "<group>"; };
 		00CBA25906DB7D0A000ACD19 /* WaveNetWEPWordlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveNetWEPWordlist.m; sourceTree = "<group>"; };
 		00CBA33E06DB8FDE000ACD19 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
@@ -854,6 +856,7 @@
 				00F9C65006DB37E200E357F0 /* Carbon.framework in Frameworks */,
 				00F9C65106DB37E200E357F0 /* IOKit.framework in Frameworks */,
 				6CA3BCCB09B2A58F00DCB407 /* Accelerate.framework in Frameworks */,
+				00C8DE630A6D23F000BB597C /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1356,6 +1359,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00C8DE620A6D23EF00BB597C /* QuickTime.framework */,
 				6C03D76F09B547F2005B2316 /* Growl.framework */,
 				6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */,
 				000D3A3807C731D200485FDD /* UnitKit.framework */,
