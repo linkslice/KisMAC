@@ -102,8 +102,9 @@
     
     [_injectionDevice       setEnabled:enableInjection];
     if (!enableInjection) {
-         [_injectionDevice setTitle:@"Airport Not Supported"];
-    }
+         [_injectionDevice setTitle:@"Injection Not Supported"];
+    }else
+        [_injectionDevice setTitle:@"use as primary device"];
     
     if (enableChannel) {
         [_firstChannel  setIntValue:    [[d objectForKey:@"firstChannel"] intValue]];
