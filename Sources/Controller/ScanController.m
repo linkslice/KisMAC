@@ -653,7 +653,6 @@ void NotifySleep( void * refCon, io_service_t service,
 	NSString *bssid, *mac;
 	bssid = [_curNet BSSID];
 	mac = [aInfoController theRow];
-	NSLog(@"BSSID is %@ and MAC is %@", bssid, mac);
 	[_monitorMenu setTitle:[NSString stringWithFormat:@"%@ %@ - %@",NSLocalizedString(@"Monitoring ", "menu item"), bssid, mac]];
 	[WaveNet setTrackString:bssid];
 	[WaveNet setTrackStringClient:mac];

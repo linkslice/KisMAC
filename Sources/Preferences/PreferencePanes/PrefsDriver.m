@@ -101,6 +101,9 @@
     [_dumpFilter            setEnabled:enableDumping];
     
     [_injectionDevice       setEnabled:enableInjection];
+    if (!enableInjection) {
+         [_injectionDevice setTitle:@"Airport Not Supported"];
+    }
     
     if (enableChannel) {
         [_firstChannel  setIntValue:    [[d objectForKey:@"firstChannel"] intValue]];
