@@ -470,6 +470,9 @@
 		6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */; };
 		6C1D31C109F37BC70005A9F8 /* PrefsAdvanced.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */; };
 		6C1D31C409F37BE10005A9F8 /* PrefsAdvanced.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C1D31C209F37BE10005A9F8 /* PrefsAdvanced.nib */; };
+		6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */; };
+		6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */; };
+		6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */; };
 		6CA3BCCB09B2A58F00DCB407 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */; };
 		87CEBA8209AEF03700AEB0B8 /* GrowlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CEBA8009AEF03700AEB0B8 /* GrowlController.h */; };
 		87CEBA8309AEF03700AEB0B8 /* GrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CEBA8109AEF03700AEB0B8 /* GrowlController.m */; };
@@ -814,6 +817,9 @@
 		6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsAdvanced.m; sourceTree = "<group>"; };
 		6C1D31C309F37BE10005A9F8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/Nibs/English.lproj/PrefsAdvanced.nib; sourceTree = SOURCE_ROOT; };
 		6C1D31C509F37BF40005A9F8 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Resources/Nibs/Spanish.lproj/PrefsAdvanced.nib; sourceTree = SOURCE_ROOT; };
+		6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-ap-revealed.png"; sourceTree = "<group>"; };
+		6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-challenge.png"; sourceTree = "<group>"; };
+		6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-response.png"; sourceTree = "<group>"; };
 		6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		87CEBA8009AEF03700AEB0B8 /* GrowlController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlController.h; sourceTree = "<group>"; };
 		87CEBA8109AEF03700AEB0B8 /* GrowlController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlController.m; sourceTree = "<group>"; };
@@ -937,6 +943,9 @@
 		0035333206A5DD5700AB4577 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */,
+				6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */,
+				6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */,
 				00D566B209C74A8200FB787B /* growl-leap.png */,
 				00D566B309C74A8200FB787B /* growl-noenc.png */,
 				00D566B409C74A8200FB787B /* growl-probe.png */,
@@ -1821,6 +1830,9 @@
 				00D566BA09C74A8200FB787B /* growl-wep.png in Resources */,
 				00D566BB09C74A8200FB787B /* growl-wpa.png in Resources */,
 				6C1D31C409F37BE10005A9F8 /* PrefsAdvanced.nib in Resources */,
+				6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */,
+				6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */,
+				6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
