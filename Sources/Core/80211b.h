@@ -208,21 +208,21 @@ typedef struct _frameLEAP {
 
 #define WPA_EXT_IV_PRESENT              0x20
 
-#define WPA_FLAG_REQUEST                0x0800
-#define WPA_FLAG_ERROR                  0x0400
-#define WPA_FLAG_SECURE                 0x0200
-#define WPA_FLAG_MIC                    0x0100
-#define WPA_FLAG_ACK                    0x0080
-#define WPA_FLAG_INSTALL                0x0040
-#define WPA_FLAG_KEYID                  0x0030
-#define WPA_FLAG_KEYTYPE                0x0008
-#define WPA_FLAG_KEYCIPHER              0x0007
+#define WPA_FLAG_REQUEST                OSSwapBigToHostConstInt16(0x0800)
+#define WPA_FLAG_ERROR                  OSSwapBigToHostConstInt16(0x0400)
+#define WPA_FLAG_SECURE                 OSSwapBigToHostConstInt16(0x0200)
+#define WPA_FLAG_MIC                    OSSwapBigToHostConstInt16(0x0100)
+#define WPA_FLAG_ACK                    OSSwapBigToHostConstInt16(0x0080)
+#define WPA_FLAG_INSTALL                OSSwapBigToHostConstInt16(0x0040)
+#define WPA_FLAG_KEYID                  OSSwapBigToHostConstInt16(0x0030)
+#define WPA_FLAG_KEYTYPE                OSSwapBigToHostConstInt16(0x0008)
+#define WPA_FLAG_KEYCIPHER              OSSwapBigToHostConstInt16(0x0007)
 
-#define WPA_FLAG_KEYTYPE_PAIRWISE       0x0008
-#define WPA_FLAG_KEYTYPE_GROUPWISE      0x0000
+#define WPA_FLAG_KEYTYPE_PAIRWISE       OSSwapBigToHostConstInt16(0x0008)
+#define WPA_FLAG_KEYTYPE_GROUPWISE      OSSwapBigToHostConstInt16(0x0000)
 
-#define WPA_FLAG_KEYCIPHER_HMAC_MD5     0x0001
-#define WPA_FLAG_KEYCIPHER_AES_CBC      0x0002
+#define WPA_FLAG_KEYCIPHER_HMAC_MD5     OSSwapBigToHostConstInt16(0x0001)
+#define WPA_FLAG_KEYCIPHER_AES_CBC      OSSwapBigToHostConstInt16(0x0002)
 
 #define WPA_NONCE_LENGTH                32
 #define WPA_EAPOL_LENGTH                99
