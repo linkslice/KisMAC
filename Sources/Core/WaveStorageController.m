@@ -270,6 +270,11 @@ struct pointCoords {
         fgets(databuf, 1023, fd);
         //databuf[strlen(databuf) - 1] = '\0';
         
+        if (strncmp(databuf,"NetS",4)) {
+            NSLog(@"Binary Netstumbler files are not yet supported.");
+            return NO;
+        }
+        
         if (strncmp(databuf, "# $DateGMT: ", 12)==0) {
             if (sscanf(databuf, "# $DateGMT: %d-%d-%d", &year, &day, &month) == 3) {
                 date = [NSString stringWithFormat:@"%.4d-%.2d-%.2d", year, day, month];
