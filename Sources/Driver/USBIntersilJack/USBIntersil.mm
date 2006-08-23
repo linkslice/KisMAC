@@ -716,11 +716,11 @@ readon:
         NSLog(@"USBIntersilJack::Unable to do async interrupt read (%08x). The card is stopped!\n", kr);
         if (kr == kIOReturnNoDevice) {
             NSLog(@"USBIntersilJack::There is no connection to an IOService,");
-            _devicePresent = false;
+            me->_devicePresent = false;
         }
         if (kr == kIOReturnNotOpen) {
             NSLog(@"USBIntersilJack::Pipe not open for exclusive access.");
-            _devicePresent = false;
+            me->_devicePresent = false;
         }
         //we should never get here because some devices don't like to be inited more than once, however this might do something good 
 		// I haven't been able to reproduce the error that caused it to hit this point in the code again since adding the following lines
