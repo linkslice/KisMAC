@@ -932,7 +932,7 @@ int lengthSort(id string1, id string2, void *context)
 							NSAssert(_ivData[body[3]], @"unable to allocate weak container");
 						}
                         @synchronized (_ivData[body[3]]) {
-                            [_ivData[body[3]] setBytes:&body[4] forIV:&body[0]];
+                            [_ivData[body[3]] setBytes:&body[4] forIV:&body[0]];//look here!
                         }
                     }
                 }

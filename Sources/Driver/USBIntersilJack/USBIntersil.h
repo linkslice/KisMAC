@@ -101,7 +101,7 @@ private:
     CFRunLoopSourceRef		_runLoopSource;
     io_iterator_t		_deviceAddedIter;
     io_iterator_t		_deviceRemovedIter;
-    IOUSBInterfaceInterface**   _interface;
+    IOUSBInterfaceInterface192**   _interface;
     union _usbout               _outputBuffer;
     union _usbin                _inputBuffer;
     union _usbin                _recieveBuffer;
