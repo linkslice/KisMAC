@@ -54,12 +54,18 @@ typedef struct {
 
 /* blk0() and blk() perform the initial expand. */
 /* I got the idea of expanding during the round function from SSLeay */
+#if BYTE_ORDER == BIG_ENDIAN
 #define blk0(i) buffer[i]
+#else
+#define blk0(i) (buffer[i] = (rol(buffer[i], 24) & 0xFF00FF00) | \
+       (rol(buffer[i], 8) & 0x00FF00FF))
+#endif
 
 #define blk(i) (buffer[i & 15] = rol(buffer[(i + 13) & 15] ^ \
 	buffer[(i + 8) & 15] ^ buffer[(i + 2) & 15] ^ buffer[i & 15], 1))
 
 /* (R0+R1), R2, R3, R4 are the different operations used in SHA1 */
+//there are some intel asm versions of these we should use from cowpatty
 #define R0(v,w,x,y,z,i) \
 	z += ((w & (x ^ y)) ^ y) + blk0(i) + 0x5A827999 + rol(v, 5); \
 	w = rol(w, 30);
