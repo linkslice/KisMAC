@@ -38,6 +38,7 @@
 
 #import "WaveContainer.h"
 #import "GPSController.h"
+#import "GPSInfoController.h"
 #import "ImportController.h"
 
 /*
@@ -75,6 +76,7 @@ static NSMutableDictionary *_probes = Nil;
 static Trace *_trace;
 static ImportController *_im;
 static ScanController *_scanController;
+static GPSInfoController *_gc;
 
 //converts a byte count to a human readable string
 + (NSString*) bytesToString:(float) bytes {
@@ -437,6 +439,14 @@ static ScanController *_scanController;
 
 + (void) setScanController:(ScanController*)scanController {
     _scanController=scanController;
+}
+
++ (GPSInfoController*) GPSInfoController {
+	return _gc;
+}
+
++ (void) setGPSInfoController:(GPSInfoController*)GPSController {
+    _gc=GPSController;
 }
 
 + (GPSController*) gpsController {

@@ -30,6 +30,7 @@
 #import "ScanHierarch.h"
 #import "PrefsController.h"
 #import "GrowlController.h"
+#import "GPSInfoController.h"
 //sleep studd
 #include <mach/mach_port.h>
 #include <mach/mach_interface.h>
@@ -147,11 +148,13 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     IBOutlet NSMenuItem         *_showMap;
     IBOutlet NSMenuItem         *_showDetails;
     IBOutlet NSMenuItem         *_showHierarch;
+	IBOutlet NSMenuItem			*_showGPSDetails;
     
     IBOutlet NSPopUpButton      *_trafficTimePopUp;
     IBOutlet NSPopUpButton      *_trafficModePopUp;
     IBOutlet NSDrawer           *_netHierarchDrawer;
     IBOutlet SpinChannel        *_channelProg;
+	GPSInfoController* _g;
 }
 
 - (IBAction)updateNetworkTable:(id)sender complete:(bool)complete;
@@ -211,5 +214,4 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)debugExportTrafficView:(id)sender;
 void NotifySleep( void * refCon, io_service_t service,
                       natural_t messageType, void * messageArgument );
-
 @end

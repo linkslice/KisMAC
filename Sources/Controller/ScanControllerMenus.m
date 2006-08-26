@@ -30,6 +30,7 @@
 #import "KisMACNotifications.h"
 #import "../WindowControllers/DownloadMapController.h"
 #import "DecryptController.h"
+#import "GPSInfoController.h"
 #import "HTTPStream.h"
 #import "../Crypto/WPA.h"
 #import "TrafficController.h"
@@ -707,6 +708,23 @@
 
 - (IBAction)closeActiveWindow:(id)sender {
     [[NSApp keyWindow] performClose:sender];
+}
+
+- (IBAction)displayGPSInfo:(id)sender {
+	
+	if ([_showGPSDetails state]==NSOffState) {
+		_g = [[GPSInfoController alloc] initWithWindowNibName:@"GPSDialog"];
+		[_g setShowMenu:_showGPSDetails];
+		[_showGPSDetails setState:NSOnState];
+		[_g showWindow:sender];
+		[WaveHelper setGPSInfoController:_g];
+	   } else {
+		[_showGPSDetails setState:NSOffState];
+		[_g close];
+		[_g release];
+		[WaveHelper setGPSInfoController:NULL];
+	   }
+	
 }
 
 #pragma mark -

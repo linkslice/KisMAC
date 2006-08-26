@@ -470,6 +470,9 @@
 		6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */; };
 		6C1D31C109F37BC70005A9F8 /* PrefsAdvanced.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */; };
 		6C1D31C409F37BE10005A9F8 /* PrefsAdvanced.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C1D31C209F37BE10005A9F8 /* PrefsAdvanced.nib */; };
+		6C41BAB00AA0B52900E0B411 /* GPSInfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */; };
+		6C41BAB10AA0B52900E0B411 /* GPSInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */; };
+		6C41BAD50AA0B8E600E0B411 /* GPSDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C41BAD30AA0B8E600E0B411 /* GPSDialog.nib */; };
 		6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */; };
 		6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */; };
 		6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */; };
@@ -817,6 +820,9 @@
 		6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsAdvanced.m; sourceTree = "<group>"; };
 		6C1D31C309F37BE10005A9F8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/Nibs/English.lproj/PrefsAdvanced.nib; sourceTree = SOURCE_ROOT; };
 		6C1D31C509F37BF40005A9F8 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Resources/Nibs/Spanish.lproj/PrefsAdvanced.nib; sourceTree = SOURCE_ROOT; };
+		6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GPSInfoController.h; sourceTree = "<group>"; };
+		6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GPSInfoController.m; sourceTree = "<group>"; };
+		6C41BAD40AA0B8E600E0B411 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GPSDialog.nib; sourceTree = "<group>"; };
 		6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-ap-revealed.png"; sourceTree = "<group>"; };
 		6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-challenge.png"; sourceTree = "<group>"; };
 		6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-response.png"; sourceTree = "<group>"; };
@@ -1246,6 +1252,8 @@
 		0035341F06A5DD8500AB4577 /* WindowControllers */ = {
 			isa = PBXGroup;
 			children = (
+				6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */,
+				6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */,
 				0035342006A5DD8500AB4577 /* CrashReportController.h */,
 				0035342106A5DD8500AB4577 /* CrashReportController.m */,
 				0035342206A5DD8500AB4577 /* DecryptController.h */,
@@ -1301,6 +1309,7 @@
 		00F57C1606A886350035AE2F /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				6C41BAD30AA0B8E600E0B411 /* GPSDialog.nib */,
 				6C1D31C209F37BE10005A9F8 /* PrefsAdvanced.nib */,
 				00F57C1706A886350035AE2F /* Crack.nib */,
 				00F57C1906A886350035AE2F /* CrashReporter.nib */,
@@ -1635,6 +1644,7 @@
 				00DF456308B1E969003F3C7E /* WaveDriverAirportExtreme.h in Headers */,
 				87CEBA8209AEF03700AEB0B8 /* GrowlController.h in Headers */,
 				6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */,
+				6C41BAB00AA0B52900E0B411 /* GPSInfoController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1833,6 +1843,7 @@
 				6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */,
 				6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */,
 				6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */,
+				6C41BAD50AA0B8E600E0B411 /* GPSDialog.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2025,6 +2036,7 @@
 				00DF456408B1E969003F3C7E /* WaveDriverAirportExtreme.m in Sources */,
 				87CEBA8309AEF03700AEB0B8 /* GrowlController.m in Sources */,
 				6C1D31C109F37BC70005A9F8 /* PrefsAdvanced.m in Sources */,
+				6C41BAB10AA0B52900E0B411 /* GPSInfoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2218,6 +2230,14 @@
 			);
 			name = PrefsAdvanced.nib;
 			path = ../../Sources/WaveDrivers;
+			sourceTree = "<group>";
+		};
+		6C41BAD30AA0B8E600E0B411 /* GPSDialog.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6C41BAD40AA0B8E600E0B411 /* English */,
+			);
+			name = GPSDialog.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

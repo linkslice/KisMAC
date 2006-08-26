@@ -52,6 +52,7 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 @class MapView;
 @class ImportController;
 @class GPSController;
+@class GPSInfoController;
 @class WaveDriver;
 @class Trace;
 
@@ -89,6 +90,9 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 
 + (GPSController*) gpsController;
 + (void) initGPSControllerWithDevice:(NSString*)device;
+
++ (void) setGPSInfoController:(GPSInfoController*)GPSController;
++ (GPSInfoController*) GPSInfoController;
 
 + (MapView*) mapView;
 + (void) setMapView:(MapView*)mv;

@@ -29,6 +29,7 @@
 #import "WaveHelper.h"
 #import "KisMACNotifications.h"
 #import "Trace.h"
+#import "GPSInfoController.h"
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -473,6 +474,13 @@ int ss(char* inp, char* outp) {
         }
     }
     
+    GPSInfoController *asdf = [WaveHelper GPSInfoController];
+	
+	if (asdf != NULL)
+	{
+		[asdf updateDataNS:_ns.coordinates EW:_ew.coordinates ELV:_elev.coordinates numSats:_numsat HDOP:_hdop VEL:_velkt];
+	}
+    
     [date release];
     [subpool release];
 
@@ -580,11 +588,16 @@ int ss(char* inp, char* outp) {
 		[[WaveHelper trace] cut];
 	}
 
+    GPSInfoController *asdf = [WaveHelper GPSInfoController];
+	
+	if (asdf != NULL)
+	{
+		[asdf updateDataNS:_ns.coordinates EW:_ew.coordinates ELV:_elev.coordinates numSats:_numsat HDOP:_hdop VEL:_velkt];
+	}
     
     [date release];
     [subpool release];
-
-    return YES;
+	return YES;
 }
 
 - (void) continousParse:(int) fd {

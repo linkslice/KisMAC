@@ -26,6 +26,7 @@
             SUPERCLASS = NSScrollView; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GPSInfoController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
         {
             ACTIONS = {commentChanged = id; showNet = id; }; 
             CLASS = InfoController; 
@@ -116,6 +117,7 @@
                 debugSaveStressTest = id; 
                 debugTestWPAHashingFunction = id; 
                 decryptPCAPFile = id; 
+                displayGPSInfo = id; 
                 exportJPEG = id; 
                 exportKMLFile = id; 
                 exportMacstumbler = id; 
@@ -139,6 +141,7 @@
                 showAllNetArea = id; 
                 showContextHelp = id; 
                 showCurNetArea = id; 
+                showGPS = id; 
                 showInfo = id; 
                 showNetHierarch = id; 
                 showPrefs = id; 
@@ -171,6 +174,7 @@
                 "_searchTypeMenu" = NSPopUpButton; 
                 "_showAllNetsInMap" = NSMenuItem; 
                 "_showDetails" = NSMenuItem; 
+                "_showGPSDetails" = NSMenuItem; 
                 "_showHierarch" = NSMenuItem; 
                 "_showMap" = NSMenuItem; 
                 "_showNetInMap" = NSMenuItem; 

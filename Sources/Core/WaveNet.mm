@@ -606,7 +606,6 @@ int lengthSort(id string1, id string2, void *context)
 	if (isHidden) {
 		if (_SSID!=Nil) return; //we might have the real ssid already
 		[WaveHelper secureReplace:&_SSID withObject:@""];
-		NSLog(@"_ssid = %@, newSSID=%@, isHidden = %i, updatedSSID=%i",_SSID,newSSID, isHidden, updatedSSID);
 	} else {
 		[WaveHelper secureReplace:&_SSID withObject:newSSID];
 		if (updatedSSID) {
