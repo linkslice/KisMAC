@@ -187,7 +187,7 @@ if [ $BUILD_IMAGE == 1 ]; then
       sleep 10
   fi
   
-	cp image/KisMACraw.dmg image/KisMAC.dmg
+	cp image/KisMACraw.sparseimage image/KisMAC.dmg
 	hdiutil attach image/KisMAC.dmg > /dev/null
 	
 	sleep 1
