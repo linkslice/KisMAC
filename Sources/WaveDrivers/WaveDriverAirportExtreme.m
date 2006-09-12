@@ -263,13 +263,14 @@ WirelessContextPtr gWCtxt = NULL;
 		_apeType = APExtTypeUnknown;
 	}
 	
-	_device = pcap_open_live([[defs objectForKey:@"bpfdevice"] cString], 3000, 0, 2, err);
+    //pcap_open_live(char *device,int snaplen, int prmisc,int to_ms,char *ebuf)
+	_device = pcap_open_live([[defs objectForKey:@"bpfdevice"] cString], 3000, 1, 2, err);
 	if (!_device) {
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"admin", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0660", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		[NSThread sleep:0.5];
 	
-		_device = pcap_open_live([[defs objectForKey:@"bpfdevice"] cString], 3000, 0, 2, err);
+		_device = pcap_open_live([[defs objectForKey:@"bpfdevice"] cString], 3000, 1, 2, err);
 		[[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"wheel", [defs objectForKey:@"bpfloc"], nil]];
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0600", [defs objectForKey:@"bpfloc"], nil]];
 
