@@ -1,3 +1,27 @@
+R192: - Updated Changes file, considering removing it in the future
+
+R190: - resized image for build
+
+R189: - Added all known ralink vendor/product ids
+
+R182: - Ralink crash fixes
+
+R181: - Ralink driver is sacnning passively, still needs a lot of work...
+
+R171: - Start of Ralink usb driver
+
+R170: - GPS Info / Status window by themacuser
+
+R169: - Fixed wpa crack on intel thanks to cowaptty
+
+R163: - Starting to fix WPA parsing on Intel macs. This fix allows the challenge / responses to be correctly found.
+
+R158: - WPA Auth packet growl notifications by themacuser
+
+R154: - MIDI signal monitoring tool added
+
+R153: - Added tooltip to "Primary Injection Device" box to reduce confusion over Airport Extreme injection support
+
 R152: - Added near-real-time Google Earth output (in AppleScript samples folder)
       - Corrected spelling error in function name
       - Attempt to handle USB errors more gracefully (although still not perfect)
