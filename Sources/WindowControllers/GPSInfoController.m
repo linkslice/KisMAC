@@ -37,6 +37,15 @@
 
 - (void)updateDataNS:(double)ns EW:(double)ew ELV:(double)elv numSats:(int)sats HDOP:(double)hdop VEL:(float)vel {
 	_vel = vel;
+	_alt = elv;
+	
+	if (_velFactor == 0) {
+		_velFactor = 1.852;
+	}
+	
+	if (_altFactor == 0) {
+		_altFactor = 1;
+	}
 	
 	[_sats_indicator setCriticalValue:3];
 	if (!sats || ew > 180 || ns > 90 || vel < 0) {
@@ -47,6 +56,8 @@
 		[_lat_field setStringValue:@""];
 		[_lon_field setStringValue:@""];
 		[_vel_field setStringValue:@""];
+		[_speedBar setDoubleValue:0];
+		[_altBar setDoubleValue:0];
 		_haveFix = 0;
 	} else if (!elv) {
 		[_fix_indicator setFloatValue:0.5];
@@ -56,6 +67,15 @@
 		[_lat_field setStringValue:[NSString stringWithFormat:@"%.5f",ns]];
 		[_lon_field setStringValue:[NSString stringWithFormat:@"%.5f",ew]];
 		[_vel_field setStringValue:[NSString stringWithFormat:@"%.5f",(_vel * _velFactor)]];
+		[_alt_field setStringValue:@""];
+		[_speedBar setDoubleValue:(_vel * _velFactor)];
+		
+		if ((_vel * _velFactor) > _maxvel) {
+			_maxvel = _vel;
+			[_speedBar setMaxValue:(_vel * _velFactor)];
+		}
+		
+		[_altBar setDoubleValue:0];
 		_haveFix = 1;
 	} else if (elv && sats) {
 		[_fix_indicator setFloatValue:1];
@@ -65,6 +85,19 @@
 		[_lat_field setStringValue:[NSString stringWithFormat:@"%.5f",ns]];
 		[_lon_field setStringValue:[NSString stringWithFormat:@"%.5f",ew]];
 		[_vel_field setStringValue:[NSString stringWithFormat:@"%.5f",(_vel * _velFactor)]];
+		[_alt_field setStringValue:[NSString stringWithFormat:@"%.1f",(_alt * _altFactor)]];
+		[_speedBar setDoubleValue:(_vel * _velFactor)];
+		[_altBar setDoubleValue:(_alt * _altFactor)];
+		
+		if ((_vel * _velFactor) > _maxvel) {
+			_maxvel = _vel;
+			[_speedBar setMaxValue:(_vel * _velFactor)];
+		}
+		
+		if ((_alt * _altFactor) > _maxalt) {
+			_maxalt = _alt;
+			[_altBar setMaxValue:(_alt * _altFactor)];
+		}
 		_haveFix = 2;
 	}
 }
@@ -80,6 +113,18 @@
 		
 	if (_haveFix) {
 		[_vel_field setStringValue:[NSString stringWithFormat:@"%.5f",(_vel * _velFactor)]];
+	}
+}
+
+- (IBAction)updateAlt:(id)sender {
+		if ([[_altType titleOfSelectedItem] isEqualToString:@"m"]) {
+			_altFactor = 1;
+		} else if ([[_altType titleOfSelectedItem] isEqualToString:@"ft"]) {
+			_altFactor = 3.333;
+		}
+		
+	if (_haveFix == 2) {
+		[_alt_field setStringValue:[NSString stringWithFormat:@"%.1f",(_alt * _altFactor)]];
 	}
 }
 
@@ -110,5 +155,9 @@
     }
 }
 
+- (IBAction)resetPeak:(id)sender {
+	_maxalt = 0;
+	_maxvel = 0;
+}
 
 @end

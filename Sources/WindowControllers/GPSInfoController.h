@@ -34,14 +34,26 @@
 	IBOutlet NSTextField* _lat_field;
 	IBOutlet NSTextField* _lon_field;
 	IBOutlet NSTextField* _vel_field;
+	IBOutlet NSTextField* _alt_field;
 	IBOutlet NSPopUpButton* _speedType;
+	IBOutlet NSPopUpButton* _altType;
+	IBOutlet NSProgressIndicator* _speedBar;
+	IBOutlet NSProgressIndicator* _altBar;
+
 	
 	float _vel;
 	float _velFactor;
+	float _maxvel;
+	
+	float _alt;
+	float _altFactor;
+	float _maxalt;
 	
 	int _haveFix;
 }
 - (void)setShowMenu:(NSMenuItem *)menu;
 - (void)updateDataNS:(double)ns EW:(double)ew ELV:(double)elv numSats:(int)sats HDOP:(double)hdop VEL:(float)vel;
 - (IBAction)updateSpeed:(id)sender;
+- (IBAction)updateAlt:(id)sender;
+- (IBAction)resetPeak:(id)sender;
 @end
