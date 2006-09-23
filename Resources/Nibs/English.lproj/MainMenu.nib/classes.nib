@@ -117,6 +117,7 @@
                 debugSaveStressTest = id; 
                 debugTestWPAHashingFunction = id; 
                 decryptPCAPFile = id; 
+                displayGPSInfo = id; 
                 exportJPEG = id; 
                 exportKMLFile = id; 
                 exportMacstumbler = id; 
@@ -132,6 +133,7 @@
                 joinNetwork = id; 
                 monitorAllNetworks = id; 
                 monitorSignal = id; 
+                myAction = id; 
                 openDonateURL = id; 
                 openWebsiteURL = id; 
                 restartGPS = id; 
