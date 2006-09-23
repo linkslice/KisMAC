@@ -170,6 +170,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 @interface ScanController(MenuExtension) 
 - (IBAction)showPrefs:(id)sender;
 
+- (IBAction)importKismetXML:(id)sender;
 - (IBAction)importNetstumbler:(id)sender;
 - (IBAction)importMapFromServer:(id)sender;
 

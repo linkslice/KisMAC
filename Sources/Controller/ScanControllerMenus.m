@@ -32,6 +32,7 @@
 #import "DecryptController.h"
 #import "GPSInfoController.h"
 #import "HTTPStream.h"
+#import "../Core/KismetXMLImporter.h"
 #import "../Crypto/WPA.h"
 #import "TrafficController.h"
 #import "../WaveDrivers/WaveDriver.h"
@@ -65,6 +66,33 @@
 #pragma mark FILE MENU
 #pragma mark -
 
+- (IBAction)importKismetXML:(id)sender {
+    KismetXMLImporter * myImporter =  [[KismetXMLImporter alloc] init];
+    
+    aOP=[NSOpenPanel openPanel];
+    [aOP setAllowsMultipleSelection:NO];
+    [aOP setCanChooseFiles:YES];
+    [aOP setCanChooseDirectories:NO];
+    if ([aOP runModalForTypes:[NSArray arrayWithObjects:@"txt", @"xml", nil]]==NSOKButton) {
+        [self stopActiveAttacks];
+        [self stopScan];
+        
+        [self showBusyWithText: @"Importing Kismet XML"];
+         
+        _refreshGUI = NO;
+        [myImporter performKismetImport: [aOP filename] withContainer:_container];
+        _refreshGUI = YES;
+        
+        
+        [self busyDone];
+        
+        [self updateNetworkTable:self complete:YES];
+        [self refreshScanHierarch];
+        [_window setDocumentEdited:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
+    }
+}
+
 - (IBAction)importMapFromServer:(id)sender {
     DownloadMapController* dmc = [[DownloadMapController alloc] initWithWindowNibName:@"DownloadMap"];
     
@@ -90,6 +118,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
     }
 }
+
 - (void)performImportNetstumbler:(NSString*)filename {
     [_importController setTitle:[NSString stringWithFormat:NSLocalizedString(@"Importing %@...", "Status for busy dialog"), filename]];  
     

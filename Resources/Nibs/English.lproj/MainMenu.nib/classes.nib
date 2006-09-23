@@ -117,7 +117,6 @@
                 debugSaveStressTest = id; 
                 debugTestWPAHashingFunction = id; 
                 decryptPCAPFile = id; 
-                displayGPSInfo = id; 
                 exportJPEG = id; 
                 exportKMLFile = id; 
                 exportMacstumbler = id; 
@@ -126,6 +125,7 @@
                 exportToServer = id; 
                 exportWarD = id; 
                 gpsDebugToConsole = id; 
+                importKismetXML = id; 
                 importMapFromServer = id; 
                 importNetstumbler = id; 
                 injectPackets = id; 
@@ -141,7 +141,6 @@
                 showAllNetArea = id; 
                 showContextHelp = id; 
                 showCurNetArea = id; 
-                showGPS = id; 
                 showInfo = id; 
                 showNetHierarch = id; 
                 showPrefs = id; 
