@@ -70,21 +70,22 @@
     KismetXMLImporter * myImporter =  [[KismetXMLImporter alloc] init];
     
     aOP=[NSOpenPanel openPanel];
-    [aOP setAllowsMultipleSelection:NO];
+    [aOP setAllowsMultipleSelection:YES];
     [aOP setCanChooseFiles:YES];
     [aOP setCanChooseDirectories:NO];
     if ([aOP runModalForTypes:[NSArray arrayWithObjects:@"txt", @"xml", nil]]==NSOKButton) {
         [self stopActiveAttacks];
         [self stopScan];
-        
-        [self showBusyWithText: @"Importing Kismet XML"];
-         
         _refreshGUI = NO;
-        [myImporter performKismetImport: [aOP filename] withContainer:_container];
+        
+        int i;
+        for (i = 0; i < [[aOP filenames] count]; i++) {
+            NSString *file = [[aOP filenames] objectAtIndex:i];
+            [self showBusyWithText: [NSString stringWithFormat: @"Importing %@ as Kismet XML", [file lastPathComponent]]];    
+            [myImporter performKismetImport: file withContainer:_container];
+            [self busyDone];
+        }
         _refreshGUI = YES;
-        
-        
-        [self busyDone];
         
         [self updateNetworkTable:self complete:YES];
         [self refreshScanHierarch];
