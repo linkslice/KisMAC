@@ -13,7 +13,6 @@
 
 -(id) init {
     [super init];
-    importedNets = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -111,16 +110,17 @@
         [currentNet setValue: currentStringValue forKey:@"elev"];
     }
     else if([elementName isEqualToString:@"wireless-network"]){
-            //NSLog(@"End of Net Found");
+        //NSLog(@"End of Net Found");
         
-            WaveNet* net = [[WaveNet alloc] initWithDataDictionary: currentNet];
-            currentNet = NULL;
-            if (net) {
-                [importedNets addObject:net];
-                [net release];
-            }else {
-                NSLog(@"Invalid Net!");
-            }
+        WaveNet* net = [[WaveNet alloc] initWithDataDictionary: currentNet];
+        [currentNet release];
+        currentNet = nil;
+        if (net) {
+            [importedNets addObject:net];
+        }else {
+            NSLog(@"Invalid Net!");
+        }
+        [net release];
 
     }
 
@@ -131,6 +131,7 @@
 
 - (NSDictionary*)performKismetImport: (NSString *)filename withContainer:(WaveContainer*)container
 {
+    importedNets = [[NSMutableArray alloc] init];
     NSData * theData = [[NSData alloc] initWithContentsOfFile: filename];
 	NSXMLParser * theParser = [[NSXMLParser alloc] initWithData: theData];
 	[theParser setDelegate: self];
@@ -144,6 +145,13 @@
         return nil;
        // hasValidData = NO;
     }
+    [importedNets release];
+    [theData release];
+    [theParser release];
+    
+    importedNets = nil;
+    theData = nil;
+    theParser = nil;
     return currentNet;
 }
 

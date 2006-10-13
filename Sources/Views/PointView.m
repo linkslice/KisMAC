@@ -183,7 +183,9 @@
                 [self setImage:_currImg[scale]];
             }
             [[WaveHelper mapView] setNeedsDisplayInMoveRect:_frame];
-            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+            NSDate * test = [NSDate dateWithTimeIntervalSinceNow:0.1];
+            [NSThread sleepUntilDate: test];
+            [test release];
         }
         [self release];
         [_animLock unlock];

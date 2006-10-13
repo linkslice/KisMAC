@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 #import "WaveNet.h"
 
-#define MAXNETS 10000
+#define MAXNETS 1000000
 #define MAXCACHE 20
 #define MAXFILTER 100
 #define MAXCHANGED 100

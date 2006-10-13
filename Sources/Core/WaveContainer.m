@@ -413,7 +413,7 @@ inline UInt32 hashForMAC(const UInt8* val) {
             [n setNetID:++maxID];
         } else [net mergeWithNet:n];
     }
-      
+
     return YES;
 }
 
