@@ -345,6 +345,7 @@ int ss(char* inp, char* outp) {
     bool updated;
     NSDate *date;
     NSAutoreleasePool* subpool = [[NSAutoreleasePool alloc] init];
+	GPSInfoController *asdf = [WaveHelper GPSInfoController];
 
     if (_debugEnabled) NSLog(@"GPS read data");
     if (q>=1024) q = 0; //just in case something went wrong
@@ -401,7 +402,62 @@ int ss(char* inp, char* outp) {
                 if (_debugEnabled) NSLog(@"GPS data updated.");  
                 updated = YES;
             }
-        }
+		} else if(strncmp(gpsbuf, "$GPGSV", 6) == 0) {  //satellites and signals
+			int nmsgs,tmsg,satsinview,prn1,elev1,azi1,snr1,prn2,elev2,azi2,snr2,prn3,elev3,azi3,snr3,prn4,elev4,azi4,snr4; 
+            sscanf(gpsbuf, "%*[^,],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+                &nmsgs, &tmsg, &satsinview, 
+				&prn1, &elev1, &azi1, &snr1, 
+				&prn2, &elev2, &azi2, &snr2,
+				&prn3, &elev3, &azi3, &snr3,
+				&prn4, &elev4, &azi4, &snr4);
+			NSLog(@"nmesgs %i, tmsg %i, satsinview %i, sat1 prn %i signal %i, sat2 prn %i signal %i, sat3 prn %i signal %i, sat4 prn %i signal %i",
+			nmsgs,tmsg,satsinview,prn1,snr1,prn2,snr2,prn3,snr3,prn4,snr4);
+			if (asdf != NULL)
+			{
+			
+			if (prn1 < 200) {// it's obviousy dodgy if it's 200 or higher
+			[asdf updateSatSignalStrength:((tmsg - 1) * 4) signal:snr1];
+			[asdf updateSatPRNForSat:((tmsg - 1) * 4) prn:prn1];
+			[asdf updateSatUsed:((tmsg - 1) * 4) used:1];
+			} else {
+			[asdf updateSatSignalStrength:((tmsg - 1) * 4) signal:0];
+			[asdf updateSatPRNForSat:((tmsg - 1) * 4) prn:0];
+			[asdf updateSatUsed:((tmsg - 1) * 4) used:0];
+			}
+			
+			if (prn2 < 200) {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 1) signal:snr2];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 1) prn:prn2];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 1) used:1];
+			} else {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 1) signal:0];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 1) prn:0];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 1) used:0];
+			}
+			
+			if (prn3 < 200) {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 2) signal:snr3];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 2) prn:prn3];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 2) used:1];
+			} else {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 2) signal:0];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 2) prn:0];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 2) used:0];
+			}
+									
+			if (prn4 < 200) {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 3) signal:snr4];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 3) prn:prn4];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 3) used:1];
+			} else {
+			[asdf updateSatSignalStrength:(((tmsg - 1) * 4) + 3) signal:snr4];
+			[asdf updateSatPRNForSat:(((tmsg - 1) * 4) + 3) prn:prn4];
+			[asdf updateSatUsed:(((tmsg - 1) * 4) + 3) used:1];
+			}
+			
+			}
+		}
+		
         
         x+=strlen(gpsbuf)+1;
     }
@@ -473,8 +529,7 @@ int ss(char* inp, char* outp) {
             [[WaveHelper trace] cut];
         }
     }
-    
-    GPSInfoController *asdf = [WaveHelper GPSInfoController];
+
 	
 	if (asdf != NULL)
 	{
@@ -593,12 +648,70 @@ int ss(char* inp, char* outp) {
 	if (asdf != NULL)
 	{
 		[asdf updateDataNS:_ns.coordinates EW:_ew.coordinates ELV:_elev.coordinates numSats:_numsat HDOP:_hdop VEL:_velkt];
-	}
+	
+		
+		////////////////////////////////////////////////////////////////////////////
+		// start of satellite PRN gathering
+
+		NSString *gpsbuf2, *thisprn;
+		NSRange range,range2;
+		int numsat;
+		int length;
+		int prn,signal,used;
+		NSArray *prns,*attrs;
+	
+		if (write(fd, "Y\r\n", 3) < 3) {
+			NSLog(@"GPSd write failed");
+			return NO;
+		}
     
-    [date release];
-    [subpool release];
+		if((len = read(fd, &gpsbuf[0], MAX_GPSBUF_LEN)) < 0) {
+			NSLog(@"GPSd read failed");
+			return NO;
+		}
+
+		@try {
+			gpsbuf2	= [NSString stringWithCString:gpsbuf length:len];
+			
+			range = [gpsbuf2 rangeOfString:@":"];
+			range2 = NSMakeRange(range.location - 2,2);
+			numsat = [[gpsbuf2 substringWithRange:range2] intValue];
+			prns = [gpsbuf2 componentsSeparatedByString:@":"];
+			
+			length = [prns count];
+			unsigned item; 
+			for (item = 1; item <= 12; item++)
+			{
+				if (item < length - 1) {
+					thisprn = [prns objectAtIndex:item];
+					attrs = [thisprn componentsSeparatedByString:@" "];
+					prn = [[attrs objectAtIndex:0] intValue];
+					signal = [[attrs objectAtIndex:3] intValue];
+					used = [[attrs objectAtIndex:4] intValue];
+					[asdf updateSatSignalStrength:item signal:signal];
+					[asdf updateSatPRNForSat:item prn:prn];
+					[asdf updateSatUsed:item used:used];
+					// pass out used
+				} else {
+					[asdf updateSatPRNForSat:item prn:0];
+					[asdf updateSatSignalStrength:item signal:-1];
+				}
+			}
+		}
+		@catch (NSException *exception) {
+		unsigned item; 
+		for (item = 1; item <= 12; item++) {
+			[asdf updateSatPRNForSat:item prn:0];
+			[asdf updateSatSignalStrength:item signal:-1];
+		}
+	}
+	}
+	[date release];
+	[subpool release];
 	return YES;
 }
+
+
 
 - (void) continousParse:(int) fd {
     NSDate *date;

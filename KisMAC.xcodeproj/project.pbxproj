@@ -476,6 +476,8 @@
 		6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */; };
 		6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */; };
 		6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */; };
+		6C94AA2F0ADF3FBC001BE161 /* GPSSatInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C94AA2D0ADF3FBC001BE161 /* GPSSatInfo.h */; };
+		6C94AA300ADF3FBC001BE161 /* GPSSatInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C94AA2E0ADF3FBC001BE161 /* GPSSatInfo.m */; };
 		6CA3BCCB09B2A58F00DCB407 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */; };
 		6CDAFD020AC4FA7D00A5D180 /* KismetXMLImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CDAFD000AC4FA7D00A5D180 /* KismetXMLImporter.h */; };
 		6CDAFD030AC4FA7D00A5D180 /* KismetXMLImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */; };
@@ -828,6 +830,8 @@
 		6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-ap-revealed.png"; sourceTree = "<group>"; };
 		6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-challenge.png"; sourceTree = "<group>"; };
 		6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-response.png"; sourceTree = "<group>"; };
+		6C94AA2D0ADF3FBC001BE161 /* GPSSatInfo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GPSSatInfo.h; sourceTree = "<group>"; };
+		6C94AA2E0ADF3FBC001BE161 /* GPSSatInfo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GPSSatInfo.m; sourceTree = "<group>"; };
 		6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		6CDAFD000AC4FA7D00A5D180 /* KismetXMLImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KismetXMLImporter.h; sourceTree = "<group>"; };
 		6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KismetXMLImporter.m; sourceTree = "<group>"; };
@@ -1203,6 +1207,7 @@
 		003533FE06A5DD8500AB4577 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6C94AA2C0ADF3FBC001BE161 /* GPSSatInfo */,
 				00971F3B06E4FA52004307EA /* BIViews */,
 				00A622A706FEE4FB005D248A /* Trace.h */,
 				00A622A806FEE4FB005D248A /* Trace.m */,
@@ -1471,6 +1476,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6C94AA2C0ADF3FBC001BE161 /* GPSSatInfo */ = {
+			isa = PBXGroup;
+			children = (
+				6C94AA2D0ADF3FBC001BE161 /* GPSSatInfo.h */,
+				6C94AA2E0ADF3FBC001BE161 /* GPSSatInfo.m */,
+			);
+			path = GPSSatInfo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1652,6 +1666,7 @@
 				6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */,
 				6C41BAB00AA0B52900E0B411 /* GPSInfoController.h in Headers */,
 				6CDAFD020AC4FA7D00A5D180 /* KismetXMLImporter.h in Headers */,
+				6C94AA2F0ADF3FBC001BE161 /* GPSSatInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2045,6 +2060,7 @@
 				6C1D31C109F37BC70005A9F8 /* PrefsAdvanced.m in Sources */,
 				6C41BAB10AA0B52900E0B411 /* GPSInfoController.m in Sources */,
 				6CDAFD030AC4FA7D00A5D180 /* KismetXMLImporter.m in Sources */,
+				6C94AA300ADF3FBC001BE161 /* GPSSatInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

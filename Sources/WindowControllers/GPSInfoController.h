@@ -23,11 +23,11 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "../Views/GPSSatInfo/GPSSatInfo.h"
 
 
 @interface GPSInfoController : NSWindowController {
 	NSMenuItem* _showMenu;
-	IBOutlet NSLevelIndicator* _sats_indicator;
 	IBOutlet NSLevelIndicator* _hdop_indicator;
 	IBOutlet NSLevelIndicator* _fix_indicator;
 	IBOutlet NSTextField* _fix_type;
@@ -39,7 +39,8 @@
 	IBOutlet NSPopUpButton* _altType;
 	IBOutlet NSProgressIndicator* _speedBar;
 	IBOutlet NSProgressIndicator* _altBar;
-
+	IBOutlet NSTextField* _hdop_field;
+	IBOutlet GPSSatInfo* _satinfo;
 	
 	float _vel;
 	float _velFactor;
@@ -56,4 +57,7 @@
 - (IBAction)updateSpeed:(id)sender;
 - (IBAction)updateAlt:(id)sender;
 - (IBAction)resetPeak:(id)sender;
+- (void)updateSatPRNForSat:(int)sat prn:(int)prn;
+- (void)updateSatSignalStrength:(int)sat signal:(int)signal;
+- (void)updateSatUsed:(int)sat used:(int)used;
 @end

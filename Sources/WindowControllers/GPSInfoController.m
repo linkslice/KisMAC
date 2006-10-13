@@ -47,12 +47,11 @@
 		_altFactor = 1;
 	}
 	
-	[_sats_indicator setCriticalValue:3];
 	if (!sats || ew > 180 || ns > 90 || vel < 0) {
 		[_fix_indicator setFloatValue:0.1];
 		[_fix_type setStringValue:@"NO"];
 		[_hdop_indicator setIntValue:8];
-		[_sats_indicator setIntValue:0];
+		[_hdop_field setStringValue:@""];
 		[_lat_field setStringValue:@""];
 		[_lon_field setStringValue:@""];
 		[_vel_field setStringValue:@""];
@@ -63,7 +62,7 @@
 		[_fix_indicator setFloatValue:0.5];
 		[_fix_type setStringValue:@"2D"];
 		[_hdop_indicator setFloatValue:hdop];
-		[_sats_indicator setIntValue:sats];
+		[_hdop_field setStringValue:[NSString stringWithFormat:@"%.1f",hdop]];
 		[_lat_field setStringValue:[NSString stringWithFormat:@"%.5f",ns]];
 		[_lon_field setStringValue:[NSString stringWithFormat:@"%.5f",ew]];
 		[_vel_field setStringValue:[NSString stringWithFormat:@"%.5f",(_vel * _velFactor)]];
@@ -81,7 +80,7 @@
 		[_fix_indicator setFloatValue:1];
 		[_fix_type setStringValue:@"3D"];
 		[_hdop_indicator setFloatValue:hdop];
-		[_sats_indicator setIntValue:sats];
+		[_hdop_field setStringValue:[NSString stringWithFormat:@"%.1f",hdop]];
 		[_lat_field setStringValue:[NSString stringWithFormat:@"%.5f",ns]];
 		[_lon_field setStringValue:[NSString stringWithFormat:@"%.5f",ew]];
 		[_vel_field setStringValue:[NSString stringWithFormat:@"%.5f",(_vel * _velFactor)]];
@@ -90,7 +89,7 @@
 		[_altBar setDoubleValue:(_alt * _altFactor)];
 		
 		if ((_vel * _velFactor) > _maxvel) {
-			_maxvel = _vel;
+			_maxvel = _vel * _velFactor;
 			[_speedBar setMaxValue:(_vel * _velFactor)];
 		}
 		
@@ -101,6 +100,22 @@
 		_haveFix = 2;
 	}
 }
+
+- (void)updateSatPRNForSat:(int)sat prn:(int)prn {
+	[_satinfo setPRNForSat:sat PRN:prn];
+	[_satinfo redraw];
+}
+
+- (void)updateSatSignalStrength:(int)sat signal:(int)signal {
+	[_satinfo setSignalForSat:sat signal:signal];
+	[_satinfo redraw];
+}
+
+- (void)updateSatUsed:(int)sat used:(int)used {
+	[_satinfo setUsedForSat:sat used:used];
+	[_satinfo redraw];
+}
+
 
 - (IBAction)updateSpeed:(id)sender {
 		if ([[_speedType titleOfSelectedItem] isEqualToString:@"KT"]) {
