@@ -86,7 +86,7 @@ echo "ok"
 cd ..
 
 echo -n "Determine Subversion Revision... "
-SVNVERS=`svnversion -n .`
+SVNVERS=`svn info | grep Revision | awk '{print $2}'`
 echo $SVNVERS
 sed -e "s/\\\$Revision.*\\\$/\\\$Revision: $SVNVERS\\\$/" Resources/Info.plist.templ > Resources/Info.plist
 sed -e "s/\\\$Revision.*\\\$/\\\$Revision: $SVNVERS\\\$/" Resources/Strings/English.lproj/InfoPlist.strings.templ > Resources/Strings/English.lproj/InfoPlist.strings
