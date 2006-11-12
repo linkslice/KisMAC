@@ -545,6 +545,7 @@ int ss(char* inp, char* outp) {
 - (bool)gpsd_parse:(int) fd {
     int len, valid, numsat, veldir;
     char gpsbuf[MAX_GPSBUF_LEN];
+	char gpsbufII[MAX_GPSBUF_LEN];
     double ns, ew, elev;
 	float velkt,hdop,fveldir;
 	float timeinterval=-1;
@@ -570,6 +571,7 @@ int ss(char* inp, char* outp) {
     _linesRead++;
     
     gpsbuf[0+len]=0;
+	gpsbufII[0+len]=0;
  	numsat = -1;
 	hdop = 100;
 	elev = 0;
@@ -655,7 +657,7 @@ int ss(char* inp, char* outp) {
 
 		NSString *gpsbuf2, *thisprn;
 		NSRange range,range2;
-		int numsat;
+		int satnum;
 		int length;
 		int prn,signal,used;
 		NSArray *prns,*attrs;
@@ -665,17 +667,17 @@ int ss(char* inp, char* outp) {
 			return NO;
 		}
     
-		if((len = read(fd, &gpsbuf[0], MAX_GPSBUF_LEN)) < 0) {
+		if((len = read(fd, &gpsbufII[0], MAX_GPSBUF_LEN)) < 0) {
 			NSLog(@"GPSd read failed");
 			return NO;
 		}
 
 		@try {
-			gpsbuf2	= [NSString stringWithCString:gpsbuf length:len];
+			gpsbuf2	= [NSString stringWithCString:gpsbufII length:len];
 			
 			range = [gpsbuf2 rangeOfString:@":"];
 			range2 = NSMakeRange(range.location - 2,2);
-			numsat = [[gpsbuf2 substringWithRange:range2] intValue];
+			satnum = [[gpsbuf2 substringWithRange:range2] intValue];
 			prns = [gpsbuf2 componentsSeparatedByString:@":"];
 			
 			length = [prns count];

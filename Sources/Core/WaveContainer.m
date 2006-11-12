@@ -725,7 +725,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     return _idList[_sortedList[index]].net;
 }
 - (WaveNet*) netForKey:(unsigned char*) ID {
-    unsigned int i, l, entry = LOOKUPSIZE;
+    unsigned long i, l, entry = LOOKUPSIZE;
     
     //lookup the net in the hashtable
     l = hashForMAC(ID);

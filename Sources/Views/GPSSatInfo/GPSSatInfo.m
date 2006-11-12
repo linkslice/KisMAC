@@ -49,7 +49,7 @@
 	bool used;
 
 	bp = [NSBezierPath bezierPathWithRect:[self bounds]];
-	[[NSColor colorWithCalibratedRed:0.2 green:0.2 blue:0.2 alpha:0.7] set];
+	[[NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.3 alpha:1] set];
 	[bp fill];
 	
 	for (currentsat = 1; currentsat <= 12; currentsat++) {
@@ -252,9 +252,7 @@
 }
 
 - (void)redraw {
-	[self lockFocus];
 	[self setNeedsDisplay:YES];
-	[self unlockFocus];
 }
 
 @end
