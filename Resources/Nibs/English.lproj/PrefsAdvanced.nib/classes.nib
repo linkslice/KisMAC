@@ -10,6 +10,8 @@
                 "bf_interval" = id; 
                 bpfdevice = id; 
                 bpfloc = id; 
+                kismetserverip = id; 
+                kismetserverport = id; 
                 "pr_interval" = id; 
             }; 
             SUPERCLASS = PrefsClient; 

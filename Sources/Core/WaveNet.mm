@@ -1084,6 +1084,10 @@ int lengthSort(id string1, id string2, void *context)
     } else if (flags & IEEE80211_CAPINFO_IBSS_LE) {
         _type = networkTypeAdHoc;
     }
+	
+	if (flags & IEEE80211_CAPINFO_PROBE_REQ_LE) {
+		_type = networkTypeProbe;
+	}
 
     [_dataLock lock];
     [self updateSSID:[info objectForKey:@"name"] withSound:YES];

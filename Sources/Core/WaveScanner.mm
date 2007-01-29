@@ -301,6 +301,7 @@ error:
             [_hopTimer invalidate];
             _hopTimer=Nil;
         }
+		
     }
     return YES;
 }

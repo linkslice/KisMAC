@@ -103,6 +103,8 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"wlt1", @"bpfdevice", 
         @"/dev/bpf0", @"bpfloc",
         [NSNumber numberWithInt:100], @"pr_interval",
+		@"127.0.0.1",@"kismetserverip",
+		[NSNumber numberWithInt:2501],@"kismetserverport",
         nil];
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:registrationDict];

@@ -26,7 +26,7 @@
 #import "WaveDriverAirport.h"
 #import "WaveHelper.h"
 
-char WaveDrivers [][30] = { "WaveDriverAirport", "WaveDriverAirportExtreme", "WaveDriverViha", "WaveDriverAtheros", "WaveDriverAironet", "WaveDriverMacJack",  "WaveDriverPrismGT", "WaveDriverUSBIntersil", "\0" };
+char WaveDrivers [][30] = { "WaveDriverAirport", "WaveDriverKismet", "WaveDriverAirportExtreme", "WaveDriverViha", "WaveDriverAtheros", "WaveDriverAironet", "WaveDriverMacJack",  "WaveDriverPrismGT", "WaveDriverUSBIntersil", "\0" };
 
 @implementation WaveDriver
 
