@@ -57,7 +57,7 @@
 }
 
 -(NSDictionary*) getCurrentSettings {
-    int i = [_driverTable selectedRow];
+	int i = [_driverTable selectedRow];
     
     if (i<0) return Nil;
     
@@ -69,6 +69,7 @@
     bool enableChannel = NO;
     bool enableInjection = NO;
     bool enableDumping = NO;
+	bool enableIPAndPort = NO;
     Class driverClass;
     NSDictionary *d = Nil;
     unsigned int x, y;
@@ -87,6 +88,16 @@
         if ([driverClass allowsChannelHopping]) enableChannel = YES;
         if ([driverClass allowsInjection]) enableInjection = YES;
         if ([driverClass type] == passiveDriver) enableDumping = YES;
+		if ([driverClass wantsIPAndPort]) enableIPAndPort = YES;
+		if (enableIPAndPort) {
+			[_chanhop setHidden:true];
+			[_kdrone_settings setHidden:false];
+			[_kismet_host setStringValue:[d objectForKey:@"kismetserverhost"]];
+			[_kismet_port setIntValue:[[d objectForKey:@"kismetserverport"] intValue]];
+		} else {
+			[_chanhop setHidden:false];
+			[_kdrone_settings setHidden:true];
+		}
         
     }
     
@@ -96,13 +107,13 @@
     [_selNone       setEnabled:enableChannel];
     [_channelSel    setEnabled:enableChannel];
     [_firstChannel  setEnabled:enableChannel];
-    
+	    
     [_dumpDestination       setEnabled:enableDumping];
     [_dumpFilter            setEnabled:enableDumping];
     
-    [_injectionDevice       setEnabled:enableInjection];
+    [_injectionDevice        setEnabled:enableInjection];
     if (!enableInjection) {
-         [_injectionDevice setTitle:@"Injection Not Supported"];
+		[_injectionDevice setTitle:@"Injection Not Supported"];
     }else
         [_injectionDevice setTitle:@"use as primary device"];
     
@@ -161,7 +172,7 @@
     int i = [_driverTable selectedRow];
     int val = 0, startCorrect = 0;
     unsigned int x, y;
-    
+	
     [controller setObject:[NSNumber numberWithFloat: [_frequence     floatValue]]    forKey:@"frequence"];
     [controller setObject:[NSNumber numberWithBool: [_aeForever state] == NSOnState] forKey:@"aeForever"];
 
@@ -200,6 +211,9 @@
     [d setObject:[_dumpDestination stringValue] forKey:@"dumpDestination"];
     [d setObject:[NSNumber numberWithInt:[_dumpFilter selectedRow]] forKey:@"dumpFilter"];
     
+	[d setObject:[_kismet_host stringValue] forKey:@"kismetserverhost"];
+	[d setObject:[NSNumber numberWithInt:[_kismet_port intValue]] forKey:@"kismetserverport"];
+	
     a = [[controller objectForKey:@"ActiveDrivers"] mutableCopy];
     [a replaceObjectAtIndex:i withObject:d];
     [controller setObject:a forKey:@"ActiveDrivers"];
@@ -252,10 +266,19 @@
 - (IBAction)selAddDriver:(id)sender {
     NSMutableArray *drivers;
     NSString *driverClassName;
+	NSNumber *kserverport;
 	int result;
     
     driverClassName = [NSString stringWithCString:WaveDrivers[[[_driver selectedItem] tag]]];
     
+	if ([driverClassName isEqualToString:@"WaveDriverKismet"]) {
+		kserverport = [NSNumber numberWithInt:2501];
+	} else if ([driverClassName isEqualToString:@"WaveDriverKismetDrone"]) {
+		kserverport = [NSNumber numberWithInt:3501];
+	} else {
+		kserverport = [NSNumber numberWithInt:0];
+	}
+	
     drivers = [[controller objectForKey:@"ActiveDrivers"] mutableCopy];
     [drivers addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         driverClassName, @"driverID",
@@ -278,6 +301,8 @@
         [NSNumber numberWithInt: 0]     , @"dumpFilter",
         @"~/DumpLog %y-%m-%d %H:%M"    , @"dumpDestination",
         [NSClassFromString(driverClassName) deviceName], @"deviceName", //todo make this unique for ever instance
+		@"127.0.0.1", @"kismetserverhost",
+		kserverport, @"kismetserverport",
         nil]];
     [controller setObject:drivers forKey:@"ActiveDrivers"];
     
@@ -295,10 +320,11 @@
 							OK,nil, nil);
 		}
 	}
+
 	
     [_driverTable reloadData];
     [_driverTable selectRow:[drivers count]-1 byExtendingSelection:NO];
-    [self updateUI];
+	[self updateUI];
     [drivers release];
 }
 

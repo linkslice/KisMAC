@@ -483,6 +483,10 @@
 		6CDAFD030AC4FA7D00A5D180 /* KismetXMLImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */; };
 		6CF9EE6E0B6E9D2A00F54524 /* WaveDriverKismet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF9EE6C0B6E9D2A00F54524 /* WaveDriverKismet.h */; };
 		6CF9EE6F0B6E9D2A00F54524 /* WaveDriverKismet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF9EE6D0B6E9D2A00F54524 /* WaveDriverKismet.m */; };
+		87B513670BD4ED2300DC8861 /* DriverPrefsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B513650BD4ED2300DC8861 /* DriverPrefsView.h */; };
+		87B513680BD4ED2300DC8861 /* DriverPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B513660BD4ED2300DC8861 /* DriverPrefsView.m */; };
+		87C9272A0BAA137E0025A6AE /* WaveDriverKismetDrone.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */; };
+		87C9272B0BAA137E0025A6AE /* WaveDriverKismetDrone.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C927290BAA137E0025A6AE /* WaveDriverKismetDrone.m */; };
 		87CEBA8209AEF03700AEB0B8 /* GrowlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CEBA8009AEF03700AEB0B8 /* GrowlController.h */; };
 		87CEBA8309AEF03700AEB0B8 /* GrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CEBA8109AEF03700AEB0B8 /* GrowlController.m */; };
 		8D1107280486CEB800E47090 /* KisMAC_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32CA4F630368D1EE00C91783 /* KisMAC_Prefix.pch */; };
@@ -839,6 +843,10 @@
 		6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KismetXMLImporter.m; sourceTree = "<group>"; };
 		6CF9EE6C0B6E9D2A00F54524 /* WaveDriverKismet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverKismet.h; sourceTree = "<group>"; };
 		6CF9EE6D0B6E9D2A00F54524 /* WaveDriverKismet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverKismet.m; sourceTree = "<group>"; };
+		87B513650BD4ED2300DC8861 /* DriverPrefsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverPrefsView.h; sourceTree = "<group>"; };
+		87B513660BD4ED2300DC8861 /* DriverPrefsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverPrefsView.m; sourceTree = "<group>"; };
+		87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverKismetDrone.h; sourceTree = "<group>"; };
+		87C927290BAA137E0025A6AE /* WaveDriverKismetDrone.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverKismetDrone.m; sourceTree = "<group>"; };
 		87CEBA8009AEF03700AEB0B8 /* GrowlController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlController.h; sourceTree = "<group>"; };
 		87CEBA8109AEF03700AEB0B8 /* GrowlController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlController.m; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* KisMAC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KisMAC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1154,6 +1162,8 @@
 		003533DB06A5DD8500AB4577 /* PreferencePanes */ = {
 			isa = PBXGroup;
 			children = (
+				87B513650BD4ED2300DC8861 /* DriverPrefsView.h */,
+				87B513660BD4ED2300DC8861 /* DriverPrefsView.m */,
 				6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */,
 				6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */,
 				003533DC06A5DD8500AB4577 /* PrefsClient.h */,
@@ -1249,6 +1259,8 @@
 				0035341406A5DD8500AB4577 /* WaveDriverAirport.m */,
 				00DF456108B1E969003F3C7E /* WaveDriverAirportExtreme.h */,
 				00DF456208B1E969003F3C7E /* WaveDriverAirportExtreme.m */,
+				87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */,
+				87C927290BAA137E0025A6AE /* WaveDriverKismetDrone.m */,
 				0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */,
 				0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */,
 				0035341706A5DD8500AB4577 /* WaveDriverMacJack.h */,
@@ -1674,6 +1686,8 @@
 				6CDAFD020AC4FA7D00A5D180 /* KismetXMLImporter.h in Headers */,
 				6C94AA2F0ADF3FBC001BE161 /* GPSSatInfo.h in Headers */,
 				6CF9EE6E0B6E9D2A00F54524 /* WaveDriverKismet.h in Headers */,
+				87C9272A0BAA137E0025A6AE /* WaveDriverKismetDrone.h in Headers */,
+				87B513670BD4ED2300DC8861 /* DriverPrefsView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2069,6 +2083,8 @@
 				6CDAFD030AC4FA7D00A5D180 /* KismetXMLImporter.m in Sources */,
 				6C94AA300ADF3FBC001BE161 /* GPSSatInfo.m in Sources */,
 				6CF9EE6F0B6E9D2A00F54524 /* WaveDriverKismet.m in Sources */,
+				87C9272B0BAA137E0025A6AE /* WaveDriverKismetDrone.m in Sources */,
+				87B513680BD4ED2300DC8861 /* DriverPrefsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

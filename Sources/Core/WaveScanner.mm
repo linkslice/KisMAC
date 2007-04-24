@@ -129,18 +129,19 @@ got:
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     
     interval = [defs floatForKey:@"activeScanInterval"];
-    
-    while (_scanning) {
-        nets = [wd networksInRange];
-        
-        if (nets) {
-            for(i=0; i<[nets count]; i++) {
-                network = [nets objectAtIndex:i];                
-                [_container addAppleAPIData:network];
-            }
-        }
-        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:interval]];
-    }
+    if ([wd startedScanning]) {
+		while (_scanning) {
+			nets = [wd networksInRange];
+			
+			if (nets) {
+				for(i=0; i<[nets count]; i++) {
+					network = [nets objectAtIndex:i];                
+					[_container addAppleAPIData:network];
+				}
+			}
+			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:interval]];
+		}
+	}
 }
 
 //does the actual scanning (extra thread)
@@ -204,6 +205,10 @@ got:
     } else geiger=Nil;
     
     [wd startCapture:0];
+	if (![wd startedScanning]) {
+		goto error;
+	}
+	
     while (_scanning) {				//this is for canceling
 		@try {
 			frame = [wd nextFrame];     //captures the next frame (locking)

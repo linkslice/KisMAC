@@ -5,6 +5,11 @@
 		Author:			Geordie Millar
 						themacuser@gmail.com
 		Description:	Scan with a Kismet server in KisMac.
+
+		Details:		Tested with Kismet 2006.04.R1 on OpenWRT White Russian RC6 on a Diamond Digital R100
+						(broadcom mini-PCI card, wrt54g capturesource)
+						and Kismet 2006.04.R1 on Voyage Linux on a PC Engines WRAP.2E
+						(CM9 mini-PCI card, madwifing)
                 
         This file is part of KisMAC.
 
@@ -41,6 +46,46 @@ static int KismetInstances = 0;
     self = [super init];
     if (!self)  return nil;
     
+    KismetInstances++;
+
+    return self;
+}
+
++(int) kismetInstanceCount {
+    return KismetInstances;
+}
+
+#pragma mark -
+
++ (enum WaveDriverType) type {
+    return activeDriver;
+}
+
++ (bool) wantsIPAndPort {
+    return YES;
+}
+
++ (NSString*) description {
+    return NSLocalizedString(@"Kismet Server, Passive Mode", "long driver description");
+}
+
++ (NSString*) deviceName {
+    return NSLocalizedString(@"Kismet Server", "short driver description");
+}
+
+#pragma mark -
+
++ (bool) loadBackend {
+    return YES;
+}
+
++ (bool) unloadBackend {
+    return YES;
+}
+
+#pragma mark -
+
+- (bool) startedScanning {
 	NSUserDefaults *defs;
     defs = [NSUserDefaults standardUserDefaults];
 	
@@ -56,8 +101,30 @@ static int KismetInstances = 0;
 		return nil;
 	}
 	
-	hostname = [[defs objectForKey:@"kismetserverip"] cString];
-	port = [[defs objectForKey:@"kismetserverport"] intValue];
+	int foundhostname=0;
+	int foundport=0;
+	
+	NSArray *a;
+	a = [defs objectForKey:@"ActiveDrivers"];
+	NSEnumerator *e = [a objectEnumerator];
+	NSDictionary *drvr;
+	@try {
+		while ( (drvr = [e nextObject]) ) {
+			if ([[drvr objectForKey:@"driverID"] isEqualToString:@"WaveDriverKismet"]) {
+				hostname = [[drvr objectForKey:@"kismetserverhost"] cString];
+				foundhostname = 1;
+				port = [[defs objectForKey:@"kismetserverport"] intValue];
+				foundport = 1;
+			}
+		}
+	}
+	@catch (NSException * ex) {
+		NSLog(@"Exception getting the hostname and port from plist...");
+	}
+
+	if (foundhostname + foundport < 2) {
+		NSLog(@"Error getting the hostname and port from plist...");
+	}	
 	
 	ip = inet_addr(hostname);
 		
@@ -77,38 +144,13 @@ static int KismetInstances = 0;
 	}
 		
 	write(sockd, initstr, strlen(initstr));
-    
-    KismetInstances++;
-
-    return self;
+	
+	return YES;
 }
 
-+(int) kismetInstanceCount {
-    return KismetInstances;
-}
-
-#pragma mark -
-
-+ (enum WaveDriverType) type {
-    return activeDriver;
-}
-
-+ (NSString*) description {
-    return NSLocalizedString(@"Kismet Server, Passive Mode", "long driver description");
-}
-
-+ (NSString*) deviceName {
-    return NSLocalizedString(@"Kismet Server", "short driver description");
-}
-
-#pragma mark -
-
-+ (bool) loadBackend {
-    return YES;
-}
-
-+ (bool) unloadBackend {
-    return YES;
+- (bool) stopCapture {
+	close(sockd);
+	return YES;
 }
 
 #pragma mark -
@@ -150,9 +192,9 @@ static int KismetInstances = 0;
 					bssid = [NSData dataWithBytes:bssidstring length:6];					// bssid, simple enough
 					signalint = [[rcvd3 objectAtIndex:4] intValue];							// signal level, as an int
 					if (signalint > 1000 || signalint < 0) { signalint = 0; }				// sometimes it comes through as an invalid number
-					signal = [NSNumber numberWithInt:signalint];							// signal level as NSNumber
+					signal = [NSNumber numberWithInt:signalint];							// signal level as NSNumber, you can't put int into array
 					noise = [NSNumber numberWithInt:0];										// this is only subtracted from signal, not needed
-					channel = [NSNumber numberWithInt:[[rcvd3 objectAtIndex:6] intValue]];	// channel
+					channel = [NSNumber numberWithInt:[[rcvd3 objectAtIndex:6] intValue]];	// channel...
 					
 					flags = 0;
 					

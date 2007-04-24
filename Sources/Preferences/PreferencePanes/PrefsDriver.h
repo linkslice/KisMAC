@@ -17,17 +17,27 @@
     IBOutlet NSMatrix       *_channelSel;
     IBOutlet NSButton       *_selAll;
     IBOutlet NSButton       *_selNone;
-    
+	
     IBOutlet NSButton       *_injectionDevice;
     
     IBOutlet NSPopUpButton  *_driver;
     IBOutlet NSButton       *_removeDriver;
     IBOutlet NSTableView    *_driverTable;
-    
+
     IBOutlet NSMatrix       *_dumpFilter;
     IBOutlet NSTextField    *_dumpDestination;
+	
+	IBOutlet NSTextField	*_kismet_host;
+	IBOutlet NSTextField	*_kismet_port;
     
     IBOutlet NSButton       *_aeForever;
+	
+	IBOutlet NSBox			*_chanhop;
+	IBOutlet NSBox			*_kdrone_settings;
+	IBOutlet NSBox			*_injection;
+	IBOutlet NSBox			*_dumpFilterBox;
+	IBOutlet NSBox			*_savedumpsat;
+	IBOutlet NSBox			*_globalsettings;
 }
 
 - (IBAction)selAddDriver:(id)sender;

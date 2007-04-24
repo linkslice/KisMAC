@@ -1,10 +1,15 @@
 /*
         
-        File:			WaveDriverKismet.m
+        File:			WaveDriverKismet.h
         Program:		KisMAC
 		Author:			Geordie Millar
 						themacuser@gmail.com
 		Description:	Scan with a Kismet server in KisMac.
+
+		Details:		Tested with Kismet 2006.04.R1 on OpenWRT White Russian RC6 on a Diamond Digital R100
+						(broadcom mini-PCI card, wrt54g capturesource)
+						and Kismet 2006.04.R1 on Voyage Linux on a PC Engines WRAP.2E
+						(CM9 mini-PCI card, madwifing)
                 
         This file is part of KisMAC.
 

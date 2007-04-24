@@ -18,6 +18,7 @@
 	IBOutlet id pr_interval; //deauthenticate interval
 	IBOutlet id kismetserverip; // Kismet server IP
 	IBOutlet id kismetserverport; // Kismet server port
+	IBOutlet id show_debugmenu;
 }
 
 -(IBAction)setDefaults:(id)sender;

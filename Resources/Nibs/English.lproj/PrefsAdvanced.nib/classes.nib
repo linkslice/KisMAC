@@ -13,6 +13,7 @@
                 kismetserverip = id; 
                 kismetserverport = id; 
                 "pr_interval" = id; 
+                "show_debugmenu" = id; 
             }; 
             SUPERCLASS = PrefsClient; 
         }, 
