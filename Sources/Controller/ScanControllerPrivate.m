@@ -309,6 +309,12 @@
                 );
             [self stopActiveAttacks];
             break;
+		case 6:
+            NSBeginAlertSheet(NSLocalizedString(@"Cracking unsuccessful", "Error box title for WEP attacks"),
+            OK, NULL, NULL, _window, self, NULL, NULL, NULL, 
+            NSLocalizedString(@"Cracking unsuccessful description for newsham", "LONG description with possible causes")
+            );
+            break;
         default:
             break;
         }

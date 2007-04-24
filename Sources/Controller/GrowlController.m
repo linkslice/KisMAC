@@ -114,8 +114,8 @@
 {
 	[GrowlApplicationBridge
 	notifyWithTitle:@"KisMAC"
-		description:[NSString stringWithFormat:@"Probe Request Recieved:\nMAC: %@\nSignal: %i",BSSID,signal]
-   notificationName:@"Probe Request Recieved"
+		description:[NSString stringWithFormat:@"Probe Request Received:\nMAC: %@\nSignal: %i",BSSID,signal]
+   notificationName:@"Probe Request Received"
 		   iconData:[NSData dataWithData:[[NSImage imageNamed:@"growl-probe"] TIFFRepresentation]]
 		   priority:0
 		   isSticky:NO
@@ -189,7 +189,7 @@
 }
 
 - (NSDictionary *)registrationDictionaryForGrowl {
-	NSArray *allNotifications = [NSArray arrayWithObjects:@"Scan Started/Stopped",@"Open Network Found",@"Closed Network Found",@"Probe Request Recieved",@"WPA Challenge/Response",@"Hidden SSID Revealed",nil];
+	NSArray *allNotifications = [NSArray arrayWithObjects:@"Scan Started/Stopped",@"Open Network Found",@"Closed Network Found",@"Probe Request Received",@"WPA Challenge/Response",@"Hidden SSID Revealed",nil];
 	NSArray *defaultNotifications = [NSArray arrayWithObjects:@"Scan Started/Stopped",@"Open Network Found",@"Closed Network Found",@"WPA Challenge/Response",@"Hidden SSID Revealed",nil];
 	NSDictionary *registrationDict = [NSDictionary dictionaryWithObjectsAndKeys:allNotifications, GROWL_NOTIFICATIONS_ALL, defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT, nil];
 	return registrationDict;
