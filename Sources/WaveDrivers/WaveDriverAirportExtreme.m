@@ -30,7 +30,11 @@
 #import "Apple80211.h"
 
 static bool explicitlyLoadedAirportExtremeDriver = NO;
+static NSString *airportExtremeBundleID = nil;
 WirelessContextPtr gWCtxt = NULL;
+
+static NSString *kAppleAirPort2Path = @"/System/Library/Extensions/AppleAirPort2.kext/Contents/Info.plist";
+static NSString *kAppleAirPortBrcm4311Path = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext/Contents/Info.plist";
 
 @implementation WaveDriverAirportExtreme
 
@@ -69,13 +73,14 @@ WirelessContextPtr gWCtxt = NULL;
 	NSDictionary *dict;
 	NSData *fileData;
 	
-	fileData = [NSData dataWithContentsOfFile:@"/System/Library/Extensions/AppleAirPort2.kext/Contents/Info.plist"];
+	fileData = [NSData dataWithContentsOfFile:kAppleAirPort2Path];
 	dict = [NSPropertyListSerialization propertyListFromData:fileData mutabilityOption:kCFPropertyListImmutable format:NULL errorDescription:Nil];
 	if ([[dict valueForKeyPath:@"IOKitPersonalities.Broadcom PCI.APMonitorMode"] boolValue]) return YES;
 	
-	fileData = [NSData dataWithContentsOfFile:@"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext/Contents/Info.plist"];
+	fileData = [NSData dataWithContentsOfFile:kAppleAirPortBrcm4311Path];
 	dict = [NSPropertyListSerialization propertyListFromData:fileData mutabilityOption:kCFPropertyListImmutable format:NULL errorDescription:Nil];
-	if ([[dict valueForKeyPath:@"IOKitPersonalities.Broadcom PCI.APMonitorMode"] boolValue]) return YES;
+	if ([[dict valueForKeyPath:@"IOKitPersonalities.Broadcom PCI.APMonitorMode"] boolValue] ||
+		[[[[dict objectForKey:@"IOKitPersonalities"] objectForKey:@"Broadcom 802.11 PCI"] objectForKey:@"APMonitorMode"] boolValue]) return YES;
 	
 	return NO;
 }
@@ -87,7 +92,10 @@ WirelessContextPtr gWCtxt = NULL;
 	
 	[NSThread sleep:1.0];
 	NSDictionary *dict = [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:fileName] mutabilityOption:kCFPropertyListMutableContainers format:NULL errorDescription:Nil];
-	[dict setValue:[NSNumber numberWithBool:enable] forKeyPath:@"IOKitPersonalities.Broadcom PCI.APMonitorMode"];
+	if ([dict valueForKeyPath:@"IOKitPersonalities.Broadcom PCI"])
+		[dict setValue:[NSNumber numberWithBool:enable] forKeyPath:@"IOKitPersonalities.Broadcom PCI.APMonitorMode"];
+	if ([[dict objectForKey:@"IOKitPersonalities"] objectForKey:@"Broadcom 802.11 PCI"])
+		[[[dict objectForKey:@"IOKitPersonalities"] objectForKey:@"Broadcom 802.11 PCI"] setValue:[NSNumber numberWithBool:enable] forKey:@"APMonitorMode"];
 	[[NSPropertyListSerialization dataFromPropertyList:dict format:kCFPropertyListXMLFormat_v1_0 errorDescription:nil] writeToFile:fileName atomically:NO];
 		
 	[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0644", fileName, nil]];
@@ -100,8 +108,8 @@ WirelessContextPtr gWCtxt = NULL;
 	NSUserDefaults *defs;
     
     defs = [NSUserDefaults standardUserDefaults];
-    [WaveDriverAirportExtreme setMonitorMode:enable forFile:@"/System/Library/Extensions/AppleAirPort2.kext/Contents/Info.plist"];
-	[WaveDriverAirportExtreme setMonitorMode:enable forFile:@"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext/Contents/Info.plist"];
+    [WaveDriverAirportExtreme setMonitorMode:enable forFile:kAppleAirPort2Path];
+	[WaveDriverAirportExtreme setMonitorMode:enable forFile:kAppleAirPortBrcm4311Path];
 	
 	if ([[defs objectForKey:@"aeForever"] boolValue]) {
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/rm" withArgs:[NSArray arrayWithObject:@"/System/Library/Extensions.kextcache"]];
@@ -113,7 +121,6 @@ WirelessContextPtr gWCtxt = NULL;
 + (int) initBackend {
 	BOOL ret;
     int x;
-    NSString *kextFile;
 	
     NSUserDefaults *defs;
     
@@ -127,7 +134,7 @@ WirelessContextPtr gWCtxt = NULL;
 		return 2;
 	}
 	
-	if(![WaveHelper isServiceAvailable:"AirPortPCI_MM"]) {
+	if(![WaveHelper isServiceAvailable:"AirPortPCI_MM"] && ![WaveHelper isServiceAvailable:"AirPort_Brcm43xx"]) {
 		NSLog(@"User has no Broadcom card.");
 		NSRunCriticalAlertPanel(
 		NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
@@ -138,10 +145,10 @@ WirelessContextPtr gWCtxt = NULL;
 	
 	if([[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/Extensions/IO80211Family.kext"]) {
 		NSLog(@"Enabling for new Intel Mac");
-		kextFile = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext";
+		airportExtremeBundleID = @"com.apple.driver.AirPortBrcm43xx";
 	} else {
 		NSLog(@"Enabling for Mac of the old school");
-		kextFile = @"/System/Library/Extensions/AppleAirPort2.kext";
+		airportExtremeBundleID = @"com.apple.iokit.AppleAirPort2";
 	}
 
 	
@@ -162,7 +169,7 @@ WirelessContextPtr gWCtxt = NULL;
             return 2;
         }
 
-        ret = [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", @"com.apple.iokit.AppleAirPort2", nil]];
+        ret = [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
         if (!ret) {
             NSLog(@"WARNING!!! User canceled password dialog for: kextunload");
             return 2;
@@ -171,14 +178,14 @@ WirelessContextPtr gWCtxt = NULL;
 	
         for (x=0; x<5; x++) {
             [NSThread sleep:1.0];
-            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
+            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
 		
             if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
         }
-        [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", @"com.apple.iokit.AppleAirPort2", nil]];
+        [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
         for (x=0; x<5; x++) {
             [NSThread sleep:1.0];
-            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
+            [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
     
             if ([WaveDriverAirportExtreme deviceAvailable]) return 0;
         }
@@ -223,21 +230,16 @@ WirelessContextPtr gWCtxt = NULL;
 
 + (bool) unloadBackend {
 	BOOL ret;
-	NSString *kextFile;
 	
     if (explicitlyLoadedAirportExtremeDriver) {
-		ret = [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", @"com.apple.iokit.AppleAirPort2", nil]];
+		ret = [[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextunload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
 		if (!ret) {
 			NSLog(@"WARNING!!! User canceled password dialog for: kextunload");
 			return NO;
 		}
-		if([[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/Extensions/IO80211Family.kext"]) {
-			kextFile = @"/System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext";
-		} else {
-			kextFile = @"/System/Library/Extensions/AppleAirPort2.kext";
-		}
+		
 		[WaveDriverAirportExtreme setMonitorMode:NO];
-		[[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObject:kextFile]];
+		[[BLAuthentication sharedInstance] executeCommand:@"/sbin/kextload" withArgs:[NSArray arrayWithObjects:@"-b", airportExtremeBundleID, nil]];
 
 		[NSThread sleep:1.0];
 	}
@@ -257,7 +259,7 @@ WirelessContextPtr gWCtxt = NULL;
 	
 	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
 		_apeType = APExtTypeAth5414;
-	} else if([WaveHelper isServiceAvailable:"AirPortPCI_MM"]) {
+	} else if([WaveHelper isServiceAvailable:"AirPortPCI_MM"] || [WaveHelper isServiceAvailable:"AirPort_Brcm43xx"]) {
 		_apeType = APExtTypeBcm;
 	} else {
 		_apeType = APExtTypeUnknown;
