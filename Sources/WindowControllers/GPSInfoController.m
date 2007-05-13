@@ -99,6 +99,9 @@
 		}
 		_haveFix = 2;
 	}
+	
+	[[self window] display];
+	[[self window] updateInDock]; // undocumented method
 }
 
 - (void)updateSatPRNForSat:(int)sat prn:(int)prn {

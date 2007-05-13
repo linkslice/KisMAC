@@ -125,6 +125,7 @@
                 exportPDF = id; 
                 exportToServer = id; 
                 exportWarD = id; 
+                goFullscreen = id; 
                 gpsDebugToConsole = id; 
                 importKismetXML = id; 
                 importMapFromServer = id; 
@@ -133,8 +134,9 @@
                 joinNetwork = id; 
                 monitorAllNetworks = id; 
                 monitorSignal = id; 
-                myAction = id; 
                 openDonateURL = id; 
+                openFAQURL = id; 
+                openForumsURL = id; 
                 openWebsiteURL = id; 
                 restartGPS = id; 
                 selChannel = id; 
@@ -159,6 +161,7 @@
                 "_detailsButton" = NSButton; 
                 "_detailsDrawerMenu" = NSMenuItem; 
                 "_detailsView" = NSView; 
+                "_fullscreen" = NSMenuItem; 
                 "_headerField" = NSTextField; 
                 "_mainView" = NSBox; 
                 "_mapButton" = NSButton; 

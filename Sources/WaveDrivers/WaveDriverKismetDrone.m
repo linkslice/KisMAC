@@ -464,13 +464,13 @@
 		NSLog(@"Captured frame >2500 octets");
 	}
 
-		memcpy((frame + sizeof(WLFrame)), &databuf[24], framelen); // todo: limit this to 2500!
+		memcpy((frame + sizeof(WLFrame)), &databuf[24], framelen);
 		noValidFrame = 0;
 		stream_recv_bytes = 0;
 		
-		} //else {
-			// printf("debug - somehow not a stream packet or too much data...  type %d recv %d\n", fhdr.frame_type, stream_recv_bytes);
-		// }
+		} else {
+			 NSLog(@"debug - somehow not a stream packet or too much data...  type %d recv %d\n", fhdr.frame_type, stream_recv_bytes);
+		}
 
 		if (fhdr.frame_type != STREAM_FTYPE_PACKET && 
 			fhdr.frame_type != STREAM_FTYPE_VERSION) {
