@@ -34,7 +34,9 @@ static int AirPortInstances = 0;
     self = [super init];
     if (!self)  return nil;
     
-    if (![WaveHelper isServiceAvailable:"AirPortDriver"] && ![WaveHelper isServiceAvailable:"AirPortPCI"] && ![WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
+    if (![WaveHelper isServiceAvailable:"AirPortDriver"] && ![WaveHelper isServiceAvailable:"AirPortPCI"] &&
+        ![WaveHelper isServiceAvailable:"AirPort_Athr5424"] && ![WaveHelper isServiceAvailable:"AirPort_Athr5424ab"])
+    {
         NSRunCriticalAlertPanel(NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
             NSLocalizedString(@"Could not load Airport Driver. Apple Driver not loaded", "LONG desc with solution"),
            // @"KisMAC is not able to load the Apple Airport driver, if you killed it by loading the Viha driver. Try restarting KisMAC."
@@ -89,7 +91,10 @@ static int AirPortInstances = 0;
 #pragma mark -
 
 + (bool) loadBackend {
-    if (!([WaveHelper isServiceAvailable:"AirPortDriver"] || [WaveHelper isServiceAvailable:"AirPortPCI"] || [WaveHelper isServiceAvailable:"AirPort_Athr5424"] || WirelessIsAvailable()==1)) {
+    if (!([WaveHelper isServiceAvailable:"AirPortDriver"] || [WaveHelper isServiceAvailable:"AirPortPCI"] ||
+          [WaveHelper isServiceAvailable:"AirPort_Athr5424"] || [WaveHelper isServiceAvailable:"AirPort_Athr5424ab"]  ||
+          WirelessIsAvailable()==1))
+    {
         NSLog(@"Could not find an AirPortCard for PseudoJack.");
         NSRunCriticalAlertPanel(
             NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),

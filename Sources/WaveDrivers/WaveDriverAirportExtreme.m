@@ -124,7 +124,8 @@ static NSString *kAppleAirPortBrcm4311Path = @"/System/Library/Extensions/IO8021
 	
     NSUserDefaults *defs;
     
-	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
+	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"] || [WaveHelper isServiceAvailable:"AirPort_Athr5424ab"])
+    {
 		NSLog(@"User has a Atheros card.");
 		return 0;
 		NSRunCriticalAlertPanel(
@@ -257,7 +258,8 @@ static NSString *kAppleAirPortBrcm4311Path = @"/System/Library/Extensions/IO8021
     defs = [NSUserDefaults standardUserDefaults];
     char err[PCAP_ERRBUF_SIZE];
 	
-	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
+	if([WaveHelper isServiceAvailable:"AirPort_Athr5424"] || [WaveHelper isServiceAvailable:"AirPort_Athr5424ab"] )
+    {
 		_apeType = APExtTypeAth5414;
 	} else if([WaveHelper isServiceAvailable:"AirPortPCI_MM"] || [WaveHelper isServiceAvailable:"AirPort_Brcm43xx"]) {
 		_apeType = APExtTypeBcm;
