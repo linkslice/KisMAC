@@ -74,11 +74,8 @@
     NSDictionary *d = Nil;
     unsigned int x, y;
     int val, startCorrect = 0;
-	BOOL aeEnabledForever;
     
-	aeEnabledForever = [[controller objectForKey:@"aeForever"] boolValue] && [WaveDriverAirportExtreme monitorModeEnabled];
     [_frequence     setFloatValue:  [[controller objectForKey:@"frequence"   ] floatValue]];
-    [_aeForever     setState:       aeEnabledForever ? NSOnState : NSOffState]; 
 
     if ([_driverTable numberOfSelectedRows]) {
         d = [self getCurrentSettings];
@@ -174,8 +171,6 @@
     unsigned int x, y;
 	
     [controller setObject:[NSNumber numberWithFloat: [_frequence     floatValue]]    forKey:@"frequence"];
-    [controller setObject:[NSNumber numberWithBool: [_aeForever state] == NSOnState] forKey:@"aeForever"];
-
     if (i < 0) return YES;
     d = [[self getCurrentSettings] mutableCopy];
     if (!d) return YES;
@@ -306,22 +301,6 @@
         nil]];
     [controller setObject:drivers forKey:@"ActiveDrivers"];
     
-	if (([_driver indexOfSelectedItem] == 2) && ![_aeForever state] && ![WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
-		// user has chosen Airport Extreme - STRONGLY suggest enabling persistent passive mode
-		result = NSRunAlertPanel(NSLocalizedString(@"Please enable persistent Airport Extreme passive.", "Persistent dialog title"),
-								 NSLocalizedString(@"Airport Extreme passive may not work without persistent passive support enabled.  Some users have reported errors and even system crashes when attempting to use without persistent passive support.  Enable persistent passive support now?", "Persistent dialog description"),
-								 NSLocalizedString(@"Yes please!","Yes button"), NSLocalizedString(@"No, I like kernel panics.","No button"), nil);
-		if (result == 1) {
-			[_aeForever setState:1];
-			[self enableAEForever:_aeForever];
-		} else {
-			NSRunAlertPanel(NSLocalizedString(@"Don't say we didn't warn you!", "Persistent dialog title"),
-							NSLocalizedString(@"There's just no helping some people.", "Persistent dialog description"),
-							OK,nil, nil);
-		}
-	}
-
-	
     [_driverTable reloadData];
     [_driverTable selectRow:[drivers count]-1 byExtendingSelection:NO];
 	[self updateUI];
@@ -354,31 +333,5 @@
     [self setValueForSender:_channelSel];
 }
 
-- (IBAction)enableAEForever:(id)sender {
-    if (NSAppKitVersionNumber < 824.11) {
-		NSLog(@"MacOS is not 10.4.2! AppKitVersion: %f < 824.11", NSAppKitVersionNumber);
-		
-		NSRunCriticalAlertPanel(
-                                NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
-                                NSLocalizedString(@"Incompatible MacOS version! You will need at least MacOS 10.4.2!.", "Error dialog description"),
-                                OK, nil, nil);
-        return;
-	}
-	if ([_aeForever state] == NSOnState && [WaveHelper isServiceAvailable:"AirPort_Athr5424"]) {
-		[_aeForever setState:NSOffState];
-		NSRunCriticalAlertPanel(
-                                NSLocalizedString(@"Not Needed.", "Error dialog title"),
-                                NSLocalizedString(@"Atheros based Airport Extreme cards keep track of monitor mode themselves.", "Error dialog description"),
-                                OK, nil, nil);
-        return;
-	
-	}
-    [WaveDriverAirportExtreme setMonitorMode: [_aeForever state] == NSOnState];
-    [self setValueForSender:sender];
-    NSRunCriticalAlertPanel(
-                            NSLocalizedString(@"You Must Reboot.", "Error dialog title"),
-                            NSLocalizedString(@"You must reboot after changing this setting for it to take effect.", "Error dialog description"),
-                            OK, nil, nil);
-}
 
 @end

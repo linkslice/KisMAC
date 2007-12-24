@@ -1,49 +1,77 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {setDefaults = id; }; 
-            CLASS = PrefsAdvanced; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "ac_ff" = id; 
-                "bf_interval" = id; 
-                bpfdevice = id; 
-                bpfloc = id; 
-                kismetserverip = id; 
-                kismetserverport = id; 
-                "pr_interval" = id; 
-                "show_debugmenu" = id; 
-            }; 
-            SUPERCLASS = PrefsClient; 
-        }, 
-        {
-            ACTIONS = {setValueForSender = id; }; 
-            CLASS = PrefsClient; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {controlBox = NSView; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = PrefsDriver; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {aDriver = id; }; 
-            SUPERCLASS = PrefsClient; 
-        }, 
-        {
-            CLASS = PrefsMap; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_areaColorBad" = NSColorWell; 
-                "_areaColorGood" = NSColorWell; 
-                "_areaQual" = NSTextField; 
-                "_areaSens" = NSTextField; 
-                "_cpColor" = NSColorWell; 
-                "_traceColor" = NSColorWell; 
-                "_wpColor" = NSColorWell; 
-            }; 
-            SUPERCLASS = PrefsClient; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setValueForSender</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PrefsClient</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>controlBox</key>
+				<string>NSView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setDefaults</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PrefsAdvanced</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>ac_ff</key>
+				<string>id</string>
+				<key>bf_interval</key>
+				<string>id</string>
+				<key>bpfdevice</key>
+				<string>id</string>
+				<key>bpfloc</key>
+				<string>id</string>
+				<key>kismetserverip</key>
+				<string>id</string>
+				<key>kismetserverport</key>
+				<string>id</string>
+				<key>pr_interval</key>
+				<string>id</string>
+				<key>show_debugmenu</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>PrefsClient</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

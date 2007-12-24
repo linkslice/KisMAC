@@ -34,13 +34,13 @@ enum APExtType {
 	APExtTypeAth5414
 };
 
+#define DLT_IEEE802_11_RADIO_AVS 163
+
 @interface WaveDriverAirportExtreme : WaveDriver {
 	pcap_t *_device;
 	enum APExtType _apeType;
 }
 
 WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out);
-+ (BOOL)monitorModeEnabled;
-+ (void)setMonitorMode:(BOOL)enable;
 
 @end

@@ -29,9 +29,7 @@
 	
 	IBOutlet NSTextField	*_kismet_host;
 	IBOutlet NSTextField	*_kismet_port;
-    
-    IBOutlet NSButton       *_aeForever;
-	
+    	
 	IBOutlet NSBox			*_chanhop;
 	IBOutlet NSBox			*_kdrone_settings;
 	IBOutlet NSBox			*_injection;
@@ -45,6 +43,5 @@
 
 - (IBAction)selAll:(id)sender;
 - (IBAction)selNone:(id)sender;
-- (IBAction)enableAEForever:(id)sender;
 
 @end
