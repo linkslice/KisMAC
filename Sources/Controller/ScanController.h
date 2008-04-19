@@ -120,7 +120,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     IBOutlet NSWindow           *prefsWindow;
     IBOutlet PrefsController    *prefsController;
     IBOutlet NSView             *detailsView;
-    IBOutlet AMRollOverButton   *_scanButton;
+    IBOutlet NSButton           *_scanButton;
     IBOutlet TrafficController  *_trafficController;
     IBOutlet InfoController     *aInfoController;
 	IBOutlet GrowlController	*aGrowlController;
