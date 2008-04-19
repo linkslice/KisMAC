@@ -465,6 +465,7 @@
 		00F9C65106DB37E200E357F0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C64F06DB37E200E357F0 /* IOKit.framework */; };
 		00FF593E06C630CC006C7F1E /* WaveDriverPrismGT.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */; };
 		00FF593F06C630CC006C7F1E /* WaveDriverPrismGT.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */; };
+		689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */ = {isa = PBXBuildFile; fileRef = 689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */; };
 		6C03D77009B547F2005B2316 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C03D76F09B547F2005B2316 /* Growl.framework */; };
 		6C03D77309B547F6005B2316 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6C03D76F09B547F2005B2316 /* Growl.framework */; };
 		6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */; };
@@ -806,6 +807,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* KisMAC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KisMAC_Prefix.pch; sourceTree = "<group>"; };
+		689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = OUItoVendorDB.pl; sourceTree = "<group>"; };
 		6C03D76F09B547F2005B2316 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Resources/Growl.framework; sourceTree = "<group>"; };
 		6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsAdvanced.h; sourceTree = "<group>"; };
 		6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsAdvanced.m; sourceTree = "<group>"; };
@@ -936,6 +938,7 @@
 		0035332D06A5DD5700AB4577 /* Generic */ = {
 			isa = PBXGroup;
 			children = (
+				689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */,
 				00A3EB160824E448003CD96A /* AirPortMenu */,
 				0035332E06A5DD5700AB4577 /* example.dump */,
 				0035332F06A5DD5700AB4577 /* KisMAC.scriptSuite */,
@@ -1703,6 +1706,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				00F57BA306A87EAE0035AE2F /* CopyFiles */,
+				689FF0750DB9AF8E00ED7BE5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1869,6 +1873,7 @@
 				6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */,
 				6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */,
 				6C41BAD50AA0B8E600E0B411 /* GPSDialog.nib in Resources */,
+				689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1887,6 +1892,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "\"$BUILD_DIR/../UnitTest/Tool/ukrun\" \"$BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
+		};
+		689FF0750DB9AF8E00ED7BE5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "Update the vendors database on build.";
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$TARGET_BUILD_DIR/../../Resources/Generic/OUItoVendorDB.pl -d /tmp/OUI.txt $TARGET_BUILD_DIR/../../Resources/Generic/vendor.db";
 		};
 /* End PBXShellScriptBuildPhase section */
 
