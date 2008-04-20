@@ -52,6 +52,9 @@
 - (id)stopScan:(NSScriptCommand *)command {
     return [NSNumber numberWithBool:[(ScanController*)[NSApp delegate] stopScan]];
 }
+- (id)toggleScan:(NSScriptCommand *)command {
+    return [NSNumber numberWithBool:[(ScanController*)[NSApp delegate] toggleScan]];
+}
 
 #pragma mark -
 

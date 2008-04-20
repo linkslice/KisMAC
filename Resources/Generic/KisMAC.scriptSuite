@@ -11,6 +11,7 @@
                 "KisMAC.showTraffic"            = "showTraffic:"; 
                 "KisMAC.showMap"                = "showMap:";
                 "KisMAC.showDetails"            = "showDetails:";
+                "KisMAC.toggleScan"              = "toggleScan:";
                 "KisMAC.startScan"              = "startScan:";
                 "KisMAC.stopScan"               = "stopScan:";
                 "KisMAC.New"                    = "new:";
@@ -62,6 +63,10 @@
         }; 
         showDetails = {
             AppleEventCode = KshD; 
+            CommandClass = NSScriptCommand; 
+        }; 
+        toggleScan = {
+            AppleEventCode = KssS; 
             CommandClass = NSScriptCommand; 
         }; 
         startScan = {

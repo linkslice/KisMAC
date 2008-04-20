@@ -38,6 +38,7 @@
 - (BOOL)showMap;
 - (BOOL)showDetails;
 
+- (BOOL)toggleScan;
 - (BOOL)startScan;
 - (BOOL)stopScan;
 

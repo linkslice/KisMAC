@@ -73,6 +73,15 @@
     return YES;
 }
 
+- (BOOL)toggleScan {
+	if(_scanning) {
+		_scanning = NO;
+		return [self stopScan];
+	} else {
+		_scanning = YES;
+		return [self startScan];
+	}
+}
 
 - (BOOL)startScan {
     bool result;

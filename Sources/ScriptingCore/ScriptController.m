@@ -87,8 +87,7 @@
 }
 
 - (IBAction)toggleScan:(id)sender {
-    if ([sender state] == NSOnState) [ScriptingEngine selfSendEvent:'KsoS'];
-    else  [ScriptingEngine selfSendEvent:'KsaS'];
+	[ScriptingEngine selfSendEvent:'KssS'];
 }
 
 #pragma mark -
