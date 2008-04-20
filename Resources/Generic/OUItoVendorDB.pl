@@ -12,33 +12,70 @@ use utf8;
 # http://standards.ieee.org/regauth/oui/oui.txt
 
 
-# Check for valid usage
-if($#ARGV < 0 || $ARGV[0] =~ /^-+h/){
-	printUsage();
-}
-if($ARGV[0] =~ /^-d\S*$/ && $#ARGV > 0) {
-	shift @ARGV;
-	print "Downloading latest OUI... ";
-	$error = system("curl -sf http://standards.ieee.org/regauth/oui/oui.txt -o $ARGV[0]");
-	if($error != 0){
-		print STDERR "There was an error (code $error) during download.\n";
-		exit;
+my $download = "no";
+
+# Parse arguments
+while($ARGV[0] =~ /^-/) {
+	$current = shift @ARGV;
+	
+	if($current =~ /^-{1,2}h/) {
+		printUsage();
+	} elsif ($current =~ /^-{1,2}d/) {
+		$download = "yes";
+	} elsif ($current =~ /^-{1,2}f/) {
+		$download = "force";
 	}
-	print "done!\n";
 }
 
-# Set the output file
-$fileOut = ($ARGV[1] ? $ARGV[1] : "vendor.db");
+# Check if usage is valid
+printUsage() if($#ARGV < 0 || $#ARGV > 1);
+
+# Set the output files
+$ouiFile = $ARGV[0];
+$vendorOut = ($ARGV[1] ? $ARGV[1] : "vendor.db");
+
+if($download ne "no"){
+	print "Downloading latest OUI... ";
+	
+	$vMod = 14;
+	$oMod = 14;
+	
+	if(-e $vendorOut){
+		$vMod = -M $vendorOut;
+	}
+	if(-e $ouiFile){
+		$oMod = -M $ouiFile;
+	}
+	
+	if($download ne "force" && $vMod < 7){
+		print "already updated vendors in last 7d (-f forces update).\n";
+		if($vMod <= $oMod){
+			print "Skipping execution...\n";
+			exit;
+		}
+	} else {
+		$error = system("curl -sf http://standards.ieee.org/regauth/oui/oui.txt -o $ouiFile");
+		
+		if($error != 0){
+			print STDERR "There was an error (code $error) during download.\n";
+			exit;
+		}
+		
+		print "done!\n";
+	}
+}
+
+
 
 # Read the OUI
+open(OUIIN, "<$ouiFile") || die("Can't read $ouiFile");
 print "Reading OUI... ";
-open(OUIIN, "<$ARGV[0]") || die("Can't read $ARGV[0]");
 my @oui = <OUIIN>;
 close(OUIIN);
 print "done!\n";
 
 # Open the output file, print the header
-open(OUTFILE, ">$fileOut") || die "Can't write to $fileOut";
+open(OUTFILE, ">$vendorOut") || die "Can't write to $vendorOut";
 binmode OUTFILE, ":utf8";
 print "Writing header to output file... ";
 printHeader();
@@ -82,13 +119,15 @@ print "done!\n";
 
 sub printUsage() {
 print STDERR <<END_USAGE;
-Usage:\t$0 [-d(ownload)] oui.txt [outputfile]
+Usage:\t$0 [-d(ownload) [-f(orce)]] oui.txt [outputfile]
 
 \tParses the OUI file given, and saves to vendor.db in the
 \tcurrent directory, or outputfile if specified.
 
-\tIf the -download flag is specified, will attempt to download
+\tIf the -d(ownload) flag is specified, will attempt to download
 \tthe latest OUI.txt from IEEE to the location specified.
+\tIf the vendor database was modified in the last week, it
+\twill not be updated, unless the -f(orce) option is used.
 END_USAGE
 exit;
 }
