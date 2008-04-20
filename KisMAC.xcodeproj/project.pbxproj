@@ -1701,12 +1701,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00A9158E0858D6410093943F /* Build configuration list for PBXNativeTarget "KisMAC" */;
 			buildPhases = (
+				681D822C0DBAD9B10035226E /* Compile.command */,
+				689FF0750DB9AF8E00ED7BE5 /* Update vendors.db */,
 				8D1107270486CEB800E47090 /* Headers */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				00F57BA306A87EAE0035AE2F /* CopyFiles */,
-				689FF0750DB9AF8E00ED7BE5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1893,7 +1894,21 @@
 			shellPath = /bin/bash;
 			shellScript = "\"$BUILD_DIR/../UnitTest/Tool/ukrun\" \"$BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
 		};
-		689FF0750DB9AF8E00ED7BE5 /* ShellScript */ = {
+		681D822C0DBAD9B10035226E /* Compile.command */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Compile.command;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -f $TARGET_BUILD_DIR/../../compile.log ]\nthen\necho \"compile.command has been run, skipping execution.\"\nelse\n$TARGET_BUILD_DIR/../../compile.command\nfi";
+		};
+		689FF0750DB9AF8E00ED7BE5 /* Update vendors.db */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			comments = "Update the vendors database on build.";
@@ -1901,6 +1916,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Update vendors.db";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
