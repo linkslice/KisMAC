@@ -2,7 +2,7 @@
         
         File:			ScanController.m
         Program:		KisMAC
-	Author:			Michael Ro§berg
+	Author:			Michael Rossberg
 				mick@binaervarianz.de
 	Description:		KisMAC is a wireless stumbler for MacOS X.
                 
@@ -115,6 +115,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     _visibleTab = tabNetworks;
     [_window setDocumentEdited:NO];
     _refreshGUI = YES;
+	_refreshGPS = YES;
     aMS = Nil;
     _zoomToRect = NSZeroRect;
     _importOpen = 0;

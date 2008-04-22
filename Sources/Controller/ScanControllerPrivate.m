@@ -156,8 +156,11 @@
         [WaveHelper runScript:@"nosleep_disable.sh"];
         aOurSleepMode = NO;
     }
-    
-    [WaveHelper initGPSControllerWithDevice: [sets objectForKey:@"GPSDevice"]];
+	
+	if(_refreshGPS) {
+		[WaveHelper initGPSControllerWithDevice: [sets objectForKey:@"GPSDevice"]];
+		_refreshGPS = NO;
+	}
     
     switch ([[sets objectForKey:@"GPSTrace"] intValue]) {
         case 0: x = 100; break;

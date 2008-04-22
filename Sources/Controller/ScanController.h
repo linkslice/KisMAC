@@ -72,6 +72,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     bool                _doModal;
     bool                _refreshGUI;
     bool                _saveFilteredOnly;
+	bool				_refreshGPS;			// Does GPS need refresh?
     
     NSRect              _zoomToRect;
     
