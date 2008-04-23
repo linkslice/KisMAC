@@ -196,6 +196,8 @@ err:
     } else {
         NSLog(@"Error: Invalid sender(%@) in setValueForSender:",sender);
     }
+	NSUserDefaults *sets = [NSUserDefaults standardUserDefaults];
+	[WaveHelper initGPSControllerWithDevice: [sets objectForKey:@"GPSDevice"]];
 }
 
 @end
