@@ -386,6 +386,8 @@
 				<string>id</string>
 				<key>showMap</key>
 				<string>id</string>
+				<key>showNetworkView</key>
+				<string>id</string>
 				<key>showNetworks</key>
 				<string>id</string>
 				<key>showNetworksInMap</key>
