@@ -203,7 +203,9 @@ typedef struct _frameLEAP {
 #define	IEEE80211_ELEMID_CHALLENGE		16
 #define	IEEE80211_ELEMID_EXTENDED_RATES	50
 #define	IEEE80211_ELEMID_VENDOR			0xDD
+#define IEEE80211_ELEMID_RSN			48
 
+#define RSN_OUI							"\x00\x0f\xac"
 #define VENDOR_WPA_HEADER				OSSwapBigToHostConstInt32(0x0050f201)
 #define VENDOR_CISCO_HEADER				OSSwapBigToHostConstInt32(0x0050f205)
 
