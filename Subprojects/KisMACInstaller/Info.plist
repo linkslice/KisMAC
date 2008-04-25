@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Installer.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.kismac-ng.installer</string>
+	<string>org.kismac-ng.installer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

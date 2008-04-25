@@ -156,7 +156,7 @@ OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
     return [self findFile:@"/System/Library/Extensions/WirelessDriver.kext"];
 }
 - (BOOL)findKisMACPrefs {
-    return [self findFile:@"~/Library/Preferences/com.kismac-ng.kismac.plist"];
+    return [self findFile:@"~/Library/Preferences/org.kismac-ng.kismac.plist"];
 }
 - (BOOL)findTAR {
 	return [self findFile:@"/usr/bin/tar"];
@@ -167,7 +167,7 @@ OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
     NSString *s;
     
     d = [NSUserDefaults standardUserDefaults];
-    [d addSuiteNamed:@"com.kismac-ng.kismac"];
+    [d addSuiteNamed:@"org.kismac-ng.kismac"];
     
     s = [d objectForKey:@"KisMACHomeDir"];
     if (s) return [s stringByDeletingLastPathComponent];
@@ -470,7 +470,7 @@ OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
 		[md2 setValue:[NSNumber numberWithBool:YES] forKey:@"aeForever"];
 	}
 	
-    [md2 writeToFile:[@"~/Library/Preferences/de.binaervarianz.kismac.plist" stringByExpandingTildeInPath] atomically:YES];
+    [md2 writeToFile:[@"~/Library/Preferences/org.kismac-ng.kismac.plist" stringByExpandingTildeInPath] atomically:YES];
 }
 #pragma mark -
 
