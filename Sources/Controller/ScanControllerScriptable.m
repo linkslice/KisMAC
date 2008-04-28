@@ -37,7 +37,7 @@
 
 - (BOOL)isSaved {
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"dontAskToSave"] boolValue]) return YES; //dont bother the user if set in preferences
-    if ([_window isDocumentEdited]) return [_networkTable numberOfRows]==0; //dont ask to save empty documentets
+    if ([_window isDocumentEdited]) return [_networkTable numberOfRows]==0; //dont ask to save empty documents
     return YES;
 }
 
