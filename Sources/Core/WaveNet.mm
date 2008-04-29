@@ -1630,8 +1630,8 @@ int signalSort(WaveClient* w1, WaveClient* w2, int ascend) {
     return ascend * compValues( [w1 curSignal], [w2 curSignal]);
 }
 
-int recievedSort(WaveClient* w1, WaveClient* w2, int ascend) {
-    return ascend * compFloatValues([w1 recievedBytes], [w2 recievedBytes]);
+int receivedSort(WaveClient* w1, WaveClient* w2, int ascend) {
+    return ascend * compFloatValues([w1 receivedBytes], [w2 receivedBytes]);
 }
 
 int sentSort(WaveClient* w1, WaveClient* w2, int ascend) {
@@ -1673,7 +1673,7 @@ typedef int (*SORTFUNC)(id, id, void *);
     else if ([ident isEqualToString:@"client"]) sf = (SORTFUNC)clientSort;
     else if ([ident isEqualToString:@"vendor"]) sf = (SORTFUNC)vendorSort;
     else if ([ident isEqualToString:@"signal"]) sf = (SORTFUNC)signalSort;
-    else if ([ident isEqualToString:@"recieved"]) sf=(SORTFUNC)recievedSort;
+    else if ([ident isEqualToString:@"received"]) sf=(SORTFUNC)receivedSort;
     else if ([ident isEqualToString:@"sent"])   sf = (SORTFUNC)sentSort;
     else if ([ident isEqualToString:@"lastseen"]) sf=(SORTFUNC)dateSort;
     else if ([ident isEqualToString:@"ipa"])      sf=(SORTFUNC)ipSort;

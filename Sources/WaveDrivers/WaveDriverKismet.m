@@ -113,7 +113,7 @@ static int KismetInstances = 0;
 			if ([[drvr objectForKey:@"driverID"] isEqualToString:@"WaveDriverKismet"]) {
 				hostname = [[drvr objectForKey:@"kismetserverhost"] cString];
 				foundhostname = 1;
-				port = [[defs objectForKey:@"kismetserverport"] intValue];
+				port = [[drvr objectForKey:@"kismetserverport"] intValue];
 				foundport = 1;
 			}
 		}

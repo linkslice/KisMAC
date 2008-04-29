@@ -32,7 +32,7 @@
     NSString * _IPAddress;
     NSDate *_date;
     int _curSignal;
-    float _recievedBytes;
+    float _receivedBytes;
     float _sentBytes;
     bool _changed;
     
@@ -50,13 +50,13 @@
 - (void)parseFrameAsIncoming:(WavePacket*)w;
 - (void)parseFrameAsOutgoing:(WavePacket*)w;
 
-- (NSString *)recieved;
+- (NSString *)received;
 - (NSString *)sent;
 - (NSString *)vendor;
 - (NSString *)date;
 - (NSString *)getIPAddress;
 
-- (float)recievedBytes;
+- (float)receivedBytes;
 - (float)sentBytes;
 - (int)curSignal;
 - (NSDate *)rawDate;

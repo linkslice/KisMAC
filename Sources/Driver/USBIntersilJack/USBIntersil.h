@@ -80,7 +80,7 @@ private:
     
     static void         _addDevice(void *refCon, io_iterator_t iterator);
     static void         _handleDeviceRemoval(void *refCon, io_iterator_t iterator);
-    static void         _interruptRecieved(void *refCon, IOReturn result, int len);
+    static void         _interruptReceived(void *refCon, IOReturn result, int len);
     static void         _runCFRunLoop(USBIntersilJack* me);
     static void         _intCFRunLoop(USBIntersilJack* me);
 
@@ -104,7 +104,7 @@ private:
     IOUSBInterfaceInterface192**   _interface;
     union _usbout               _outputBuffer;
     union _usbin                _inputBuffer;
-    union _usbin                _recieveBuffer;
+    union _usbin                _receiveBuffer;
     UInt8                       _frameBuffer[3000];
     UInt16                      _frameSize;
     

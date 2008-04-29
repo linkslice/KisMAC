@@ -239,10 +239,10 @@ bool AtheroJack::handleInterrupt() {
 	//WLLogErr("Interrupt 0x%x", ints);
     
     if (ints & HAL_INT_FATAL) {
-        WLLogCrit("Recieved Fatal interrupt! Resetting");
+        WLLogCrit("Received Fatal interrupt! Resetting");
         _reset();
 	} else if (ints & HAL_INT_RXORN) {
-		WLLogCrit("Recieved FIFI overrun interrupt! Resetting");
+		WLLogCrit("Received FIFI overrun interrupt! Resetting");
         //_reset();
     } else if (ints & HAL_INT_RX) {
         HAL_STATUS status;

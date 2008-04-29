@@ -613,16 +613,16 @@ IOReturn USBIntersilJack::_writeWaitForResponse(UInt32 size) {
     return kIOReturnSuccess;
 }
  
-void USBIntersilJack::_interruptRecieved(void *refCon, IOReturn result, int len) {
+void USBIntersilJack::_interruptReceived(void *refCon, IOReturn result, int len) {
     USBIntersilJack             *me = (USBIntersilJack*) refCon;
     IOReturn                    kr;
     UInt32                      type;
     
-    //NSLog(@"interruptRecieved.\n");
+    //NSLog(@"interruptReceived.\n");
     if (kIOReturnSuccess != result) {
         if (result == (IOReturn)0xe00002ed) {
             me->_devicePresent = false;
-            //tell the recieve function that we are gone
+            //tell the receive function that we are gone
             pthread_mutex_lock(&me->_recv_mutex);
             me->_frameSize = 0;
             pthread_cond_signal(&me->_recv_cond);
@@ -634,15 +634,15 @@ void USBIntersilJack::_interruptRecieved(void *refCon, IOReturn result, int len)
                 result = (*me->_interface)->ClearPipeStallBothEnds(me->_interface, kInPipe);  //3 appears to be the interrupt pipe
             }
             else {
-                 NSLog(@"USBIntersilJack::Unhandled error from async interrupt recieved, please report on http://trac.kismac.de (%08x)\n", result);
+                 NSLog(@"USBIntersilJack::Unhandled error from async interrupt received, please report on http://trac.kismac.de (%08x)\n", result);
             }
             if (me->_devicePresent) goto readon;
         }
     }
     
-    type = NSSwapLittleShortToHost(me->_recieveBuffer.type);
+    type = NSSwapLittleShortToHost(me->_receiveBuffer.type);
     if (_USB_ISRXFRM(type)) {
-        WLFrame* frameDescriptor = (WLFrame*)&(me->_recieveBuffer.rxfrm);
+        WLFrame* frameDescriptor = (WLFrame*)&(me->_receiveBuffer.rxfrm);
         frameDescriptor->status = NSSwapLittleShortToHost(frameDescriptor->status);
         frameDescriptor->dataLen = NSSwapLittleShortToHost(frameDescriptor->dataLen);
         frameDescriptor->channel = me->_channel;
@@ -693,15 +693,15 @@ void USBIntersilJack::_interruptRecieved(void *refCon, IOReturn result, int len)
         case _USB_WMEMRESP:
         case _USB_RMEMRESP:
                 pthread_mutex_lock(&me->_wait_mutex);
-                memcpy(&me->_inputBuffer, &me->_recieveBuffer, len);
+                memcpy(&me->_inputBuffer, &me->_receiveBuffer, len);
                 pthread_cond_signal(&me->_wait_cond);
                 pthread_mutex_unlock(&me->_wait_mutex);
                 break;
         case _USB_BUFAVAIL:
-                NSLog(@"Received BUFAVAIL packet, frmlen=%d\n", me->_recieveBuffer.bufavail.frmlen);
+                NSLog(@"Received BUFAVAIL packet, frmlen=%d\n", me->_receiveBuffer.bufavail.frmlen);
                 break;
         case _USB_ERROR:
-                NSLog(@"Received USB_ERROR packet, errortype=%d\n", me->_recieveBuffer.usberror.errortype);
+                NSLog(@"Received USB_ERROR packet, errortype=%d\n", me->_receiveBuffer.usberror.errortype);
                 break;
     
         default:
@@ -710,8 +710,8 @@ void USBIntersilJack::_interruptRecieved(void *refCon, IOReturn result, int len)
     }
     
 readon:
-    bzero(&me->_recieveBuffer, sizeof(me->_recieveBuffer));
-    kr = (*me->_interface)->ReadPipeAsync((me->_interface), kInPipe, &me->_recieveBuffer, sizeof(me->_recieveBuffer), (IOAsyncCallback1)_interruptRecieved, refCon);
+    bzero(&me->_receiveBuffer, sizeof(me->_receiveBuffer));
+    kr = (*me->_interface)->ReadPipeAsync((me->_interface), kInPipe, &me->_receiveBuffer, sizeof(me->_receiveBuffer), (IOAsyncCallback1)_interruptReceived, refCon);
     if (kIOReturnSuccess != kr) {
         NSLog(@"USBIntersilJack::Unable to do async interrupt read (%08x). The card is stopped!\n", kr);
         if (kr == kIOReturnNoDevice) {
@@ -883,9 +883,9 @@ IOReturn USBIntersilJack::_findInterfaces(void *refCon, IOUSBDeviceInterface **d
         NSLog(@"USBIntersilJack is now ready to start working.\n");
         
         //startUp Interrupt handling
-        UInt32 numBytesRead = sizeof(_recieveBuffer); // leave one byte at the end for NUL termination
-        bzero(&_recieveBuffer, numBytesRead);
-        kr = (*intf)->ReadPipeAsync(intf, kInPipe, &_recieveBuffer, numBytesRead, (IOAsyncCallback1)_interruptRecieved, this);
+        UInt32 numBytesRead = sizeof(_receiveBuffer); // leave one byte at the end for NUL termination
+        bzero(&_receiveBuffer, numBytesRead);
+        kr = (*intf)->ReadPipeAsync(intf, kInPipe, &_receiveBuffer, numBytesRead, (IOAsyncCallback1)_interruptReceived, this);
         
         if (kIOReturnSuccess != kr) {
             NSLog(@"unable to do async interrupt read (%08x)\n", kr);

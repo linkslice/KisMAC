@@ -221,7 +221,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
         else if ([[aTableColumn identifier] isEqualToString:@"lastseen"]) return [lWCl date];
         else if ([[aTableColumn identifier] isEqualToString:@"signal"]) return [NSString stringWithFormat:@"%i", [lWCl curSignal]];
         else if ([[aTableColumn identifier] isEqualToString:@"sent"]) return [lWCl sent];
-        else if ([[aTableColumn identifier] isEqualToString:@"recieved"]) return [lWCl recieved];
+        else if ([[aTableColumn identifier] isEqualToString:@"received"]) return [lWCl received];
         else if ([[aTableColumn identifier] isEqualToString:@"ipa"]) return [lWCl getIPAddress];
         else return @"unknown column";
     } else if([aTableView isEqualTo:aShortTable]) {

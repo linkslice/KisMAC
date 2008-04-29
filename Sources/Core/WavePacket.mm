@@ -248,7 +248,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 							[ar replaceObjectAtIndex:0 withObject:[NSDate date]];
 							[ar replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:1]];
 						} else if (i>=15) { 
-							NSLog(@"WARNING!!! Recieved a Probe flood from %@. This usually means that this computer uses a cheap stumbler such as iStumbler, Macstumbler or Netstumbler!", [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", f->address2[0], f->address2[1], f->address2[2], f->address2[3], f->address2[4], f->address2[5]]);
+							NSLog(@"WARNING!!! Received a Probe flood from %@. This usually means that this computer uses a cheap stumbler such as iStumbler, Macstumbler or Netstumbler!", [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", f->address2[0], f->address2[1], f->address2[2], f->address2[3], f->address2[4], f->address2[5]]);
 							[ar replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:-1]];
 							_netType = networkTypeProbe;
 						} else {
@@ -274,7 +274,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 					[self parseTaggedData:((unsigned char*)f)+sizeof(WLFrame)+10 length:_length-10]; //10 byte fixed info
 					break;
 				case IEEE80211_SUBTYPE_DEAUTH:
-					NSLog(@"ATTENTION! Recieved deauthentication frame. You might want to check for other WiFi people.");
+					NSLog(@"ATTENTION! Received deauthentication frame. You might want to check for other WiFi people.");
 					break;
 			}
 			break;

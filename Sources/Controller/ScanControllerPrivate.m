@@ -396,7 +396,7 @@
         NSBeginAlertSheet(NSLocalizedString(@"Channel hopping enabled.", "Error box title for active attacks"),
             OK, NULL, NULL, _window, self, NULL, NULL, NULL, 
             NSLocalizedString(@"Channel hopping enabled failure description", "LONG text about why this does not work with active attacks")
-            //@"You have channel hopping enabled! In order to send frames correctly you will need to disable it and select a channel, where you can recieve the network correctly."
+            //@"You have channel hopping enabled! In order to send frames correctly you will need to disable it and select a channel, where you can receive the network correctly."
             );
         return NO;
     }

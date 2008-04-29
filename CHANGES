@@ -194,7 +194,7 @@ search box is working
 added Prism GT Support
 moved to subversion
 minor bugfixes in installer
-made trace saveable, trace is not continued if no fix recieved
+made trace saveable, trace is not continued if no fix received
 crosshair cursor for map
 display other information (velocity) in the bottom bar, along with latitude and longitude
 using aircrack code for weak scheduling attacks now

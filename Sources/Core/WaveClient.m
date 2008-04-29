@@ -35,7 +35,7 @@
     if ( [coder allowsKeyedCoding] ) {
         _curSignal=[coder decodeIntForKey:@"aCurSignal"];
 
-        _recievedBytes=[coder decodeDoubleForKey:@"aRecievedBytes"];
+        _receivedBytes=[coder decodeDoubleForKey:@"aReceivedBytes"];
         _sentBytes=[coder decodeDoubleForKey:@"aSentBytes"];
         
         _ID     = [[coder decodeObjectForKey:@"aID"] retain];
@@ -66,7 +66,7 @@
 	
 	_curSignal = [[dict objectForKey:@"curSignal"] intValue];
 
-	_recievedBytes = [[dict objectForKey:@"recievedBytes"] doubleValue];
+	_receivedBytes = [[dict objectForKey:@"receivedBytes"] doubleValue];
 	_sentBytes = [[dict objectForKey:@"sentBytes"] doubleValue];
 	
 	_ID     = [[dict objectForKey:@"ID"] retain];
@@ -93,7 +93,7 @@
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	
 	[dict setObject:[NSNumber numberWithInt:_curSignal] forKey:@"curSignal"];
-	[dict setObject:[NSNumber numberWithDouble:_recievedBytes] forKey:@"recievedBytes"];
+	[dict setObject:[NSNumber numberWithDouble:_receivedBytes] forKey:@"receivedBytes"];
 	[dict setObject:[NSNumber numberWithDouble:_sentBytes] forKey:@"sentBytes"];
 	
 	[dict setObject:_ID forKey:@"ID"];
@@ -173,7 +173,7 @@
 		}
 	}
 
-    _recievedBytes+=[w length];
+    _receivedBytes+=[w length];
     _changed = YES;
     
     if ([w destinationIPAsString] != nil && ![[w destinationIPAsString] isEqualToString:@"0.0.0.0"] ) {
@@ -215,8 +215,8 @@
     return _ID;
 }
 
-- (NSString *)recieved {
-    return [WaveHelper bytesToString: _recievedBytes];
+- (NSString *)received {
+    return [WaveHelper bytesToString: _receivedBytes];
 }
 
 - (NSString *)sent {
@@ -241,8 +241,8 @@
 
 #pragma mark -
 
-- (float)recievedBytes {
-    return _recievedBytes;
+- (float)receivedBytes {
+    return _receivedBytes;
 }
 
 - (float)sentBytes {
