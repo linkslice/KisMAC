@@ -801,7 +801,7 @@
 #pragma mark -
 
 - (IBAction)openWebsiteURL:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://kismac-ng.net"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://kismac-ng.org"]];
 }
 
 - (IBAction)openDonateURL:(id)sender {
@@ -809,11 +809,11 @@
 }
 
 - (IBAction)openForumsURL:(id)sender{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://forums.kismac-ng.net/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://forum.kismac-ng.org/"]];
 }
 
 - (IBAction)openFAQURL:(id)sender{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.kismac-ng.net/wiki/FAQ"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.kismac-ng.org/wiki/FAQ"]];
 }
 
 - (IBAction)showContextHelp:(id)sender {
