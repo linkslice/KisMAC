@@ -805,7 +805,7 @@
 }
 
 - (IBAction)openDonateURL:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.paypal.com/xclick/business=charity%40binaervarianz.de&item_name=Support+for+KisMAC+Development"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=donations@kismac-ng.org"]];
 }
 
 - (IBAction)openForumsURL:(id)sender{
