@@ -366,7 +366,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 	return [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]];
 }
 
-//What can I say? returns the the id of the recieving client
+//What can I say? returns the the id of the receiving client
 - (NSString*)clientToID {
 	int i=4, y, x[6];
 

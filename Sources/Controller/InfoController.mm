@@ -223,7 +223,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
         else if ([[aTableColumn identifier] isEqualToString:@"sent"]) return [lWCl sent];
         else if ([[aTableColumn identifier] isEqualToString:@"received"]) return [lWCl received];
         else if ([[aTableColumn identifier] isEqualToString:@"ipa"]) return [lWCl getIPAddress];
-        else return @"unknown column";
+        else return [NSString stringWithFormat: @"unknown column %@", [aTableColumn identifier]];
     } else if([aTableView isEqualTo:aShortTable]) {
         if ([[aTableColumn identifier] isEqualToString:@"key"]) col=1;
         else col=0;

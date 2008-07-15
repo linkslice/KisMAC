@@ -356,32 +356,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>commentChanged</key>
-				<string>id</string>
-				<key>showNet</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>InfoController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_commentField</key>
-				<string>NSTextField</string>
-				<key>aClientTable</key>
-				<string>NSTableView</string>
-				<key>aShortTable</key>
-				<string>NSTableView</string>
-				<key>aTable</key>
-				<string>NSTableView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
 				<key>bruteforce40bitAll</key>
 				<string>id</string>
 				<key>bruteforce40bitAlpha</key>
@@ -445,6 +419,32 @@
 			<string>ScriptController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>commentChanged</key>
+				<string>id</string>
+				<key>showNet</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>InfoController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_commentField</key>
+				<string>NSTextField</string>
+				<key>aClientTable</key>
+				<string>NSTableView</string>
+				<key>aShortTable</key>
+				<string>NSTableView</string>
+				<key>aTable</key>
+				<string>NSTableView</string>
+			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
 		</dict>
