@@ -359,7 +359,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     UInt16 rtHeaderLength = 0;
     UInt32 rtFieldsPresent;
     UInt32 rtBit;
-    uint8 * rtDataPointer;
+    UInt8 * rtDataPointer;
 	
 	f = (WLFrame*)frame;
 	
