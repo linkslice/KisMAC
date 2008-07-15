@@ -167,7 +167,7 @@ WirelessContextPtr gWCtxt = NULL;
 	if (!_device)
     {
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"admin", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
-		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0777", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
+		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0660", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		[NSThread sleep:0.5];
 	
 		_device = pcap_open_live([[defs objectForKey:@"scandevice"] cString], 3000, 1, 2, err);
