@@ -591,7 +591,7 @@
 		0035333E06A5DD5700AB4577 /* Network.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Network.tiff; sourceTree = "<group>"; };
 		0035333F06A5DD5700AB4577 /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
 		0035334006A5DD5700AB4577 /* traffic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = traffic.icns; sourceTree = "<group>"; };
-		0035334106A5DD5700AB4577 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		0035334106A5DD5700AB4577 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		0035334306A5DD5700AB4577 /* airojack_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = airojack_load.sh; sourceTree = "<group>"; };
 		0035334406A5DD5700AB4577 /* airojack_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = airojack_unload.sh; sourceTree = "<group>"; };
 		0035334506A5DD5700AB4577 /* atheros_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = atheros_load.sh; sourceTree = "<group>"; };
@@ -722,7 +722,7 @@
 		00875DA807097D8D00CACFCB /* WaveWeakContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveWeakContainer.h; sourceTree = "<group>"; };
 		00875DA907097D8D00CACFCB /* WaveWeakContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveWeakContainer.m; sourceTree = "<group>"; };
 		008AC9C007C3889400A76ADA /* KisMACUnitTest.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KisMACUnitTest.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		008AC9C107C3889400A76ADA /* KisMACUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "KisMACUnitTest-Info.plist"; path = "/Users/mick/openDev/KisMACng/KisMACUnitTest-Info.plist"; sourceTree = "<absolute>"; };
+		008AC9C107C3889400A76ADA /* KisMACUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "KisMACUnitTest-Info.plist"; path = "/Users/mick/openDev/KisMACng/KisMACUnitTest-Info.plist"; sourceTree = "<absolute>"; };
 		0090AC8306E5E3250096C5FC /* MapControlPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapControlPanel.h; sourceTree = "<group>"; };
 		0090AC8406E5E3250096C5FC /* MapControlPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapControlPanel.m; sourceTree = "<group>"; };
 		0090B7C907B2A43D005FEEB1 /* WaveStorageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveStorageController.h; sourceTree = "<group>"; };
@@ -2315,7 +2315,6 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
@@ -2433,7 +2432,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "KisMACUnitTest-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
 					"-mcpu=G3",
 					"-force_cpusubtype_ALL",
