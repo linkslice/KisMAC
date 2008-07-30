@@ -44,8 +44,8 @@ if ! [ -x /usr/bin/xcodebuild ]; then
 	exit 1
 fi
 
-XCODEVERSION=`xcodebuild -version  | sed s/.*DevToolsCore-// | sed  s/..\;.*//`
-if [ $XCODEVERSION \< 658 ]; then
+XCODEVERSION=`xcodebuild -version  | grep DevToolsCore | sed s/.*DevToolsCore-// | sed  s/..\;.*//`
+if [ $XCODEVERSION -lt 658 ]; then
   echo "XCode Version is too old!"
   exit 1
 fi

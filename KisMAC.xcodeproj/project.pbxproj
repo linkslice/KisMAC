@@ -1351,6 +1351,7 @@
 				00174DBD06B2ACB3003485E6 /* InfoPlist.strings */,
 				00174DB906B2AC8F003485E6 /* Localizable.strings */,
 			);
+			fileEncoding = 4;
 			name = Strings;
 			path = Resources/Strings;
 			sourceTree = "<group>";
