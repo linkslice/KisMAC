@@ -104,7 +104,7 @@ in Safari.");
         goto err;
     }
     
-    hp = gethostbyname([server cString]);
+    hp = gethostbyname([server UTF8String]);
     if (hp == NULL) {
         error = NSLocalizedString(@"Could not resolve expedia server", "Download Map Error");;
         goto err;
@@ -129,7 +129,7 @@ in Safari.");
         w._lat, w._long, lang, scale, (int)size.width, (int)size.height, server];
 
     NSLog(@"Sending request to expedia");
-    write(sockd, [s cString], [s length]);
+    write(sockd, [s UTF8String], [s length]);
     s = [NSString string];
     
     NSLog(@"Reading response from expedia");
@@ -154,7 +154,7 @@ in Safari.");
     //NSLog(@"Response from expedia %@",s);
     
     myMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
-    if (!CFHTTPMessageAppendBytes(myMessage, (UInt8*)[s cString], [s length])) {
+    if (!CFHTTPMessageAppendBytes(myMessage, (UInt8*)[s UTF8String], [s length])) {
         error = @"CFTTPResponse Parsing error";
         close(sockd);
         goto err;

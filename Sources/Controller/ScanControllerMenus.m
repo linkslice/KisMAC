@@ -191,7 +191,7 @@
 	[[WaveHelper scanController] checkFilter:self];
     [_importController setTitle:[NSString stringWithFormat:NSLocalizedString(@"Exporting to %@...", "Status for busy dialog"), filename]];  
 
-    _asyncFailure = ! [[WaveStorageController webServiceDataOfContainer:_container andImportController:_importController] writeToFile:[filename stringByExpandingTildeInPath] atomically:YES];
+    _asyncFailure = ! [[WaveStorageController webServiceDataOfContainer:_container andImportController:_importController] writeToFile:[filename stringByExpandingTildeInPath] atomically:YES encoding:NSASCIIStringEncoding error:NULL];
 	[[WaveHelper scanController] changeSearchValue:self];
 }
 

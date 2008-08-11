@@ -26,7 +26,7 @@
     for (voiceIndex = 1; voiceIndex <= numOfVoices; voiceIndex++) {
         GetIndVoice(voiceIndex, &theVoiceSpec);
         GetVoiceDescription(&theVoiceSpec, &theVoiceDesc, sizeof(theVoiceDesc));
-        voiceName = [NSString stringWithCString:(char*)&(theVoiceDesc.name[1]) length:theVoiceDesc.name[0]];
+        voiceName = [NSString stringWithCString:(char*)&(theVoiceDesc.name[1]) encoding:NSUTF8StringEncoding];
         [aVoices addItemWithTitle:voiceName];
     }
 

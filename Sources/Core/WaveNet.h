@@ -36,6 +36,13 @@ enum {
     signalData
 };
 
+enum {
+    chreNone,
+    chreChallenge,
+    chreResponse,
+    chreComplete
+};
+
 struct graphStruct {
     int trafficData[MAX_YIELD_SIZE + 1];
     int packetData[MAX_YIELD_SIZE + 1];
@@ -96,7 +103,9 @@ struct graphStruct {
     NSMutableArray* aClientKeys;
     NSMutableDictionary* _coordinates;
     WaveWeakContainer *_ivData[4];       //one for each key id
- 
+    
+    int _challengeResponseStatus;
+    
     NSColor* _graphColor;	// display color in TrafficView
     int recentTraffic;
     int recentPackets;
@@ -109,6 +118,8 @@ struct graphStruct {
     int _avgTime;               // how many seconds are take for average?
     ImportController *_im;
 
+/*	PRGA Snarf */
+	int _authState;
 		
 }
 
@@ -158,6 +169,7 @@ struct graphStruct {
 - (NSDictionary*)coordinates;
 - (WaveWeakContainer **)ivData;
 - (BOOL)passwordAvailable;
+- (int)challengeResponseStatus;
 
 - (NSDictionary*)cache;
 

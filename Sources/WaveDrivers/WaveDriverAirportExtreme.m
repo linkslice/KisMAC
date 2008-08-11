@@ -141,7 +141,6 @@ WirelessContextPtr gWCtxt = NULL;
 }
 
 + (bool) unloadBackend {
-	BOOL ret;
 	
 	[NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport"
 		arguments:[NSArray arrayWithObject:@"-a"]];
@@ -156,41 +155,43 @@ WirelessContextPtr gWCtxt = NULL;
     defs = [NSUserDefaults standardUserDefaults];
     char err[PCAP_ERRBUF_SIZE];
     int retErr;
-	
+//    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
+    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
+    int i;
 	_apeType = APExtTypeBcm;
 	
     //dissassociate
 	[NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport" arguments:[NSArray arrayWithObject:@"-z"]];
 	
     //pcap_open_live(char *device,int snaplen, int prmisc,int to_ms,char *ebuf)
-	_device = pcap_open_live([[defs objectForKey:@"scandevice"] cString], 3000, 1, 2, err);
+	_device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
 	if (!_device)
     {
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"admin", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0660", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		[NSThread sleep:0.5];
 	
-		_device = pcap_open_live([[defs objectForKey:@"scandevice"] cString], 3000, 1, 2, err);
+		_device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
 		[[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"wheel", [defs objectForKey:@"bpfloc"], nil]];
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0600", [defs objectForKey:@"bpfloc"], nil]];
 
 		if (!_device) return Nil;
     }
     
-	retErr = pcap_set_datalink(_device, DLT_PRISM_HEADER);
-    if(!retErr) DLTType = DLT_PRISM_HEADER;
-    else retErr = pcap_set_datalink(_device, DLT_IEEE802_11);
-    if(!retErr) DLTType = DLT_IEEE802_11;
-    else retErr = pcap_set_datalink(_device, DLT_IEEE802_11_RADIO_AVS);
-    if(!retErr) DLTType = DLT_IEEE802_11_RADIO_AVS;
-    else retErr = pcap_set_datalink(_device, DLT_IEEE802_11_RADIO);
-    if(!retErr) DLTType = DLT_IEEE802_11_RADIO;
+    i = 0;
+    retErr = -1;
+    while ((retErr != 0) && (dataLinks[i] != 0)) {
+        retErr = pcap_set_datalink(_device, dataLinks[i]);
+        DLTType = dataLinks[i];
+        i++;
+    };
     
-    if(retErr)
+    if(retErr != 0)
     {
         NSLog(@"Error opening airpot device using pcap_set_datalink()");
+        return Nil;
     }
-	
+
 	self=[super init];
     if(!self) return Nil;
 
@@ -203,8 +204,7 @@ WirelessContextPtr gWCtxt = NULL;
 	return _currentChannel;
 }
 
-WIErr
-wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) {
+WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) {
 	if (!buffer) bufsize = 0;
 	int* buf = malloc(bufsize+8);
 	buf[0] = 3; 
@@ -347,43 +347,40 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
 }
 
 
-- (WLFrame*) nextFrame
-{
+- (KFrame*) nextFrame {
 	struct pcap_pkthdr			header;
 	const u_char				*data;
 	static UInt8				frame[2500];
-    WLFrame						*f;
+    KFrame						*f;
     avs_80211_1_header			*af;
     ieee80211_radiotap_header   *rtf;
-	UInt16						headerLength = 0;
     UInt16 rtHeaderLength = 0;
+    UInt16 dataLen = 0;
     UInt32 rtFieldsPresent;
     UInt32 rtBit;
     UInt8 * rtDataPointer;
 	
-	f = (WLFrame*)frame;
+	f = (KFrame *)frame;
 	
 	while(YES) {
 		data = pcap_next(_device, &header);
 		//NSLog(@"pcap_next: data:0x%x, len:%u\n", data, header.caplen);
 		if (!data) continue;
-		
+		NSLog(@"DLT %d", DLTType);
         switch(DLTType)
         {
-            case DLT_IEEE802_11_RADIO:      
+            case DLT_IEEE802_11_RADIO:
                 //here we get the length of the rt header
                 //this includes the length of the ieee80211_radiotap_header itself 
                 rtHeaderLength = ((ieee80211_radiotap_header*)data)->it_len;
-                if ((header.caplen - rtHeaderLength) < 30) continue;    
+                dataLen = header.caplen - rtHeaderLength;
+                if (dataLen <= 0)
+                    continue;
                 
-                memcpy(frame + sizeof(WLPrismHeader), data + rtHeaderLength, 30);
-                
-                headerLength = [self headerLenForFrameControl:f->frameControl];
-                if (headerLength == 0) continue;
-        
                 rtf = (ieee80211_radiotap_header*)data;
                 //get the field's present into a u32
                 rtFieldsPresent = rtf->it_present;
+                
                 //on my c2d it is 0x180F
                 //NSLog(@"Raido Tap Fields present %.8x", rtFieldsPresent);
                 
@@ -405,28 +402,46 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                         switch(rtBit)
                         {
                             case IEEE80211_RADIOTAP_TSFT_BIT:
+                                dataLen -= IEEE80211_RADIOTAP_TSFT_BYTES;
+                                if (dataLen <= 0)
+                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_TSFT_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_FLAGS_BIT:
+                                dataLen -= IEEE80211_RADIOTAP_FLAGS_BYTES;
+                                if (dataLen <= 0)
+                                    continue;                                
                                 rtDataPointer += IEEE80211_RADIOTAP_FLAGS_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_RATE_BIT:
                                 //NSLog(@"Rate: %u", *(UInt8*)rtDataPointer * 512); 
+                                dataLen -= IEEE80211_RADIOTAP_RATE_BYTES;
+                                if (dataLen <= 0)
+                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_RATE_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_CHANNEL_BIT:
                                 //NSLog(@"Found radiotap channel field");
                                 //NSLog(@"Frequency: %u", *(UInt16*)rtDataPointer);
-                                f->channel = ieee80211_mhz2ieee(*(UInt16*)rtDataPointer, *(UInt16*)(rtDataPointer + 2));
+                                dataLen -= IEEE80211_RADIOTAP_CHANNEL_BYTES;
+                                if (dataLen <= 0)
+                                    continue;
+                                f->ctrl.channel = ieee80211_mhz2ieee(*(UInt16*)rtDataPointer, *(UInt16*)(rtDataPointer + 2));
                                 rtDataPointer += IEEE80211_RADIOTAP_CHANNEL_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_ANT_BIT:
                                 //NSLog(@"Packet received on antenna %u", *(UInt8*)rtDataPointer);
+                                dataLen -= IEEE80211_RADIOTAP_ANT_BYTES;
+                                if (dataLen <= 0)
+                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_ANT_BYTES;
                                 break;   
                             case IEEE80211_RADIOTAP_DBANTSIG_BIT:
                                 //NSLog(@"Signal Db: %u", *(UInt8*)rtDataPointer);
-                                f->silence =  *(UInt8*)rtDataPointer;
+                                dataLen -= IEEE80211_RADIOTAP_DBANTSIG_BYTES;
+                                if (dataLen <= 0)
+                                    continue;
+                                f->ctrl.silence =  *(UInt8*)rtDataPointer;
                                 rtDataPointer += IEEE80211_RADIOTAP_DBANTSIG_BYTES;
                                 break;   
                             default:
@@ -440,25 +455,36 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 //NSLog(@"==============================================================================");
                 
                 //this is the start of the data after the device header and after the 80211 header
-                f->length = f->dataLen = header.caplen - headerLength - rtHeaderLength - 4; //we dont want the fcs or do we?
-                memcpy(frame + sizeof(WLFrame), data + rtHeaderLength + headerLength, f->dataLen);
+                dataLen -= 4; //Skip FCS?
+                if (dataLen <= 0)
+                    continue;
+                memcpy(f->data, rtDataPointer, dataLen);
                 break;
             case DLT_IEEE802_11_RADIO_AVS:
-                if ((header.caplen - sizeof(avs_80211_1_header)) < 30) continue;
+                dataLen = header.caplen - sizeof(avs_80211_1_header);
+                dataLen -= 4;       // Skip fcs?
+                if (dataLen <= 0)
+                    continue;
                 
-                memcpy(frame + sizeof(WLPrismHeader), data + sizeof(avs_80211_1_header), 30);
-                
-                headerLength = [self headerLenForFrameControl:f->frameControl];
-                if (headerLength == 0) continue;
+                memcpy(f->data, data + sizeof(avs_80211_1_header), dataLen);
                 
                 af = (avs_80211_1_header*)data;
-                f->silence = af->ssi_signal + 155;
-                f->signal = af->ssi_noise;
-                f->channel = af->channel;
- 
-                f->length = f->dataLen = header.caplen - headerLength - sizeof(avs_80211_1_header) - 4; //we dont want the fcs or do we?
+                f->ctrl.signal = af->ssi_signal + 155;
+                
+                // FIXME
+                //f->ctrl.silence  = af->ssi_noise + 155;
+                f->ctrl.silence = 0;
+                
+                f->ctrl.channel = af->channel;
+                f->ctrl.len = dataLen;
                 //NSLog(@"Got packet!!! hLen %u signal: %d  noise: %d channel %u length: %u\n", headerLength, af->ssi_signal, af->ssi_noise, f->channel, f->dataLen );
-                memcpy(frame + sizeof(WLFrame), data + sizeof(avs_80211_1_header) + headerLength, f->dataLen);
+                break;
+            case DLT_IEEE802_11:
+                f->ctrl.len = header.caplen - 4;
+                if (f->ctrl.len <= 0)
+                    continue;
+                f->ctrl.channel = _currentChannel;
+                memcpy(f->data, data, header.caplen);
                 break;
         } //switch
         _packets++;

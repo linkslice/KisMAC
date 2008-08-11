@@ -30,6 +30,7 @@
 #import "WaveDriver.h"
 #import "KisMACNotifications.h"
 #import "80211b.h"
+#import "KisMAC80211.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -74,35 +75,44 @@
     
     return w;
 }
+#define mToS(m) [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", m[0], m[1], m[2], m[3], m[4], m[5], m[6]]
 
 //was originally for packet re-injection
--(void)handleInjection:(WLFrame*) frame {
-    const UInt8 BROADCAST[] = "\xFF\xFF\xFF\xFF\xFF\xFF";
-	
-	//only data packets are interesting for injection
-    if (frame->frameControl & IEEE80211_TYPE_MASK != IEEE80211_TYPE_DATA) return;
-        
-    if (aPacketType == 0) {
-        //do rst handling here
-        if ((frame->dataLen==TCPRST_SIZE) && (memcmp(frame->address1,_MACs,18)==0)) {
+-(void)handleInjection:(WavePacket*) w{
+    int payloadLength = [w payloadLength];
+    
+    if ([w type] != IEEE80211_TYPE_DATA)
+        return;
+
+    if (aPacketType == 0) {        //do rst handling here
+        if ((payloadLength == TCPRST_SIZE) && 
+            IS_EQUAL_MACADDR([w addr1], _addr1) && 
+            IS_EQUAL_MACADDR([w addr2], _addr2) &&
+            IS_EQUAL_MACADDR([w addr3], _addr3)) {
             goto got;
         }
-    } else if (frame->dataLen==ARP_SIZE || frame->dataLen == ARP_SIZE_PADDING) {
-		if (frame->frameControl & IEEE80211_DIR_TODS) {
-			if (memcmp(frame->address1, _MACs,     6) != 0) return; //check BSSID
-			if (memcmp(frame->address3, BROADCAST, 6) == 0 || memcmp(frame->address2, BROADCAST, 6) == 0) return; //arp replies are no broadcasts
-			if (memcmp(frame->address3, &_MACs[6], 6) != 0 && memcmp(frame->address2, &_MACs[6], 6) != 0) return;
-		} else if (frame->frameControl & IEEE80211_DIR_FROMDS) {
-			if (memcmp(frame->address2, _MACs,     6) != 0) return; //check BSSID
-			if (memcmp(frame->address1, BROADCAST, 6) == 0 || memcmp(frame->address3, BROADCAST, 6) == 0) return;
-			if (memcmp(frame->address1, &_MACs[6], 6) != 0 && memcmp(frame->address3, &_MACs[6], 6) != 0) return;
-		}
-		
+    } else if (payloadLength == ARP_SIZE || payloadLength == ARP_SIZE_PADDING) {
+//        NSLog(@"INJ ARP DETECTED From %d To %d", [w fromDS], [w toDS]);
+//        NSLog(@"%@ %@ %@", mToS([w addr1]), mToS([w addr2]), mToS([w addr3]));
+//        NSLog(@"%@ %@ %@", mToS(_addr1), mToS(_addr2), mToS(_addr3));
+		if ([w toDS]) {
+			if (!IS_EQUAL_MACADDR([w addr1], _addr1))
+                return; //check BSSID
+			if (IS_BCAST_MACADDR([w addr2]) || IS_BCAST_MACADDR([w addr3]))
+                return; //arp replies are no broadcasts
+			if (!IS_EQUAL_MACADDR([w addr3], _addr2) && IS_EQUAL_MACADDR([w addr2], _addr2))
+                return;
+		} else if ([w fromDS]) {
+			if (!IS_EQUAL_MACADDR([w addr2], _addr1))
+                return; //check BSSID
+			if (IS_BCAST_MACADDR([w addr1]) || IS_BCAST_MACADDR([w addr3]))
+                return;
+			if (IS_EQUAL_MACADDR([w addr1], _addr2) && !IS_EQUAL_MACADDR([w addr3], _addr2))
+                return;
+		}		
 		goto got;
     }
-    
     return;
-    
 got:
     _injReplies++;
 }
@@ -146,18 +156,21 @@ got:
 
 //does the actual scanning (extra thread)
 - (void)doPassiveScan:(WaveDriver*)wd {
-    WavePacket *w=Nil;
-    WLFrame* frame=NULL;
-    pcap_dumper_t* f=NULL;
-    pcap_t* p=NULL;
+    WavePacket *w = Nil;
+    KFrame* frame = NULL;
+
+    pcap_dumper_t* f = NULL;
+    pcap_t* p = NULL;
     NSString* path;
     char err[PCAP_ERRBUF_SIZE];
-    NSSound* geiger;
-    NSAutoreleasePool *pool;
-    int i;
-    
     int dumpFilter;
     NSString *dumpDestination;
+
+    NSSound* geiger;
+    NSAutoreleasePool *pool;
+
+    int i;
+    
     NSDictionary *d;
     
     d = [wd configuration];
@@ -168,7 +181,7 @@ got:
     if (dumpFilter) {
         //in the example dump are informations like 802.11 network
         path = [[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/example.dump"];
-        p = pcap_open_offline([path cString],err);
+        p = pcap_open_offline([path UTF8String],err);
         if (p==NULL) {
             NSBeginAlertSheet(NSLocalizedString(@"Fatal Error", "Internal KisMAC error title"),
                 OK, NULL, NULL, [WaveHelper mainWindow], self, NULL, NULL, NULL,
@@ -185,7 +198,7 @@ got:
             i++;
         }
         
-        f=pcap_dump_open(p,[path cString]);
+        f=pcap_dump_open(p,[path UTF8String]);
         if (f==NULL) {
             NSBeginAlertSheet(ERROR_TITLE, 
                 OK, NULL, NULL, [WaveHelper mainWindow], self, NULL, NULL, NULL, 
@@ -212,18 +225,22 @@ got:
     while (_scanning) {				//this is for canceling
 		@try {
 			frame = [wd nextFrame];     //captures the next frame (locking)
-			if (frame==NULL) 
+                        
+			if (frame == NULL)          
 				break;
 			
-			if (_injecting) {
-				[self handleInjection:frame];
-				//continue;
-			}
-        
-			if ([w parseFrame:frame] != NO) {	//parse packet (no if unknown type)
-				if ([_container addPacket:w liveCapture:YES]==NO) continue; // the packet shall be dropped
+			if ([w parseFrame:frame] != NO) {								//parse packet (no if unknown type)
+                if (_injecting) {
+                    [self handleInjection: w];
+                }
+				if ([_container addPacket:w liveCapture:YES] == NO)			// the packet shall be dropped
+					continue;
 
-				if ((dumpFilter==1)||((dumpFilter==2)&&([w type]==IEEE80211_TYPE_DATA))||((dumpFilter==3)&&([w isResolved]!=-1))) [w dump:f]; //dump if needed
+				//dump if needed
+				if (    (dumpFilter==1) || 
+                        ((dumpFilter==2) && ([w type]==IEEE80211_TYPE_DATA)) || 
+                        ((dumpFilter==3) && ([w isResolved]!=-1)) )
+					[w dump:f]; 
 				
 				if (_deauthing && [w toDS]) {
 					if (![_container IDFiltered:[w rawSenderID]] && ![_container IDFiltered:[w rawBSSID]])
@@ -231,7 +248,8 @@ got:
 				}
 				
 				if ((geiger!=Nil) && ((_packets % _geigerInt)==0)) {
-					if (_soundBusy) _geigerInt+=10;
+					if (_soundBusy) 
+						_geigerInt+=10;
 					else {
 						_soundBusy=YES;
 						[geiger play];
@@ -239,13 +257,19 @@ got:
 				}
 				
 				_packets++;
+				
 				if (_packets % 10000 == 0) {
 					[pool release];
 					pool = [NSAutoreleasePool new];
 				}
+				
 				_bytes+=[w length];
 			}
-		} @finally {}
+            else
+                NSLog(@"NO!");
+		}
+		@finally {
+		}
     }
 
 error:
@@ -382,7 +406,7 @@ error:
 -(void)readPCAPDump:(NSString*) dumpFile {
     char err[PCAP_ERRBUF_SIZE];
     WavePacket *w;
-    WLFrame* frame=NULL;
+    KFrame* frame=NULL;
     bool corrupted;
     
 #ifdef DUMP_DUMPS
@@ -393,17 +417,19 @@ error:
     if (aDumpLevel) {
         //in the example dump are informations like 802.11 network
         aPath=[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/example.dump"];
-        p=pcap_open_offline([aPath cString],err);
-        if (p==NULL) return;
+        p=pcap_open_offline([aPath UTF8String],err);
+        if (p==NULL)
+            return;
         //opens output
         aPath=[[NSDate date] descriptionWithCalendarFormat:[aDumpFile stringByExpandingTildeInPath] timeZone:nil locale:nil];
-        f=pcap_dump_open(p,[aPath cString]);
-        if (f==NULL)return;
+        f=pcap_dump_open(p,[aPath UTF8String]);
+        if (f==NULL)
+            return;
     }
 #endif
     
-    _pcapP=pcap_open_offline([dumpFile cString],err);
-    if (_pcapP==NULL) {
+    _pcapP=pcap_open_offline([dumpFile UTF8String],err);
+    if (_pcapP == NULL) {
         NSLog(@"Could not open dump file: %@. Reason: %s", dumpFile, err);
         return;
     }
@@ -415,107 +441,67 @@ error:
 	}
 	
     memset(aFrameBuf, 0, sizeof(aFrameBuf));
-    aWF=(WLFrame*)aFrameBuf;
+    aWF=(KFrame*)aFrameBuf;
     
     w=[[WavePacket alloc] init];
 
     while (true) {
         frame = [self nextFrame:&corrupted];
-        if (frame==NULL) {
-            if (corrupted) continue;
-            else break;
+        if (frame == NULL) {
+            if (corrupted)
+                continue;
+            else
+                break;
         }
-        if ([w parseFrame:frame]!=NO) {
+        
+//        NSLog(@"frame %d", frameNum++);
+        
+        if ([w parseFrame:frame] != NO) {
 
-            if ([_container addPacket:w liveCapture:NO]==NO) continue; // the packet shall be dropped
+            if ([_container addPacket:w liveCapture:NO] == NO)
+                continue; // the packet shall be dropped
             
 #ifdef DUMP_DUMPS
-            if ((aDumpLevel==1)||((aDumpLevel==2)&&([w type]==IEEE80211_TYPE_DATA))||((aDumpLevel==3)&&([w isResolved]!=-1))) [w dump:f]; //dump if needed
+            if ((aDumpLevel==1) || 
+                ((aDumpLevel==2)&&([w type]==IEEE80211_TYPE_DATA)) || 
+                ((aDumpLevel==3)&&([w isResolved]!=-1))) [w dump:f]; //dump if needed
 #endif
         }
     }
 
 #ifdef DUMP_DUMPS
-    if (f) pcap_dump_close(f);
-    if (p) pcap_close(p);
+    if (f)
+        pcap_dump_close(f);
+    if (p)
+        pcap_close(p);
 #endif
 
     [w release];
     pcap_close(_pcapP);
 }
 
-
 //returns the next frame in a pcap file
-//this basicly converts a 802.11 frame to a WLFrame
-//#define USE_RAW_FRAMES
-
--(WLFrame*) nextFrame:(bool*)corrupted {
+-(KFrame*) nextFrame:(bool*)corrupted {
     UInt8 *b;
-    UInt16 *p;
     struct pcap_pkthdr h;
-    unsigned int aHeaderLength;
-#ifndef USE_RAW_FRAMES
-    int aType, aSubtype;
-    bool aIsToDS;
-    bool aIsFrDS;
-#endif
-    
+
     *corrupted = NO;
     
     b=(UInt8*)pcap_next(_pcapP,&h);	//get frame from current pcap file
-    if(b==NULL) return NULL;
+
+    if(b == NULL)
+        return NULL;
 
     *corrupted = YES;
     
-#ifdef USE_RAW_FRAMES
-    p=(UInt16*)aWF;						//p points to 802.11 header in our WLFrame	    
-    memcpy(p,b,((h.caplen<60) ? h.caplen : 60));		//copy the whole frame into our WLFrame (or just the header)
+    aWF->ctrl.channel = 0;
+    aWF->ctrl.len = h.caplen;
     
-    aWF->channel = 0;
-    aHeaderLength=sizeof(WLFrame);
-    if (h.caplen<aHeaderLength) return NULL;	//corrupted frame
-    aWF->dataLen=aWF->length;	
-#else
-    p=(UInt16*)(((char*)aWF)+sizeof(struct sAirportFrame));	//p points to 802.11 header in our WLFrame	    
-    memcpy(p,b,((h.caplen<30) ? h.caplen : 30));		//copy the whole frame into our WLFrame (or just the header)
 
-    aType=(aWF->frameControl & IEEE80211_TYPE_MASK);
-    aSubtype=(aWF->frameControl & IEEE80211_SUBTYPE_MASK);
-    aIsToDS=((aWF->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-    aIsFrDS=((aWF->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
+    if ( h.caplen > 2364 )
+        return NULL;	//corrupted frame
 
-    //depending on the frame we have to figure the length of the header
-    switch(aType) {
-        case IEEE80211_TYPE_DATA: //Data Frames
-            if (aIsToDS&&aIsFrDS) aHeaderLength=30; //WDS Frames are longer
-            else aHeaderLength=24;
-            break;
-        case IEEE80211_TYPE_CTL: //Control Frames
-            switch(aSubtype) {
-                case IEEE80211_SUBTYPE_PS_POLL:
-                case IEEE80211_SUBTYPE_RTS:
-                    aHeaderLength=16;
-                    break;
-                case IEEE80211_SUBTYPE_CTS:
-                case IEEE80211_SUBTYPE_ACK:
-                    aHeaderLength=10;
-                    break;
-                default:
-                    return NULL;
-            }
-            break;
-        case IEEE80211_TYPE_MGT: //Management Frame
-            aHeaderLength=24;
-            break;
-        default:
-            return NULL;
-    }
-    if (h.caplen<aHeaderLength) return NULL;	//corrupted frame
-    aWF->dataLen=h.caplen-aHeaderLength;	
-#endif
-
-    memcpy(((char*)aWF)+sizeof(WLFrame),b+aHeaderLength,aWF->dataLen);	//copy framebody into WLFrame
-
+    memcpy(aWF->data, b, h.caplen);
     return aWF;   
 }
 
@@ -526,58 +512,82 @@ error:
 }
 
 - (bool) deauthenticateNetwork:(WaveNet*)net atInterval:(int)interval {
+    WaveDriver *w;
+    struct ieee80211_deauth frame;
+
     int tmp[6];
     UInt8 x[6];
     unsigned int i;
-    WaveDriver *w;
 
-    struct {
-        WLFrame hdr;
-        UInt16  reason;
-    }__attribute__ ((packed)) frame;
-
+    // Check if we have an injection driver
     w = [self getInjectionDriver];
-    if (!w) return NO;
+    if (!w)
+        return NO;
     
-    if ([net type]!=2) return NO;
+    // FIXME: Why 2?
+    if ([net type] !=2 )
+        return NO;
     
-    if(sscanf([[net BSSID] cString], "%x:%x:%x:%x:%x:%x", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) < 6) return NO;
-    memset(&frame,0,sizeof(frame));
-    frame.hdr.frameControl=IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_DEAUTH | IEEE80211_DIR_FROMDS;
-    memcpy(frame.hdr.address1,"\xff\xff\xff\xff\xff\xff", 6);	//global deauth
-    for (i=0;i<6;i++) x[i]=tmp[i] & 0xff;
-    memcpy(frame.hdr.address2,x, 6);
-    memcpy(frame.hdr.address3,x, 6);
-    frame.hdr.dataLen=2;
-    frame.reason=NSSwapHostShortToLittle(2);
-    
-    frame.hdr.sequenceControl=random() & 0x0FFF;
+    // Check if we have a valid BSSID
+    if(sscanf([[net BSSID] UTF8String], "%x:%x:%x:%x:%x:%x", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) < 6)
+        return NO;
 
+    // zeroize frame
+    memset(&frame,0,sizeof(frame));
+
+    // Set frame control flags
+    frame.header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_DEAUTH;
+
+    // We do global deauth (addr1 is destination)
+    memcpy(frame.header.addr1, BCAST_MACADDR, ETH_ALEN);
+    
+    // Set frame BSSID and source as our BSSID
+    for (i=0;i<6;i++)
+        x[i]=tmp[i] & 0xff;
+    memcpy(frame.header.addr2, x, 6);
+    memcpy(frame.header.addr3, x, 6);
+
+    // Set deauthentication reason to ...
+    frame.reason = NSSwapHostShortToLittle(2);
+
+    // Ramndomize sequence control
+    frame.header.seq_ctl = random() & 0x0FFF;
+
+    // Done... send frame
     [w sendFrame:(UInt8*)&frame withLength:sizeof(frame) atInterval:interval];
     
     return YES;
 }
-
 - (bool) deauthenticateClient:(UInt8*)client inNetworkWithBSSID:(UInt8*)bssid {
     WaveDriver *w;
+    struct ieee80211_deauth frame;
 
-    struct {
-        WLFrame hdr;
-        UInt16  reason;
-    }__attribute__ ((packed)) frame;
+	// We need to have valid client and bssid
+    if (!client || !bssid)
+        return NO;
 
-	if (!client || !bssid) return NO;
+    // Check if we have an injection driver
     w = [self getInjectionDriver];
-    if (!w) return NO;
+    if (!w)
+        return NO;
     
+    // Zeroize frame
     memset(&frame,0,sizeof(frame));
-    frame.hdr.frameControl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_DEAUTH | IEEE80211_DIR_FROMDS;
-    memcpy(frame.hdr.address1, client, 6);	// out target
-    memcpy(frame.hdr.address2, bssid, 6);
-    memcpy(frame.hdr.address3, bssid, 6);
-    frame.hdr.dataLen=2;
+
+    // Set frame control flags
+    frame.header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_DEAUTH;
+
+    // Set destination to client
+    memcpy(frame.header.addr1, client, 6);
+    
+    // Set frame BSSID and source as our BSSID
+    memcpy(frame.header.addr2, bssid, 6);
+    memcpy(frame.header.addr3, bssid, 6);
+
+    // Set deauthentication reason to ...
     frame.reason=NSSwapHostShortToLittle(1);
     
+    // Done... send frame
     [w sendFrame:(UInt8*)&frame withLength:sizeof(frame) atInterval:0];
     
     return YES;
@@ -586,7 +596,7 @@ error:
 - (void)doAuthFloodNetwork:(WaveDriver*)w {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     UInt16 x[3];
-    
+
     while (_authenticationFlooding) {
         x[0] = random() & 0x0FFF;
         x[1] = random();
@@ -600,40 +610,44 @@ error:
     
     [pool release];
 }
-
 - (bool) authFloodNetwork:(WaveNet*)net {
+    WaveDriver *w = Nil;
+    
+    struct ieee80211_auth frame;
+    
     int tmp[6];
     UInt8 x[6];
     unsigned int i;
-    WaveDriver *w = Nil;
-   
+    
     w = [self getInjectionDriver];
-    if (!w) return NO;
+    if (!w)
+        return NO;
     
-    if ([net type]!=2) return NO;
+    if ([net type]!=2)
+        return NO;
     
-    if(sscanf([[net BSSID] cString], "%x:%x:%x:%x:%x:%x", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) < 6) return NO;
+    if(sscanf([[net BSSID] UTF8String], "%x:%x:%x:%x:%x:%x", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) < 6) return NO;
 
-    memset(&_authFrame,0,sizeof(_authFrame));
+    memset(&frame,0,sizeof(struct ieee80211_auth));
     
-    _authFrame.hdr.frameControl=IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_AUTH | IEEE80211_DIR_TODS;
-    for (i=0;i<6;i++) x[i]=tmp[i] & 0xff;
+    frame.header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_AUTH | IEEE80211_DIR_TODS;
+    for (i=0;i<6;i++)
+        x[i]=tmp[i] & 0xff;
     
-    memcpy(_authFrame.hdr.address1,x, 6);
-    memcpy(_authFrame.hdr.address2,x, 6); //needs to be random
-    memcpy(_authFrame.hdr.address3,x, 6);
+    memcpy(frame.header.addr1,x, 6);
+    memcpy(frame.header.addr2,x, 6); //needs to be random
+    memcpy(frame.header.addr3,x, 6);
     
-    _authFrame.hdr.dataLen=6;
-    _authFrame.wi_algo = 0;
-    _authFrame.wi_seq = NSSwapHostShortToLittle(1);
-    _authFrame.wi_status = 0;
+    frame.algorithm = 0;
+    frame.transaction = NSSwapHostShortToLittle(1);
+    frame.status = 0;
     
-    _authFrame.hdr.sequenceControl=random() & 0x0FFF;
-
+    frame.header.seq_ctl=random() & 0x0FFF;
+    
     _authenticationFlooding = YES;
     
     [NSThread detachNewThreadSelector:@selector(doAuthFloodNetwork:) toTarget:self withObject:w];
-    
+	
     return YES;
 }
 
@@ -659,7 +673,6 @@ error:
     
     [pool release];
 }
-
 - (bool) beaconFlood {
     WaveDriver *w = Nil;
    
@@ -672,7 +685,6 @@ error:
     
     memset(_beaconFrame.hdr.address1, 0xff, 18); //set it to broadcast
     
-    _beaconFrame.hdr.dataLen = 27;
     memcpy(&_beaconFrame.wi_timestamp, "\x01\x23\x45\x67\x89\xAB\xCD\xEF", 8);
     _beaconFrame.wi_interval = NSSwapHostShortToLittle(64);
     _beaconFrame.wi_capinfo = 0x0011;
@@ -696,12 +708,12 @@ error:
 }
 
 - (NSString*) tryToInject:(WaveNet*)net {
-    int q, w;
+    int q, w, i;
     UInt8 packet[2364];
     UInt8 helper[2364];
     NSMutableArray *p;
     NSData *f;
-    WLFrame *x, *y;
+    WLIEEEFrame *x, *y;
     struct kj {
         char a[256];
     };
@@ -722,57 +734,65 @@ error:
     NSLog(@"Packet Reinjection: %u ACK Packets.\n",[[net ackPacketsLog] count]);
     NSLog(@"Packet Reinjection: %u ARP Packets.\n",[[net arpPacketsLog] count]);
         
-    y=(WLFrame*)helper;
-    x=(WLFrame*)packet;
+    y=(WLIEEEFrame *)helper;
+    x=(WLIEEEFrame *)packet;
     
     for(w=1;w<2;w++) {
         if (w) p = [net arpPacketsLog];
         else   p = [net ackPacketsLog];
          
+        NSLog(@"Packet count %d", [p count]);
         aPacketType = w;
-
+        
         while([p count] > 0 && ![[WaveHelper importController] canceled]) {
             memset(packet, 0, 2364);
             memset(helper, 0, 2364);
             
+            // Get last packet from buffer
             f = [p lastObject];
-            [f getBytes:(char*)(helper+sizeof(sAirportFrame)) length: 2364 - sizeof(sAirportFrame)];
-            q = [f length] - 24; // 24 is headersize of data packet
-            memcpy(packet, helper, 24 + sizeof(sAirportFrame));
-            memcpy(packet +  sizeof(WLFrame), y->address4, q);
-            x->dataLen = q;
-            x->status  = 0;
+
+            // get data
+            q = [f length];
+			[f getBytes:(char *)packet length:q];
+            
+//            x->dataLen = q;
+//            x->status  = 0;
             			
             debug = (struct kj*)x;
             
 			_injReplies = 0;
             
             if (x->frameControl & IEEE80211_DIR_TODS) {
-				memcpy(_MACs,     x->address1, 6); //this is the BSSID
-				memcpy(&_MACs[6], x->address2, 6); //this is the source
-				if (memcmp(x->address3, "\xff\xff\xff\xff\xff\xff", 6) != 0) continue;
+				memcpy(_addr1,      x->address1, 6); //this is the BSSID
+				memcpy(_addr2,      x->address2, 6); //this is the source
+				if (memcmp(x->address3, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
+					[p removeLastObject];
+					continue;
+				}
 			} else {
-				memcpy(_MACs,     x->address2, 6); //BSSID
-				memcpy(&_MACs[6], x->address3, 6); //source
-				if (memcmp(x->address1, "\xff\xff\xff\xff\xff\xff", 6) != 0) continue;
+				memcpy(_addr1,      x->address2, 6); //BSSID
+				memcpy(_addr2,      x->address3, 6); //source
+				if (memcmp(x->address1, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
+					[p removeLastObject];
+					continue;
+				}
 			}
-            
             x->frameControl |= IEEE80211_WEP;
 			x->sequenceControl = random() & 0x0FFF;
 			x->duration = 0;
-
-            for (q=0;q<100;q++) {
-                if (![wd sendFrame:packet withLength:2364 atInterval:0])
+			NSLog(@"SEND INJECTION PACKET");
+            for (i=0;i<100;i++) {
+                if (![wd sendFrame:packet withLength:q atInterval:0])
                     [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
                 [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
             }
 			
 			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-            
+            NSLog(@"_injReplies %d", _injReplies);
 			if (_injReplies<20) {
                 [p removeLastObject];
             } else {
-                [wd sendFrame:packet withLength:2364 atInterval:5];
+                [wd sendFrame:packet withLength:q atInterval:5];
                 _injecting=NO;
                 return nil;
             }

@@ -63,7 +63,7 @@ ReadStreamClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void *c
 
     endRange.location = [[_report textStorage] length];
     endRange.length = 0;
-    [_report replaceCharactersInRange:endRange withString:[NSString stringWithCString:[data bytes]]];
+    [_report replaceCharactersInRange:endRange withString:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]];
 }
 
 - (IBAction)allowAction:(id)sender {

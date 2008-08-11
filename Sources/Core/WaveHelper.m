@@ -95,8 +95,8 @@ static GPSInfoController *_gc;
     char x[3];
     NSString *outstring;
     
-    input = [string cString];
-    l = [string cStringLength];
+    input = [string UTF8String];
+    l = [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     j = 0;
     
     output = malloc(l*3);
@@ -605,10 +605,10 @@ static GPSInfoController *_gc;
             NULL,                   // default keychain
             16,                     // length of service name
             "KisMACWebService",     // service name
-            [account cStringLength],// length of account name
-            [account cString],      // account name
-            [password cStringLength],// length of password
-            [password cString],     // pointer to password data
+            [account lengthOfBytesUsingEncoding:NSUTF8StringEncoding],// length of account name
+            [account UTF8String],      // account name
+            [password lengthOfBytesUsingEncoding:NSUTF8StringEncoding],// length of password
+            [password UTF8String],     // pointer to password data
             NULL                    // the item reference
         );
 
@@ -631,8 +631,8 @@ static GPSInfoController *_gc;
         NULL,                       // default keychain
         16,                         // length of service name
         "KisMACWebService",         // service name
-        [account cStringLength],    // length of account name
-        [account cString],          // account name
+        [account lengthOfBytesUsingEncoding:NSUTF8StringEncoding],    // length of account name
+        [account UTF8String],          // account name
         &myPasswordLength,          // length of password
         &passwordData,              // pointer to password data
         &itemRef                    // the item reference
@@ -661,8 +661,8 @@ static GPSInfoController *_gc;
         NULL,                       // default keychain
         16,                         // length of service name
         "KisMACWebService",         // service name
-        [account cStringLength],    // length of account name
-        [account cString],          // account name
+        [account lengthOfBytesUsingEncoding:NSUTF8StringEncoding],    // length of account name
+        [account UTF8String],          // account name
         NULL,                       // length of password
         NULL,                       // pointer to password data
         &itemRef                    // the item reference
@@ -686,8 +686,8 @@ static GPSInfoController *_gc;
         NULL,                       // default keychain
         16,                         // length of service name
         "KisMACWebService",         // service name
-        [account cStringLength],    // length of account name
-        [account cString],          // account name
+        [account lengthOfBytesUsingEncoding:NSUTF8StringEncoding],    // length of account name
+        [account UTF8String],          // account name
         NULL,                       // length of password
         NULL,                       // pointer to password data
         &itemRef                    // the item reference
@@ -698,8 +698,8 @@ static GPSInfoController *_gc;
     status = SecKeychainItemModifyAttributesAndData (
         itemRef,                    // the item reference
         NULL,                       // no change to attributes
-        [password cStringLength],   // length of password
-        (void*)[password cString]   // pointer to password data
+        [password lengthOfBytesUsingEncoding:NSUTF8StringEncoding],   // length of password
+        (void*)[password UTF8String]   // pointer to password data
     );
 
     if (itemRef) CFRelease(itemRef);

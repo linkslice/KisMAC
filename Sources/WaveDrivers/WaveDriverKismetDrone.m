@@ -126,7 +126,7 @@
 	@try { // todo: not multiple instance safe yet. not a problem currently.
 		while ( (drvr = [e nextObject]) ) {
 			if ([[drvr objectForKey:@"driverID"] isEqualToString:@"WaveDriverKismetDrone"]) {
-				hostname = [[drvr objectForKey:@"kismetserverhost"] cString];
+				hostname = [[drvr objectForKey:@"kismetserverhost"] UTF8String];
 				foundhostname = 1;
 				port = [[drvr objectForKey:@"kismetserverport"] intValue];
 				foundport = 1;
@@ -207,10 +207,10 @@
 
 #pragma mark -
 
-- (WLFrame*) nextFrame {
-	WLFrame *thisFrame;
+- (KFrame*) nextFrame {
+	KFrame *thisFrame;
 	static UInt8 frame[2500];
-	thisFrame = (WLFrame*)frame;
+	thisFrame = (KFrame*)frame;
 	
 	uint8_t *inbound;
 	int ret = 0;
@@ -227,11 +227,11 @@
 			if ((ret = read(drone_fd, &inbound[stream_recv_bytes],
 				 (ssize_t) sizeof(struct stream_frame_header) - stream_recv_bytes)) < 0) {
 				NSLog(@"drone read() error getting frame header %d:%s",
-						 errno, strerror(errno));
-							NSRunCriticalAlertPanel(
-            NSLocalizedString(@"The connection to the Kismet drone failed", "Error dialog title"),
-			@"Drone read() error getting frame header",
-            OK, Nil, Nil);
+                      errno, strerror(errno));
+                NSRunCriticalAlertPanel(
+                    NSLocalizedString(@"The connection to the Kismet drone failed", "Error dialog title"),
+                    @"Drone read() error getting frame header",
+                    OK, Nil, Nil);
 			}
 			stream_recv_bytes += ret;
 
@@ -411,61 +411,19 @@
 			if ((stream_recv_bytes - offset) < plen)
 				goto top;
 			
+		thisFrame->ctrl.len = (UInt16) ntohl(phdr.caplen);
+		thisFrame->ctrl.signal = (UInt8) ntohs(phdr.signal);
+		thisFrame->ctrl.channel = (UInt16) phdr.channel;
+		thisFrame->ctrl.rate = (UInt8) ntohl(phdr.datarate);
+    
+        if (thisFrame->ctrl.len > 2364) { // no buffer overflows please
+            thisFrame->ctrl.len = 2364;
+            NSLog(@"Captured frame >2500 octets");
+        }
 
-		thisFrame->dataLen = (UInt16) ntohl(phdr.len);
-		thisFrame->signal = (UInt8) ntohs(phdr.signal);
-		thisFrame->channel = (UInt16) phdr.channel;
-		thisFrame->rate = (UInt8) ntohl(phdr.datarate);
-	
-		memcpy(&thisFrame->address1,&databuf[4],6);
-		memcpy(&thisFrame->address3,&databuf[16],6);
-		memcpy(&thisFrame->address2,&databuf[10],6); 
-		memcpy(&thisFrame->address4,&databuf[24],6);
-	
-		frame_control *fc = (frame_control *) databuf;
-		thisFrame->frameControl = 0;
-	
-		if (fc->to_ds == 0 && fc->from_ds == 0)
-			thisFrame->frameControl = thisFrame->frameControl | IEEE80211_DIR_NODS;
-		else if (fc->to_ds == 0 && fc->from_ds == 1)
-			thisFrame->frameControl = thisFrame->frameControl | IEEE80211_DIR_FROMDS;
-		else if (fc->to_ds == 1 && fc->from_ds == 0)
-			thisFrame->frameControl = thisFrame->frameControl | IEEE80211_DIR_TODS;
-		else if (fc->to_ds == 1 && fc->from_ds == 1)
-		   thisFrame->frameControl = thisFrame->frameControl | IEEE80211_DIR_DSTODS;
-		
-		if (fc->type == 0) {
-			thisFrame->frameControl = thisFrame->frameControl | IEEE80211_TYPE_MGT;
-		} else if (fc->type == 2) {
-			thisFrame->frameControl = thisFrame->frameControl | IEEE80211_TYPE_DATA;
-		} else {
-			//thisFrame->frameControl = thisFrame->frameControl | IEEE80211_TYPE_DATA;
-		}
-		
-		if (fc->subtype < 16) {
-			thisFrame->frameControl = OSSwapBigToHostConstInt16(0x1000) * fc->subtype;
-		}
+        memcpy(thisFrame->data, databuf, thisFrame->ctrl.len);
 
-		#ifdef DEBUG
-		printf("----------------------------\n");
-		printf("fc->type == %i\n",fc->type);
-		printf("fc->subtype = %i\n",fc->subtype);
-		printf("bssid: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n", databuf[4], databuf[5], databuf[6], databuf[7], databuf[8], databuf[9]); // dest
-		printf("source: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n", databuf[10], databuf[11], databuf[12], databuf[13], databuf[14], databuf[15]);
-		printf("dest: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n", databuf[16], databuf[17], databuf[18], databuf[19], databuf[20], databuf[21]);
-		#endif
-	
-	unsigned int framelen;
-	
-	if (thisFrame->dataLen < 2500) { // no buffer overflows please
-		framelen = thisFrame->dataLen;
-	} else {
-		framelen = 2500;
-		NSLog(@"Captured frame >2500 octets");
-	}
-
-		memcpy((frame + sizeof(WLFrame)), &databuf[24], framelen);
-		noValidFrame = 0;
+        noValidFrame = 0;
 		stream_recv_bytes = 0;
 		
 		} else {

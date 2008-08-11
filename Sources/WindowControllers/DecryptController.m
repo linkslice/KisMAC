@@ -142,7 +142,7 @@ unsigned long doFCS(unsigned char* buf, int len) {
             return;
         }
         
-        c = [key cString];
+        c = [key UTF8String];
         for (i=0; i<keylen;i++) {
             if (sscanf(&c[i*2],"%2x", &tmp) != 1) {
                 NSBeginAlertSheet(
@@ -156,11 +156,11 @@ unsigned long doFCS(unsigned char* buf, int len) {
         }
         break;
     case 4:
-        WirelessCryptMD5([[_hexKey stringValue] cString], ckey);
+        WirelessCryptMD5([[_hexKey stringValue] UTF8String], ckey);
         keylen = 13;
         break;
     case 5:
-        c = [[_hexKey stringValue] cString];
+        c = [[_hexKey stringValue] UTF8String];
         
         val = 0;
         for(i = 0; i < [[_hexKey stringValue] cStringLength]; i++) {
@@ -183,7 +183,7 @@ unsigned long doFCS(unsigned char* buf, int len) {
     
     outFile = [[_outFile stringValue] stringByExpandingTildeInPath];
     
-    aPCapIN=pcap_open_offline([inFile cString],err);
+    aPCapIN=pcap_open_offline([inFile UTF8String],err);
     if (aPCapIN==NULL) {
         NSBeginAlertSheet(
             NSLocalizedString(@"Could not open input Dump.", "Decrypt error title"),
@@ -197,7 +197,7 @@ unsigned long doFCS(unsigned char* buf, int len) {
         return;
     }
 
-    pw=pcap_dump_open(aPCapIN,[outFile cString]);
+    pw=pcap_dump_open(aPCapIN,[outFile UTF8String]);
     if (pw==NULL) {
         NSBeginAlertSheet(
             NSLocalizedString(@"Could not open output dump.", "Decrypt error title"),

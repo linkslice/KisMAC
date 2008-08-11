@@ -37,6 +37,7 @@ struct clientData {
     const UInt8 *data;
     UInt32 dataLen;
     NSString *clientID;
+    int wpaKeyCipher;
 };
 
 
@@ -247,12 +248,13 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
     const UInt8 *anonce, *snonce;
     UInt8 prefix[] = "Pairwise key expansion";
 
-    fptr = fopen([wordlist cString], "r");
+    fptr = fopen([wordlist UTF8String], "r");
     if (!fptr) return NO;
     
     keys = 0;
     for (i = 0; i < [aClientKeys count]; i++) {
-        if ([[aClients objectForKey:[aClientKeys objectAtIndex:i]] eapolDataAvailable]) keys++;
+        if ([[aClients objectForKey:[aClientKeys objectAtIndex:i]] eapolDataAvailable])
+            keys++;
     }
 
     NSAssert(keys!=0, @"There must be more keys");
@@ -288,6 +290,7 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
                 c[curKey].dataLen       = [[wc eapolPacket] length];
                 c[curKey].mic           = [[wc eapolMIC]    bytes];
                 c[curKey].clientID      = [wc ID];
+                c[curKey].wpaKeyCipher  = [wc wpaKeyCipher];
                 curKey++;
             }
         }
@@ -296,8 +299,8 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
     words = 0;
     wrd[90]=0;
 
-    ssid = [_SSID cString];
-    ssidLength = [_SSID cStringLength];
+    ssid = [_SSID UTF8String];
+    ssidLength = [_SSID lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
   
     float theTime, prevTime = clock() / (float)CLK_TCK;
     while(![im canceled] && !feof(fptr)) {
@@ -319,13 +322,16 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
         for(j = 0; j < i; j++)
             if ((wrd[j] < 32) || (wrd[j] > 126)) break;
         if (j!=i) continue;
-    
+        
         fastWP_passwordHash(wrd, (const UInt8*)ssid, ssidLength, pmk);
     
         for (curKey = 0; curKey < keys; curKey++) {
-            PRF(pmk, 32, prefix, strlen((SInt8*)prefix), c[curKey].ptkInput, WPA_NONCE_LENGTH*2 + 12, ptk, 16);
+            PRF(pmk, 32, prefix, strlen((char *)prefix), c[curKey].ptkInput, WPA_NONCE_LENGTH*2 + 12, ptk, 16);
             
-            fast_hmac_md5(c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
+            if (c[curKey].wpaKeyCipher == 1)
+                fast_hmac_md5(c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
+            else
+                fast_hmac_sha1(c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
             
             if (memcmp(digest, c[curKey].mic, 16) == 0) {
                 _password = [[NSString stringWithFormat:@"%s for Client %@", wrd, c[curKey].clientID] retain];

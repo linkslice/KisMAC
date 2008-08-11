@@ -26,10 +26,22 @@
 #import "WaveDriverAirport.h"
 #import "WaveHelper.h"
 
-char WaveDrivers [][30] = { "WaveDriverAirport", "WaveDriverKismet", "WaveDriverKismetDrone", 
-							"WaveDriverAirportExtreme", "WaveDriverViha", "WaveDriverAtheros", 
-							"WaveDriverAironet", "WaveDriverMacJack",  "WaveDriverPrismGT", 
-							"WaveDriverUSBIntersil", "\0" };
+char WaveDrivers [][30] = {
+    "WaveDriverAirport",
+    "WaveDriverKismet",
+	"WaveDriverKismetDrone",
+    "WaveDriverAirportExtreme",
+    "WaveDriverViha",
+    "WaveDriverAtheros",
+    "WaveDriverAironet",
+    "WaveDriverMacJack",
+    "WaveDriverPrismGT",
+    "WaveDriverUSBIntersil",
+    "WaveDriverUSBRalinkRT73",
+    "WaveDriverUSBRalinkRT2570",
+    "WaveDriverUSBRealtekRTL8187",
+    "\0"
+};
 
 @implementation WaveDriver
 
@@ -299,7 +311,7 @@ char WaveDrivers [][30] = { "WaveDriverAirport", "WaveDriverKismet", "WaveDriver
     return Nil;
 }
 
-- (WLFrame*) nextFrame {
+- (KFrame*) nextFrame {
     return Nil;
 }
 

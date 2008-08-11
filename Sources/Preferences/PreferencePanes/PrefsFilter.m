@@ -20,7 +20,7 @@
     if ([mac length]<11) return nil;
     if ([mac length]>17) return nil;
         
-    c = [mac cString];
+    c = [mac UTF8String];
     if (sscanf(c,"%2X:%2X:%2X:%2X:%2X:%2X", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) != 6) return nil;
     
     //response = [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5]];
@@ -34,7 +34,7 @@
     const char *c;
     int tmp[6];
 
-    c = [mac cString];
+    c = [mac UTF8String];
     if (sscanf(c,"%2X%2X%2X%2X%2X%2X", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) != 6) return @"invalid MAC";
     
     return [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5]];

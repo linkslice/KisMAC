@@ -259,15 +259,14 @@ typedef struct {
 	UInt8 padding[3];
 } rfmonHeader;
 
-- (WLFrame*) nextFrame {
+- (KFrame*) nextFrame {
     static UInt8  frame[2500];
     UInt8  tempframe[2500];
-    UInt32 frameSize = 2500;
+    u_int32_t frameSize = 2500;
     kern_return_t kernResult;
-    UInt32 headerLength;
-    WLFrame *f;
-    UInt16 isToDS, isFrDS, subtype;
-
+    rfmonHeader *head;
+    KFrame *f;
+    
     while(YES) {
         while (!IODataQueueDataAvailable(_packetQueue)) {
             kernResult = IODataQueueWaitForAvailableData(_packetQueue,
@@ -278,52 +277,17 @@ typedef struct {
             }
         }
 
-
         kernResult = IODataQueueDequeue(_packetQueue, tempframe, &frameSize);
+        head = (rfmonHeader*)tempframe;
+        f = (KFrame *)frame;
+        memset(f, 0, sizeof(frame));
+        UInt16 headerLength = CFSwapInt16LittleToHost(head->length);
+        f->ctrl.len = frameSize - headerLength;
 
-        memset(frame, 0, sizeof(frame));
-        memcpy(frame + sizeof(WLPrismHeader), tempframe + sizeof(rfmonHeader), frameSize >= 50 ? 30 : frameSize - sizeof(rfmonHeader));
-        f = (WLFrame*)frame;
+        memcpy(f->data, tempframe + headerLength, f->ctrl.len);
         
-        UInt16 type=(f->frameControl & IEEE80211_TYPE_MASK);
-        
-        //depending on the frame we have to figure the length of the header
-        switch(type) {
-            case IEEE80211_TYPE_DATA: //Data Frames
-                isToDS = ((f->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-                isFrDS = ((f->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
-                if (isToDS&&isFrDS) headerLength=30; //WDS Frames are longer
-                else headerLength=24;
-                break;
-            case IEEE80211_TYPE_CTL: //Control Frames
-                subtype=(f->frameControl & IEEE80211_SUBTYPE_MASK);
-                switch(subtype) {
-                    case IEEE80211_SUBTYPE_PS_POLL:
-                    case IEEE80211_SUBTYPE_RTS:
-                        headerLength=16;
-                        break;
-                    case IEEE80211_SUBTYPE_CTS:
-                    case IEEE80211_SUBTYPE_ACK:
-                        headerLength=10;
-                        break;
-                    default:
-                        continue;
-                }
-                break;
-            case IEEE80211_TYPE_MGT: //Management Frame
-                headerLength=24;
-                break;
-            default:
-                continue;
-        }
-        
-        rfmonHeader *head = (rfmonHeader*)tempframe;
-        
-        f->dataLen = f->length = frameSize - sizeof(rfmonHeader) - headerLength;
-        memcpy(f + 1, tempframe + sizeof(rfmonHeader) + headerLength, f->dataLen);
-        
-        f->silence = head->rssi & 0x7F;
-        f->channel = [WaveHelper freq2chan:NSSwapLittleShortToHost(head->freq)];
+        f->ctrl.signal = head->rssi & 0x7F;
+        f->ctrl.channel = [WaveHelper freq2chan:NSSwapLittleShortToHost(head->freq)];
         break;
     }
     

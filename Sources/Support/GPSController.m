@@ -766,7 +766,7 @@ int ss(char* inp, char* outp) {
         [self setStatus:NSLocalizedString(@"GPS subsystem starting up.", @"GPS status")];
 
         //NSLog(@"Starting GPS device");
-        if((_serialFD = open([_gpsDevice cString], O_RDWR | O_NOCTTY | O_NONBLOCK )) < 0) {
+        if((_serialFD = open([_gpsDevice UTF8String], O_RDWR | O_NOCTTY | O_NONBLOCK )) < 0) {
             NSLog(@"error: unable to open gps device: %s", strerror(errno));
             [self setStatus:NSLocalizedString(@"Could not open GPS.", @"GPS status")];
         } else if(!isatty(_serialFD)) {
@@ -869,7 +869,7 @@ int ss(char* inp, char* outp) {
 				goto err;
 			}
 			
-			hostname = [[sets objectForKey:@"GPSDaemonHost"] cString];
+			hostname = [[sets objectForKey:@"GPSDaemonHost"] UTF8String];
 			
 			if (inet_addr(hostname) != INADDR_NONE) {
 				ip = inet_addr(hostname);

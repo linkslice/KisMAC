@@ -111,7 +111,7 @@ static int KismetInstances = 0;
 	@try {
 		while ( (drvr = [e nextObject]) ) {
 			if ([[drvr objectForKey:@"driverID"] isEqualToString:@"WaveDriverKismet"]) {
-				hostname = [[drvr objectForKey:@"kismetserverhost"] cString];
+				hostname = [[drvr objectForKey:@"kismetserverhost"] UTF8String];
 				foundhostname = 1;
 				port = [[drvr objectForKey:@"kismetserverport"] intValue];
 				foundport = 1;
@@ -185,7 +185,7 @@ static int KismetInstances = 0;
 					bssidar = [[rcvd3 objectAtIndex:1] componentsSeparatedByString:@":"]; // get the BSSID
 					
 					for (j=0; j<6; j++) {
-						sscanf([[bssidar objectAtIndex:j] cString], "%x", &bssidbyte); // convert it from ascii 12:34:56 into raw binary
+						sscanf([[bssidar objectAtIndex:j] UTF8String], "%x", &bssidbyte); // convert it from ascii 12:34:56 into raw binary
 						bssidstring[j] = bssidbyte;
 					}
 					

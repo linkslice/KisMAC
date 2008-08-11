@@ -262,7 +262,6 @@
     NSMutableArray *drivers;
     NSString *driverClassName;
 	NSNumber *kserverport;
-	int result;
     
     driverClassName = [NSString stringWithCString:WaveDrivers[[[_driver selectedItem] tag]]];
     

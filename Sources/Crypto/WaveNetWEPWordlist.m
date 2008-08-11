@@ -51,7 +51,7 @@
     controller = [WaveHelper importController];
     isInit = NO;
     
-    fptr = fopen([wordlist cString], "r");
+    fptr = fopen([wordlist UTF8String], "r");
     if (!fptr) RET;    
     
     //select the right increment function for each character set
@@ -151,7 +151,7 @@
     controller = [WaveHelper importController];
     isInit = NO;
     
-    fptr = fopen([wordlist cString], "r");
+    fptr = fopen([wordlist UTF8String], "r");
     if (!fptr) RET;    
 
     //select the right increment function for each character set    
@@ -251,7 +251,7 @@
     controller = [WaveHelper importController];
     isInit = NO;
     
-    fptr = fopen([wordlist cString], "r");
+    fptr = fopen([wordlist UTF8String], "r");
     if (!fptr) RET;    
 
     //select the right increment function for each character set    

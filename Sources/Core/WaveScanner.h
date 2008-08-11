@@ -32,14 +32,14 @@
 #import "WaveContainer.h"
 
 struct __authFrame {
-    WLFrame     hdr;
+    WLMgmtFrame hdr;
     UInt16	wi_algo;
     UInt16	wi_seq;
     UInt16	wi_status;
 }__attribute__ ((packed));
 
 struct __beaconFrame {
-    WLFrame     hdr;
+    WLMgmtFrame hdr;
     UInt64		wi_timestamp;
     UInt16		wi_interval;
     UInt16		wi_capinfo;
@@ -55,19 +55,19 @@ struct __beaconFrame {
 }__attribute__ ((packed));
 
 @interface WaveScanner : NSObject {    
-    NSTimer* _scanTimer;		//timer for refreshing the tables
+    NSTimer* _scanTimer;                //timer for refreshing the tables
     NSTimer* _hopTimer;                 //channel hopper
 
     NSString* _geigerSound;             //sound file for the geiger counter
 
-    int _packets;			//packet count
+    int _packets;                       //packet count
     int _geigerInt;
-    int _bytes;				//bytes since last refresh (for graph)
-    bool _soundBusy;			//are we clicking?
+    int _bytes;                         //bytes since last refresh (for graph)
+    bool _soundBusy;                    //are we clicking?
     
-    NSArray *_drivers;
+    NSArray *_drivers;                  // Array of drivers
     
-    bool _authenticationFlooding;
+    bool _authenticationFlooding;  
     struct __authFrame _authFrame;
     bool _beaconFlooding;
     struct __beaconFrame _beaconFrame;
@@ -75,7 +75,10 @@ struct __beaconFrame {
     int _graphLength;
     NSTimeInterval _scanInterval;	//refresh interval
     
-    UInt8 _MACs[18];
+    UInt8 _addr1[ETH_ALEN];
+    UInt8 _addr2[ETH_ALEN];
+    UInt8 _addr3[ETH_ALEN];
+
     int  _injReplies;
     int  aPacketType;
     bool aScanRange;
@@ -87,7 +90,7 @@ struct __beaconFrame {
     int  _driver;
     
     unsigned char aFrameBuf[2364];	//for reading in pcaps (still messy)
-    WLFrame* aWF;
+    KFrame* aWF;
     pcap_t*  _pcapP;
 
     ImportController *_im;
@@ -98,7 +101,7 @@ struct __beaconFrame {
 }
 
 - (void)readPCAPDump:(NSString*)dumpFile;
-- (WLFrame*) nextFrame:(bool*)corrupted;	//internal usage only
+- (KFrame*) nextFrame:(bool*)corrupted;	//internal usage only
 
 //for communications with ScanController which does all the graphic stuff
 - (int) graphLength;

@@ -86,6 +86,7 @@ typedef struct WaveNetEntry {
 - (void) setViewType:(int)type value:(id)val;
 - (void) setFilterType:(NSString*)filter; 
 - (void) setFilterString:(NSString*)filter;
+- (NSString*) getImageForChallengeResponse;
 - (NSString*) getStringForEncryptionType:(encryptionType)encryption; 
 - (NSString*) getStringForNetType:(networkType)type;
 

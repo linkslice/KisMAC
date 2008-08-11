@@ -261,7 +261,7 @@ struct pointCoords {
     a = [NSMutableArray arrayWithCapacity:3000];
     date = @"0000-00-00";
     
-    if ((fd = fopen([filename cString], "r")) == NULL) {
+    if ((fd = fopen([filename UTF8String], "r")) == NULL) {
         NSLog(@"Unable to open specified file: %s", strerror(errno));
         return NO;
     }
@@ -428,7 +428,7 @@ struct pointCoords {
 	NSParameterAssert(container);
 	NSParameterAssert(im);
 
-    FILE* fd = fopen([filename cString],"w");
+    FILE* fd = fopen([filename UTF8String],"w");
 
     if (!fd) {
         NSLog(@"Could not open %@ for writing.", filename);
@@ -439,19 +439,19 @@ struct pointCoords {
     fprintf(fd,"# $Creator: KisMAC NS export version 0.2\r\n");
     fprintf(fd,"# $Format: wi-scan with extensions\r\n");
     fprintf(fd,"# Latitude\tLongitude\t( SSID )	Type\t( BSSID )\tTime (GMT)\t[ SNR Sig Noise ]\t# ( Name )\tFlags\tChannelbits\tBcnIntvl\r\n");
-    fprintf(fd,[[[NSDate date] descriptionWithCalendarFormat:@"# $DateGMT: %Y-%m-%d\r\n" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] cString]);
+    fprintf(fd,[[[NSDate date] descriptionWithCalendarFormat:@"# $DateGMT: %Y-%m-%d\r\n" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
     
 	[im setMax:[container count]];
     for (i=0; i<[container count]; i++) {
         net = [container netAtIndex:i];
         
-        if (sscanf([[net latitude] cString], "%f%c", &f, &c)==2) fprintf(fd, "%c %f0\t",c,f);
+        if (sscanf([[net latitude] UTF8String], "%f%c", &f, &c)==2) fprintf(fd, "%c %f0\t",c,f);
         else fprintf(fd, "N 0.0000000\t");
         
-        if (sscanf([[net longitude] cString], "%f%c", &f, &c)==2) fprintf(fd, "%c %f0\t",c,f);
+        if (sscanf([[net longitude] UTF8String], "%f%c", &f, &c)==2) fprintf(fd, "%c %f0\t",c,f);
         else fprintf(fd, "E 0.0000000\t");
 
-        fprintf(fd, "( %s )\t", [[net SSID] cString]);
+        fprintf(fd, "( %s )\t", [[net SSID] UTF8String]);
         switch ([net type]) {
             case networkTypeUnknown:
                 fprintf(fd,"NA");
@@ -474,9 +474,9 @@ struct pointCoords {
             default:
                 NSAssert(NO, @"Invalid network type");
         }
-        fprintf(fd, "\t( %s )\t", [[net BSSID] cString]);
-        fprintf(fd, [[[net lastSeenDate] descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] cString]);
-        fprintf(fd, "[ %u %u %u ]\t# ( %s )\t00%s%s\t0000\t0\r\n", [net maxSignal], [net maxSignal], 0, [[net getVendor] cString],[net wep] > encryptionTypeNone ? "1": "0", ([net type] == networkTypeAdHoc) ? "2": ([net type] == networkTypeManaged) ? "1" : "0");
+        fprintf(fd, "\t( %s )\t", [[net BSSID] UTF8String]);
+        fprintf(fd, [[[net lastSeenDate] descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
+        fprintf(fd, "[ %u %u %u ]\t# ( %s )\t00%s%s\t0000\t0\r\n", [net maxSignal], [net maxSignal], 0, [[net getVendor] UTF8String],[net wep] > encryptionTypeNone ? "1": "0", ([net type] == networkTypeAdHoc) ? "2": ([net type] == networkTypeManaged) ? "1" : "0");
 
 		[im increment];
     }
@@ -498,7 +498,7 @@ struct pointCoords {
 	NSParameterAssert(container);
 	NSParameterAssert(im);
 
-    FILE* fd = fopen([filename cString],"w");
+    FILE* fd = fopen([filename UTF8String],"w");
 
     if (!fd) {
         NSLog(@"Could not open %@ for writing.", filename);
@@ -630,8 +630,8 @@ struct pointCoords {
         
 		lat = 100;
 		
-        if (sscanf([[net latitude] cString], "%f%c", &f, &c)==2) lat = f * (c == 'N' ? 1 : -1);		
-        if (sscanf([[net longitude] cString], "%f%c", &f, &c)==2) lon = f * (c == 'E' ? 1 : -1);
+        if (sscanf([[net latitude] UTF8String], "%f%c", &f, &c)==2) lat = f * (c == 'N' ? 1 : -1);		
+        if (sscanf([[net longitude] UTF8String], "%f%c", &f, &c)==2) lon = f * (c == 'E' ? 1 : -1);
 		strcpy(netname,[[net SSID] cStringUsingEncoding: NSUTF8StringEncoding]);
 		
 		// now escape any ampersands or < or >...
@@ -668,11 +668,11 @@ struct pointCoords {
 			fprintf(fd,"		<name>%s</name>\n",netname);
 			fprintf(fd,"		<description><![CDATA[");
 			fprintf(fd,"<b>Signal:</b> %u",[net maxSignal]);
-			if (strcmp([[net BSSID] cString],"<no bssid>") != 0) {
-				fprintf(fd,"<br><b>BSSID:</b> %s",[[net BSSID] cString]);
-				fprintf(fd,"<br><b>Vendor:</b> %s",[[net getVendor] cString]);
+			if (strcmp([[net BSSID] UTF8String],"<no bssid>") != 0) {
+				fprintf(fd,"<br><b>BSSID:</b> %s",[[net BSSID] UTF8String]);
+				fprintf(fd,"<br><b>Vendor:</b> %s",[[net getVendor] UTF8String]);
 			}
-			fprintf(fd,"<br><b>Time seen:</b> %s",[[[net lastSeenDate] descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] cString]);
+			fprintf(fd,"<br><b>Time seen:</b> %s",[[[net lastSeenDate] descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
 			fprintf(fd,"]]></description>\n");
 			fprintf(fd,"		<open>0</open>\n");
 			fprintf(fd,"		<styleUrl>#net_");
@@ -773,7 +773,7 @@ struct pointCoords {
 	NSParameterAssert(container);
 	NSParameterAssert(im);
 
-    FILE* fd = fopen([filename cString],"w");
+    FILE* fd = fopen([filename UTF8String],"w");
     if (!fd) return NO;
     
 	[im setMax:[container count]];
@@ -781,7 +781,7 @@ struct pointCoords {
         net = [container netAtIndex:i];
         ssid = [[net SSID] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if ([ssid isEqualToString:@""]||[ssid isEqualToString:@"<no ssid>"]) ssid=@"(null)";        
-        fprintf(fd, "%-34s\t%17s\t%u\t%u\t", [ssid cString], [[net BSSID] cString], [net channel], [net maxSignal]);
+        fprintf(fd, "%-34s\t%17s\t%u\t%u\t", [ssid UTF8String], [[net BSSID] UTF8String], [net channel], [net maxSignal]);
         switch ([net type]) {
             case networkTypeUnknown:
                 fprintf(fd,"%-10s","Unknown");
@@ -802,7 +802,7 @@ struct pointCoords {
                 fprintf(fd,"%-10s","LTunnel");
                 break;
         }
-        fprintf(fd, "\t%-15s\t", [[net getVendor] cString]);
+        fprintf(fd, "\t%-15s\t", [[net getVendor] UTF8String]);
     
             switch ([net wep]) {
             case encryptionTypeUnknown:
@@ -817,7 +817,7 @@ struct pointCoords {
                 break;
         }
         
-        fprintf(fd, "\t%s\n", [[net comment] cString]);
+        fprintf(fd, "\t%s\n", [[net comment] UTF8String]);
 		[im increment];
     }
     

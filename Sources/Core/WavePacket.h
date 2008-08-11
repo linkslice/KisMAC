@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 #import "80211b.h"
+#import "KisMAC80211.h"
 #import "WavePacket.h"
 #import <sys/time.h>
 
@@ -115,27 +116,32 @@ typedef enum _leapAuthCode {
     
     struct timeval _creationTime; //time for cap
     
-    UInt8* _frame;
-    UInt8* _rawFrame;			//pointer to the raw frame
+    UInt8* _frame;                  // 80211 frame
 
     int _revelsKeyByte;         //-2 = no idea
 	    
-    int _length;				//length of body
-    int _headerLength;			//length of real header
+    UInt8 *_payload;                // Payload
+    int _payloadLength;				// Length of payload
 
-    UInt8 _MACAddress[30];		//the mac addresses
+    int _length;                    // Length of 80211 frame
+    int _headerLength;              // Length of 80211 header
+
+    UInt8 _addr1[ETH_ALEN];
+    UInt8 _addr2[ETH_ALEN];
+    UInt8 _addr3[ETH_ALEN];
+    UInt8 _addr4[ETH_ALEN];
     
     //WPA stuff
-    int _wpaCipher;
+    int _wpaKeyCipher;
     wpaNoncePresent _nonce;
 }
 
 //input function
-- (bool)parseFrame:(WLFrame*) f;
+- (bool)parseFrame:(KFrame*) f;
 
 - (void)dump:(void*)f;	//dumps packet to pcaphandle f
-- (int)length;
-- (int)bodyLength;
+- (int)length;          // Length of 80211 frame
+- (int)payloadLength;   // Length of payload
 - (int)signal;
 - (int)channel;
 - (int)type;
@@ -145,7 +151,7 @@ typedef enum _leapAuthCode {
 - (bool)toDS;
 - (encryptionType)wep;
 - (networkType)netType;
-- (UInt8*)framebody;
+- (UInt8*)payload;      // payload
 - (UInt8*)frame;
 - (int)isResolved;	//for wep cracking 
 - (NSString*)SSID;
@@ -168,6 +174,12 @@ typedef enum _leapAuthCode {
 - (NSString *)destinationIPAsString;
 - (unsigned char *)sourceIPAsData;
 - (unsigned char *)destinationIPAsData;
+
+// MAC Addresses
+- (UInt8*)addr1;
+- (UInt8*)addr2;
+- (UInt8*)addr3;
+- (UInt8*)addr4;
 
 //WPA handling
 - (bool)isWPAKeyPacket;

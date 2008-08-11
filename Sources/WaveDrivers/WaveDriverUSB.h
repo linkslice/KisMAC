@@ -1,6 +1,6 @@
 /*
         
-        File:			ValuePair.h
+        File:			WaveDriverUSBIntersil.h
         Program:		KisMAC
 		Author:			Michael Rossberg
 						mick@binaervarianz.de
@@ -24,21 +24,19 @@
 */
 
 #import <Foundation/Foundation.h>
-#import "GPSController.h"
+#import "WaveDriver.h"
+#import "../Driver/USBJack/USBJack.h"
 
-@interface ValuePair : NSObject <NSCopying> {
-    double _x, _y;
+@interface WaveDriverUSB : WaveDriver {
+    USBJack *_driver;
+    //stuff for timed sending
+    float           _interval;
+    bool            _transmitting;
+	
+	int				_errors;
+
 }
 
-- (id)initWithDataDictionary:(NSDictionary*)dict;
-- (NSDictionary*)dataDictionary;
-
-- (double)getX;
-- (double)getY;
-- (waypoint)wayPoint;
-
-- (void)setPairX:(double)x Y:(double) y;
-- (void)setPairFromWaypoint:(waypoint)wp;
-
-
+- (id)initAsMaster;
+//- (id)initWithMaster: (WaveDriverUSBIntersil) master;
 @end

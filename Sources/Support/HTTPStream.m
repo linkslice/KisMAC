@@ -111,7 +111,7 @@
         goto error;
     }
     
-    hp = gethostbyname([[_url host] cString]);
+    hp = gethostbyname([[_url host] UTF8String]);
     if (hp == NULL) {
         errstr = NSLocalizedString(@"Could not resolve Server", "Error for Crashreporter");
         goto error1;
@@ -130,7 +130,7 @@
         goto error1;
     }
     
-    i = write(sockd, [topost cString], [topost length]);
+    i = write(sockd, [topost UTF8String], [topost length]);
     
     while (!CFHTTPMessageIsHeaderComplete(myMessage)) {
         i = read(sockd, buf, 1024);

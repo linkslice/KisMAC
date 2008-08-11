@@ -180,7 +180,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     
     // register to receive system sleep notifications
     root_port = IORegisterForSystemPower( scanner, &notifyPortRef, NotifySleep, &notifierObject );
-    if ( root_port == nil ) {
+    if ( (void *)root_port == NULL ) {
         printf("IORegisterForSystemPower failed\n");
     } else {		
 		// add the notification port to the application runloop
@@ -354,7 +354,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     
     switch ([(ScanHierarch*)item type]) {
         case 99: //BSSID selector
-            if (sscanf([[item identKey] cString], "%2X%2X%2X%2X%2X%2X", &tmpID[0], &tmpID[1], &tmpID[2], &tmpID[3], &tmpID[4], &tmpID[5])!=6) 
+            if (sscanf([[item identKey] UTF8String], "%2X%2X%2X%2X%2X%2X", &tmpID[0], &tmpID[1], &tmpID[2], &tmpID[3], &tmpID[4], &tmpID[5]) !=6 ) 
                 NSLog(@"Error could not decode ID %@!", [item identKey]);
             for (i=0; i<6; i++) ID[i] = tmpID[i];
             

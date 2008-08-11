@@ -105,7 +105,7 @@ inline UInt32 hashForMAC(const UInt8* val) {
     
     _filterCount = 0;
     for(i=0; i<[filtered count]; i++) {
-        if (sscanf([[filtered objectAtIndex:i] cString],"%2X%2X%2X%2X%2X%2X", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) != 6) continue;
+        if (sscanf([[filtered objectAtIndex:i] UTF8String],"%2X%2X%2X%2X%2X%2X", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) != 6) continue;
     
         for (j=0; j<6; j++) 
             _filter[i][j] = tmp[j];
@@ -189,6 +189,19 @@ inline UInt32 hashForMAC(const UInt8* val) {
 		} else [_idList[entry].net setVisible: NO];
 	}
 	
+}
+
+- (NSString*) getImageForChallengeResponse:(int)challengeResponseStatus {
+    switch (challengeResponseStatus) {
+        case chreResponse:
+        case chreChallenge:
+            return @"orangegem.png";
+        case chreComplete:
+            return @"greengem.png";
+        case chreNone:
+        default:
+            return @"redgem.png";
+    }
 }
 
 - (NSString*) getStringForEncryptionType:(encryptionType)encryption {

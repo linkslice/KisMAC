@@ -204,5 +204,5 @@ typedef union _usbin {
 	_usb_rmemresp_t	rmemresp		;
 	_usb_bufavail_t	bufavail		;
 	_usb_error_t	usberror		;
-	UInt8			boguspad[3000]		;
-} __attribute__((packed)) _usbin_t;
+	UInt8			boguspad[3000]  ;
+} __attribute__((aligned)) __attribute__((packed)) _usbin_t;

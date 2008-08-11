@@ -38,6 +38,7 @@
     
     //WPA
     NSData *_aNonce, *_sNonce, *_MIC, *_packet;
+    int _wpaKeyCipher;
     
     //LEAP
     NSData *_leapChallenge, *_leapResponse;
@@ -69,6 +70,7 @@
 - (NSData *)eapolPacket;
 - (NSData *)rawID;
 - (BOOL) eapolDataAvailable;
+- (int) wpaKeyCipher;
 
 //LEAP stuff
 - (NSData *)leapChallenge;

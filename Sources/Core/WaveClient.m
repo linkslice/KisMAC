@@ -47,7 +47,8 @@
         _aNonce = [[coder decodeObjectForKey:@"aNonce"] retain];
         _packet = [[coder decodeObjectForKey:@"packet"] retain];
         _MIC    = [[coder decodeObjectForKey:@"MIC"] retain];
-
+        _wpaKeyCipher = [coder decodeIntForKey:@"wpaKeyCipher"];
+        
         //LEAP stuff
         _leapUsername   = [[coder decodeObjectForKey:@"leapUsername"] retain];
         _leapChallenge  = [[coder decodeObjectForKey:@"leapChallenge"] retain];
@@ -78,6 +79,7 @@
 	_aNonce = [[dict objectForKey:@"wpaANonce"] retain];
 	_packet = [[dict objectForKey:@"wpaPacket"] retain];
 	_MIC    = [[dict objectForKey:@"wpaMIC"] retain];
+    _wpaKeyCipher = [[dict objectForKey:@"wpaKeyCipher"] intValue];
 
 	//LEAP stuff
 	_leapUsername   = [[dict objectForKey:@"leapUsername"] retain];
@@ -104,7 +106,8 @@
 	if (_aNonce) [dict setObject:_aNonce forKey:@"wpaANonce"];
 	if (_packet) [dict setObject:_packet forKey:@"wpaPacket"];
 	if (_MIC)    [dict setObject:_MIC forKey:@"wpaMIC"];
-		
+    if (_wpaKeyCipher) [dict setObject:[NSNumber numberWithInt:_wpaKeyCipher] forKey:@"wpaKeyCipher"];
+        
 	if (_leapUsername)  [dict setObject:_leapUsername forKey:@"leapUsername"];
 	if (_leapChallenge) [dict setObject:_leapChallenge forKey:@"leapChallenge"];
 	if (_leapResponse)  [dict setObject:_leapResponse forKey:@"leapResponse"];
@@ -117,25 +120,28 @@
 - (void)wpaHandler:(WavePacket*) w {
     UInt8 nonce[WPA_NONCE_LENGTH];
     NSData *mic, *packet;
-    
-    if (![w isEAPPacket]) return;
+    if (![w isEAPPacket])
+        return;
     
     if ([w isWPAKeyPacket]) {
         switch ([w wpaCopyNonce:nonce]) {
             case wpaNonceANonce:
                 NSLog(@"Detected WPA challenge for %@!", _ID);
 				[GrowlController notifyGrowlWPAChallenge:@"" mac:_ID bssid:[w BSSIDString]];
+                NSLog(@"Nonce %.2X %.2X", nonce[0], nonce[WPA_NONCE_LENGTH-1]);
                 [WaveHelper secureReplace:&_aNonce withObject:[NSData dataWithBytes:nonce length:WPA_NONCE_LENGTH]];
+                _wpaKeyCipher = [w wpaKeyCipher];
                 break;
             case wpaNonceSNonce:
                 NSLog(@"Detected WPA response for %@!", _ID);
 				[GrowlController notifyGrowlWPAResponse:@"" mac:_ID bssid:[w BSSIDString]];
+                NSLog(@"Nonce %.2X %.2X", nonce[0], nonce[WPA_NONCE_LENGTH-1]);
                 [WaveHelper secureReplace:&_sNonce withObject:[NSData dataWithBytes:nonce length:WPA_NONCE_LENGTH]];
                 break;
             case wpaNonceNone:
+                NSLog(@"Nonce None");
                 break;
         }
-        
         packet = [w eapolData];
         mic = [w eapolMIC];
         if (packet) [WaveHelper secureReplace:&_packet withObject:packet];
@@ -168,7 +174,7 @@
 			[_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
 			[_ID isEqualToString:@"00:12:D9:B3:1D:40"]) {
 			NSLog(@"Found desired Access Point: %@", _ID);
-			[WaveHelper speakSentence:[[NSString stringWithFormat:@"Found desired Access Point: %@", _ID] cString] withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
+			[WaveHelper speakSentence:[[NSString stringWithFormat:@"Found desired Access Point: %@", _ID] UTF8String] withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
 			NSBeep(); NSBeep(); NSBeep();
 		}
 	}
@@ -181,7 +187,8 @@
      //   NSLog(@"Incoming Packet Client dest IP Found: %@", [w destinationIPAsString]);
     }
     
-    if (![w toDS]) [self wpaHandler:w]; //dont store it in the AP client
+    if (![w toDS])
+        [self wpaHandler:w]; //dont store it in the AP client
 }
 
 -(void) parseFrameAsOutgoing:(WavePacket*)w {
@@ -191,7 +198,7 @@
 			[_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
 			[_ID isEqualToString:@"00:12:D9:B3:1D:40"]) {
 			NSLog(@"Found desired Access Point: %@", _ID);
-			[WaveHelper speakSentence:[[NSString stringWithFormat:@"Found desired Access Point: %@", _ID] cString] withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
+			[WaveHelper speakSentence:[[NSString stringWithFormat:@"Found desired Access Point: %@", _ID] UTF8String] withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
 			NSBeep(); NSBeep(); NSBeep();
 		}
     }
@@ -205,7 +212,8 @@
         //NSLog(@"Outgoing Packet Client source IP Found: %@", [w sourceIPAsString]);
     }
     
-    if (![w fromDS]) [self wpaHandler:w]; //dont store it in the AP client
+    if (![w fromDS])
+        [self wpaHandler:w]; //dont store it in the AP client
 }
 
 #pragma mark -
@@ -278,6 +286,10 @@
     return _packet;
 }
 
+- (int)wpaKeyCipher {
+    return _wpaKeyCipher;
+}
+
 - (NSData *)rawID {
     UInt8   ID8[6];
     int     ID32[6];
@@ -285,7 +297,7 @@
     
     if (!_ID) return Nil;
     
-    if (sscanf([_ID cString], "%2X:%2X:%2X:%2X:%2X:%2X", &ID32[0], &ID32[1], &ID32[2], &ID32[3], &ID32[4], &ID32[5]) != 6) return Nil;
+    if (sscanf([_ID UTF8String], "%2X:%2X:%2X:%2X:%2X:%2X", &ID32[0], &ID32[1], &ID32[2], &ID32[3], &ID32[4], &ID32[5]) != 6) return Nil;
     for (i = 0; i < 6; i++)
         ID8[i] = ID32[i];
     

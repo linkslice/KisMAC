@@ -45,7 +45,7 @@
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-	//printf("current chars = %s\n", [string cString]);
+	//printf("current chars = %s\n", [string UTF8String]);
     if (!currentStringValue) {
         currentStringValue = [[NSMutableString alloc] initWithCapacity:50];
     }
@@ -68,7 +68,7 @@
     }
     else if([elementName isEqualToString:@"BSSID"]){
         unsigned int ID[6];
-        sscanf([currentStringValue cString],
+        sscanf([currentStringValue UTF8String],
                "%2X:%2X:%2X:%2X:%2X:%2X",
                &ID[0], &ID[1], &ID[2], &ID[3], &ID[4], &ID[5]);
         [currentNet setValue: [[NSString stringWithFormat:@"%2X%2X%2X%2X%2X%2X", ID[0], ID[1],ID[2], ID[3], ID[4], ID[5]] retain] forKey:@"ID"];

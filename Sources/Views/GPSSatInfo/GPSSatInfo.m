@@ -164,6 +164,7 @@
 	} else if (sat == 12) {
 		return sat12_used;
 	}
+    return 0;
 }
 
 - (void)setUsedForSat:(int)sat used:(int)used {
@@ -221,6 +222,7 @@
 	} else if (sat == 12) {
 		return sat12_strength;
 	}
+    return 0;
 }
 
 - (int)setSignalForSat:(int)sat signal:(int)signal {
@@ -249,6 +251,7 @@
 	} else if (sat == 12) {
 		sat12_strength = signal;
 	}
+    return 0;
 }
 
 - (void)redraw {

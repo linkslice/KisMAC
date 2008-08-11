@@ -247,10 +247,13 @@ enum _operationMode {
 - (bool) setChannel:(unsigned short)newChannel {
     kern_return_t kernResult;
     
+    
+    int freq = (newChannel == 0 ? [WaveHelper chan2freq: 1] : [WaveHelper chan2freq: newChannel]);
+    NSLog(@"freq %d", freq);
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort,
-                                               kWiFiUserClientSetFrequency, 1, 0, [WaveHelper chan2freq: newChannel]);
+                                               kWiFiUserClientSetFrequency, 1, 0, freq);
     if (kernResult != true) {
-    //    NSLog(@"setChannel: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
+        NSLog(@"setChannel: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
         return NO;
     }
     
@@ -261,8 +264,9 @@ enum _operationMode {
     kern_return_t kernResult;
 
     [self setChannel: newChannel];
-     
-    kernResult = IOConnectMethodScalarIScalarO(_userClientPort, kWiFiUserClientStartCapture, 1, 0, [WaveHelper chan2freq: newChannel]);
+    int freq = (newChannel == 0 ? [WaveHelper chan2freq: 1] : [WaveHelper chan2freq: newChannel]);
+
+    kernResult = IOConnectMethodScalarIScalarO(_userClientPort, kWiFiUserClientStartCapture, 1, 0, freq);
     if (kernResult != KERN_SUCCESS) {
         NSLog(@"startCapture: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
         return NO;
@@ -300,14 +304,15 @@ struct _Prism_HEADER {
     UInt16 txControl;
 } __attribute__((packed));
 
-- (WLFrame*) nextFrame {
-    static UInt8  frame[2500];
+- (KFrame*) nextFrame {
+    static UInt8 frame[2500];
+    KFrame  *f = (KFrame *)frame;
+
     UInt8  tempframe[2500];
-    UInt32 frameSize = 2500;
+    u_int32_t frameSize = 2500;
     kern_return_t kernResult;
-    UInt32 headerLength;
-    WLFrame *f;
-    UInt16 isToDS, isFrDS, subtype;
+    
+    struct _Prism_HEADER *head = (struct _Prism_HEADER *)(tempframe);
     
     while(YES) {
         while (!IODataQueueDataAvailable(_packetQueue)) {
@@ -318,46 +323,18 @@ struct _Prism_HEADER {
                 return NULL;
             }
         }
-
         kernResult = IODataQueueDequeue(_packetQueue, tempframe, &frameSize);
-        memcpy(frame, tempframe, frameSize >= sizeof(WLPrismHeader) + 30 ? sizeof(WLPrismHeader) + 30 : frameSize);
-        f = (WLFrame*)frame;
-            
-        UInt16 type=(f->frameControl & IEEE80211_TYPE_MASK);
+        NSLog(@"Packet %d", frameSize);
         
-        //depending on the frame we have to figure the length of the header
-        switch(type) {
-            case IEEE80211_TYPE_DATA: //Data Frames
-                isToDS = ((f->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-                isFrDS = ((f->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
-                if (isToDS&&isFrDS) headerLength=30; //WDS Frames are longer
-                else headerLength=24;
-                break;
-            case IEEE80211_TYPE_CTL: //Control Frames
-                subtype=(f->frameControl & IEEE80211_SUBTYPE_MASK);
-                switch(subtype) {
-                    case IEEE80211_SUBTYPE_PS_POLL:
-                    case IEEE80211_SUBTYPE_RTS:
-                        headerLength=16;
-                        break;
-                    case IEEE80211_SUBTYPE_CTS:
-                    case IEEE80211_SUBTYPE_ACK:
-                        headerLength=10;
-                        break;
-                    default:
-                        continue;
-                }
-                break;
-            case IEEE80211_TYPE_MGT: //Management Frame
-                headerLength=24;
-                break;
-            default:
-                continue;
-        }
+        memset(f, 0, sizeof(KFrame));
         
-        f->dataLen = f->length = frameSize - sizeof(struct _Prism_HEADER) - headerLength;
-        memcpy(f + 1, tempframe + sizeof(struct _Prism_HEADER) + headerLength, f->dataLen);
-        
+        f->ctrl.len = frameSize - sizeof(struct _Prism_HEADER);
+        memcpy(f->data, tempframe + sizeof(struct _Prism_HEADER), f->ctrl.len);
+
+        f->ctrl.channel = head->channel;
+        f->ctrl.silence = head->silence;
+        f->ctrl.signal  = head->signal;
+
         _packets++;
         return f;
     }

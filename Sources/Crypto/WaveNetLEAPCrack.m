@@ -67,7 +67,7 @@ struct leapClientData {
     unsigned char pwhash[MD4_DIGEST_LENGTH];
     
     //open wordlist
-    fptr = fopen([wordlist cString], "r");
+    fptr = fopen([wordlist UTF8String], "r");
     if (!fptr) return NO;
     
     //initialize all the data structures

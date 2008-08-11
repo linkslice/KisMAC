@@ -86,14 +86,17 @@ int lengthSort(id string1, id string2, void *context)
 	// check with GPSController if we have a location or not!
 	gpsc = [WaveHelper gpsController];
 	cp = [gpsc currentPoint];    
-	if (cp._lat != 100) _netView = [[NetView alloc] initWithNetwork:self];
+	if (cp._lat != 100)
+        _netView = [[NetView alloc] initWithNetwork:self];
 	
     _ID = nil;
 	graphData = &zeroGraphData;
 	
+    // Packet buffers
     _packetsLog=[[NSMutableArray arrayWithCapacity:20] retain];
     _ARPLog=[[NSMutableArray arrayWithCapacity:20] retain];
     _ACKLog=[[NSMutableArray arrayWithCapacity:20] retain];
+    
     aClients=[[NSMutableDictionary dictionary] retain];
     aClientKeys=[[NSMutableArray array] retain];
     aComment=[[NSString stringWithString:@""] retain];
@@ -118,6 +121,8 @@ int lengthSort(id string1, id string2, void *context)
     _firstPacket = YES;
     _liveCaptured = NO;
     aFirstDate = [[NSDate date] retain];
+    
+    _challengeResponseStatus = chreNone;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:KisMACUserDefaultsChanged object:nil];
     [self updateSettings:nil];
@@ -171,7 +176,7 @@ int lengthSort(id string1, id string2, void *context)
     aElev = [[coder decodeObjectForKey:@"aElev"] retain];
     
     _ID=[[coder decodeObjectForKey:@"aID"] retain];
-    if (_ID!=Nil && sscanf([_ID cString], "%2X%2X%2X%2X%2X%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) {
+    if (_ID!=Nil && sscanf([_ID UTF8String], "%2X%2X%2X%2X%2X%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) {
         NSLog(@"Error could not decode ID %@!", _ID);
     }
     
@@ -181,7 +186,7 @@ int lengthSort(id string1, id string2, void *context)
     _SSID=[[coder decodeObjectForKey:@"aSSID"] retain];
     _BSSID=[[coder decodeObjectForKey:@"aBSSID"] retain];
     if (![_BSSID isEqualToString:@"<no bssid>"]) {
-        if (_BSSID!=Nil && sscanf([_BSSID cString], "%2X:%2X:%2X:%2X:%2X:%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) 
+        if (_BSSID!=Nil && sscanf([_BSSID UTF8String], "%2X:%2X:%2X:%2X:%2X:%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) 
             NSLog(@"Error could not decode BSSID %@!", _BSSID);
         for (int x=0; x<6; x++)
             _rawBSSID[x] = bssid[x];
@@ -304,7 +309,7 @@ int lengthSort(id string1, id string2, void *context)
 		[_netView setName:_SSID];
 		[_netView setCoord:wp];
 	}
-		
+	
     _packetsLog = [[NSMutableArray arrayWithCapacity:20] retain];
     _ARPLog  = [[NSMutableArray arrayWithCapacity:20] retain];
     _ACKLog  = [[NSMutableArray arrayWithCapacity:20] retain];
@@ -314,7 +319,7 @@ int lengthSort(id string1, id string2, void *context)
     aElev = [[NSString stringWithString:@""] retain];
     _coordinates = [[NSMutableDictionary dictionary] retain];
     _netID = 0;
-
+	
     _gotData = NO;
     _liveCaptured = NO;
     recentTraffic = 0;
@@ -375,7 +380,7 @@ int lengthSort(id string1, id string2, void *context)
     (wp._lat < 0) ? ew_dir = 'W' :  ew_dir = 'E';
     
     _ID=[[dict objectForKey:@"ID"] retain];
-    if (_ID!=Nil && sscanf([_ID cString], "%2X%2X%2X%2X%2X%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) {
+    if (_ID!=Nil && sscanf([_ID UTF8String], "%2X%2X%2X%2X%2X%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) {
         NSLog(@"Error could not decode ID %@!", _ID);
     }
     
@@ -386,7 +391,7 @@ int lengthSort(id string1, id string2, void *context)
     _SSIDs = [[dict objectForKey:@"SSIDs"] retain];
     _BSSID=[[dict objectForKey:@"BSSID"] retain];
     if (![_BSSID isEqualToString:@"<no bssid>"]) {
-        if (_BSSID!=Nil && sscanf([_BSSID cString], "%2X:%2X:%2X:%2X:%2X:%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) 
+        if (_BSSID!=Nil && sscanf([_BSSID UTF8String], "%2X:%2X:%2X:%2X:%2X:%2X", &bssid[0], &bssid[1], &bssid[2], &bssid[3], &bssid[4], &bssid[5])!=6) 
             NSLog(@"Error could not decode BSSID %@!", _BSSID);
         for (int x=0; x<6; x++)
             _rawBSSID[x] = bssid[x];
@@ -639,7 +644,7 @@ int lengthSort(id string1, id string2, void *context)
 			lSentence=[NSString stringWithFormat: NSLocalizedString(@"found %@ network. SSID is %@", "this is for speech output"),
 				oc, isHidden ? NSLocalizedString(@"hidden", "for speech"): [_SSID uppercaseString]];
 			NS_DURING
-				[WaveHelper speakSentence:[lSentence cString] withVoice:lVoice];
+				[WaveHelper speakSentence:[lSentence UTF8String] withVoice:lVoice];
 			NS_HANDLER
 			NS_ENDHANDLER
 		}
@@ -682,7 +687,7 @@ int lengthSort(id string1, id string2, void *context)
 				NSString * lSentence = [NSString stringWithFormat: NSLocalizedString(@"Reencountered network. SSID is %@", "this is for speech output"),
 					[_SSID length] == 0 ? NSLocalizedString(@"hidden", "for speech"): [_SSID uppercaseString]];
 				NS_DURING
-					[WaveHelper speakSentence:[lSentence cString] withVoice:lVoice];
+					[WaveHelper speakSentence:[lSentence UTF8String] withVoice:lVoice];
 				NS_HANDLER
 				NS_ENDHANDLER
 			}
@@ -897,15 +902,15 @@ int lengthSort(id string1, id string2, void *context)
     if ([w netType]) _type=[w netType];	//gets the type of network
     
     [_dataLock lock];
+    body = [w payload];
+    bodyLength = [w payloadLength];
     
     //do some special parsing depending on the packet type
     switch ([w type]) {
         case IEEE80211_TYPE_DATA: //Data frame                        
             _dataPackets++;
-            body = [w framebody];
-            bodyLength = [w bodyLength];
-            
-            if (_isWep > encryptionTypeNone && bodyLength > 3) memcpy(_IV, body, 3);	//sets the last IV thingy
+            if (_isWep > encryptionTypeNone && bodyLength > 3)
+                memcpy(_IV, body, 3);	//sets the last IV thingy
             
             if (_isWep==encryptionTypeWEP || _isWep==encryptionTypeWEP40) {
                 
@@ -913,19 +918,21 @@ int lengthSort(id string1, id string2, void *context)
                     
                     //this packet might be interesting for password checking, use the packet if we do not have enough, or f it is smaller than our smallest
                     if ([_packetsLog count]<20 || [(NSString*)[_packetsLog objectAtIndex:0] length] > bodyLength) {
-                        [_packetsLog addObject:[NSData dataWithBytes:[w framebody] length:bodyLength]];
+                        [_packetsLog addObject:[NSData dataWithBytes:body length:bodyLength]];
                         //sort them so that the smallest packet is in front of the array => faster cracking
                         [_packetsLog sortUsingFunction:lengthSort context:Nil];
                     }
 
                     //log those packets for reinjection attack
                     if (bodyLength == ARP_SIZE || bodyLength == ARP_SIZE_PADDING) {
+//						NSLog(@"ARP PACKET");
                         if ([[w clientToID] isEqualToString:@"FF:FF:FF:FF:FF:FF"]) {
                             [_ARPLog addObject:[NSData dataWithBytes:[w frame] length:[w length]]];
 							if ([_ARPLog count] > 100) [_ARPLog removeObjectAtIndex:0];
 						}
                     }
                     if (([_ACKLog count]<20)&&((bodyLength>=TCPACK_MIN_SIZE)||(bodyLength<=TCPACK_MAX_SIZE))) {
+//						NSLog(@"ACK PACKET");
                         [_ACKLog addObject:[NSData dataWithBytes:[w frame] length:[w length]]];
                     }
                     
@@ -935,26 +942,56 @@ int lengthSort(id string1, id string2, void *context)
 							NSAssert(_ivData[body[3]], @"unable to allocate weak container");
 						}
                         @synchronized (_ivData[body[3]]) {
-                            [_ivData[body[3]] setBytes:&body[4] forIV:&body[0]];//look here!
+                            [_ivData[body[3]] setBytes:&body[4] forIV:&body[0]];
                         }
                     }
                 }
             }
             break;
         case IEEE80211_TYPE_MGT:        //this is a management packet
-			if ([w SSIDs]) [WaveHelper secureReplace:&_SSIDs withObject:[w SSIDs]];
+			if ([w SSIDs])
+				[WaveHelper secureReplace:&_SSIDs withObject:[w SSIDs]];
 			[self updateSSID:[w SSID] withSound:sound]; //might contain SSID infos
             
-			if ([w primaryChannel]) _primaryChannel = [w primaryChannel];
-			if ([w subType] == IEEE80211_SUBTYPE_BEACON) _rateCount = [w getRates:_rates];
+			if ([w primaryChannel])
+				_primaryChannel = [w primaryChannel];
+			switch ([w subType]) {
+				case IEEE80211_SUBTYPE_BEACON:
+					_rateCount = [w getRates:_rates];
+					break;
+				case IEEE80211_SUBTYPE_AUTH:
+					NSLog(@"Authentication Frame");
+					_authState = 0;
+					switch (_authState) {
+						case 0:
+							switch (((Ieee80211_Auth_Frame *)[w frame])->wi_algo) {
+								case 0x00:
+									NSLog(@"Auth Type Open");
+                                    break;
+								case 0x01:
+									NSLog(@"Auth Type Shared-Key");
+                                    break;
+								default:
+									break;
+							}
+							break;
+						case 1:
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+					}
+					break;
+			}
     }
 
     //update the clients to out client array
     //if they are not in add them
     clientid=[w clientToID];
-    if (clientid!=Nil) {
+    if (clientid != Nil) {
         lWCl=[aClients objectForKey:clientid];
-        if (lWCl==nil) {
+        if (lWCl == nil) {
             lWCl=[[WaveClient alloc] init];
             [aClients setObject:lWCl forKey:clientid];
             [aClientKeys addObject:clientid];  
@@ -972,6 +1009,11 @@ int lengthSort(id string1, id string2, void *context)
             [lWCl release];              
         }
         [lWCl parseFrameAsOutgoing:w];
+    }
+    
+    // Set WPA challenge/response status
+    if (_challengeResponseStatus != chreComplete && [lWCl eapolDataAvailable] ) {
+        _challengeResponseStatus = chreComplete;
     }
     
     [self generalEncounterStuff:sound];
@@ -1385,12 +1427,16 @@ int lengthSort(id string1, id string2, void *context)
     return _password != nil;
 }
 
+- (int)challengeResponseStatus {
+    return _challengeResponseStatus;
+}
+
 #pragma mark -
 
 - (NSDictionary*)cache {
 	NSString *enc, *type;
 	NSDictionary *cache;
-	
+	NSImage *image;
 	if (_cacheValid) return _cache;
 	
 	switch (_isWep) {
@@ -1440,6 +1486,20 @@ int lengthSort(id string1, id string2, void *context)
 			type = @"";
 			NSAssert(NO, @"Network type invalid");
 	}
+    
+    switch (_challengeResponseStatus) {
+        case chreResponse:
+        case chreChallenge:
+            image = [NSImage imageNamed:@"orangegem.png"];
+            break;
+        case chreComplete:
+            image = [NSImage imageNamed:@"greengem.png"];
+            break;
+        case chreNone:
+        default:
+            image = [NSImage imageNamed:@"redgem.png"];
+            break;
+    }
 	
 	cache = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSString stringWithFormat:@"%i", _netID], @"id",
@@ -1454,6 +1514,7 @@ int lengthSort(id string1, id string2, void *context)
 		enc, @"wep",
 		type, @"type",
 		[NSString stringWithFormat:@"%@", _date], @"lastseen",
+        image, @"challengeResponse",
 		nil
 	];
 	

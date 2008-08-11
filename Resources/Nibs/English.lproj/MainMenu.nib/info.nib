@@ -5,13 +5,14 @@
 	<key>IBFramework Version</key>
 	<string>670</string>
 	<key>IBLastKnownRelativeProjectPath</key>
-	<string>../../../../KisMAC.xcodeproj</string>
+	<string>../../../KisMAC.xcodeproj</string>
 	<key>IBOldestOS</key>
-	<integer>5</integer>
+	<integer>4</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>1240</integer>
-		<integer>29</integer>
+		<integer>1614</integer>
+		<integer>1126</integer>
+		<integer>1212</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>9E17</string>

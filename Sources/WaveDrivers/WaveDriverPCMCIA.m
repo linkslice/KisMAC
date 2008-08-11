@@ -239,11 +239,54 @@ typedef enum WLUCMethods {
 }
 
 #pragma mark -
+- (int)headerLenForFrameControl:(UInt16)frameControl {
+	UInt16 isToDS, isFrDS, subtype, headerLength = 0;
+    
+	UInt16 type=(frameControl & IEEE80211_TYPE_MASK);
+	//depending on the frame we have to figure the length of the header
+	switch(type) {
+		case IEEE80211_TYPE_DATA: //Data Frames
+			isToDS = ((frameControl & IEEE80211_DIR_TODS) ? YES : NO);
+			isFrDS = ((frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
+			if (isToDS&&isFrDS)
+                headerLength=30; //WDS Frames are longer
+			else
+                headerLength=24;
+			break;
+        case IEEE80211_TYPE_CTL: //Control Frames
+			subtype=(frameControl & IEEE80211_SUBTYPE_MASK);
+			switch(subtype) {
+				case IEEE80211_SUBTYPE_PS_POLL:
+				case IEEE80211_SUBTYPE_RTS:
+					headerLength=16;
+					break;
+				case IEEE80211_SUBTYPE_CTS:
+				case IEEE80211_SUBTYPE_ACK:
+					headerLength=10;
+					break;
+				default:
+					break;
+			}
+			break;
+        case IEEE80211_TYPE_MGT: //Management Frame
+			headerLength=24;
+			break;
+        default:
+			break;
+	}
+	return headerLength;
+}
 
-- (WLFrame*) nextFrame {
+- (KFrame*) nextFrame {
+    UInt8 tmpFrame[2500];
     static UInt8  frame[2500];
     UInt32 frameSize = 2500;
     kern_return_t kernResult;
+    WLFrame *head = (WLFrame *)tmpFrame;
+    KFrame *f = (KFrame *)frame;
+    
+    UInt16 isToDS, isFrDS, subtype, headerLength = 0;
+    UInt16 type;
 
     while (!IODataQueueDataAvailable(_packetQueue)) {
         kernResult = IODataQueueWaitForAvailableData(_packetQueue,
@@ -254,17 +297,56 @@ typedef enum WLUCMethods {
         }
     }
 
-    kernResult = IODataQueueDequeue(_packetQueue, frame, &frameSize);
+    kernResult = IODataQueueDequeue(_packetQueue, tmpFrame, &frameSize);
     if (kernResult != KERN_SUCCESS) {
         NSLog(@"nextFrame: IODataQueueDequeue: 0x%x\n", kernResult);
         return NULL;
-    }
-    else {
+    } else {
+        
+        type = (head->frameControl & IEEE80211_TYPE_MASK);
+        //depending on the frame we have to figure the length of the header
+        switch(type) {
+            case IEEE80211_TYPE_DATA: //Data Frames
+                isToDS = ((head->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
+                isFrDS = ((head->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
+                if (isToDS&&isFrDS)
+                    headerLength=30; //WDS Frames are longer
+                else
+                    headerLength=24;
+                break;
+            case IEEE80211_TYPE_CTL: //Control Frames
+                subtype=(head->frameControl & IEEE80211_SUBTYPE_MASK);
+                switch(subtype) {
+                    case IEEE80211_SUBTYPE_PS_POLL:
+                    case IEEE80211_SUBTYPE_RTS:
+                        headerLength=16;
+                        break;
+                    case IEEE80211_SUBTYPE_CTS:
+                    case IEEE80211_SUBTYPE_ACK:
+                        headerLength=10;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+                case IEEE80211_TYPE_MGT: //Management Frame
+                headerLength=24;
+                break;
+                default:
+                break;
+        }
+        
+        memset(f, 0, sizeof(KFrame));
+        memcpy(f->data, tmpFrame+sizeof(WLPrismHeader), headerLength);
+        memcpy((f->data)+24, tmpFrame+sizeof(WLFrame), frameSize-sizeof(WLFrame));
+        f->ctrl.len = head->dataLen + headerLength;
+        f->ctrl.signal = head->signal;
+        f->ctrl.channel = head->channel;
+        f->ctrl.silence = head->silence;
         _packets++;
-        return (WLFrame*)frame;
+        return f;
     }
 }
-
 
 #pragma mark -
 
@@ -272,13 +354,55 @@ typedef enum WLUCMethods {
     static UInt8  frame[2364];
     UInt32 frameSize = 2364;
     kern_return_t kernResult;
+    WLFrame *wlf = (WLFrame *)frame;
+    struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)f;
 
-    memcpy(frame, f, size);
+    UInt16 isToDS, isFrDS, subtype, headerLength = 0;
+    UInt16 type;
+
+    type = (hdr->frame_ctl & IEEE80211_TYPE_MASK);
+    //depending on the frame we have to figure the length of the header
+    switch(type) {
+        case IEEE80211_TYPE_DATA: //Data Frames
+            isToDS = ((hdr->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
+            isFrDS = ((hdr->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
+            if (isToDS&&isFrDS)
+                headerLength=30; //WDS Frames are longer
+            else
+                headerLength=24;
+            break;
+            case IEEE80211_TYPE_CTL: //Control Frames
+            subtype=(hdr->frame_ctl & IEEE80211_SUBTYPE_MASK);
+            switch(subtype) {
+                case IEEE80211_SUBTYPE_PS_POLL:
+                case IEEE80211_SUBTYPE_RTS:
+                    headerLength=16;
+                    break;
+                case IEEE80211_SUBTYPE_CTS:
+                case IEEE80211_SUBTYPE_ACK:
+                    headerLength=10;
+                    break;
+                default:
+                    break;
+            }
+            break;
+            case IEEE80211_TYPE_MGT: //Management Frame
+            headerLength=24;
+            break;
+            default:
+            break;
+    }
+    
+    memset(frame, 0, sizeof(frame));
+    memcpy(frame + sizeof(WLPrismHeader), f, headerLength);
+    memcpy(frame + sizeof(WLFrame), f+headerLength, size-headerLength); 
+    wlf->dataLen = size-headerLength;
+    
     kernResult = IOConnectMethodScalarIStructureI(_userClientPort,
                                                kWLUserClientSendFrame,
                                                1, frameSize, interval, frame);
     if (kernResult != KERN_SUCCESS) {
-        NSLog(@"sendFrame: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
+        NSLog(@"sendFrame: IOConnectMethodScalarIStructureI: 0x%x\n", kernResult);
         return NO;
     }
     return YES;
