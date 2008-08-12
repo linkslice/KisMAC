@@ -349,11 +349,9 @@ IOReturn USBJack::_sendFrame(UInt8* data, IOByteCount size) {
 
 void  USBJack::_lockDevice() {
     pthread_mutex_lock(&_wait_mutex);
-    NSLog(@"Device Locked");
 }
 void  USBJack::_unlockDevice() {
     pthread_mutex_unlock(&_wait_mutex);
-    NSLog(@"Device Unlocked");
 }
 void USBJack::_interruptReceived(void *refCon, IOReturn result, int len) {
     USBJack             *me = (USBJack*) refCon;

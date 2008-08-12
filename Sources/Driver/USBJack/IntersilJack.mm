@@ -256,7 +256,13 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     }
 
     bzero(f,sizeof(KFrame));
-
+    
+    // FCS check
+    head->status = NSSwapLittleShortToHost(head->status);
+    if (head->status & 0x1 || (head->status & 0x700) != 0x700 || head->status & 0xe000) {
+        return false;
+    }
+     
 
     type = (head->frameControl & IEEE80211_TYPE_MASK);
     //depending on the frame we have to figure the length of the header
