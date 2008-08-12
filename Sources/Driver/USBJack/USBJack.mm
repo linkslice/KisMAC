@@ -378,7 +378,7 @@ void USBJack::_interruptReceived(void *refCon, IOReturn result, int len) {
         // Return false if this is a bad packet
         
         frame = (KFrame*)&(me->_receiveBuffer.rxfrm);
-
+//        NSLog(@"dataReceived %d", len);
         // Why do we needs to convert ?
 //        frameDescriptor->status = NSSwapLittleShortToHost(frameDescriptor->status);
 //        frameDescriptor->len = NSSwapLittleShortToHost(frameDescriptor->dataLen);
@@ -441,7 +441,7 @@ void USBJack::_interruptReceived(void *refCon, IOReturn result, int len) {
     }
     
 readon:
-//    bzero(&me->_receiveBuffer, sizeof(me->_receiveBuffer));
+    bzero(&me->_receiveBuffer, sizeof(me->_receiveBuffer));
     kr = (*me->_interface)->ReadPipeAsync((me->_interface), (me->kInPipe), &me->_receiveBuffer, sizeof(me->_receiveBuffer), (IOAsyncCallback1)_interruptReceived, refCon);
     if (kIOReturnSuccess != kr) {
         NSLog(@"unable to do async interrupt read (%08x). this means the card is stopped!\n", kr);

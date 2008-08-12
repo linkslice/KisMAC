@@ -247,11 +247,11 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     WLFrame *head = (WLFrame *)pData;
     KFrame *f = (KFrame *)outBuf;
 
-    UInt16 isToDS, isFrDS, subtype, headerLength = 0;
+    UInt16 isToDS, isFrDS, subtype, dataLen, headerLength = 0;
     UInt16 type;
-
+//    NSLog(@"_massagePacket %d", len);
     if (len < sizeof(WLFrame)) {
-        NSLog(@"WTF, packet len %d shorter than footer %d!", len, sizeof(WLFrame));
+        NSLog(@"WTF, packet len %d shorter than header %d!", len, sizeof(WLFrame));
         return false;
     }
 
@@ -260,47 +260,69 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     // FCS check
     head->status = NSSwapLittleShortToHost(head->status);
     if (head->status & 0x1 || (head->status & 0x700) != 0x700 || head->status & 0xe000) {
+        NSLog(@"FCS error");
         return false;
     }
-     
-
+    dataLen = NSSwapLittleShortToHost(head->dataLen);
+//    NSLog(@"dataLen %d", dataLen);
     type = (head->frameControl & IEEE80211_TYPE_MASK);
-    //depending on the frame we have to figure the length of the header
+    subtype = (head->frameControl & IEEE80211_SUBTYPE_MASK);
+    isToDS = ((head->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
+    isFrDS = ((head->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
     switch(type) {
-        case IEEE80211_TYPE_DATA: //Data Frames
-            isToDS = ((head->frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-            isFrDS = ((head->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
-            if (isToDS&&isFrDS)
-                headerLength=30; //WDS Frames are longer
-            else
-                headerLength=24;
+        case IEEE80211_TYPE_MGT:
+//            NSLog(@"MANAGEMENT");
+            headerLength = sizeof(struct ieee80211_hdr_3addr);
             break;
-            case IEEE80211_TYPE_CTL: //Control Frames
-                subtype=(head->frameControl & IEEE80211_SUBTYPE_MASK);
-                switch(subtype) {
-                    case IEEE80211_SUBTYPE_PS_POLL:
-                    case IEEE80211_SUBTYPE_RTS:
-                        headerLength=16;
-                        break;
-                    case IEEE80211_SUBTYPE_CTS:
-                    case IEEE80211_SUBTYPE_ACK:
-                        headerLength=10;
-                        break;
-                    default:
-                        break;
+        case IEEE80211_TYPE_DATA:
+//            NSLog(@"DATA");
+            if (subtype == IEEE80211_SUBTYPE_QOS_DATA) {
+//                NSLog(@"QOS");
+                if (isFrDS && isToDS) {
+//                    NSLog(@"isFrDS && isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_4addrqos);
+                } else {
+//                    NSLog(@"isFrDS || isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_3addrqos);                    
                 }
-                break;
-            case IEEE80211_TYPE_MGT: //Management Frame
-                headerLength=24;
+            } else {
+//                NSLog(@"NO QOS");
+                if (isFrDS && isToDS) {
+//                    NSLog(@"isFrDS && isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_4addr);
+                } else {
+//                    NSLog(@"isFrDS || isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_3addr);                    
+                }
+            }
             break;
+        case IEEE80211_TYPE_CTL:
+//            NSLog(@"CTL");
+            switch(subtype) {
+                case IEEE80211_SUBTYPE_PS_POLL:
+                case IEEE80211_SUBTYPE_RTS:
+                    headerLength=16;
+                    break;
+                case IEEE80211_SUBTYPE_CTS:
+                case IEEE80211_SUBTYPE_ACK:
+                    headerLength=10;
+                    break;
                 default:
+                    return false;
+                    break;
+            }
             break;
+        default:
+            NSLog(@"Unknown frame type %u", type);
+            return false;
     }
-    
-    NSLog(@"dataLen %d", CFSwapInt16LittleToHost(head->dataLen));
+
     memcpy(f->data, pData+sizeof(WLPrismHeader), headerLength);
-    memcpy((f->data)+24, pData+sizeof(WLFrame), len-sizeof(WLFrame));
-    f->ctrl.len = CFSwapInt16LittleToHost(head->dataLen) + headerLength;
+    if (headerLength >= sizeof(struct ieee80211_hdr_3addr))
+        memcpy(f->data + 24, pData+sizeof(WLFrame), dataLen);
+    else
+        dataLen = 0;
+    f->ctrl.len = dataLen+headerLength;
     f->ctrl.signal = head->silence;
     f->ctrl.channel = head->channel;
     f->ctrl.silence = head->signal;
