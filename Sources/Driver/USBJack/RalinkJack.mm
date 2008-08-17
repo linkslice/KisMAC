@@ -672,11 +672,11 @@ void	RalinkJack::NICReadEEPROMParameters()
 		NSLog(@"R61LowerValue = 0x%x\n", BBPTuningParameters.R61LowerValue);
 		NSLog(@"R61HigherValue = 0x%x\n", BBPTuningParameters.R61HigherValue);
 	}
-//	if ((EEPROMBBPTuningParameters[4] != 0xffff) && (EEPROMBBPTuningParameters[4] != 0))
-//	{
+	if ((EEPROMBBPTuningParameters[4] != 0xffff) && (EEPROMBBPTuningParameters[4] != 0))
+	{
 //		PortCfg.BbpTuning.VgcUpperBound = (unsigned char)(EEPROMBBPTuningParameters[4] & 0xff);
-//		NSLog(@"VgcUpperBound = 0x%x\n", PortCfg.BbpTuning.VgcUpperBound);
-//	}
+		NSLog(@"VgcUpperBound = 0x%x\n", (EEPROMBBPTuningParameters[4] & 0xff));
+	}
 	if ((EEPROMBBPTuningParameters[5] != 0xffff) && (EEPROMBBPTuningParameters[5] != 0))
 	{
 		BBPTuningParameters.BBPR17LowSensitivity = (unsigned char)(EEPROMBBPTuningParameters[5] & 0xff);
@@ -880,7 +880,7 @@ void RalinkJack::NICInitAsicFromEEPROM()
         
 		// 2004-3-4 per David's request, R7 starts at upper bound
         NSLog(@"It is this %d,", r17);
-		r17 = 128;
+		r17 = 64;
 	    NSLog(@"It is this %d,", r17);
 		RTUSBWriteBBPRegister(17, r17);
         
@@ -1089,6 +1089,7 @@ void    RalinkJack::RTMPDescriptorEndianChange(unsigned char *  pData, unsigned 
     }
     *(unsigned long *)pData = SWAP32(*(unsigned long *)pData);  // Word 0; this must be swapped last
 }
+
 int RalinkJack::WriteTxDescriptor(void* theFrame, UInt16 length) {
     
     unsigned int Residual;
@@ -1107,7 +1108,7 @@ int RalinkJack::WriteTxDescriptor(void* theFrame, UInt16 length) {
 	pTxD->Cipher	  = 0;
 	pTxD->KeyID		  = 0;
 	pTxD->CWmin       = 3;   // = 31
-	pTxD->CWmax       = 5;  // = 1023
+	pTxD->CWmax       = 5;   // = 1023
 	pTxD->Aifs        = 2;   // TC0: SIFS + 2*Slot + Random(CWmin,CWmax)*Slot
     
     if (currentRate < RATE_FIRST_OFDM_RATE)
@@ -1132,15 +1133,17 @@ int RalinkJack::WriteTxDescriptor(void* theFrame, UInt16 length) {
             if (Residual != 0) {
                 length++;
             }
-            if ((Residual <= (3 * (1 + currentRate - RATE_5_5))) && (Residual != 0)) {
-                pTxD->PlcpService |= 0x80; // 11b's PLCP length extension bit
+            if (currentRate == RATE_11) {
+                if ((Residual <= (3 * (1 + currentRate - RATE_5_5))) && (Residual != 0)) {
+                    pTxD->PlcpService |= 0x80; // 11b's PLCP length extension bit
+                }
             }
         }
-        pTxD->PlcpLengthHigh = length >> 8; // 256;
+        pTxD->PlcpLengthHigh = length / 256; // 256;
         pTxD->PlcpLengthLow = length % 256;
     } else {
         // OFDM - RATE_6, RATE_9, RATE_12, RATE_18, RATE_24, RATE_36, RATE_48, RATE_54
-        pTxD->PlcpLengthHigh = length >> 6; // 64;      // high 6-bit of total byte count
+        pTxD->PlcpLengthHigh = length / 64; // 64;      // high 6-bit of total byte count
         pTxD->PlcpLengthLow = length % 64;       // low 6-bit of total byte count
     }
 
@@ -1172,21 +1175,18 @@ bool RalinkJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len){
 #endif
     
 //    NSLog(@"DataByteCnt %d len %d", pRxD->DataByteCnt, len);
- /*   if (pRxD->Crc) {
-        //NSLog(@"Bad CRC");
+    if (pRxD->Crc) {
+        NSLog(@"Bad CRC");
         return false;  //its a bad packet, signal the interrupt to continue
     }
     else if(pRxD->CiErr) {
-        //NSLog(@"CiErr");
+        NSLog(@"CiErr");
         return false;  //its a bad packet, signal the interrupt to continue
     }
     else if(pRxD->PhyErr) {
-        //NSLog(@"PhyErr");
+        NSLog(@"PhyErr");
         return false;  //its a bad packet, signal the interrupt to continue
     }
-    else {*/
-       // NSLog(@"Good Frame : %d, %d, %d", pRxD->Crc, pRxD->CiErr, pRxD->PhyErr);
-
     // this is probablty not the most efficient way to do this
     pFrame->ctrl.signal = pRxD->BBR1;
     pFrame->ctrl.len = pRxD->DataByteCnt - 4;
