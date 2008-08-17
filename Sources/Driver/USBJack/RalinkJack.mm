@@ -183,7 +183,7 @@ IOReturn RalinkJack::_init() {
     
     NICReadEEPROMParameters();
     NICInitAsicFromEEPROM();
-    currentRate = RATE_54;
+    currentRate = RATE_11;
     return kIOReturnSuccess;
 }
 
@@ -1103,7 +1103,7 @@ int RalinkJack::WriteTxDescriptor(void* theFrame, UInt16 length) {
     pTxD->ACK         = 0;
 	pTxD->Timestamp   = 0;
 	pTxD->newseq      = 1;
-	pTxD->IFS         = 2;
+	pTxD->IFS         = 0;
 	pTxD->DataByteCnt = length;
 	pTxD->Cipher	  = 0;
 	pTxD->KeyID		  = 0;
