@@ -83,7 +83,7 @@
     
     if ([w type] != IEEE80211_TYPE_DATA)
         return;
-
+//    NSLog(@"payloadLength %d", payloadLength);
     if (aPacketType == 0) {        //do rst handling here
         if ((payloadLength == TCPRST_SIZE) && 
             IS_EQUAL_MACADDR([w addr1], _addr1) && 
@@ -596,29 +596,28 @@ error:
 - (void)doAuthFloodNetwork:(WaveDriver*)w {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     UInt16 x[3];
-
+    
+    struct ieee80211_auth *frame = &_authFrame;
+    
     while (_authenticationFlooding) {
         x[0] = random() & 0x0FFF;
         x[1] = random();
         x[2] = random();
         
-        memcpy(_authFrame.hdr.address2, x, 6); //needs to be random
-    
-        [w sendFrame:(UInt8*)&_authFrame withLength:sizeof(_authFrame) atInterval:0];
+        memcpy(frame->header.addr2, x, 6); //needs to be random
+        
+        [w sendFrame:(UInt8*)frame withLength:sizeof(struct ieee80211_auth) atInterval:0];
         [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     }
     
     [pool release];
 }
 - (bool) authFloodNetwork:(WaveNet*)net {
+    
     WaveDriver *w = Nil;
     
-    struct ieee80211_auth frame;
-    
-    int tmp[6];
-    UInt8 x[6];
-    unsigned int i;
-    
+    struct ieee80211_auth *frame = &_authFrame;
+
     w = [self getInjectionDriver];
     if (!w)
         return NO;
@@ -626,23 +625,19 @@ error:
     if ([net type]!=2)
         return NO;
     
-    if(sscanf([[net BSSID] UTF8String], "%x:%x:%x:%x:%x:%x", &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) < 6) return NO;
-
-    memset(&frame,0,sizeof(struct ieee80211_auth));
+    memset(frame, 0, sizeof(struct ieee80211_auth));
     
-    frame.header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_AUTH | IEEE80211_DIR_TODS;
-    for (i=0;i<6;i++)
-        x[i]=tmp[i] & 0xff;
+//    frame->header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_AUTH | IEEE80211_DIR_TODS;
+    frame->header.frame_ctl = IEEE80211_TYPE_MGT | IEEE80211_SUBTYPE_AUTH;
     
-    memcpy(frame.header.addr1,x, 6);
-    memcpy(frame.header.addr2,x, 6); //needs to be random
-    memcpy(frame.header.addr3,x, 6);
+    memcpy(frame->header.addr1, [net rawBSSID], 6);
+    memcpy(frame->header.addr3, [net rawBSSID], 6);
     
-    frame.algorithm = 0;
-    frame.transaction = NSSwapHostShortToLittle(1);
-    frame.status = 0;
+    frame->algorithm = 0;
+    frame->transaction = NSSwapHostShortToLittle(1);
+    frame->status = 0;
     
-    frame.header.seq_ctl=random() & 0x0FFF;
+    frame->header.seq_ctl=random() & 0x0FFF;
     
     _authenticationFlooding = YES;
     
@@ -713,16 +708,17 @@ error:
     UInt8 helper[2364];
     NSMutableArray *p;
     NSData *f;
-    WLIEEEFrame *x, *y;
     struct kj {
         char a[256];
     };
-    struct kj *debug;
     int channel;
+
+    struct ieee80211_hdr_3addr *x, *y;
 
     WaveDriver *wd = Nil;
 
     wd = [self getInjectionDriver];
+    
     NSParameterAssert(wd);
     NSParameterAssert([net type] == networkTypeManaged);
     NSParameterAssert([net wep] == encryptionTypeWEP || [net wep] == encryptionTypeWEP40);
@@ -734,8 +730,8 @@ error:
     NSLog(@"Packet Reinjection: %u ACK Packets.\n",[[net ackPacketsLog] count]);
     NSLog(@"Packet Reinjection: %u ARP Packets.\n",[[net arpPacketsLog] count]);
         
-    y=(WLIEEEFrame *)helper;
-    x=(WLIEEEFrame *)packet;
+    y=(struct ieee80211_hdr_3addr *)helper;
+    x=(struct ieee80211_hdr_3addr *)packet;
     
     for(w=1;w<2;w++) {
         if (w) p = [net arpPacketsLog];
@@ -754,32 +750,28 @@ error:
             // get data
             q = [f length];
 			[f getBytes:(char *)packet length:q];
-            
-//            x->dataLen = q;
-//            x->status  = 0;
-            			
-            debug = (struct kj*)x;
-            
+                        			            
 			_injReplies = 0;
             
-            if (x->frameControl & IEEE80211_DIR_TODS) {
-				memcpy(_addr1,      x->address1, 6); //this is the BSSID
-				memcpy(_addr2,      x->address2, 6); //this is the source
-				if (memcmp(x->address3, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
+            if (x->frame_ctl & IEEE80211_DIR_TODS) {
+				memcpy(_addr1,      x->addr1, 6); //this is the BSSID
+				memcpy(_addr2,      x->addr2, 6); //this is the source
+				if (memcmp(x->addr3, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
 					[p removeLastObject];
 					continue;
 				}
 			} else {
-				memcpy(_addr1,      x->address2, 6); //BSSID
-				memcpy(_addr2,      x->address3, 6); //source
-				if (memcmp(x->address1, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
+				memcpy(_addr1,      x->addr2, 6); //BSSID
+				memcpy(_addr2,      x->addr3, 6); //source
+				if (memcmp(x->addr1, "\xff\xff\xff\xff\xff\xff", 6) != 0) {
 					[p removeLastObject];
 					continue;
 				}
 			}
-            x->frameControl |= IEEE80211_WEP;
-			x->sequenceControl = random() & 0x0FFF;
-			x->duration = 0;
+            x->frame_ctl |= IEEE80211_WEP;
+			x->seq_ctl = random() & 0x0FFF;
+			x->duration_id = 0;
+            
 			NSLog(@"SEND INJECTION PACKET");
             for (i=0;i<100;i++) {
                 if (![wd sendFrame:packet withLength:q atInterval:0])

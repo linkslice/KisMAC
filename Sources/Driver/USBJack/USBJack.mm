@@ -27,102 +27,10 @@
 #include <IOKit/IOCFPlugIn.h>
 
 #include "USBJack.h"
-#include "IntersilJack.h"
-#include "RalinkJack.h"
-#include "RT73Jack.h"
-#include "RTL8187.h"
 
-#define wlcDeviceGone   (int)0xe000404f
 #define align64(a)      (((a)+63)&~63)
 
 bool    _matchingDone;   //this is static so all instances of this class can see it!
-
-//struct identStruct {
-//    UInt16 vendor;
-//    UInt16 device;
-//};
-//
-//static struct identStruct devices[] = {
-//    { 0x04bb, 0x0922}, //1 IOData AirPort WN-B11/USBS
-//    { 0x07aa, 0x0012}, //2 Corega Wireless LAN USB Stick-11
-//    { 0x09aa, 0x3642}, //3 Prism2.x 11Mbps WLAN USB Adapter
-//    { 0x1668, 0x0408}, //4 Actiontec Prism2.5 11Mbps WLAN USB Adapter
-//    { 0x1668, 0x0421}, //5 Actiontec Prism2.5 11Mbps WLAN USB Adapter
-//    { 0x066b, 0x2212}, //6 Linksys WUSB11v2.5 11Mbps WLAN USB Adapter
-//    { 0x066b, 0x2213}, //7 Linksys WUSB12v1.1 11Mbps WLAN USB Adapter
-//    { 0x067c, 0x1022}, //8 Siemens SpeedStream 1022 11Mbps WLAN USB Adapter
-//    { 0x049f, 0x0033}, //9 Compaq/Intel W100 PRO/Wireless 11Mbps multiport WLAN Adapter
-//    { 0x0411, 0x0016}, //10 Melco WLI-USB-S11 11Mbps WLAN Adapter
-//    { 0x08de, 0x7a01}, //11 PRISM25 IEEE 802.11 Mini USB Adapter
-//    { 0x8086, 0x1111}, //12 Intel PRO/Wireless 2011B LAN USB Adapter
-//    { 0x0d8e, 0x7a01}, //13 PRISM25 IEEE 802.11 Mini USB Adapter
-//    { 0x045e, 0x006e}, //14 Microsoft MN510 Wireless USB Adapter
-//    { 0x0967, 0x0204}, //15 Acer Warplink USB Adapter
-//    { 0x0cde, 0x0002}, //16 Z-Com 725/726 Prism2.5 USB/USB Integrated
-//    { 0x413c, 0x8100}, //17 Dell TrueMobile 1180 Wireless USB Adapter
-//    { 0x0b3b, 0x1601}, //18 ALLNET 0193 11Mbps WLAN USB Adapter
-//    { 0x0b3b, 0x1602}, //19 ZyXEL ZyAIR B200 Wireless USB Adapter
-//    { 0x0baf, 0x00eb}, //20 USRobotics USR1120 Wireless USB Adapter
-//    { 0x0411, 0x0027}, //21 Melco WLI-USB-KS11G 11Mbps WLAN Adapter
-//    { 0x04f1, 0x3009}, //22 JVC MP-XP7250 Builtin USB WLAN Adapter
-//    { 0x03f3, 0x0020}, //23 Adaptec AWN-8020 USB WLAN Adapter
-//    { 0x0ace, 0x1201}, //24 ZyDAS ZD1201 Wireless USB Adapter
-//    { 0x2821, 0x3300}, //25 ASUS-WL140 Wireless USB Adapter
-//    { 0x2001, 0x3700}, //26 DWL-122 Wireless USB Adapter
-//    { 0x0846, 0x4110}, //27 NetGear MA111
-//    { 0x0772, 0x5731}, //28 MacSense WUA-700
-//    { 0x124a, 0x4017}, //29 AirVast WN-220?
-//    { 0x9016, 0x182d}, //30 Sitecom WL-022 - new version
-//	{ 0x0707, 0xee04}, //31 SMC WUSB32
-//	{ 0x1915, 0x2236}, //32 WUSB11 version 3.0
-//    { 0x0cde, 0x0005}, //33 SAGEM F@st 1400W
-//    //zydas
-//    {0x0586, 0x3401}, //1 Zyxel duh
-//    //ralink -- taken from the linux driver
-//    {0x0411, 0x0066},	/* Melco */	
-//    {0x0411, 0x0067},	/* Melco */		
-//    {0x050d, 0x7050},	/* Belkin */		
-//    {0x050d, 0x7051},	/* Belkin */		
-//    {0x06f8, 0xe000},   /* GUILLEMOT */		
-//    {0x0707, 0xee13},	/* SMC */		
-//    {0x0b05, 0x1706},	/* ASUS */		
-//    {0x0b05, 0x1707},	/* ASUS */		
-//    {0x0db0, 0x6861},	/* MSI */		
-//    {0x0db0, 0x6865},	/* MSI */		
-//    {0x0db0, 0x6869},	/* MSI */		
-//    {0x1044, 0x8001},	/* Gigabyte */		
-//    {0x1044, 0x8007},	/* Gigabyte */		
-//    {0x114b, 0x0110},	/* Spairon */		
-//    {0x13b1, 0x000d},	/* Cisco Systems */	
-//    {0x13b1, 0x0011},	/* Cisco Systems */	
-//    {0x13b1, 0x001a},   /* Cisco Systems */	
-//    {0x148f, 0x1706},	/* Ralink */		
-//    {0x148f, 0x2570},	/* Ralink */		
-//    {0x148f, 0x9020},	/* Ralink */		
-//    {0x14b2, 0x3c02},	/* Conceptronic */	
-//    {0x14f8, 0x2570},	/* Eminent */		
-//    {0x2001, 0x3c00},	/* D-LINK */
-//    {0x0411, 0x008b},	/* Nintendo */		
-//    {0x5a57, 0x0260},   /* Zinwell */		
-//    {0x0eb0, 0x9020},   /* Novatech */		
-//	// ralink RT73
-//    {0x13b1, 0x0020},   /* 1 WUSB54GC */
-//    {0x07d1, 0x3c03},	/* 2 D-LINK */
-//    {0x07d1, 0x3c04},	/* 3 D-LINK */
-//    {0x050d, 0x705a},   /* 4 Belkin */
-//    {0x148f, 0x2573},	/* 5 CNET CWD-854 */	
-//    {0x14b2, 0x3c22},	/* 6 Conceptronic */
-//	{0x0b05, 0x1723},   /* 7 ASUS WL-167G RALINK RT2500 */
-//    {0x0df6, 0x90ac},   /* 8 Sitecom WL-172 */
-//    {0x0df6, 0x9712},   /* 9 Sitecom WL-113 v.1.002*/
-//    // RTL8187
-//    {0x0bda, 0x8187},   /* 1 Realtek */
-//    {0x0846, 0x6100},	/* 2 Netgear */
-//    {0x0846, 0x6a00},	/* 3 Netgear */
-//    {0x03f0, 0xca02},   /* 4 HP */
-//    {0x0df6, 0x000d},	/* 5 Sitecom WL-168 */	
-//    
-//};
 
 #define dbgOutPutBuf(a) NSLog( @"0x%.4x 0x%.4x 0x%.4x 0x%.4x%.4x", NSSwapLittleShortToHost(*((UInt16*)&(a) )), NSSwapLittleShortToHost(*((UInt16*)&(a)+1)), NSSwapLittleShortToHost(*((UInt16*)&(a)+2)), NSSwapLittleShortToHost(*((UInt16*)&(a)+3)), NSSwapLittleShortToHost(*((UInt16*)&(a)+4)) );              
 
@@ -175,13 +83,14 @@ bool USBJack::loadPropertyList() {
     CFStringRef ref;
     CFStringRef plistFile = CFStringCreateWithCString(kCFAllocatorDefault, getPlistFile(), kCFStringEncodingASCII);
     CFURLRef url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), plistFile, CFSTR("plist"), NULL);
-    CFShow(url);
+    if (url == NULL)
+        return false;
     CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, url, &data, nil, nil, nil);
     _vendorsPlist = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, data, kCFPropertyListImmutable, &ref);
     if (CFDictionaryGetTypeID() != CFGetTypeID(_vendorsPlist))
-        NSLog(@"Not a dict");
-    CFRelease(data);    
-    return false;
+        return false;
+    CFRelease(data);
+    return true;
 }
 IOReturn USBJack::_init() {
     return kIOReturnError;  //this method MUST be overridden
@@ -213,6 +122,7 @@ void USBJack::startMatching() {
 
     // Load property list
     loadPropertyList();
+
     
     _matchingDone = true;
     _deviceMatched = false;
@@ -222,6 +132,7 @@ void USBJack::startMatching() {
     kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
     if (kr || !masterPort) {
         NSLog(@"ERR: Couldn't create a master IOKit Port(%08x)\n", kr);
+        return;
     }
     
     // Set up the matching criteria for the devices we're interested in

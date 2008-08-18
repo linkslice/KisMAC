@@ -7197,7 +7197,7 @@
 	<key>00:0E:1D</key>
 	<string>ARION Technology Inc.</string>
 	<key>00:0E:1E</key>
-	<string>PRIVATE</string>
+	<string>NetXen, Inc.</string>
 	<key>00:0E:1F</key>
 	<string>TCL Networks Equipment Co., Ltd.</string>
 	<key>00:0E:20</key>
@@ -11855,7 +11855,7 @@
 	<key>00:17:37</key>
 	<string>Industrie Dial Face S.p.A.</string>
 	<key>00:17:38</key>
-	<string>XIV</string>
+	<string>International Business Machines</string>
 	<key>00:17:39</key>
 	<string>Bright Headphone Electronics Company</string>
 	<key>00:17:3A</key>
@@ -17970,6 +17970,46 @@
 	<string>ALCON TELECOMMUNICATIONS CO., LTD.</string>
 	<key>00:23:29</key>
 	<string>DDRdrive LLC</string>
+	<key>00:23:2A</key>
+	<string>eonas IT-Beratung und -Entwicklung GmbH</string>
+	<key>00:23:2B</key>
+	<string>IRD A/S</string>
+	<key>00:23:2C</key>
+	<string>Senticare</string>
+	<key>00:23:2D</key>
+	<string>SandForce</string>
+	<key>00:23:2E</key>
+	<string>Kedah Electronics Engineering, LLC</string>
+	<key>00:23:2F</key>
+	<string>Advanced Card Systems Ltd.</string>
+	<key>00:23:30</key>
+	<string>DIZIPIA, INC.</string>
+	<key>00:23:31</key>
+	<string>Nintendo Co., Ltd.</string>
+	<key>00:23:32</key>
+	<string>Apple, Inc</string>
+	<key>00:23:33</key>
+	<string>Cisco Systems</string>
+	<key>00:23:34</key>
+	<string>Cisco Systems</string>
+	<key>00:23:35</key>
+	<string>Linkflex Co.,Ltd</string>
+	<key>00:23:36</key>
+	<string>METEL s.r.o.</string>
+	<key>00:23:37</key>
+	<string>Global Star Solutions ULC</string>
+	<key>00:23:38</key>
+	<string>OJ-Electronics A/S</string>
+	<key>00:23:39</key>
+	<string>Samsung Electronics</string>
+	<key>00:23:3A</key>
+	<string>Samsung Electronics Co.,Ltd</string>
+	<key>00:23:3B</key>
+	<string>C-Matic Systems Ltd</string>
+	<key>00:23:3C</key>
+	<string>Alflex</string>
+	<key>00:23:3D</key>
+	<string>novero GmbH</string>
 	<key>00:26:54</key>
 	<string>3Com Corporation</string>
 	<key>00:30:00</key>

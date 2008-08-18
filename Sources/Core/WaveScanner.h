@@ -31,13 +31,6 @@
 #import "WaveHelper.h"
 #import "WaveContainer.h"
 
-struct __authFrame {
-    WLMgmtFrame hdr;
-    UInt16	wi_algo;
-    UInt16	wi_seq;
-    UInt16	wi_status;
-}__attribute__ ((packed));
-
 struct __beaconFrame {
     WLMgmtFrame hdr;
     UInt64		wi_timestamp;
@@ -68,7 +61,8 @@ struct __beaconFrame {
     NSArray *_drivers;                  // Array of drivers
     
     bool _authenticationFlooding;  
-    struct __authFrame _authFrame;
+    struct ieee80211_auth _authFrame;
+
     bool _beaconFlooding;
     struct __beaconFrame _beaconFrame;
     

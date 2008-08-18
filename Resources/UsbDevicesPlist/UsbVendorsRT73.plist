@@ -9,6 +9,13 @@
 -->
 <plist version="1.0">
     <dict>
+        <key>WUSB54GR</key>
+        <dict>
+            <key>idProduct</key>
+            <integer>35</integer>
+            <key>idVendor</key>
+            <integer>5041</integer>
+        </dict>
         <key>WUSB54GC</key>
         <dict>
             <key>idProduct</key>
@@ -85,6 +92,13 @@
             <integer>57376</integer>
             <key>idVendor</key>
             <integer>1784</integer>
+        </dict>
+        <key>BUFFALO WLI-U2-G54HP</key>
+        <dict>
+            <key>idProduct</key>
+            <integer>217</integer>
+            <key>idVendor</key>
+            <integer>1041</integer>
         </dict>
     </dict>
 </plist>

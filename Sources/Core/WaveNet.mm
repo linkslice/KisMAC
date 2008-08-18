@@ -931,10 +931,10 @@ int lengthSort(id string1, id string2, void *context)
 							if ([_ARPLog count] > 100) [_ARPLog removeObjectAtIndex:0];
 						}
                     }
-                    if (([_ACKLog count]<20)&&((bodyLength>=TCPACK_MIN_SIZE)||(bodyLength<=TCPACK_MAX_SIZE))) {
+//                    if (([_ACKLog count]<20)&&((bodyLength>=TCPACK_MIN_SIZE)||(bodyLength<=TCPACK_MAX_SIZE))) {
 //						NSLog(@"ACK PACKET");
-                        [_ACKLog addObject:[NSData dataWithBytes:[w frame] length:[w length]]];
-                    }
+//                        [_ACKLog addObject:[NSData dataWithBytes:[w frame] length:[w length]]];
+//                    }
                     
                     if (body[3] <= 3) { //record the IV for a later weak key attack
                         if (_ivData[body[3]] == nil) {
@@ -1842,8 +1842,7 @@ typedef int (*SORTFUNC)(id, id, void *);
             [_im terminateWithCode:0];
             break;
         }
-        
-        if ([_ARPLog count] == [_ACKLog count] == 0) {
+        if ([_ARPLog count] == 0 && [_ACKLog count] == 0) {
             if (i > 20) {
 				_crackErrorString = [NSLocalizedString(@"The networks seems to be not reacting.", "Reinjection error") retain];
 				[_im terminateWithCode:-1];

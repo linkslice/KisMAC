@@ -36,6 +36,111 @@ NSString *macToString(UInt8 *m) {
     return [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", m[0], m[1], m[2], m[3], m[4], m[5], m[6]];
 }
 
+NSString *frameControlToString(UInt16 fc) {
+    NSString *typeStr;
+    NSString *subtypeStr;
+    UInt16 type =    (fc & IEEE80211_TYPE_MASK);
+    UInt16 subtype = (fc & IEEE80211_SUBTYPE_MASK);
+    switch (type) {
+        case IEEE80211_TYPE_MGT:
+            typeStr = @"Management";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_ASSOC_REQ:
+                    subtypeStr = @"Association Request";
+                    break;
+                case IEEE80211_SUBTYPE_ASSOC_RESP:
+                    subtypeStr = @"Association Response";
+                    break;
+                case IEEE80211_SUBTYPE_REASSOC_REQ:
+                    subtypeStr = @"Reassociation Request";
+                    break;
+                case IEEE80211_SUBTYPE_REASSOC_RESP:
+                    subtypeStr = @"Reassociation Response";
+                    break;
+                case IEEE80211_SUBTYPE_PROBE_REQ:
+                    subtypeStr = @"Probe Request";
+                    break;
+                case IEEE80211_SUBTYPE_PROBE_RESP:
+                    subtypeStr = @"Probe Response";
+                    break;
+                case IEEE80211_SUBTYPE_BEACON:
+                    subtypeStr = @"Beacon";
+                    break;
+                case IEEE80211_SUBTYPE_ATIM:
+                    subtypeStr = @"Atim";
+                    break;
+                case IEEE80211_SUBTYPE_DISASSOC:
+                    subtypeStr = @"Dissassociation";
+                    break;
+                case IEEE80211_SUBTYPE_AUTH:
+                    subtypeStr = @"Authentication";
+                    break;
+                case IEEE80211_SUBTYPE_DEAUTH:
+                    subtypeStr = @"Deauthentication";
+                    break;
+                case IEEE80211_SUBTYPE_ACTION:
+                    subtypeStr = @"Action";
+                    break;                    
+            }
+            break;
+        case IEEE80211_TYPE_CTL:
+            typeStr = @"Control";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_PS_POLL:
+                    subtypeStr = @"PS Poll";
+                    break;
+                case IEEE80211_SUBTYPE_RTS:
+                    subtypeStr = @"RTS";
+                    break;
+                case IEEE80211_SUBTYPE_CTS:
+                    subtypeStr = @"CTS";
+                    break;
+                case IEEE80211_SUBTYPE_ACK:
+                    subtypeStr = @"ACK";
+                    break;
+                case IEEE80211_SUBTYPE_CF_END:
+                    subtypeStr = @"CF END";
+                    break;
+                case IEEE80211_SUBTYPE_CF_END_ACK:
+                    subtypeStr = @"CF END ACK";
+                    break;                    
+            }
+            break;
+        case IEEE80211_TYPE_DATA:
+            typeStr = @"Data";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_DATA:
+                    subtypeStr = @"Data";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFACK:
+                    subtypeStr = @"Data CF ACK";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFPOLL:
+                    subtypeStr = @"Data CF Poll";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFACKPOLL:
+                    subtypeStr = @"Data CF ACK Poll";
+                    break;
+                case IEEE80211_SUBTYPE_NULLFUNC:
+                    subtypeStr = @"Null Function";
+                    break;
+                case IEEE80211_SUBTYPE_CFACK:
+                    subtypeStr = @"CF ACK";
+                    break;
+                case IEEE80211_SUBTYPE_CFPOLL:
+                    subtypeStr = @"CF POLL";
+                    break;
+                case IEEE80211_SUBTYPE_CFACKPOLL:
+                    subtypeStr = @"CF ACK POLL";
+                    break;
+                case IEEE80211_SUBTYPE_QOS_DATA:
+                    subtypeStr = @"QOS Data";
+                    break;                    
+            }
+            break;
+    }
+    return [NSString stringWithFormat:@"%@ %@", typeStr, subtypeStr];
+}
 bool inline is8021xPacket(const UInt8* fileData) {
     if (fileData[0] == 0xAA &&
         fileData[1] == 0xAA &&
@@ -202,7 +307,9 @@ bool inline is8021xPacket(const UInt8* fileData) {
     _subtype = (hdr1->frame_ctl & IEEE80211_SUBTYPE_MASK);
     _isToDS = ((hdr1->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
     _isFrDS = ((hdr1->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
-
+    
+///    NSLog(@"frame ctrl: %@", frameControlToString(hdr1->frame_ctl));
+    
     _signal = f->ctrl.signal - f->ctrl.silence;
     if (_signal < 0)
         _signal=0;
