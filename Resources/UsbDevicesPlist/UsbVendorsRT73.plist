@@ -44,6 +44,13 @@
             <key>idVendor</key>
             <integer>1293</integer>
         </dict>
+        <key>Belkin F5D9050</key>
+        <dict>
+            <key>idProduct</key>
+            <integer>36956</integer>
+            <key>idVendor</key>
+            <integer>1293</integer>
+        </dict>
         <key>CNET CWD-854</key>
         <dict>
             <key>idProduct</key>
