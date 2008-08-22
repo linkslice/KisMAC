@@ -307,9 +307,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
     _subtype = (hdr1->frame_ctl & IEEE80211_SUBTYPE_MASK);
     _isToDS = ((hdr1->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
     _isFrDS = ((hdr1->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
-    
-///    NSLog(@"frame ctrl: %@", frameControlToString(hdr1->frame_ctl));
-    
+        
     _signal = f->ctrl.signal - f->ctrl.silence;
     if (_signal < 0)
         _signal=0;

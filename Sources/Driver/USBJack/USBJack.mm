@@ -231,8 +231,6 @@ IOReturn USBJack::_sendFrame(UInt8* data, IOByteCount size) {
     UInt32      numBytes;
     IOReturn    kr;
     
-    NSLog(@"_sendFrame");
-    
     if (!_devicePresent) return kIOReturnError;
     
     if (_interface == NULL) {

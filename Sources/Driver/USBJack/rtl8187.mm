@@ -1432,8 +1432,11 @@ bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     bzero(pFrame, sizeof(KFrame));
     
     hdr = (struct rtl8187_rx_hdr *)(pData + (len-sizeof(struct rtl8187_rx_hdr)));
-    
     flags = CFSwapInt32LittleToHost(hdr->flags);
+	if (flags & (1 << 13)) {
+//        NSLog(@"Bad CRC\n");
+        return false;
+    }
     pFrame->ctrl.len = (flags & 0xFFF) - 4;
     pFrame->ctrl.rate = (flags >> 20) & 0xF;
 	signal = hdr->agc >> 1;

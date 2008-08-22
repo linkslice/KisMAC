@@ -1818,7 +1818,7 @@ typedef int (*SORTFUNC)(id, id, void *);
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *error;
     int i = 0;
-	
+	int j = 0;
     [scanner retain];
     [WaveHelper secureRelease:&_crackErrorString];
     
@@ -1838,10 +1838,6 @@ typedef int (*SORTFUNC)(id, id, void *);
             break;
         }
         
-		if ([_im canceled]) {
-            [_im terminateWithCode:0];
-            break;
-        }
         if ([_ARPLog count] == 0 && [_ACKLog count] == 0) {
             if (i > 20) {
 				_crackErrorString = [NSLocalizedString(@"The networks seems to be not reacting.", "Reinjection error") retain];
@@ -1849,10 +1845,19 @@ typedef int (*SORTFUNC)(id, id, void *);
 				break;
 			} else {
 				[_im setStatusField:NSLocalizedString(@"Waiting for interesting packets...", "For Reinjection")];
-				[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:20]];
+                for (i=0;j<40;j++) {
+                    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                    if ([_im canceled]) {
+                        break;
+                    }
+                }
 				i++;
 			}
         }
+        if ([_im canceled]) {
+            [_im terminateWithCode:0];
+            break;
+        }        
     }
     
 	[scanner release];

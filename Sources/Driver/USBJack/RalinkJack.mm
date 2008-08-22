@@ -1059,7 +1059,6 @@ bool RalinkJack::stopCapture(){
 }
 
 bool RalinkJack::sendFrame(UInt8* data, int size) {
-    NSLog(@"%s", __func__);
     UInt8 aData[2364];
     unsigned int descriptorLength;
     descriptorLength = WriteTxDescriptor(aData, size);
@@ -1215,9 +1214,7 @@ IOReturn RalinkJack::_sendFrame(UInt8* data, IOByteCount size) {
     
     numBytes = ((size % 2) == 1) ? size + 1 : size;
 
-    NSLog(@"Sending Frame %d", numBytes);
     kr = (*_interface)->WritePipe(_interface, kOutPipe, &_outputBuffer, numBytes);
-    NSLog(@"Frame sent");
     _unlockDevice();
     
     return kr;

@@ -199,44 +199,65 @@ bool IntersilJack::sendFrame(UInt8* data, int size) {
     UInt8 aData[2364];
     IOByteCount pktsize;
     int descriptorLength;
-    WLIEEEFrame * wifiFrame;
-    //we have an inFrame and an outFrame
-    //this function is a transformation between the two
-    //copy the wlframe to the tx buff
-    //we will redo part off_t this //todo fixme!!
-    memcpy(aData, data, sizeof(WLFrame));
     
-    //set pointers to sectons of frame
-    frameDescriptor = (WLFrame*)aData;
-    pktsize = frameDescriptor->dataLen + sizeof(WLFrame) - sizeof(WLPrismHeader);
-    
-    //convert prism header into device specific header 
-    //returns the length of the device specific header
-    //note frame descriptor = txbuff
-    descriptorLength = WriteTxDescriptor(frameDescriptor);
-    
-    //copy the 802.11 frame to the right  place
-    memcpy(aData + descriptorLength, data + sizeof(WLPrismHeader),  pktsize);
-    wifiFrame = (WLIEEEFrame*)(aData + descriptorLength);
-    
-    switch(wifiFrame->frameControl & 0x0c) {
-        case 0x08:
-        case 0x00:
-            pktsize = wifiFrame->dataLen;
-            if ((pktsize + descriptorLength) > 2364)
-                return kIOReturnBadArgument;
-            wifiFrame->dataLen=NSSwapHostShortToLittle(wifiFrame->dataLen);
+    struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)data;
+    UInt16 type = (hdr->frame_ctl & IEEE80211_TYPE_MASK);
+    UInt16 subtype = (hdr->frame_ctl & IEEE80211_SUBTYPE_MASK);
+    UInt16 isToDS = ((hdr->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
+    UInt16 isFrDS = ((hdr->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
+    UInt16 headerLength = 0;
+
+    switch (type) {
+        case IEEE80211_TYPE_MGT:
+            headerLength = sizeof(struct ieee80211_hdr_3addr);
             break;
-        case 0x04:
-            pktsize = 0;
-            wifiFrame->dataLen = 0;
+        case IEEE80211_TYPE_DATA:
+            //            NSLog(@"DATA");
+            if (subtype == IEEE80211_SUBTYPE_QOS_DATA) {
+                //                NSLog(@"QOS");
+                if (isFrDS && isToDS) {
+                    //                    NSLog(@"isFrDS && isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_4addrqos); //32
+                } else {
+                    //                    NSLog(@"isFrDS || isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_3addrqos); //26                  
+                }
+            } else {
+                //                NSLog(@"NO QOS");
+                if (isFrDS && isToDS) {
+                    //                    NSLog(@"isFrDS && isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_4addr); //30
+                } else {
+                    //                    NSLog(@"isFrDS || isToDS");
+                    headerLength = sizeof(struct ieee80211_hdr_3addr); //24               
+                }
+            }
             break;
-        default:
-            return kIOReturnBadArgument;
+            break;
+        case IEEE80211_TYPE_CTL:
+            break;
     }
     
+    // Write Tx Descriptor
+    frameDescriptor = (WLFrame*)aData;
+    descriptorLength = WriteTxDescriptor(frameDescriptor);
+    
+    // Copy header
+    memcpy(aData + sizeof(WLPrismHeader), data, headerLength);
+
+    // Copy Data
+    if (size <= headerLength) {
+        frameDescriptor->dataLen = 0;        
+    } else {
+        frameDescriptor->dataLen = (size - headerLength);
+        memcpy(aData + sizeof(WLFrame), data + headerLength, frameDescriptor->dataLen);        
+    }
+
+    pktsize = frameDescriptor->dataLen + sizeof(WLFrame);
+    frameDescriptor->dataLen = NSSwapHostShortToLittle(frameDescriptor->dataLen);
+
     //send the frame
-    if (_sendFrame(aData, pktsize + descriptorLength) != kIOReturnSuccess)
+    if (_sendFrame(aData, pktsize) != kIOReturnSuccess)
         return NO;
     
     return YES;

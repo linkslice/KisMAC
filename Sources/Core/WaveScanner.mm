@@ -91,7 +91,7 @@
             IS_EQUAL_MACADDR([w addr3], _addr3)) {
             goto got;
         }
-    } else if (payloadLength == ARP_SIZE || payloadLength == ARP_SIZE_PADDING) {
+    } else if (payloadLength == ARP_SIZE || payloadLength == ARP_SIZE_PADDING || payloadLength == ARP_SIZE + 4) {
 //        NSLog(@"INJ ARP DETECTED From %d To %d", [w fromDS], [w toDS]);
 //        NSLog(@"%@ %@ %@", mToS([w addr1]), mToS([w addr2]), mToS([w addr3]));
 //        NSLog(@"%@ %@ %@", mToS(_addr1), mToS(_addr2), mToS(_addr3));
@@ -100,15 +100,15 @@
                 return; //check BSSID
 			if (IS_BCAST_MACADDR([w addr2]) || IS_BCAST_MACADDR([w addr3]))
                 return; //arp replies are no broadcasts
-			if (!IS_EQUAL_MACADDR([w addr3], _addr2) && IS_EQUAL_MACADDR([w addr2], _addr2))
-                return;
+//			if (!IS_EQUAL_MACADDR([w addr3], _addr2) && IS_EQUAL_MACADDR([w addr2], _addr2))
+//                return;
 		} else if ([w fromDS]) {
 			if (!IS_EQUAL_MACADDR([w addr2], _addr1))
                 return; //check BSSID
 			if (IS_BCAST_MACADDR([w addr1]) || IS_BCAST_MACADDR([w addr3]))
                 return;
-			if (IS_EQUAL_MACADDR([w addr1], _addr2) && !IS_EQUAL_MACADDR([w addr3], _addr2))
-                return;
+//			if (IS_EQUAL_MACADDR([w addr1], _addr2) && !IS_EQUAL_MACADDR([w addr3], _addr2))
+//                return;
 		}		
 		goto got;
     }
@@ -769,7 +769,7 @@ error:
 				}
 			}
             x->frame_ctl |= IEEE80211_WEP;
-			x->seq_ctl = random() & 0x0FFF;
+//			x->seq_ctl = random() & 0x0FFF;
 			x->duration_id = 0;
             
 			NSLog(@"SEND INJECTION PACKET");
