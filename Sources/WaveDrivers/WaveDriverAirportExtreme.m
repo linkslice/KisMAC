@@ -429,7 +429,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 
                 //this is the start of the data after the device header and after the 80211 header
                 dataLen -= 4; //Skip FCS?
-                NSLog(@"Data length: %u, caplen: %u", dataLen, header.caplen);
+                //NSLog(@"Data length: %u, caplen: %u", dataLen, header.caplen);
                 if (dataLen <= 0 || dataLen > header.caplen) continue;
                 f->ctrl.len = dataLen;
                 memcpy(f->data, rtDataPointer, dataLen);
