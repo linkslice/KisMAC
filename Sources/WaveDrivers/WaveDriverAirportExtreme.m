@@ -277,48 +277,14 @@ typedef struct __ieee80211_radiotap_header
 #define IEEE80211_RADIOTAP_CHANNEL_BIT   3
 #define IEEE80211_RADIOTAP_CHANNEL_BYTES 4
 
+#define IEEE80211_RADIOTAP_DBM_TX_POWER_BIT   10
+#define IEEE80211_RADIOTAP_DBM_TX_POWER_BYTES 1
+
 #define IEEE80211_RADIOTAP_ANT_BIT       11
 #define IEEE80211_RADIOTAP_ANT_BYTES     1
 
 #define IEEE80211_RADIOTAP_DBANTSIG_BIT       12
 #define IEEE80211_RADIOTAP_DBANTSIG_BYTES     1
-
-
-- (int)headerLenForFrameControl:(UInt16)frameControl {
-	UInt16 isToDS, isFrDS, subtype, headerLength = 0;
-
-	UInt16 type=(frameControl & IEEE80211_TYPE_MASK);
-	//depending on the frame we have to figure the length of the header
-	switch(type) {
-		case IEEE80211_TYPE_DATA: //Data Frames
-			isToDS = ((frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-			isFrDS = ((frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
-			if (isToDS&&isFrDS) headerLength=30; //WDS Frames are longer
-			else headerLength=24;
-			break;
-		case IEEE80211_TYPE_CTL: //Control Frames
-			subtype=(frameControl & IEEE80211_SUBTYPE_MASK);
-			switch(subtype) {
-				case IEEE80211_SUBTYPE_PS_POLL:
-				case IEEE80211_SUBTYPE_RTS:
-					headerLength=16;
-					break;
-				case IEEE80211_SUBTYPE_CTS:
-				case IEEE80211_SUBTYPE_ACK:
-					headerLength=10;
-					break;
-				default:
-					break;
-			}
-			break;
-		case IEEE80211_TYPE_MGT: //Management Frame
-			headerLength=24;
-			break;
-		default:
-			break;
-	}
-	return headerLength;
-}
 
 //stolen from kismet
 //todo fixme!!
@@ -347,7 +313,8 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
 }
 
 
-- (KFrame*) nextFrame {
+- (KFrame*) nextFrame 
+{
 	struct pcap_pkthdr			header;
 	const u_char				*data;
 	static UInt8				frame[2500];
@@ -358,15 +325,24 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     UInt16 dataLen = 0;
     UInt32 rtFieldsPresent;
     UInt32 rtBit;
-    UInt8 * rtDataPointer;
+    UInt8 * rtDataPointer = nil;
+    int err;
 	
 	f = (KFrame *)frame;
-	
+    //NSLog(@"DLT %d", DLTType);
+    
 	while(YES) {
 		data = pcap_next(_device, &header);
+      /*  err = pcap_inject(_device, data,  header.caplen);
+        if(err) 
+        {
+            NSLog(@"Couldn't inject frame :(");
+            pcap_perror(_device, "PCAP ERROR:");
+        }*/
+        
 		//NSLog(@"pcap_next: data:0x%x, len:%u\n", data, header.caplen);
 		if (!data) continue;
-		NSLog(@"DLT %d", DLTType);
+
         switch(DLTType)
         {
             case DLT_IEEE802_11_RADIO:
@@ -395,7 +371,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 rtDataPointer = (UInt8*)(data + sizeof(ieee80211_radiotap_header));
                 while(rtFieldsPresent)
                 {
-                    if(rtFieldsPresent & 0x01)
+                    if(rtFieldsPresent & 0x01) //this bit is set
                     {
                         //NSLog(@"RT Field found %u", rtBit);
                         //increment the data pointer if by the bytes for this field
@@ -403,61 +379,59 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                         {
                             case IEEE80211_RADIOTAP_TSFT_BIT:
                                 dataLen -= IEEE80211_RADIOTAP_TSFT_BYTES;
-                                if (dataLen <= 0)
-                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_TSFT_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_FLAGS_BIT:
-                                dataLen -= IEEE80211_RADIOTAP_FLAGS_BYTES;
-                                if (dataLen <= 0)
-                                    continue;                                
+                                dataLen -= IEEE80211_RADIOTAP_FLAGS_BYTES;                                
                                 rtDataPointer += IEEE80211_RADIOTAP_FLAGS_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_RATE_BIT:
                                 //NSLog(@"Rate: %u", *(UInt8*)rtDataPointer * 512); 
                                 dataLen -= IEEE80211_RADIOTAP_RATE_BYTES;
-                                if (dataLen <= 0)
-                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_RATE_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_CHANNEL_BIT:
                                 //NSLog(@"Found radiotap channel field");
                                 //NSLog(@"Frequency: %u", *(UInt16*)rtDataPointer);
                                 dataLen -= IEEE80211_RADIOTAP_CHANNEL_BYTES;
-                                if (dataLen <= 0)
-                                    continue;
                                 f->ctrl.channel = ieee80211_mhz2ieee(*(UInt16*)rtDataPointer, *(UInt16*)(rtDataPointer + 2));
                                 rtDataPointer += IEEE80211_RADIOTAP_CHANNEL_BYTES;
+                                break;
+                            case IEEE80211_RADIOTAP_DBM_TX_POWER_BIT:
+                                dataLen -= IEEE80211_RADIOTAP_DBM_TX_POWER_BYTES;  
+                                rtDataPointer += IEEE80211_RADIOTAP_DBM_TX_POWER_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_ANT_BIT:
                                 //NSLog(@"Packet received on antenna %u", *(UInt8*)rtDataPointer);
                                 dataLen -= IEEE80211_RADIOTAP_ANT_BYTES;
-                                if (dataLen <= 0)
-                                    continue;
                                 rtDataPointer += IEEE80211_RADIOTAP_ANT_BYTES;
                                 break;   
                             case IEEE80211_RADIOTAP_DBANTSIG_BIT:
                                 //NSLog(@"Signal Db: %u", *(UInt8*)rtDataPointer);
                                 dataLen -= IEEE80211_RADIOTAP_DBANTSIG_BYTES;
-                                if (dataLen <= 0)
-                                    continue;
-                                f->ctrl.silence =  *(UInt8*)rtDataPointer;
+                                f->ctrl.signal =  *(UInt8*)rtDataPointer;
                                 rtDataPointer += IEEE80211_RADIOTAP_DBANTSIG_BYTES;
                                 break;   
                             default:
-                                //NSLog(@"Unknown Field %i", rtBit);
+                                NSLog(@"Unknown Field %i", rtBit);
+                                //this is a serious error and will break everything
                                 break;
-                        }
-                    }
+                        }//end switch
+                    }//end fields present 
+                    //abort if we have reached the end of the data
+                    //continue would just go around agian in this while loop
+                    //pointless
+                    if(dataLen <=0) break;
                     rtBit++;
                     rtFieldsPresent >>= 1;
-                }
+                } //end while
                 //NSLog(@"==============================================================================");
                 
                 //this is the start of the data after the device header and after the 80211 header
                 dataLen -= 4; //Skip FCS?
-                if (dataLen <= 0)
-                    continue;
+                NSLog(@"Data length: %u, caplen: %u", dataLen, header.caplen);
+                if (dataLen <= 0 || dataLen > header.caplen) continue;
+                f->ctrl.len = dataLen;
                 memcpy(f->data, rtDataPointer, dataLen);
                 break;
             case DLT_IEEE802_11_RADIO_AVS:
@@ -486,6 +460,10 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 f->ctrl.channel = _currentChannel;
                 memcpy(f->data, data, header.caplen);
                 break;
+            default:
+                NSLog(@"AE: Unknown packet format");
+                NSLog(@"DLT %d", DLTType);
+                break;
         } //switch
         _packets++;
         return f;
@@ -498,13 +476,16 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     return NO;
 }
 
--(bool) stopSendingFrames {    
+-(bool) stopSendingFrames
+{    
     return NO;
 }
 
 #pragma mark -
 
--(void) dealloc {
+-(void) dealloc 
+{
+    NSLog(@"about to close pcap device");
 	pcap_close(_device);
     [super dealloc];
 }
