@@ -557,7 +557,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 
 //What can I say? returns the bssid
 - (UInt8*)rawBSSID {
-    UInt8 *m;
+    UInt8 *m = nil;
     
     switch (_type) {
         case IEEE80211_TYPE_MGT:
@@ -582,6 +582,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
                 m = _addr1;
             else if((!_isToDS)&&(_isFrDS))
                 m = _addr2;
+            else NSLog(@"Wavepacket: we've got something strange here, to and from maybe?");
             break;
         default:
             break;

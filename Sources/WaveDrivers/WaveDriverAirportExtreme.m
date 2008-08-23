@@ -443,13 +443,11 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 memcpy(f->data, data + sizeof(avs_80211_1_header), dataLen);
                 
                 af = (avs_80211_1_header*)data;
-                f->ctrl.signal = af->ssi_signal + 155;
+                f->ctrl.signal = OSSwapBigToHostInt32(af->ssi_signal) + 155;
                 
-                // FIXME
-                //f->ctrl.silence  = af->ssi_noise + 155;
                 f->ctrl.silence = 0;
                 
-                f->ctrl.channel = af->channel;
+                f->ctrl.channel = OSSwapBigToHostInt32(af->channel);
                 f->ctrl.len = dataLen;
                 //NSLog(@"Got packet!!! hLen %u signal: %d  noise: %d channel %u length: %u\n", headerLength, af->ssi_signal, af->ssi_noise, f->channel, f->dataLen );
                 break;
