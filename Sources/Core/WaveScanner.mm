@@ -229,7 +229,8 @@ got:
 			if (frame == NULL)          
 				break;
 			
-			if ([w parseFrame:frame] != NO) {								//parse packet (no if unknown type)
+			if ([w parseFrame:frame] != NO) 
+            {								//parse packet (no if unknown type)
                 if (_injecting) {
                     [self handleInjection: w];
                 }
@@ -264,9 +265,8 @@ got:
 				}
 				
 				_bytes+=[w length];
-			}
-            else
-                NSLog(@"NO!");
+			}//end parse frame
+            else NSLog(@"WaveScanner: Unknown packet type in parseFrame");
 		}
 		@finally {
 		}
