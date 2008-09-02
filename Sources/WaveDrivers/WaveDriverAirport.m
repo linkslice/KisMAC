@@ -135,7 +135,7 @@ static int AirPortInstances = 0;
 
 #pragma mark -
 
-//acrtive driver does not support changing channels
+//active driver does not support changing channels
 - (void) hopToNextChannel 
 {
 	return;
