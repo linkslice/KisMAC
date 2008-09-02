@@ -34,17 +34,9 @@ static int AirPortInstances = 0;
     self = [super init];
     if (!self)  return nil;
     
-    if (![WaveHelper isServiceAvailable:"AirPortDriver"] && ![WaveHelper isServiceAvailable:"AirPortPCI"] &&
-        ![WaveHelper isServiceAvailable:"AirPort_Athr5424"] && ![WaveHelper isServiceAvailable:"AirPort_Athr5424ab"])
-    {
-        NSRunCriticalAlertPanel(NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
-            NSLocalizedString(@"Could not load Airport Driver. Apple Driver not loaded", "LONG desc with solution"),
-           // @"KisMAC is not able to load the Apple Airport driver, if you killed it by loading the Viha driver. Try restarting KisMAC."
-            OK, Nil, Nil);
-        return nil;
-    }
-
-    if (WirelessIsAvailable() == 0) {  // check the API
+    //if there is no wireless card, go talk to fishman
+    if (WirelessIsAvailable() == 0) 
+    {  
         NSRunCriticalAlertPanel(
             NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
             NSLocalizedString(@"Could not load Airport Driver. Apple API gone mad", "LONG desc"),
@@ -53,7 +45,10 @@ static int AirPortInstances = 0;
         return nil;
     }
     
-    if (WirelessAttach(&_context, 0)) {
+    //must attach to the driver using _context before we can call any of the other
+    //api functions
+    if (WirelessAttach(&_context, 0)) 
+    {
         NSRunCriticalAlertPanel(
             NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
             NSLocalizedString(@"Could not load Airport Driver. Attachment error", "LONG desc"),
@@ -70,30 +65,33 @@ static int AirPortInstances = 0;
     return self;
 }
 
-+(int) airportInstanceCount {
++(int) airportInstanceCount 
+{
     return AirPortInstances;
 }
 
 #pragma mark -
 
-+ (enum WaveDriverType) type {
++ (enum WaveDriverType) type 
+{
     return activeDriver;
 }
 
-+ (NSString*) description {
++ (NSString*) description 
+{
     return NSLocalizedString(@"Apple Airport or Airport Extreme card, active mode", "long driver description");
 }
 
-+ (NSString*) deviceName {
++ (NSString*) deviceName 
+{
     return NSLocalizedString(@"Airport Card", "short driver description");
 }
 
 #pragma mark -
-
-+ (bool) loadBackend {
-    if (!([WaveHelper isServiceAvailable:"AirPortDriver"] || [WaveHelper isServiceAvailable:"AirPortPCI"] ||
-          [WaveHelper isServiceAvailable:"AirPort_Athr5424"] || [WaveHelper isServiceAvailable:"AirPort_Athr5424ab"]  ||
-          WirelessIsAvailable()==1))
+//apple knows best, ask api if wireless is available
++ (bool) loadBackend 
+{
+    if (!WirelessIsAvailable())
     {
         NSLog(@"Could not find an AirPortCard for PseudoJack.");
         NSRunCriticalAlertPanel(
@@ -108,13 +106,17 @@ static int AirPortInstances = 0;
     return YES;
 }
 
-+ (bool) unloadBackend {
++ (bool) unloadBackend 
+{
     return YES;
 }
 
 #pragma mark -
 
-- (NSArray*) networksInRange {
+//this is the same as what you would see in the airport menu
+//don't expect any more information than that in active mode
+- (NSArray*) networksInRange 
+{
     CFArrayRef netsp = NULL, netsAdHocp = NULL;
     WIErr res;
 
@@ -133,13 +135,16 @@ static int AirPortInstances = 0;
 
 #pragma mark -
 
-- (void) hopToNextChannel {
+//acrtive driver does not support changing channels
+- (void) hopToNextChannel 
+{
 	return;
 }
 
 #pragma mark -
 
--(void) dealloc {
+-(void) dealloc 
+{
     WirelessDetach(_context);
     _context = Nil;
     
