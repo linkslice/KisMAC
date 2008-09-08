@@ -1110,12 +1110,12 @@ static int rtl8187_init_hw(struct rtl8187_priv *priv) {
 	priv->rf_init(priv);
     
 	rtl818x_iowrite16(priv, RTL818X_ADDR_BRSR, 0x01F3);
-	reg = rtl818x_ioread16(priv, RTL818X_ADDR_PGSELECT) & 0xfffe;
-	rtl818x_iowrite16(priv, RTL818X_ADDR_PGSELECT, reg | 0x1);
+	reg = rtl818x_ioread8(priv, RTL818X_ADDR_PGSELECT) & ~1;
+	rtl818x_iowrite8(priv, RTL818X_ADDR_PGSELECT, reg | 1);
 	rtl818x_iowrite16(priv, 0xFFFE, 0x10);
 	rtl818x_iowrite8(priv, RTL818X_ADDR_TALLY_SEL, 0x80);
 	rtl818x_iowrite8(priv, 0xFFFF, 0x60);
-	rtl818x_iowrite16(priv, RTL818X_ADDR_PGSELECT, reg);
+	rtl818x_iowrite8(priv, RTL818X_ADDR_PGSELECT, reg);
     
 	return 0;
 }
@@ -1142,6 +1142,7 @@ void rtl8225_rf_set_channel(struct rtl8187_priv *priv, int channel) {
 	rtl8225_write(priv, 0x7, rtl8225_chan[channel - 1]);
 	usleep(10000);
 }
+
 static void rtl8187_set_channel(struct rtl8187_priv *priv, int channel) {
 	UInt32 reg;
     
@@ -1350,13 +1351,13 @@ int  RTL8187Jack::rtl8187_probe(void) {
 	eeprom_93cx6_read(&eeprom, RTL8187_EEPROM_TXPWR_BASE,
                       &priv->txpwr_base);
 
-    reg = rtl818x_ioread16(priv, RTL818X_ADDR_PGSELECT) & ~1;
-	rtl818x_iowrite16(priv, RTL818X_ADDR_PGSELECT, reg | 1);
+    reg = rtl818x_ioread8(priv, RTL818X_ADDR_PGSELECT) & ~1;
+	rtl818x_iowrite8(priv, RTL818X_ADDR_PGSELECT, reg | 1);
 	/* 0 means asic B-cut, we should use SW 3 wire
 	 * bit-by-bit banging for radio. 1 means we can use
 	 * USB specific request to write radio registers */
 	priv->asic_rev = rtl818x_ioread8(priv, 0xFFFE) & 0x3;
-	rtl818x_iowrite16(priv, RTL818X_ADDR_PGSELECT, reg);
+	rtl818x_iowrite8(priv, RTL818X_ADDR_PGSELECT, reg);
 	rtl818x_iowrite8(priv, RTL818X_ADDR_EEPROM_CMD, RTL818X_EEPROM_CMD_NORMAL);
     
     rtl8225_write(priv, 0, 0x1B7);
@@ -1378,6 +1379,7 @@ int  RTL8187Jack::rtl8187_probe(void) {
     return 0;
 }
 bool RTL8187Jack::setChannel(UInt16 channel) {
+    struct rtl8187_priv *priv = _priv;
     rtl8187_set_channel(_priv, channel);
     _channel = channel;
     return YES;

@@ -155,7 +155,7 @@ struct rtl818x_csr {
 #define RTL818X_CONFIG4_VCOOFF		(1 << 7)
 	UInt8	TESTR;
 	UInt8	reserved_9[2];
-	UInt16	PGSELECT;
+	UInt8	PGSELECT;
 	UInt32	ANAPARAM2;
 	UInt8	reserved_10[12];
 	UInt16	BEACON_INTERVAL;
