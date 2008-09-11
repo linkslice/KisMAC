@@ -160,6 +160,7 @@ typedef enum _leapAuthCode {
 
 - (UInt8*)rawSenderID;
 - (NSString*)clientFromID;
+- (UInt8*)rawReceiverID;
 - (NSString*)clientToID;
 - (UInt8*)rawBSSID;
 - (NSString*)BSSIDString;

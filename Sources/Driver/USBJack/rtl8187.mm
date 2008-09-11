@@ -330,7 +330,7 @@ UInt8 rtl818x_ioread8(struct rtl8187_priv *priv, UInt16 addr) {
     if (ret != kIOReturnSuccess) {
         NSLog(@"%s addr %x %x", __func__, addr, ret);
     }
-//    NSLog(@"%s addr %x value %d", __func__, addr, val);
+//    NSLog(@"<<< 8 addr %x data %x", addr, val);
     return val;
 }
 UInt16 rtl818x_ioread16(struct rtl8187_priv *priv, UInt16 addr) {
@@ -348,7 +348,7 @@ UInt16 rtl818x_ioread16(struct rtl8187_priv *priv, UInt16 addr) {
     if (ret != kIOReturnSuccess) {
         NSLog(@"%s addr %x %x", __func__, addr, ret);
     }
-//    NSLog(@"%s addr %x value %d", __func__, addr, CFSwapInt16LittleToHost(val));
+//    NSLog(@"<<< 16 addr %x data %x (%x)", addr, val, CFSwapInt16LittleToHost(val));
 	return CFSwapInt16LittleToHost(val);
 }
 UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr) {
@@ -366,7 +366,7 @@ UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr) {
     if (ret != kIOReturnSuccess) {
         NSLog(@"%s addr %x %x", __func__, addr, ret);
     }
-//    NSLog(@"%s addr %x value %d", __func__, addr, CFSwapInt32LittleToHost(val));
+//    NSLog(@"<<< 32 addr %x data %x (%x)", addr, val, CFSwapInt32LittleToHost(val));
 	return CFSwapInt32LittleToHost(val);
 }
 
@@ -379,6 +379,7 @@ void rtl818x_iowrite8(struct rtl8187_priv *priv, UInt16 addr, UInt8 val) {
     theRequest.wIndex = 0; 
     theRequest.pData = &val;
     theRequest.wLength = sizeof(val);
+//    NSLog(@">>> 8 addr %x data %x", addr, val);
     ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
     return;
 }
@@ -394,6 +395,7 @@ void rtl818x_iowrite16(struct rtl8187_priv *priv, UInt16 addr, UInt16 val) {
     theRequest.pData = &buf;
     theRequest.wLength = sizeof(val);
     ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
+//    NSLog(@">>> 16 addr %x data %x", addr, val);
     return;
 }
 void rtl818x_iowrite32(struct rtl8187_priv *priv, UInt16 addr, UInt32 val) {
@@ -408,6 +410,7 @@ void rtl818x_iowrite32(struct rtl8187_priv *priv, UInt16 addr, UInt32 val) {
     theRequest.pData = &buf;
     theRequest.wLength = sizeof(val);
     ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
+//    NSLog(@">>> 32 addr %x data %x", addr, val);
     return;
 }
 
@@ -576,6 +579,7 @@ static void rtl8225_write_8051(struct rtl8187_priv *priv, UInt8 addr, UInt16 dat
     theRequest.pData = &data;
     theRequest.wLength = sizeof(data);
     ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
+//    NSLog(@">>>> 16 addr %x data %x", addr, data);
 
 	rtl818x_iowrite16(priv, RTL818X_ADDR_RFPinsOutput, reg80 | (1 << 2));
 	usleep(10);

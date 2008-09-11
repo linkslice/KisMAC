@@ -205,7 +205,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
             if (len < 6)
                 break;
             if (memcmp(packet+4, RSN_OUI, 3) == 0)
-				_isWep = encryptionTypeWPA;                
+				_isWep = encryptionTypeWPA;       
             break;
         case IEEE80211_ELEMID_VENDOR:
             len=(*(packet+1));
@@ -307,17 +307,21 @@ bool inline is8021xPacket(const UInt8* fileData) {
     _subtype = (hdr1->frame_ctl & IEEE80211_SUBTYPE_MASK);
     _isToDS = ((hdr1->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
     _isFrDS = ((hdr1->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
-        
+    
+    // Determine frame signal strength
     _signal = f->ctrl.signal - f->ctrl.silence;
     if (_signal < 0)
         _signal=0;
-
+    
+    // Determine frame channel
     _channel=(f->ctrl.channel>14 || f->ctrl.channel<1 ? 1 : f->ctrl.channel);
     
-    // depending on the frame we have to figure the length of the header
+    // TODO: Determine frame rx rate
+    
+    // Depending on the frame type we have to figure
+    // the length of the header and payload
     if (_type == IEEE80211_TYPE_DATA) {
         if (_subtype == IEEE80211_SUBTYPE_QOS_DATA) {
-//            NSLog(@"QOS");
             if (_isToDS && _isFrDS) {
                 _payload = hdr4qos->payload;
                 _payloadLength = _length - sizeof(struct ieee80211_hdr_4addrqos);                
@@ -333,7 +337,13 @@ bool inline is8021xPacket(const UInt8* fileData) {
             _payload = hdr3->payload;
             _payloadLength = _length - sizeof(struct ieee80211_hdr_3addr);
         }
+    } else if (_type == IEEE80211_TYPE_MGT) {
+        
+    } else if (_type == IEEE80211_TYPE_CTL) {
+        
     }
+    
+    
     switch(_type) {
         case IEEE80211_TYPE_DATA:               //Data Frames
             if (_isToDS && _isFrDS) {
@@ -347,29 +357,31 @@ bool inline is8021xPacket(const UInt8* fileData) {
                 else 
 					_netType = networkTypeAdHoc;
             }
-            if (_length >= 24 && is8021xPacket(_payload)) {
+            if (_payload && is8021xPacket(_payload)) {
                 _isEAP = YES;
-                if ([self isWPAKeyPacket]) 
-					_isWep = encryptionTypeWPA;
-                else if ([self isLEAPKeyPacket])
+                if ([self isWPAKeyPacket]) {
+					_isWep = encryptionTypeWPA;                    
+                } else if ([self isLEAPKeyPacket]) {
 					_isWep = encryptionTypeLEAP;
-                else if (hdr1->frame_ctl & IEEE80211_WEP) {
-					if (_payload[3] & WPA_EXT_IV_PRESENT) 
-						_isWep = encryptionTypeWPA;
-					else
-						_isWep = encryptionTypeWEP;     //is just WEP
-				}
-                else
-					_isWep = encryptionTypeNone;
+                } else if (hdr1->frame_ctl & IEEE80211_WEP) {
+					if (_payload[3] & WPA_EXT_IV_PRESENT) {
+						_isWep = encryptionTypeWPA;                        
+                    } else {
+						_isWep = encryptionTypeWEP;     //is just WEP                        
+                    }
+				} else {
+					_isWep = encryptionTypeNone;                    
+                }
             } else {
                 if (hdr1->frame_ctl & IEEE80211_WEP) {     //is just WEP
-					if ((_length > 16) && (_payload[3] & WPA_EXT_IV_PRESENT))
-						_isWep = encryptionTypeWPA;
-					else
-						_isWep = encryptionTypeWEP;
-				}
-				else
-					_isWep = encryptionTypeNone;
+					if ((_length > 16) && (_payload[3] & WPA_EXT_IV_PRESENT)) {
+						_isWep = encryptionTypeWPA;                        
+                    } else {
+						_isWep = encryptionTypeWEP;                        
+                    }
+				} else {
+					_isWep = encryptionTypeNone;                    
+                }
             }
             break;            
         case IEEE80211_TYPE_CTL: //Control Frames
@@ -439,9 +451,10 @@ bool inline is8021xPacket(const UInt8* fileData) {
     memcpy(_addr3, hdr4->addr3, ETH_ALEN);
     memcpy(_addr4, hdr4->addr4, ETH_ALEN);
 
-    //important for pcap
+    //Set creation time (important for pcap)
     gettimeofday(&_creationTime,NULL);
     
+    // Good packet.
     return YES;
 }
 
@@ -450,7 +463,6 @@ bool inline is8021xPacket(const UInt8* fileData) {
 // This function returns a unique net id for each packet. if it cannot be determined null. bssid is not useable because of tunnels
 - (NSString*)IDString {
     UInt8 *m = nil;
-    //if (_isToDS) return nil;
     
     switch (_type) {
         case IEEE80211_TYPE_MGT:
@@ -491,21 +503,24 @@ bool inline is8021xPacket(const UInt8* fileData) {
     return [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X%.2X%.2X", m[0], m[1], m[2], m[3], m[4], m[5], m[6]];
 }
 
-//returns the the id of the sending client
+#pragma mark -
+#pragma mark Client/Sender Id
+#pragma mark -
+
 - (UInt8*)rawSenderID {
     switch (_type) {
         case IEEE80211_TYPE_MGT:
             return _addr2;
         case IEEE80211_TYPE_CTL:
-            if (_subtype==IEEE80211_SUBTYPE_PS_POLL)
+            if (_subtype == IEEE80211_SUBTYPE_PS_POLL)
                 return _addr2;
             break;
         case IEEE80211_TYPE_DATA:
-            if((!_isToDS)&&(!_isFrDS))
+            if (!_isToDS && !_isFrDS)
                 return _addr2;
-            else if((_isToDS)&&(!_isFrDS))
+            else if( _isToDS && !_isFrDS)
                 return _addr2;
-            else if((!_isToDS)&&(_isFrDS))
+            else if(!_isToDS && _isFrDS)
                 return _addr3;
             else
                 return _addr4;
@@ -523,39 +538,45 @@ bool inline is8021xPacket(const UInt8* fileData) {
     return macToString(mac);
 }
 
-//What can I say? returns the the id of the recieving client
-- (NSString*)clientToID {
-    UInt8 *m = nil;
-    
+#pragma mark -
+#pragma mark Client/Receiver Id
+#pragma mark -
+
+- (UInt8*)rawReceiverID {
     switch (_type) {
         case IEEE80211_TYPE_MGT:
-            m = _addr1;
-            break;
+            return _addr1;
         case IEEE80211_TYPE_CTL:
-            //ps polls only have a transmitter
-            if (_subtype!=IEEE80211_SUBTYPE_PS_POLL)
-                m = _addr1;
+            if (_subtype == IEEE80211_SUBTYPE_PS_POLL)
+                return _addr1;
             break;
         case IEEE80211_TYPE_DATA:
-            if((!_isToDS)&&(!_isFrDS))
-                m = _addr1;
-            else if((_isToDS)&&(!_isFrDS))
-                m = _addr3;
-            else if((!_isToDS)&&(_isFrDS))
-                m = _addr1;
+            if (!_isToDS && !_isFrDS)
+                return _addr1;
+            else if( _isToDS && !_isFrDS)
+                return _addr3;
+            else if(!_isToDS && _isFrDS)
+                return _addr1;
             else
-                m = _addr3;
-            break;
+                return _addr3;
         default:
             break;
     }
-    if (m == nil)
-        return Nil;
-    
-    return macToString(m);
+    return nil;
+}
+- (NSString*)clientToID {
+	UInt8* mac;
+	mac = [self rawReceiverID];
+	
+    if (!mac)
+        return nil;
+    return macToString(mac);
 }
 
-//What can I say? returns the bssid
+#pragma mark -
+#pragma mark BSSID
+#pragma mark -
+
 - (UInt8*)rawBSSID {
     UInt8 *m = nil;
     
@@ -563,31 +584,30 @@ bool inline is8021xPacket(const UInt8* fileData) {
         case IEEE80211_TYPE_MGT:
             //probe requests are BS
             if (_subtype != IEEE80211_SUBTYPE_PROBE_REQ)
-                m = _addr3;
+                return _addr3;
             else if (_netType == networkTypeProbe)
-                m = _addr2;
+                return _addr2;
             break; 
         case IEEE80211_TYPE_CTL:
             if (_subtype==IEEE80211_SUBTYPE_PS_POLL)
-                m = _addr1;
+                return _addr1;
             break;
         case IEEE80211_TYPE_DATA:
             if((!_isToDS)&&(!_isFrDS)) {
                 if (_netType == networkTypeLucentTunnel)
-                    m = _addr2;
+                    return _addr2;
                 else
-                    m = _addr3;
+                    return _addr3;
             }
             else if((_isToDS)&&(!_isFrDS))
-                m = _addr1;
+                return _addr1;
             else if((!_isToDS)&&(_isFrDS))
-                m = _addr2;
-            else NSLog(@"Wavepacket: we've got something strange here, to and from maybe?");
+                return _addr2;
             break;
         default:
             break;
     }
-    return m;
+    return nil;
 }
 - (NSString*)BSSIDString {
 	UInt8* mac;
@@ -597,6 +617,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
         return @"<no bssid>";
     return macToString(mac);
 }
+
 - (bool)BSSID:(UInt8*)bssid {
 	UInt8* mac;
 	mac = [self rawBSSID];
@@ -651,6 +672,8 @@ bool inline is8021xPacket(const UInt8* fileData) {
 }
 
 #pragma mark -
+#pragma mark Pcap stuff
+#pragma mark -
 
 //writes the frame into the pcap file f
 -(void)dump:(void*)f {
@@ -662,6 +685,10 @@ bool inline is8021xPacket(const UInt8* fileData) {
 	h.len = h.caplen = _length;
     pcap_dump((u_char*)f, &h, (u_char*)_frame);
 }
+
+#pragma mark -
+#pragma mark Initialization
+#pragma mark -
 
 -(id)init {
     if ((self = [super init]) != nil) {
