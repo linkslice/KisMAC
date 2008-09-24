@@ -303,21 +303,33 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
     ssidLength = [_SSID lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
   
     float theTime, prevTime = clock() / (float)CLK_TCK;
-    while(![im canceled] && !feof(fptr)) {
+    while(![im canceled] && !feof(fptr))
+    {
+        //get the line from the file
         fgets(wrd, 90, fptr);
-        i = strlen(wrd) - 1;
-        wrd[i--] = 0;
-        if (wrd[i]=='\r') wrd[i] = 0;
+        
+        //get the length.  no need to account for linefeed because it will
+        //be done below
+        i = strlen(wrd);
+    
+        //remove the linefeed by setting the last char to null
+        //if we still have line feed chars, keep going
+        while('\r' == wrd[i] || '\n' == wrd[i])
+        {
+            wrd[i--] = 0;
+        }
+        
+        //passwords must be shorter than 63 signs
+        if (i < 8 || i > 63) continue;        
         
         words++;
 
-        if (words % 500 == 0) {
+        if (words % 500 == 0)
+        {
             theTime =clock() / (float)CLK_TCK;
             [im setStatusField:[NSString stringWithFormat:@"%d words tested    %.2f/second", words, 500.0 / (theTime - prevTime)]];
             prevTime = theTime;
         }
-
-        if (i < 8 || i > 63) continue; //passwords must be shorter than 63 signs
         
         for(j = 0; j < i; j++)
             if ((wrd[j] < 32) || (wrd[j] > 126)) break;
