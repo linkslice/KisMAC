@@ -309,8 +309,8 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
         fgets(wrd, 90, fptr);
         
         //get the length.  no need to account for linefeed because it will
-        //be done below
-        i = strlen(wrd);
+        //be done below.  Remember indexed from 0
+        i = strlen(wrd) - 1;
     
         //remove the linefeed by setting the last char to null
         //if we still have line feed chars, keep going
@@ -318,6 +318,10 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
         {
             wrd[i--] = 0;
         }
+        
+        //switch i back to length instead of an index into the array
+        //this is kinda dumb
+        i = strlen(wrd);
         
         //passwords must be shorter than 63 signs
         if (i < 8 || i > 63) continue;        
