@@ -272,6 +272,7 @@ void USBJack::_interruptReceived(void *refCon, IOReturn result, int len) {
     if (kIOReturnSuccess != result) {
         if (result == (IOReturn)0xe00002ed) {
             me->_devicePresent = false;
+            
             //tell the receive function that we are gone
             me->insertFrameIntoQueue(NULL, 0, 0);
             return;
@@ -377,8 +378,10 @@ int USBJack::destroyFrameQueue(void) {
     free(_frameRing);
     return 0;
 }
-int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel) {
+int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel) 
+{
     struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->writeIdx]);
+    
     _frameRing->received++;
     if (_frameRing->received % 1000 == 0)
         NSLog(@"Received %d", _frameRing->received);
@@ -389,14 +392,19 @@ int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel) {
             NSLog(@"Dropped %d", _frameRing->dropped);
         return 0;
     }
-    memcpy(&(slot->frame), f, sizeof(KFrame));
+    //make sure f exists, otherwise we crash and burn
+    if(f)
+    {
+        memcpy(&(slot->frame), f, sizeof(KFrame));
+    }
     slot->len = len;
     slot->channel = channel;
     slot->state = FRAME_SLOT_USED;
     _frameRing->writeIdx = (_frameRing->writeIdx + 1) % RING_SLOT_NUM;
     return 0;
 }
-KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel) {
+KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel)
+{
     static KFrame f;
     struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->readIdx]);
     
@@ -405,11 +413,20 @@ KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel) {
     while (slot->state == FRAME_SLOT_FREE)
         usleep(100);
     
-    memcpy(&f, &(slot->frame), sizeof(KFrame));
-    (*len) = slot->len;
-    (*channel) = slot->channel;
-    slot->state = FRAME_SLOT_FREE;
-    _frameRing->readIdx = (_frameRing->readIdx + 1) % RING_SLOT_NUM;
+    //we must return nil if a frame has zero length.
+    //note returning nil generally indicates that the driver has faild :(
+    if(0 == slot->len)
+    {
+        return nil;
+    }
+    else //copy it for return
+    {
+        memcpy(&f, &(slot->frame), sizeof(KFrame));
+        (*len) = slot->len;
+        (*channel) = slot->channel;
+        slot->state = FRAME_SLOT_FREE;
+        _frameRing->readIdx = (_frameRing->readIdx + 1) % RING_SLOT_NUM;
+    }
     return &f;
 }
 
@@ -700,9 +717,9 @@ void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator) {
     USBJack     *me = (USBJack*)refCon;
     
     while ((obj = IOIteratorNext(iterator)) != nil) {
-        //count++;
+        count++;
         //we need to not release devices that don't belong to us!?
-        //NSLog(@"Device removed.\n");
+        NSLog(@"Device removed.\n");
         kr = IOObjectRelease(obj);
     }
     
