@@ -237,13 +237,15 @@ WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) 
 	return WirelessPrivate(gWCtxt, buf, bufsize+8, out, outsize);
 }
 
-int chanint;
 
-- (bool) setChannel:(unsigned short)newChannel {
+
+- (bool) setChannel:(unsigned short)newChannel 
+{
+    int chanint;
 	chanint = newChannel;
 	WirelessAttach(&gWCtxt, 0);
 	wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
-	wlc_ioctl(30, 8, &chanint, 0, NULL); // set channel
+ 	wlc_ioctl(30, 8, &chanint, 0, NULL); // set channel
 	WirelessDetach(gWCtxt);
 	_currentChannel = newChannel;
     return YES;
@@ -355,12 +357,10 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
 	f = (KFrame *)frame;
     //NSLog(@"DLT %d", DLTType);
     
-	while(YES) {
+	while(YES)
+    {
       
 		data = pcap_next(_device, &header);
-        
-        count++;
-        //NSLog(@"COUnt: %u", count);
         
         if(data && dumper)
         {
@@ -374,8 +374,21 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
             pcap_perror(_device, "PCAP ERROR:");
         }*/
         
+        //we need to kick the driver because it hasn't started yet
+        if(!count) 
+        {
+            //save it
+            count = _currentChannel;
+            [self setChannel: 0];
+            [self setChannel: count];
+            count = 0;
+        }
+        
 		//NSLog(@"pcap_next: data:0x%x, len:%u\n", data, header.caplen);
 		if (!data) continue;
+        
+        count++;
+        //NSLog(@"COUnt: %u", count);
 
         switch(DLTType)
         {
