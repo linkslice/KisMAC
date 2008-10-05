@@ -149,42 +149,65 @@ WirelessContextPtr gWCtxt = NULL;
 }
 
 #pragma mark -
-
+pcap_dumper_t * dumper;
 - (id)init {
 	NSUserDefaults *defs;
     defs = [NSUserDefaults standardUserDefaults];
     char err[PCAP_ERRBUF_SIZE];
     int retErr;
+    BOOL shouldPlayback;
 //    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
     int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
     int i;
 	_apeType = APExtTypeBcm;
+    
+    shouldPlayback = [[defs objectForKey: @"playback-rawdump"] boolValue];
 	
-    //dissassociate
-	[NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport" arguments:[NSArray arrayWithObject:@"-z"]];
+    if( [[defs objectForKey: @"disassociateOnScan"] boolValue] && !shouldPlayback )
+    {
+        [NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport" arguments:[NSArray arrayWithObject:@"-z"]];
+    }
 	
-    //pcap_open_live(char *device,int snaplen, int prmisc,int to_ms,char *ebuf)
-	_device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
-	if (!_device)
+    if(shouldPlayback) _device = pcap_open_offline([[defs objectForKey: @"rawDumpInFile"] UTF8String], err);
+	else               _device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
+    //todo fixme!! if we are playing back, this will be weird
+	if (!_device && !shouldPlayback)
     {
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"admin", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
-		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0660", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
+		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0777", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		[NSThread sleep:0.5];
 	
 		_device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
+        
 		[[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"wheel", [defs objectForKey:@"bpfloc"], nil]];
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0600", [defs objectForKey:@"bpfloc"], nil]];
 
 		if (!_device) return Nil;
     }
     
-    i = 0;
-    retErr = -1;
-    while ((retErr != 0) && (dataLinks[i] != 0)) {
-        retErr = pcap_set_datalink(_device, dataLinks[i]);
-        DLTType = dataLinks[i];
-        i++;
-    };
+    if(shouldPlayback)
+    {
+        DLTType = [[defs objectForKey: @"playback-rawdump-dlt"] intValue];
+        NSLog(@"err returned from pcap open: %s", err);
+        retErr = 0;
+    }
+    else
+    {
+        i = 0;
+        retErr = -1;
+        while ((retErr != 0) && (dataLinks[i] != 0)) 
+        {
+            retErr = pcap_set_datalink(_device, dataLinks[i]);
+            DLTType = dataLinks[i];
+            i++;
+        };
+    } 
+    
+    if( [[defs objectForKey: @"rawdump"] boolValue] )
+    {
+        if(_device) dumper = pcap_dump_open(_device, [[defs objectForKey: @"rawDumpOutFile"] UTF8String]);
+        else NSLog(@"couldn't open dumper");
+    }
     
     if(retErr != 0)
     {
@@ -239,22 +262,23 @@ int chanint;
 
 // wlan-ng (and hopefully others) AVS header, version one.  Fields in
 // network byte order.
-typedef struct __avs_80211_1_header {
-	uint32_t version;
-	uint32_t length;
-	uint64_t mactime;
-	uint64_t hosttime;
-	uint32_t phytype;
-	uint32_t channel;
-	uint32_t datarate;
-	uint32_t antenna;
-	uint32_t priority;
-	uint32_t ssi_type;
-	int32_t ssi_signal;
-	int32_t ssi_noise;
-	uint32_t preamble;
-	uint32_t encoding;
-} __attribute__((packed)) avs_80211_1_header;
+typedef struct __avs_80211_1_header 
+{
+        uint32_t version;
+        uint32_t length;
+        uint64_t mactime;
+        uint64_t hosttime;
+        uint32_t phytype;
+        uint32_t channel;
+        uint32_t datarate;
+        uint32_t antenna;
+        uint32_t priority;
+        uint32_t ssi_type;
+        int32_t ssi_signal;
+        int32_t ssi_noise;
+        uint32_t preamble;
+        uint32_t encoding;
+} __attribute__((__packed__)) avs_80211_1_header;
 
 typedef struct __ieee80211_radiotap_header
 {
@@ -326,13 +350,23 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     UInt32 rtFieldsPresent;
     UInt32 rtBit;
     UInt8 * rtDataPointer = nil;
-    int err;
-	
+    static UInt32 count = 0;
+    
 	f = (KFrame *)frame;
     //NSLog(@"DLT %d", DLTType);
     
 	while(YES) {
+      
 		data = pcap_next(_device, &header);
+        
+        count++;
+        //NSLog(@"COUnt: %u", count);
+        
+        if(data && dumper)
+        {
+            pcap_dump((unsigned char*)dumper, &header, (u_char*)data);
+            pcap_dump_flush(dumper); 
+        }
       /*  err = pcap_inject(_device, data,  header.caplen);
         if(err) 
         {
@@ -369,6 +403,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 rtBit = 0;
                 //rt data is right after header
                 rtDataPointer = (UInt8*)(data + sizeof(ieee80211_radiotap_header));
+                //don't subtract these from dataLen, they are accounted for in the header len
                 while(rtFieldsPresent)
                 {
                     if(rtFieldsPresent & 0x01) //this bit is set
@@ -378,22 +413,18 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                         switch(rtBit)
                         {
                             case IEEE80211_RADIOTAP_TSFT_BIT:
-                                dataLen -= IEEE80211_RADIOTAP_TSFT_BYTES;
                                 rtDataPointer += IEEE80211_RADIOTAP_TSFT_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_FLAGS_BIT:
-                                dataLen -= IEEE80211_RADIOTAP_FLAGS_BYTES;                                
                                 rtDataPointer += IEEE80211_RADIOTAP_FLAGS_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_RATE_BIT:
                                 //NSLog(@"Rate: %u", *(UInt8*)rtDataPointer * 512); 
-                                dataLen -= IEEE80211_RADIOTAP_RATE_BYTES;
                                 rtDataPointer += IEEE80211_RADIOTAP_RATE_BYTES;
                                 break;
                             case IEEE80211_RADIOTAP_CHANNEL_BIT:
                                 //NSLog(@"Found radiotap channel field");
                                 //NSLog(@"Frequency: %u", *(UInt16*)rtDataPointer);
-                                dataLen -= IEEE80211_RADIOTAP_CHANNEL_BYTES;
                                 f->ctrl.channel = ieee80211_mhz2ieee(*(UInt16*)rtDataPointer, *(UInt16*)(rtDataPointer + 2));
                                 rtDataPointer += IEEE80211_RADIOTAP_CHANNEL_BYTES;
                                 break;
@@ -403,12 +434,10 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                                 break;
                             case IEEE80211_RADIOTAP_ANT_BIT:
                                 //NSLog(@"Packet received on antenna %u", *(UInt8*)rtDataPointer);
-                                dataLen -= IEEE80211_RADIOTAP_ANT_BYTES;
                                 rtDataPointer += IEEE80211_RADIOTAP_ANT_BYTES;
                                 break;   
                             case IEEE80211_RADIOTAP_DBANTSIG_BIT:
                                 //NSLog(@"Signal Db: %u", *(UInt8*)rtDataPointer);
-                                dataLen -= IEEE80211_RADIOTAP_DBANTSIG_BYTES;
                                 f->ctrl.signal =  *(UInt8*)rtDataPointer;
                                 rtDataPointer += IEEE80211_RADIOTAP_DBANTSIG_BYTES;
                                 break;   
@@ -484,7 +513,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
 -(void) dealloc 
 {
     NSLog(@"about to close pcap device");
-	pcap_close(_device);
+	if(_device) pcap_close(_device);
     [super dealloc];
 }
 
