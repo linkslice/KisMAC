@@ -27,7 +27,8 @@
 
 @implementation WaveDriverUSB
 
-- (id)init {
+- (id)init
+{
     self=[super init];
 
     if (!self)
@@ -35,7 +36,15 @@
     
     _driver = nil;
     
-    [self wakeDriver];
+    if(![self wakeDriver])
+    {
+        //we didn't find a card, we can't proceed
+        //destroy the driver
+        
+        delete(_driver);
+        _driver = nil;
+        return nil;
+    }
     
     return self;
 }
@@ -69,21 +78,33 @@
 
 #pragma mark -
 
-+ (bool) loadBackend {
++ (bool) loadBackend 
+{
     return YES;
 }
 
-+ (bool) unloadBackend {
-    return YES;
++ (bool) unloadBackend
+{
+       return YES;
 }
 
 #pragma mark -
 
-- (unsigned short) getChannelUnCached {
-    UInt16 channel;
+- (unsigned short) getChannelUnCached
+{
+    UInt16 channel = 0;
+    bool success = FALSE;
     
-    if (_driver->getChannel(&channel)) return channel;
-    else return 0;
+    //make sure we have a driver before we ask it for its channel
+    if(_driver)
+    {
+        success = _driver->getChannel(&channel);
+    }
+    
+    //channel 0 indicates error
+    if(!success) channel = 0;
+    
+    return channel;
 }
 
 - (bool) setChannel:(unsigned short)newChannel {
@@ -93,51 +114,80 @@
     return _driver->setChannel(newChannel);
 }
 
-- (bool) startCapture:(unsigned short)newChannel {
+- (bool) startCapture:(unsigned short)newChannel
+{
+    bool success = FALSE;
+    
     if (newChannel == 0) newChannel = _firstChannel;
-    return _driver->startCapture(newChannel);
+    
+    //if there is no driver, success will remain false
+    if(_driver)
+    {
+        //if the usb device is not there, see if we can find it
+        if(!_driver->devicePresent())
+        {
+            [self wakeDriver];
+        }
+        success = _driver->startCapture(newChannel);
+    }
+    
+    return success;
 }
 
-- (bool) stopCapture {
-    return _driver->stopCapture();
+- (bool) stopCapture
+{
+    bool success = FALSE;
+    
+    //if there is no driver, success will remain false
+    if(_driver)
+    {
+        success = _driver->stopCapture();
+    }
+        
+    return success; 
 }
 
-- (bool) sleepDriver{
+- (bool) sleepDriver
+{
+    if(_driver) delete(_driver);
+    _driver = nil;
     return YES;
 }
 
-- (bool) wakeDriver{
+- (bool) wakeDriver
+{
     return YES;
 }
 
 #pragma mark -
 
-- (KFrame *) nextFrame {
-    KFrame *f;
+- (KFrame *) nextFrame
+{
+    KFrame *f = NULL;
+    bool success;
+    
+    //make sure we have _driver and the device is actually there
+    success = (_driver && _driver->devicePresent());
+    
+    if(success)
+    {
+         f = _driver->receiveFrame();
+    }
 
-    f = _driver->receiveFrame();
-    if (f==NULL) {
-		_errors++;
-        if (_packets && _driver) {
-			if (_errors < 3) {
-				NSLog(@"USB receiveFrame failed - attempting to reload driver");
-                [self wakeDriver];
-			} else {
-				NSLog(@"Excessive errors received - terminating driver");
-                [self sleepDriver];
-			}
-        }
+    if(!f)
+    {
+        //there was a driver error, usb device is probably gone
         NSRunCriticalAlertPanel(NSLocalizedString(@"USB Prism2 error", "Error box title"),
-                NSLocalizedString(@"USB Prism2 error description", "LONG Error description"),
-                //@"A driver error occured with your USB device, make sure it is properly connected. Scanning will "
-                //"be canceled. Errors may have be printed to console.log."
-                OK, Nil, Nil);
-
-    } else {
-//        NSLog(@"nextFrame %d", f->ctrl.len);
+                                NSLocalizedString(@"USB Prism2 error description", "LONG Error description"),
+                                //@"A driver error occured with your USB device, make sure it is properly connected. Scanning will "
+                                //"be canceled. Errors may have be printed to console.log."
+                                OK, Nil, Nil);
+    }
+    else
+    {
         _packets++;
-		_errors=0;
-	}
+    }
+    
     return f;
 }
 
@@ -196,10 +246,13 @@
 
 #pragma mark -
 
--(void) dealloc {
+-(void) dealloc
+{
     [self stopSendingFrames];
     
     [self sleepDriver];
+
+    if(_driver) delete(_driver);
     
     [super dealloc];
 }

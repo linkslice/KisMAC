@@ -28,9 +28,7 @@
 
 #include "USBJack.h"
 
-#define align64(a)      (((a)+63)&~63)
-
-bool    _matchingDone;   //this is static so all instances of this class can see it!
+#define align64(a)      (((a)+63)&~63)  
 
 #define dbgOutPutBuf(a) NSLog( @"0x%.4x 0x%.4x 0x%.4x 0x%.4x%.4x", NSSwapLittleShortToHost(*((UInt16*)&(a) )), NSSwapLittleShortToHost(*((UInt16*)&(a)+1)), NSSwapLittleShortToHost(*((UInt16*)&(a)+2)), NSSwapLittleShortToHost(*((UInt16*)&(a)+3)), NSSwapLittleShortToHost(*((UInt16*)&(a)+4)) );              
 
@@ -65,11 +63,13 @@ USBJack::USBJack() {
         usleep(100);
 }
 
-USBJack::~USBJack() {
+USBJack::~USBJack()
+{
     // Stop
     stopRun();
     
     _interface = NULL;
+    _matchingDone = false;
 
     // Destroy frame queue
     destroyFrameQueue();
@@ -111,7 +111,8 @@ bool USBJack::stopCapture() {
     return false;   //this method MUST be overridden
 }
 
-void USBJack::startMatching() {
+void USBJack::startMatching()
+{
     mach_port_t 		masterPort;
     CFMutableDictionaryRef 	matchingDict;
     kern_return_t		kr;
@@ -180,26 +181,34 @@ void USBJack::startMatching() {
     masterPort = 0;
 }
 
-KFrame *USBJack::receiveFrame() {
+KFrame *USBJack::receiveFrame()
+{
     UInt16 len, channel;
     KFrame *ret = (KFrame *)&_frameBuffer;
     void *receivedFrame;
     
     if (!_devicePresent)
+    {
         return NULL;
+    }
     
-    while (1) {
+    while (1)
+    {
         receivedFrame = getFrameFromQueue(&len, &channel);
-        if (receivedFrame) {
+        if (receivedFrame)
+        {
             if(!_massagePacket(receivedFrame, (void *)&_frameBuffer, len))
                 continue;
             ret->ctrl.channel = channel;
             return ret;
-        } else {
+        }
+        else 
+        {
             return NULL;
         }
     }
 }
+
 bool USBJack::sendFrame(UInt8* data, int size) {
     // Override in subclasses
     return NO;
@@ -262,7 +271,8 @@ void  USBJack::_lockDevice() {
 void  USBJack::_unlockDevice() {
     pthread_mutex_unlock(&_wait_mutex);
 }
-void USBJack::_interruptReceived(void *refCon, IOReturn result, int len) {
+void USBJack::_interruptReceived(void *refCon, IOReturn result, int len)
+{
     USBJack             *me = (USBJack*) refCon;
     IOReturn                    kr;
     UInt32                      type;
@@ -383,8 +393,10 @@ int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel)
     struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->writeIdx]);
     
     _frameRing->received++;
+#if 0
     if (_frameRing->received % 1000 == 0)
         NSLog(@"Received %d", _frameRing->received);
+#endif
     if (slot->state == FRAME_SLOT_USED) {
 //        NSLog(@"Dropped packet, ring full");
         _frameRing->dropped++;
@@ -409,6 +421,7 @@ KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel)
     struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->readIdx]);
     
 //    NSLog(@"Slot %p readIdx %d", slot, _frameRing->readIdx);
+    if(!slot) return nil;
 
     while (slot->state == FRAME_SLOT_FREE)
         usleep(100);
@@ -719,11 +732,13 @@ void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator) {
     while ((obj = IOIteratorNext(iterator)) != nil) {
         count++;
         //we need to not release devices that don't belong to us!?
-        NSLog(@"Device removed.\n");
+        NSLog(@"USBJack: Device removed.\n");
         kr = IOObjectRelease(obj);
     }
     
-    if (count) {
+    if (count) 
+    {
+        me->_matchingDone = FALSE;
         me->_interface = NULL;
         me->stopRun();
     }
@@ -733,7 +748,8 @@ void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator) {
 #pragma mark Loop Functions
 #pragma mark -
 
-bool USBJack::stopRun() {
+bool USBJack::stopRun()
+{
     // No loop running
     if (_runLoop == NULL)
         return false;
@@ -742,7 +758,8 @@ bool USBJack::stopRun() {
     _stayUp = false;
     
     // If we have to notify, do that
-    if (_notifyPort) {
+    if (_notifyPort) 
+    {
         IONotificationPortDestroy(_notifyPort);
         _notifyPort = NULL;
     }

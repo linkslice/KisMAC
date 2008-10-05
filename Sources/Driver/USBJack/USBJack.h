@@ -83,6 +83,8 @@ protected:
     int kOutPipe;
     int kInPipe; 
     
+    bool    _matchingDone;
+    
     enum  deviceTypes {
         intersil = 1,
         zydas,
