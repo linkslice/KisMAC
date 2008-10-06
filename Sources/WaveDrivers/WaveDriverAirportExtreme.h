@@ -41,10 +41,12 @@ enum APExtType {
 #define DLT_TYPE_ERR             -1
 
 
-@interface WaveDriverAirportExtreme : WaveDriver {
+@interface WaveDriverAirportExtreme : WaveDriver
+{
 	pcap_t *_device;
 	enum APExtType _apeType;
     int DLTType;
+    NSTimer * channelEnforceTimer;
 }
 
 WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out);

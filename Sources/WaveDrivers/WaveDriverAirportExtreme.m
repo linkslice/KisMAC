@@ -57,6 +57,22 @@
 #endif
 
 WirelessContextPtr gWCtxt = NULL;
+//defines for ioctls
+#define WLC_IOCTL_MAGIC         0x14e46c77
+	 
+#define WLC_GET_MAGIC                           0
+#define WLC_GET_BSSID                           23
+#define WLC_SET_BSSID                           24
+#define WLC_GET_SSID                            25
+#define WLC_SET_SSID                            26
+#define WLC_GET_CHANNEL                         29
+#define WLC_SET_CHANNEL                         30
+#define WLC_GET_MONITOR                         107     /* discovered by nbd */
+#define WLC_SET_MONITOR                         108     /* discovered by nbd */
+#define WLC_GET_AP                              117
+#define WLC_SET_AP                              118
+#define WLC_GET_RSSI                            127
+#define WLC_GET_ASSOCLIST                       159
 
 @implementation WaveDriverAirportExtreme
 
@@ -150,7 +166,8 @@ WirelessContextPtr gWCtxt = NULL;
 
 #pragma mark -
 pcap_dumper_t * dumper;
-- (id)init {
+- (id)init 
+{
 	NSUserDefaults *defs;
     defs = [NSUserDefaults standardUserDefaults];
     char err[PCAP_ERRBUF_SIZE];
@@ -214,6 +231,8 @@ pcap_dumper_t * dumper;
         NSLog(@"Error opening airpot device using pcap_set_datalink()");
         return Nil;
     }
+    
+    channelEnforceTimer = nil;
 
 	self=[super init];
     if(!self) return Nil;
@@ -223,8 +242,33 @@ pcap_dumper_t * dumper;
 
 #pragma mark -
 
-- (unsigned short) getChannelUnCached {
-	return _currentChannel;
+- (unsigned short) getChannelUnCached 
+{
+    int channel = 0;
+  
+    //this is an elaborate plan to get the channel 
+    //from the airport driver.  Unfortunately switching
+    //in and out of monitor mode takes forever
+    //instead we work around the problem with the 
+    //enforce channel timer
+    #if 0
+        int success;
+        //this only seems to work if we reset the dlt :(
+        //clear the dlt
+        pcap_set_datalink(_device, 1);
+        WirelessAttach(&gWCtxt, 0);
+        wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
+        success = wlc_ioctl(WLC_GET_CHANNEL, 0, NULL, 8, &channel);
+        WirelessDetach(gWCtxt);    
+        //restore the dlt
+        pcap_set_datalink(_device, DLTType);
+    #else
+        channel = _currentChannel;
+    #endif
+    
+    //NSLog(@"Airport Extreme getChannel: %d, success %d", channel, success );
+    
+	return (UInt16)channel;
 }
 
 WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) {
@@ -243,21 +287,72 @@ WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) 
 {
     int chanint;
 	chanint = newChannel;
-	WirelessAttach(&gWCtxt, 0);
-	wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
- 	wlc_ioctl(30, 8, &chanint, 0, NULL); // set channel
-	WirelessDetach(gWCtxt);
-	_currentChannel = newChannel;
+    int error;
+      
+    WirelessAttach(&gWCtxt, 0);
+    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
+    error = wlc_ioctl(WLC_SET_CHANNEL, 8, &chanint, 0, NULL); //set channel       
+    WirelessDetach(gWCtxt);
+    
+    //only update it if the ioctl was successful
+    if(!error) _currentChannel = newChannel;
+    
+    //unfortunately the apple driver can not correctly get the channel when in monitor mode
+    //also, the channel can change behind our back for many reasons
+    //therefore we must enforce the channel periodically to be sure we are on the
+    //channel we want to be on.  This should only really affect single channel scans
+    [channelEnforceTimer invalidate];
+    channelEnforceTimer = nil;
+    channelEnforceTimer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self 
+                                                         selector:@selector(enforceChannel) userInfo: nil repeats: NO];
+
     return YES;
 }
 
-- (bool) startCapture:(unsigned short)newChannel {
-	[self setChannel:newChannel];
-    return YES;
+-(void)enforceChannel
+{
+    [self setChannel: _currentChannel];
 }
 
--(bool) stopCapture {
-    return YES;
+- (bool) startCapture:(unsigned short)newChannel
+{
+    bool success = FALSE;
+    int monitor = 1;
+    
+    WirelessAttach(&gWCtxt, 0);
+    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
+    success = wlc_ioctl(WLC_SET_MONITOR, 8, &monitor, 0, NULL); //set channel
+    if(success)
+    {
+        success = wlc_ioctl(WLC_GET_MONITOR, 0, NULL, 8, &monitor);
+    }
+    WirelessDetach(gWCtxt);
+    
+    //set dlt
+    pcap_set_datalink(_device, DLTType);
+    
+	[self setChannel: newChannel];
+    return (success && monitor);
+}
+
+-(bool) stopCapture
+{
+    bool success = FALSE;
+    int monitor = 0;
+    
+    //restore dlt
+    pcap_set_datalink(_device, 1);
+    
+    WirelessAttach(&gWCtxt, 0);
+    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
+    success = wlc_ioctl(WLC_SET_MONITOR, 8, &monitor, 0, NULL); //set channel
+    if(success)
+    {
+        success = wlc_ioctl(WLC_GET_MONITOR, 0, NULL, 8, &monitor);
+    }
+    WirelessDetach(gWCtxt);
+    
+    return (success && !monitor);
 }
 
 #pragma mark -
@@ -358,8 +453,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     //NSLog(@"DLT %d", DLTType);
     
 	while(YES)
-    {
-      
+    {      
 		data = pcap_next(_device, &header);
         
         if(data && dumper)
@@ -367,22 +461,13 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
             pcap_dump((unsigned char*)dumper, &header, (u_char*)data);
             pcap_dump_flush(dumper); 
         }
+
       /*  err = pcap_inject(_device, data,  header.caplen);
         if(err) 
         {
             NSLog(@"Couldn't inject frame :(");
             pcap_perror(_device, "PCAP ERROR:");
         }*/
-        
-        //we need to kick the driver because it hasn't started yet
-        if(!count) 
-        {
-            //save it
-            count = _currentChannel;
-            [self setChannel: 0];
-            [self setChannel: count];
-            count = 0;
-        }
         
 		//NSLog(@"pcap_next: data:0x%x, len:%u\n", data, header.caplen);
 		if (!data) continue;
