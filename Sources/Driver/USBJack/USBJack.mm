@@ -50,6 +50,7 @@ USBJack::USBJack() {
     _notifyPort = NULL;
     
     _numDevices = -1;
+    _frameRing = NULL;
     // Initialize internal frame queue
     initFrameQueue();
     
@@ -380,65 +381,80 @@ bool USBJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len){
 # pragma mark Internal Packet Queue
 # pragma mark -
 
-int USBJack::initFrameQueue(void) {
+int USBJack::initFrameQueue(void)
+{
     _frameRing = (struct __frameRing *)calloc(1, sizeof(struct __frameRing));
+    memset(_frameRing, 0, sizeof(struct __frameRing));
     return 0;
 }
-int USBJack::destroyFrameQueue(void) {
+
+int USBJack::destroyFrameQueue(void)
+{
     free(_frameRing);
     return 0;
 }
 int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel) 
 {
-    struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->writeIdx]);
+    struct __frameRingSlot *slot = nil;
     
-    _frameRing->received++;
-#if 0
-    if (_frameRing->received % 1000 == 0)
-        NSLog(@"Received %d", _frameRing->received);
-#endif
-    if (slot->state == FRAME_SLOT_USED) {
-//        NSLog(@"Dropped packet, ring full");
-        _frameRing->dropped++;
-        if (_frameRing->dropped % 100 == 0)
-            NSLog(@"Dropped %d", _frameRing->dropped);
-        return 0;
-    }
-    //make sure f exists, otherwise we crash and burn
-    if(f)
+    if(_frameRing)
     {
-        memcpy(&(slot->frame), f, sizeof(KFrame));
+        slot = &(_frameRing->slots[_frameRing->writeIdx]);
+    
+        _frameRing->received++;
+        #if 0
+            if (_frameRing->received % 1000 == 0)
+                NSLog(@"Received %d", _frameRing->received);
+        #endif
+        if (slot->state == FRAME_SLOT_USED) 
+        {
+            //        NSLog(@"Dropped packet, ring full");
+            _frameRing->dropped++;
+            if (_frameRing->dropped % 100 == 0)
+                NSLog(@"Dropped %d", _frameRing->dropped);
+            return 0;
+        }
+        //make sure f exists, otherwise we crash and burn
+        if(f)
+        {
+            memcpy(&(slot->frame), f, sizeof(KFrame));
+        }
+        slot->len = len;
+        slot->channel = channel;
+        slot->state = FRAME_SLOT_USED;
+        _frameRing->writeIdx = (_frameRing->writeIdx + 1) % RING_SLOT_NUM;
     }
-    slot->len = len;
-    slot->channel = channel;
-    slot->state = FRAME_SLOT_USED;
-    _frameRing->writeIdx = (_frameRing->writeIdx + 1) % RING_SLOT_NUM;
     return 0;
 }
 KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel)
 {
     static KFrame f;
-    struct __frameRingSlot *slot = &(_frameRing->slots[_frameRing->readIdx]);
+    struct __frameRingSlot *slot = nil;
     
-//    NSLog(@"Slot %p readIdx %d", slot, _frameRing->readIdx);
-    if(!slot) return nil;
+    if(_frameRing)
+    {
+        slot = &(_frameRing->slots[_frameRing->readIdx]);
 
-    while (slot->state == FRAME_SLOT_FREE)
-        usleep(100);
-    
-    //we must return nil if a frame has zero length.
-    //note returning nil generally indicates that the driver has faild :(
-    if(0 == slot->len)
-    {
-        return nil;
-    }
-    else //copy it for return
-    {
-        memcpy(&f, &(slot->frame), sizeof(KFrame));
-        (*len) = slot->len;
-        (*channel) = slot->channel;
-        slot->state = FRAME_SLOT_FREE;
-        _frameRing->readIdx = (_frameRing->readIdx + 1) % RING_SLOT_NUM;
+        //    NSLog(@"Slot %p readIdx %d", slot, _frameRing->readIdx);
+        if(!slot) return nil;
+
+        while (slot->state == FRAME_SLOT_FREE)
+            usleep(100);
+
+        //we must return nil if a frame has zero length.
+        //note returning nil generally indicates that the driver has faild :(
+        if(0 == slot->len)
+        {
+            return nil;
+        }
+        else //copy it for return
+        {
+            memcpy(&f, &(slot->frame), sizeof(KFrame));
+            (*len) = slot->len;
+            (*channel) = slot->channel;
+            slot->state = FRAME_SLOT_FREE;
+            _frameRing->readIdx = (_frameRing->readIdx + 1) % RING_SLOT_NUM;
+        }
     }
     return &f;
 }
@@ -723,13 +739,15 @@ void USBJack::_addDevice(void *refCon, io_iterator_t iterator) {
             (*dev)->Release(dev);
     }
 }
-void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator) {
+void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator)
+{
     kern_return_t	kr;
     io_service_t	obj;
     int                 count = 0;
     USBJack     *me = (USBJack*)refCon;
     
-    while ((obj = IOIteratorNext(iterator)) != nil) {
+    while ((obj = IOIteratorNext(iterator)))
+    {
         count++;
         //we need to not release devices that don't belong to us!?
         NSLog(@"USBJack: Device removed.\n");
