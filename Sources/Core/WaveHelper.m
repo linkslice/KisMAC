@@ -332,8 +332,7 @@ static GPSInfoController *_gc;
     
     //now make sure any drivers that have been removed from the list are gone
     NSEnumerator *e = [_waveDrivers objectEnumerator];
-    CFShow(_waveDrivers);
-    CFShow(a);
+   
     while((w = [e nextObject]))
     {
         if(![a containsObject: [w configuration]])
