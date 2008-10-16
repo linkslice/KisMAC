@@ -1408,6 +1408,43 @@ int lengthSort(id string1, id string2, void *context)
     if ((_password==Nil)&&(_isWep > encryptionTypeNone)) return NSLocalizedString(@"<unresolved>", "Unresolved password");
     return _password;
 }
+
+- (NSString*)asciiKey { //Showing real password if available -- Added By DerNalia
+    if ((_password==Nil)&&(_isWep > encryptionTypeNone)){
+		return NSLocalizedString(@"<unresolved>", "Unresolved password");
+	}else{
+		const char *password;
+		password = [_password UTF8String];
+		int len = strlen(password); 
+		int mem;
+		if (len == 14 || len == 38 ){
+			if (len == 14) mem = 5; // for WEP 40 bit
+			if (len == 38) mem = 13; // for WEP 104 bit
+			
+			char ascii[mem+1];
+			int p;
+			for (p = 0; p <= len; p += 3){
+				char hex[5], *stop; 
+				hex[0] = '0';
+				hex[1] = 'x';
+				hex[2] = password[p];
+				hex[3] = password[p+1];
+				hex[4] = '\0';
+				ascii[p/3] = strtol(hex, &stop, 16);
+			}
+			ascii[mem] = '\0';
+			
+			for(int i = 0; i < mem; i++){
+				if(!isascii(ascii[i])){
+					return [NSString stringWithFormat:@"%s", "Key cannot be converted"];
+				}
+			}
+			return [NSString stringWithFormat:@"%s", ascii];
+		}
+		return [NSString stringWithFormat:@"%s", "ASCII key unavailable"];
+	}
+}	
+
 - (NSString*)lastIV {
     return [NSString stringWithFormat:@"%.2X:%.2X:%.2X", _IV[0], _IV[1], _IV[2]];
 }

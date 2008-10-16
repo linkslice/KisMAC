@@ -49,6 +49,7 @@ enum _rowIndexes {
 	indexInjPackets,
     indexBytes,
     indexKey,
+	indexASCIIKey, // Added for potential real password by DerNalia
     indexLastIV, 
     indexEmptyLine2,
     indexLatitude,
@@ -201,6 +202,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
                  return (col) ? NSLocalizedString(@"Bytes", "table description") : [_n data];
             case indexKey:
                  return (col) ? NSLocalizedString(@"Key", "table description") : [_n key];
+			case indexASCIIKey:
+				return (col) ? NSLocalizedString(@"ASCII Key", "table descriptoin") : [_n asciiKey];
             case indexLastIV:
                  return (col) ? NSLocalizedString(@"LastIV", "table description") : [_n lastIV];
             case indexEmptyLine2:
