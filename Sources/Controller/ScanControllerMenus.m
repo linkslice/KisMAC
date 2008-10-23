@@ -163,15 +163,16 @@
     else _asyncFailure = NO;
 }
 
-- (IBAction)exportKMLFile:(id)sender {
+- (IBAction)exportKMLFile:(id)sender
+{
     NSSavePanel *aSP;
     aSP=[NSSavePanel savePanel];
     [aSP setRequiredFileType:@"kml"];
     [aSP setCanSelectHiddenExtension:YES];
     [aSP setTreatsFilePackagesAsDirectories:NO];
-    if ([aSP runModal]==NSFileHandlingPanelOKButton) {
+    if ([aSP runModal]==NSFileHandlingPanelOKButton)
+    {
         [self showBusy:@selector(performExportKML:) withArg:[aSP filename]];
-        [self performExportKML: [aSP filename]];
     }
 }
 
