@@ -1409,40 +1409,71 @@ int lengthSort(id string1, id string2, void *context)
     return _password;
 }
 
-- (NSString*)asciiKey { //Showing real password if available -- Added By DerNalia
-    if ((_password==Nil)&&(_isWep > encryptionTypeNone)){
-		return NSLocalizedString(@"<unresolved>", "Unresolved password");
-	}else{
-		const char *password;
+//Showing real password if available
+//needs more cleanup todo fixme!!
+- (NSString*)asciiKey
+{ 
+    NSString * asciiKey = nil;
+    const char *password;
+    int len; 
+    int mem = 0;
+    char ascii[14]; //the max length is 14
+    int p;
+    char hex[5];
+    int i;
+    
+    //if it is wep but we don't have the passwd
+    if ((Nil == _password) && (_isWep > encryptionTypeNone))
+    {
+		asciiKey = NSLocalizedString(@"<unresolved>", "Unresolved password");
+	}
+    else
+    {		
 		password = [_password UTF8String];
-		int len = strlen(password); 
-		int mem;
-		if (len == 14 || len == 38 ){
+		len = strlen(password); 
+
+		if (len == 14 || len == 38 )
+        {
 			if (len == 14) mem = 5; // for WEP 40 bit
-			if (len == 38) mem = 13; // for WEP 104 bit
+			if (len == 38) mem = 13; // for WEP 104 bit			
 			
-			char ascii[mem+1];
-			int p;
-			for (p = 0; p <= len; p += 3){
-				char hex[5], *stop; 
+			for (p = 0; p <= len; p += 3)
+            {				 
 				hex[0] = '0';
 				hex[1] = 'x';
 				hex[2] = password[p];
 				hex[3] = password[p+1];
 				hex[4] = '\0';
-				ascii[p/3] = strtol(hex, &stop, 16);
+				ascii[p/3] = strtol(hex, NULL, 16);
 			}
 			ascii[mem] = '\0';
 			
-			for(int i = 0; i < mem; i++){
-				if(!isascii(ascii[i])){
-					return [NSString stringWithFormat:@"%s", "Key cannot be converted"];
+			for(i = 0; i < mem; i++)
+            {
+				if(!isascii(ascii[i]))
+                {
+					asciiKey = [NSString stringWithFormat:@"%s", "Key cannot be converted"];
+                    break;
 				}
-			}
-			return [NSString stringWithFormat:@"%s", ascii];
-		}
-		return [NSString stringWithFormat:@"%s", "ASCII key unavailable"];
-	}
+			}//for
+            
+			asciiKey = [NSString stringWithFormat:@"%s", ascii];
+		} // len 13 or 38
+        else
+        {
+            //its not an ascii key
+            asciiKey = [NSString stringWithFormat:@"%s", "ASCII key unavailable"];
+        }
+         
+	}//else (is Wep and have passwd)
+    
+    //if it is still nil after all of that, blank it out
+    if(nil == asciiKey)
+    {
+        asciiKey = @"";
+    }
+    
+    return asciiKey;
 }	
 
 - (NSString*)lastIV {
