@@ -38,6 +38,9 @@
 #import "NetView.h"
 #import "WaveWeakContainer.h"
 
+#define WEP_GEM_ORANGE_LEVEL  80000
+#define WEP_GEM_GREEN_LEVEL   130000
+
 #define AMOD(x, y) ((x) % (y) < 0 ? ((x) % (y)) + (y) : (x) % (y))
 #define N 256
 
@@ -1501,26 +1504,59 @@ int lengthSort(id string1, id string2, void *context)
 
 #pragma mark -
 
-- (NSDictionary*)cache {
+- (NSDictionary*)cache
+{
 	NSString *enc, *type;
 	NSDictionary *cache;
-	NSImage *image;
+	NSImage *image = nil;
 	if (_cacheValid) return _cache;
 	
-	switch (_isWep) {
+	switch (_isWep) 
+    {
 		case encryptionTypeLEAP:
 			enc = NSLocalizedString(@"LEAP", "table description");
 			break;
 		case encryptionTypeWPA:     
 			enc = NSLocalizedString(@"WPA", "table description");
+            if(_challengeResponseStatus == chreResponse)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if(_challengeResponseStatus == chreChallenge)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if(_challengeResponseStatus == chreComplete)
+            {
+                image = [NSImage imageNamed:@"greengem.png"];
+            }
 			break;
 		case encryptionTypeWEP40:
 			enc = NSLocalizedString(@"WEP-40", "table description");
+            if( [self uniqueIVs] > WEP_GEM_ORANGE_LEVEL && 
+                [self uniqueIVs] < WEP_GEM_GREEN_LEVEL)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if([self uniqueIVs] > WEP_GEM_GREEN_LEVEL)
+            {
+                image = [NSImage imageNamed:@"greengem.png"];
+            }
 			break;
 		case encryptionTypeWEP:
 			enc = NSLocalizedString(@"WEP", "table description");
+            if( [self uniqueIVs] > WEP_GEM_ORANGE_LEVEL && 
+                [self uniqueIVs] < WEP_GEM_GREEN_LEVEL)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if([self uniqueIVs] > WEP_GEM_GREEN_LEVEL)
+            {
+                image = [NSImage imageNamed:@"greengem.png"];
+            }
 			break;
 		case encryptionTypeNone:
+            image = [NSImage imageNamed:@"greengem.png"];
 			enc = NSLocalizedString(@"NO", "table description");
 			break;
 		case encryptionTypeUnknown:
@@ -1531,7 +1567,8 @@ int lengthSort(id string1, id string2, void *context)
 			NSAssert(NO, @"Encryption type invalid");
 	}
    
-	switch (_type) {
+	switch (_type) 
+    {
 		case networkTypeUnknown:
 			type = @"";
 			break;
@@ -1555,18 +1592,10 @@ int lengthSort(id string1, id string2, void *context)
 			NSAssert(NO, @"Network type invalid");
 	}
     
-    switch (_challengeResponseStatus) {
-        case chreResponse:
-        case chreChallenge:
-            image = [NSImage imageNamed:@"orangegem.png"];
-            break;
-        case chreComplete:
-            image = [NSImage imageNamed:@"greengem.png"];
-            break;
-        case chreNone:
-        default:
-            image = [NSImage imageNamed:@"redgem.png"];
-            break;
+    //if we didn't set the Gem yet, set it red here
+    if(nil == image)
+    {
+        image = [NSImage imageNamed:@"redgem.png"];
     }
 	
 	cache = [NSDictionary dictionaryWithObjectsAndKeys:
