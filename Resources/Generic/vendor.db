@@ -9,9 +9,9 @@
 	<key>01:00:1D</key>
 	<string>Enterasys-multicast</string>
 	<key>01:00:5E</key>
-	<string>multicast</string
+	<string>multicast</string>
 	<key>01:00:5E:00:00:01</key>
-    <string>multicast</string
+    <string>multicast</string>
 	<key>FF:FF:FF:FF:FF:FF</key>
 	<string>all-hosts-multicast</string>
 	<key>01:00:5E:00:00:02</key>
