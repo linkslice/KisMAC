@@ -1430,7 +1430,7 @@ int lengthSort(id string1, id string2, void *context)
     {
 		asciiKey = NSLocalizedString(@"<unresolved>", "Unresolved password");
 	}
-    else
+    else if(_isWep > encryptionTypeNone)
     {		
 		password = [_password UTF8String];
 		len = strlen(password); 
