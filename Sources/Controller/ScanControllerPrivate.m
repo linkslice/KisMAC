@@ -149,14 +149,6 @@
     if ([sets floatForKey:@"frequence"]<0.2) [sets setFloat:0.25 forKey:@"frequence"];
     [scanner setFrequency:[sets floatForKey:@"frequence"]];
 
-    if ([sets integerForKey:@"disableSleepMode"]) {
-        [WaveHelper runScript:@"nosleep_enable.sh"];
-        aOurSleepMode = YES;
-    } else if (([sets integerForKey:@"disableSleepMode"]==0) && [WaveHelper isServiceAvailable:"Insomnia"]) {
-        [WaveHelper runScript:@"nosleep_disable.sh"];
-        aOurSleepMode = NO;
-    }
-	
 	if(_refreshGPS) {
 		[WaveHelper initGPSControllerWithDevice: [sets objectForKey:@"GPSDevice"]];
 		_refreshGPS = NO;

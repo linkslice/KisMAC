@@ -1,5 +1,5 @@
 //
-//  PrefsSleep.h
+//  PrefsMap.h
 //  KisMAC
 //
 //  Created by Michael Thole on Mon Jan 20 2003.

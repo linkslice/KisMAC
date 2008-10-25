@@ -60,7 +60,6 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         [NSNumber numberWithBool:NO], @"ScanAtStartUp",
         [NSNumber numberWithBool:NO], @"dontAskToSave",
         [NSNumber numberWithBool:YES], @"terminateIfClosed",
-        [NSNumber numberWithBool:NO], @"disableSleepMode",
         [NSNumber numberWithInt:250], @"GeigerSensity",
         [NSNumber numberWithInt:0], @"Voice",
         [WaveHelper colorToInt:[NSColor redColor]], @"CurrentPositionColor",
@@ -552,9 +551,6 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     [self stopScan];
     [self stopActiveAttacks];
     [[WaveHelper gpsController] stop];
-    if (aOurSleepMode) {
-        [WaveHelper runScript:@"nosleep_disable.sh"];
-    }
     [WaveHelper unloadAllDrivers];
 }
 

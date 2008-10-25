@@ -85,8 +85,6 @@
 		0035339206A5DD5700AB4577 /* macjack_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334806A5DD5700AB4577 /* macjack_load.sh */; };
 		0035339306A5DD5700AB4577 /* macjack_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334906A5DD5700AB4577 /* macjack_prep.sh */; };
 		0035339406A5DD5700AB4577 /* macjack_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334A06A5DD5700AB4577 /* macjack_unload.sh */; };
-		0035339506A5DD5700AB4577 /* nosleep_disable.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334B06A5DD5700AB4577 /* nosleep_disable.sh */; };
-		0035339606A5DD5700AB4577 /* nosleep_enable.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334C06A5DD5700AB4577 /* nosleep_enable.sh */; };
 		0035339906A5DD5700AB4577 /* usbprism2_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334F06A5DD5700AB4577 /* usbprism2_prep.sh */; };
 		0035339A06A5DD5700AB4577 /* usbprism2_unprep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335006A5DD5700AB4577 /* usbprism2_unprep.sh */; };
 		0035339B06A5DD5700AB4577 /* viha_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335106A5DD5700AB4577 /* viha_driver.sh */; };
@@ -147,8 +145,6 @@
 		0035346206A5DD8500AB4577 /* PrefsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533E506A5DD8500AB4577 /* PrefsMap.m */; };
 		0035346306A5DD8500AB4577 /* PrefsScanning.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533E606A5DD8500AB4577 /* PrefsScanning.h */; };
 		0035346406A5DD8500AB4577 /* PrefsScanning.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533E706A5DD8500AB4577 /* PrefsScanning.m */; };
-		0035346506A5DD8500AB4577 /* PrefsSleep.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533E806A5DD8500AB4577 /* PrefsSleep.h */; };
-		0035346606A5DD8500AB4577 /* PrefsSleep.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533E906A5DD8500AB4577 /* PrefsSleep.m */; };
 		0035346706A5DD8500AB4577 /* PrefsSounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EA06A5DD8500AB4577 /* PrefsSounds.h */; };
 		0035346806A5DD8500AB4577 /* PrefsSounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533EB06A5DD8500AB4577 /* PrefsSounds.m */; };
 		0035346906A5DD8500AB4577 /* PrefsTraffic.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EC06A5DD8500AB4577 /* PrefsTraffic.h */; };
@@ -1684,7 +1680,6 @@
 				0035345F06A5DD8500AB4577 /* PrefsGPS.h in Headers */,
 				0035346106A5DD8500AB4577 /* PrefsMap.h in Headers */,
 				0035346306A5DD8500AB4577 /* PrefsScanning.h in Headers */,
-				0035346506A5DD8500AB4577 /* PrefsSleep.h in Headers */,
 				0035346706A5DD8500AB4577 /* PrefsSounds.h in Headers */,
 				0035346906A5DD8500AB4577 /* PrefsTraffic.h in Headers */,
 				0035346B06A5DD8500AB4577 /* PrefsWebService.h in Headers */,
@@ -1915,8 +1910,6 @@
 				0035339206A5DD5700AB4577 /* macjack_load.sh in Resources */,
 				0035339306A5DD5700AB4577 /* macjack_prep.sh in Resources */,
 				0035339406A5DD5700AB4577 /* macjack_unload.sh in Resources */,
-				0035339506A5DD5700AB4577 /* nosleep_disable.sh in Resources */,
-				0035339606A5DD5700AB4577 /* nosleep_enable.sh in Resources */,
 				0035339906A5DD5700AB4577 /* usbprism2_prep.sh in Resources */,
 				0035339A06A5DD5700AB4577 /* usbprism2_unprep.sh in Resources */,
 				0035339B06A5DD5700AB4577 /* viha_driver.sh in Resources */,
@@ -2135,7 +2128,6 @@
 				0035346006A5DD8500AB4577 /* PrefsGPS.m in Sources */,
 				0035346206A5DD8500AB4577 /* PrefsMap.m in Sources */,
 				0035346406A5DD8500AB4577 /* PrefsScanning.m in Sources */,
-				0035346606A5DD8500AB4577 /* PrefsSleep.m in Sources */,
 				0035346806A5DD8500AB4577 /* PrefsSounds.m in Sources */,
 				0035346A06A5DD8500AB4577 /* PrefsTraffic.m in Sources */,
 				0035346C06A5DD8500AB4577 /* PrefsWebService.m in Sources */,

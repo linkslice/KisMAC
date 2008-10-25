@@ -66,7 +66,6 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     __availableTabs     _visibleTab;            //which tab visible?
     bool                aNetHierarchVisible;
     bool                aOurDriver;             //did we load the driver?
-    bool                aOurSleepMode;          //is the sleep mode our fault?
     bool                _scanning;              //are we scanning?
     bool                _detailsPaneVisibile;   //is the details drawer visible
     bool                _doModal;

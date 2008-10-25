@@ -133,18 +133,6 @@ void addToolbarItem(NSMutableDictionary *theDict,NSString *identifier,NSString *
                    @selector(changeView:),
                    nil);
 
-    [nibNamesDict setObject:@"PrefsSleep" forKey:@"Sleep"];
-    [classNamesDict setObject:@"PrefsSleep" forKey:@"Sleep"];
-    addToolbarItem(toolbarItems,
-                   @"Sleep",
-                   @"Sleep",
-                   @"Sleep",
-                   @"PowerBook Sleep Options",
-                   self,
-                   @selector(setImage:),
-                   [NSImage imageNamed:@"EnergySaver"],
-                   @selector(changeView:),
-                   nil);
     [nibNamesDict setObject:@"PrefsGPS" forKey:@"GPS"];
     [classNamesDict setObject:@"PrefsGPS" forKey:@"GPS"];
     addToolbarItem(toolbarItems,
