@@ -155,7 +155,8 @@ got:
 }
 
 //does the actual scanning (extra thread)
-- (void)doPassiveScan:(WaveDriver*)wd {
+- (void)doPassiveScan:(WaveDriver*)wd 
+{
     WavePacket *w = Nil;
     KFrame* frame = NULL;
 
@@ -168,6 +169,8 @@ got:
 
     NSSound* geiger;
     NSAutoreleasePool *pool;
+    
+    BOOL error = FALSE;
 
     int i;
     
@@ -178,104 +181,123 @@ got:
     dumpDestination = [d objectForKey:@"dumpDestination"];
     
     //tries to open the dump file
-    if (dumpFilter) {
+    if (dumpFilter) 
+    {
         //in the example dump are informations like 802.11 network
         path = [[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/example.dump"];
         p = pcap_open_offline([path UTF8String],err);
-        if (p==NULL) {
-            NSBeginAlertSheet(NSLocalizedString(@"Fatal Error", "Internal KisMAC error title"),
-                OK, NULL, NULL, [WaveHelper mainWindow], self, NULL, NULL, NULL,
-                NSLocalizedString(@"Could not open example dump file", "Error description. example dump is an internal file"));
-            goto error;
+        if (p)
+        {
+            i = 1;
+            //opens output
+            path = [[NSDate date] descriptionWithCalendarFormat:[dumpDestination stringByExpandingTildeInPath] timeZone:nil locale:nil];
+            while ([[NSFileManager defaultManager] fileExistsAtPath: path]) 
+            {
+                path = [[NSString stringWithFormat:@"%@.%u", dumpDestination, i] stringByExpandingTildeInPath];
+                path = [[NSDate date] descriptionWithCalendarFormat:path timeZone:nil locale:nil];
+                i++;
+            }
+            
+            f=pcap_dump_open(p,[path UTF8String]);
+        } //p
+        
+        //error
+        if(NULL == p || NULL == f)
+        {
+           NSBeginAlertSheet(ERROR_TITLE, 
+                  OK, NULL, NULL, [WaveHelper mainWindow], self, NULL, NULL, NULL, 
+                  NSLocalizedString(@"Could not create dump", "LONG error description with possible causes."),
+                  //@"Could not create dump file %@. Are you sure that the permissions are set correctly?" 
+                  path);
+            error = TRUE;
+        }
+    }//dumpFilter
+    
+    if(!error)
+    {
+        w = [[WavePacket alloc] init];
+        pool = [NSAutoreleasePool new];
+        
+        if (_geigerSound!=Nil)
+        {
+            geiger=[NSSound soundNamed:_geigerSound];
+            if (geiger!=Nil) [geiger setDelegate:self];
+        } else geiger=Nil;
+        
+        if (![wd startedScanning])
+        {
+            error = TRUE;
         }
         
-        i = 1;
-        //opens output
-        path = [[NSDate date] descriptionWithCalendarFormat:[dumpDestination stringByExpandingTildeInPath] timeZone:nil locale:nil];
-        while ([[NSFileManager defaultManager] fileExistsAtPath: path]) {
-            path = [[NSString stringWithFormat:@"%@.%u", dumpDestination, i] stringByExpandingTildeInPath];
-            path = [[NSDate date] descriptionWithCalendarFormat:path timeZone:nil locale:nil];
-            i++;
-        }
-        
-        f=pcap_dump_open(p,[path UTF8String]);
-        if (f==NULL) {
-            NSBeginAlertSheet(ERROR_TITLE, 
-                OK, NULL, NULL, [WaveHelper mainWindow], self, NULL, NULL, NULL, 
-                NSLocalizedString(@"Could not create dump", "LONG error description with possible causes."),
-                //@"Could not create dump file %@. Are you sure that the permissions are set correctly?" 
-                path);
-            goto error;
-        }
-    }
-    
-    w = [[WavePacket alloc] init];
-	pool = [NSAutoreleasePool new];
-	
-    if (_geigerSound!=Nil) {
-        geiger=[NSSound soundNamed:_geigerSound];
-        if (geiger!=Nil) [geiger setDelegate:self];
-    } else geiger=Nil;
-    
-//    [wd startCapture:0];
-	if (![wd startedScanning]) {
-		goto error;
-	}
-	
-    while (_scanning) {				//this is for canceling
-		@try {
-			frame = [wd nextFrame];     //captures the next frame (locking)
-                        
-			if (frame == NULL)          
-				break;
-			
-			if ([w parseFrame:frame] != NO) 
-            {								//parse packet (no if unknown type)
-                if (_injecting) {
-                    [self handleInjection: w];
-                }
-				if ([_container addPacket:w liveCapture:YES] == NO)			// the packet shall be dropped
-					continue;
+        while (_scanning && !error) //this is for canceling
+        {				
+            @try
+            {
+                frame = [wd nextFrame];     //captures the next frame (locking)
+                            
+                if (frame == NULL)          
+                    break;
+                
+                if ([w parseFrame:frame] != NO) 
+                {								//parse packet (no if unknown type)
+                    if (_injecting) 
+                    {
+                        [self handleInjection: w];
+                    }
+                    if ([_container addPacket:w liveCapture:YES] == NO)			// the packet shall be dropped
+                    {	
+                        continue;
+                    }
 
-				//dump if needed
-				if (    (dumpFilter==1) || 
-                        ((dumpFilter==2) && ([w type]==IEEE80211_TYPE_DATA)) || 
-                        ((dumpFilter==3) && ([w isResolved]!=-1)) )
-					[w dump:f]; 
-				
-				if (_deauthing && [w toDS]) {
-					if (![_container IDFiltered:[w rawSenderID]] && ![_container IDFiltered:[w rawBSSID]])
-						[self deauthenticateClient:[w rawSenderID] inNetworkWithBSSID:[w rawBSSID]];
-				}
-				
-				if ((geiger!=Nil) && ((_packets % _geigerInt)==0)) {
-					if (_soundBusy) 
-						_geigerInt+=10;
-					else {
-						_soundBusy=YES;
-						[geiger play];
-					}
-				}
-				
-				_packets++;
-				
-				if (_packets % 10000 == 0) {
-					[pool release];
-					pool = [NSAutoreleasePool new];
-				}
-				
-				_bytes+=[w length];
-			}//end parse frame
-            else NSLog(@"WaveScanner: Unknown packet type in parseFrame");
-		}
-		@finally {
-		}
-    }
+                    //dump if needed
+                    if (    (dumpFilter==1) || 
+                            ((dumpFilter==2) && ([w type]==IEEE80211_TYPE_DATA)) || 
+                            ((dumpFilter==3) && ([w isResolved]!=-1)) )
+                    {
+                        [w dump:f];
+                    }
+                    
+                    if (_deauthing && [w toDS])
+                    {
+                        if (![_container IDFiltered:[w rawSenderID]] && ![_container IDFiltered:[w rawBSSID]])
+                            [self deauthenticateClient:[w rawSenderID] inNetworkWithBSSID:[w rawBSSID]];
+                    }
+                    
+                    if ((geiger!=Nil) && ((_packets % _geigerInt)==0)) 
+                    {
+                        if (_soundBusy) 
+                        {
+                            _geigerInt+=10;
+                        }
+                        else
+                        {
+                            _soundBusy=YES;
+                            [geiger play];
+                        }
+                    }
+                    
+                    _packets++;
+                    
+                    if (_packets % 10000 == 0) 
+                    {
+                        [pool release];
+                        pool = [NSAutoreleasePool new];
+                    }
+                    
+                    _bytes+=[w length];
+                }//end parse frame
+                else NSLog(@"WaveScanner: Unknown packet type in parseFrame");
+            }
+            @finally 
+            {
+            }
+        }
 
-error:
-    [w release];
-	[pool release];
-	
+        //these are only allocated if there is no error
+        [w release];
+        [pool release];
+    }// no error
+    
     if (f) pcap_dump_close(f);
     if (p) pcap_close(p);
 }
