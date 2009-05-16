@@ -27,8 +27,7 @@
 
 @implementation WaveDriverUSB
 
-- (id)init
-{
+- (id)init {
     self=[super init];
 
     if (!self)
@@ -48,7 +47,6 @@
     
     return self;
 }
-
 
 #pragma mark -
 
@@ -78,13 +76,11 @@
 
 #pragma mark -
 
-+ (bool) loadBackend 
-{
++ (bool) loadBackend {
     return YES;
 }
 
-+ (bool) unloadBackend
-{
++ (bool) unloadBackend {
        return YES;
 }
 
@@ -161,24 +157,21 @@
 
 #pragma mark -
 
-- (KFrame *) nextFrame
-{
+- (KFrame *) nextFrame {
     KFrame *f = NULL;
     bool success;
     
     //make sure we have _driver and the device is actually there
     success = (_driver && _driver->devicePresent());
     
-    if(success)
-    {
+    if(success) {
          f = _driver->receiveFrame();
     }
 
-    if(!f)
-    {
+    if (!f) {
         //there was a driver error, usb device is probably gone
-        NSRunCriticalAlertPanel(NSLocalizedString(@"USB Prism2 error", "Error box title"),
-                                NSLocalizedString(@"USB Prism2 error description", "LONG Error description"),
+        NSRunCriticalAlertPanel(NSLocalizedString(@"USB device error", "Error box title"),
+                                NSLocalizedString(@"USB device error description", "LONG Error description"),
                                 //@"A driver error occured with your USB device, make sure it is properly connected. Scanning will "
                                 //"be canceled. Errors may have be printed to console.log."
                                 OK, Nil, Nil);
@@ -192,38 +185,61 @@
 }
 
 #pragma mark -
+#pragma mark Injection
+#pragma mark -
 
-- (void)doInjection:(NSData*)data {
+- (void)doInjection:(NSDictionary *)d {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-    UInt8 *f = (UInt8 *)[data bytes];
-    int size = [data length];  
-    
-    while(_transmitting) {
-        _driver->sendFrame(f, size);
-        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:_interval]];
+    NSData *data = [d objectForKey:@"data"];
+    KFrame *f = (KFrame *)[data bytes];
+    NSNumber *howM = [d objectForKey:@"howMany"];
+    NSString *sel = [d objectForKey:@"selector"]; 
+    SEL selector = NSSelectorFromString(sel);
+    id target = [d objectForKey:@"target"];
+    NSThread *thr = [d objectForKey:@"thread"];
+    int howMany = [howM intValue];
+    NSLog(@"doInj HowMany %d", howMany);
+    if (howMany == -1) {
+        while(_transmitting) {
+            _driver->sendKFrame(f);
+            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:_interval]];
+        }
+    } else {
+        while(_transmitting && howMany) {
+            _driver->sendKFrame(f);
+            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:_interval]];
+            howMany--;
+        }
     }
-    [data release];
-    
     [pool release];
+    if (target && selector) {
+        [target performSelector:selector onThread:thr withObject:nil waitUntilDone:NO];
+    }
+    [d release];
+    return;
 }
-
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
-    NSData *data;
-    
-    if (interval) {
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval notifyTarget:(id)target notifySelectorString:(NSString *)selector {
+    NSThread *thr = [NSThread currentThread];
+    if (howMany != 0) {
+        NSData *data = [NSData dataWithBytes:f length:sizeof(KFrame)];
+        NSNumber *howM = [NSNumber numberWithInt:howMany];
+        NSDictionary *d = [[NSDictionary alloc] initWithObjectsAndKeys: data, @"data", howM, @"howMany", thr, @"thread", target, @"target", selector, @"selector", nil];
         [self stopSendingFrames];
-        data = [[NSData dataWithBytes:f length:size] retain];
         _transmitting = YES;
         _interval = (float)interval / 1000.0;
-        [NSThread detachNewThreadSelector:@selector(doInjection:) toTarget:self withObject:data];
+        [NSThread detachNewThreadSelector:@selector(doInjection:) toTarget:self withObject:d];
     } else {
-        _driver->sendFrame(f, size);
+        _driver->sendKFrame(f);
+        if (target && selector) {
+            SEL sel = NSSelectorFromString(selector);
+            [target performSelector:sel withObject:nil];
+        }
     }
-    
     return YES;
 }
-
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval {
+    return [self sendKFrame:f howMany:howMany atInterval:interval notifyTarget:nil notifySelectorString:nil];
+}
 -(bool) stopSendingFrames {
     _transmitting = NO;
     [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:_interval]];
@@ -246,13 +262,13 @@
 
 #pragma mark -
 
--(void) dealloc
-{
+-(void) dealloc {
     [self stopSendingFrames];
     
     [self sleepDriver];
 
-    if(_driver) delete(_driver);
+    if (_driver)
+        delete (_driver);
     
     [super dealloc];
 }

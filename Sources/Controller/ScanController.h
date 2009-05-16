@@ -190,6 +190,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)selChannelRange:(id)sender;
 - (IBAction)setAutoAdjustTimer:(id)sender;
 
+- (IBAction)testInjection:(id)sender;
 - (IBAction)clearNetwork:(id)sender;
 - (IBAction)joinNetwork:(id)sender;
 
@@ -219,6 +220,9 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)debugBeaconFlood:(id)sender;
 - (IBAction)debugTestWPAHashingFunction:(id)sender;
 - (IBAction)debugExportTrafficView:(id)sender;
+
+- (void)selectedTableContextMenuItem:(id)sender;
+
 void NotifySleep( void * refCon, io_service_t service,
                       natural_t messageType, void * messageArgument );
 @end

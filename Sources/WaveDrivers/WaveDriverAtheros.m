@@ -340,17 +340,6 @@ struct _Prism_HEADER {
     }
 }
 
-
-#pragma mark -
-
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
-    return NO;
-}
-
--(bool) stopSendingFrames {    
-    return NO;
-}
-
 #pragma mark -
 
 -(void) dealloc {

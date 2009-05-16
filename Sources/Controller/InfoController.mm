@@ -2,7 +2,7 @@
         
         File:			InfoController.mm
         Program:		KisMAC
-	Author:			Michael Roßberg
+	Author:			Michael Ro√überg
 				mick@binaervarianz.de
 	Description:		KisMAC is a wireless stumbler for MacOS X.
                 
@@ -45,6 +45,8 @@ enum _rowIndexes {
     indexEmptyLine3,
     indexPackets,
     indexDataPackets,
+    indexMgmtPackets,
+    indexCtrlPackets,
     indexWeakPackets,
 	indexInjPackets,
     indexBytes,
@@ -177,6 +179,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
                         case encryptionTypeWEP:     return NSLocalizedString(@"WEP", "table description");
                         case encryptionTypeWEP40:   return NSLocalizedString(@"WEP-40", "table description");
                         case encryptionTypeWPA:     return NSLocalizedString(@"WPA", "table description");
+                        case encryptionTypeWPA2:     return NSLocalizedString(@"WPA2", "table description");
                         case encryptionTypeLEAP:    return NSLocalizedString(@"LEAP", "table description");
                     }
                 }
@@ -194,6 +197,10 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
                  return (col) ? NSLocalizedString(@"Packets", "table description") : [NSString stringWithFormat:@"%i", [_n packets]];
             case indexDataPackets:
                  return (col) ? NSLocalizedString(@"Data Packets", "table description") : [NSString stringWithFormat:@"%i", [_n dataPackets]];
+            case indexMgmtPackets:
+                return (col) ? NSLocalizedString(@"Management Packets", "table description") : [NSString stringWithFormat:@"%i", [_n mgmtPackets]];
+            case indexCtrlPackets:
+                return (col) ? NSLocalizedString(@"Control Packets", "table description") : [NSString stringWithFormat:@"%i", [_n ctrlPackets]];
             case indexWeakPackets:
                  return (col) ? NSLocalizedString(@"Unique IVs", "table description") : [NSString stringWithFormat:@"%i", [_n uniqueIVs]];
             case indexInjPackets:
@@ -330,6 +337,9 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 }
 
 - (NSString *) theRow {
+    UInt32 selectedRow = [aClientTable selectedRow];
+    if (selectedRow == -1)
+        return nil;
 	return [aClientKeys objectAtIndex:[aClientTable selectedRow]];
 }
 

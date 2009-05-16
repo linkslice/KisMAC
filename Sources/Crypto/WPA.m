@@ -372,7 +372,7 @@ void generatePTK512(UInt8* ptk, UInt8* pmk, const UInt8* anonce, const UInt8* sn
     memcpy(&data[12],                       minNonce, WPA_NONCE_LENGTH);
     memcpy(&data[12 + WPA_NONCE_LENGTH],    maxNonce, WPA_NONCE_LENGTH);
     
-    PRF(pmk, 32, prefix, strlen(prefix), data, WPA_NONCE_LENGTH*2 + 12, tmpPTK, 64);
+    PRF(pmk, 32, prefix, strlen((char *)prefix), data, WPA_NONCE_LENGTH*2 + 12, tmpPTK, 64);
     
     memcpy(ptk, tmpPTK, 64);
 }

@@ -350,7 +350,12 @@ typedef enum WLUCMethods {
 
 #pragma mark -
 
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval notifyTarget:(id)target notifySelectorString:(NSString *)selector {
+}
+
+-(bool) sendKFrame:(KFrame *)kframe howMany:(int)howMany atInterval:(int)interval {
+    UInt8 *f = kframe->data;
+    int size = kframe->ctrl.len;
     static UInt8  frame[2364];
     UInt32 frameSize = 2364;
     kern_return_t kernResult;

@@ -597,17 +597,6 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
 
 #pragma mark -
 
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
-    return NO;
-}
-
--(bool) stopSendingFrames
-{    
-    return NO;
-}
-
-#pragma mark -
-
 -(void) dealloc 
 {
     NSLog(@"about to close pcap device");

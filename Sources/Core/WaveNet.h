@@ -57,17 +57,23 @@ struct graphStruct {
     int					_maxSignal;				//biggest signal ever
     int					_curSignal;				//current signal
     int					_channel;				//last channel
-    int					_primaryChannel;       //channel which is brodacsted by AP
-    networkType			_type;          //0=unknown, 1=ad-hoc, 2=managed, 3=tunnel 4=probe 5=lucent tunnel
+    int					_primaryChannel;        //channel which is broadcasted by AP
+    networkType			_type;                  //0=unknown, 1=ad-hoc, 2=managed, 3=tunnel 4=probe 5=lucent tunnel
+    
+    // Statistical Data
     int					_packets;				//# of packets
     int					_packetsPerChannel[16];	//how many packets on each channel
-    int					_dataPackets;			//# of data packets
-    double				_bytes;				//bytes, float because of size
+    int					_dataPackets;			//# of Data packets
+    int                 _mgmtPackets;           //# of Management packets
+    int                 _ctrlPackets;           //# of Control packets
+    
+    double				_bytes;                 //bytes, float because of size
     int					graphLength;
     struct graphStruct *graphData;
-    encryptionType		_isWep;      //0=unknown, 1=disabled, 2=enabled 3=40-bit 4-WPA
-    UInt8				_IV[3];				//last iv
-    UInt8				_rawID[6];			//our id
+    
+    encryptionType		_isWep;                 //0=unknown, 1=disabled, 2=enabled 3=40-bit 4-WPA .....
+    UInt8				_IV[3];				    //last iv
+    UInt8				_rawID[6];			    //our id
     UInt8				_rawBSSID[6];			//our bssid
 	UInt8				_rateCount;
 	UInt8				_rates[MAX_RATE_COUNT];
@@ -186,9 +192,14 @@ struct graphStruct {
 - (int)channel;
 - (int)originalChannel;
 - (networkType)type;
+
+// Packet Statistics
 - (int)packets;
 - (int)uniqueIVs;
 - (int)dataPackets;
+- (int)mgmtPackets;
+- (int)ctrlPackets;
+
 - (int*)packetsPerChannel;
 - (void)setNetID:(int)netID;
 - (int)netID;
@@ -205,7 +216,6 @@ struct graphStruct {
 
 - (int)capturedEAPOLKeys;
 - (int)capturedLEAPKeys;
-- (void)reinjectWithImportController:(ImportController*)im andScanner:(id)scanner;
 
 - (NSString*)crackError;
 
@@ -215,4 +225,5 @@ struct graphStruct {
 + (void)setTrackString:(NSString*)cs;
 + (void)setTrackStringClient:(NSString*)cs;
 
+- (NSString*)asciiKey;
 @end

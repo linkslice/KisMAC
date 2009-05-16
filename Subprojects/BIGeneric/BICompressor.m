@@ -35,7 +35,7 @@
 	self = [super init];
 	if (!self) return nil;
 	
-	_file = gzopen([[file standardPath] cString], "wb");
+	_file = gzopen([[file standardPath] UTF8String], "wb");
 	if (!_file) {
 		[self release];
 		return nil;

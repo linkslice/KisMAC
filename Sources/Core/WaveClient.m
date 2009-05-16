@@ -30,6 +30,10 @@
 
 @implementation WaveClient
 
+#pragma mark -
+#pragma mark Coder stuff
+#pragma mark -
+
 - (id)initWithCoder:(NSCoder *)coder {
     self = [self init];
     if ( [coder allowsKeyedCoding] ) {
@@ -169,7 +173,7 @@
 
 -(void) parseFrameAsIncoming:(WavePacket*)w {
     if (!_ID) {
-        _ID=[[w clientToID] retain];
+        _ID=[[w stringReceiverID] retain];
 		if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
 			[_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
 			[_ID isEqualToString:@"00:12:D9:B3:1D:40"]) {
@@ -193,7 +197,7 @@
 
 -(void) parseFrameAsOutgoing:(WavePacket*)w {
     if (!_ID) {
-        _ID=[[w clientFromID] retain];
+        _ID=[[w stringSenderID] retain];
 		if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
 			[_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
 			[_ID isEqualToString:@"00:12:D9:B3:1D:40"]) {

@@ -297,16 +297,6 @@ typedef struct {
 
 #pragma mark -
 
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
-    return NO;
-}
-
--(bool) stopSendingFrames {    
-    return NO;
-}
-
-#pragma mark -
-
 -(void) dealloc {
     kern_return_t kernResult;
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort, kWiFiUserClientClose, 0, 0);

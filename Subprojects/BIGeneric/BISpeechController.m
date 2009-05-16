@@ -61,7 +61,7 @@
         if (SpeechBusySystemWide()==0) {
             s = [_sentenceQueue objectAtIndex:0];
             i = [[_sentenceQueue objectAtIndex:1] intValue];
-            [self doSpeakSentence:[s cString] withVoice:i];
+            [self doSpeakSentence:[s UTF8String] withVoice:i];
             [_sentenceQueue removeObjectAtIndex:1];
             [_sentenceQueue removeObjectAtIndex:0];
         }

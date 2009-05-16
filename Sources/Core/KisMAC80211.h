@@ -38,6 +38,19 @@ typedef struct {
 #define IS_LESS_MACADDR(m1, m2) (COMPARE_MACADDR(m1, m2) < 0)
 #define IS_BCAST_MACADDR(m) (COMPARE_MACADDR(m, BCAST_MACADDR) == 0)
 
+enum {
+    ieee80211ElementSSID             = 0,
+    ieee80211ElementSupportedRates   = 1,
+    ieee80211ElementFHParameterSet   = 2,
+    ieee80211ElementDSParameterSet   = 3,
+    ieee80211ElementCFParameterSet   = 4,
+    ieee80211ElementTIM              = 5,
+    ieee80211ElementIBSSParameterSet = 6,
+    ieee80211ElementChallengeText    = 16,
+};
+
+typedef UInt8 ieee80211Element;
+
 /*	pr0gg3d: This was taken and adapted from linux kernel headers 
 	I Would to remember that fields are in little endianness.
 */
@@ -180,5 +193,11 @@ struct ieee80211_auth {
 	UInt16 status;
 	/* challenge */
 	struct ieee80211_info_element info_element[0];
+} __attribute__ ((packed));
+
+///
+
+struct ieee80211_rts {
+	struct ieee80211_hdr_2addr header;
 } __attribute__ ((packed));
 

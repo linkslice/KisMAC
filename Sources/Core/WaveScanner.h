@@ -30,22 +30,13 @@
 #import "WavePacket.h"
 #import "WaveHelper.h"
 #import "WaveContainer.h"
-
-struct __beaconFrame {
-    WLMgmtFrame hdr;
-    UInt64		wi_timestamp;
-    UInt16		wi_interval;
-    UInt16		wi_capinfo;
-    UInt8       wi_tag_ssid;
-    UInt8       wi_ssid_len;
-    UInt32      wi_ssid; //normally variable
-    UInt8       wi_tag_rates;
-    UInt8       wi_rates_len;
-    UInt32      wi_rates;
-    UInt8       wi_tag_channel;
-    UInt8       wi_channel_len;
-    UInt8       wi_channel;
-}__attribute__ ((packed));
+#import "WavePluginInjectionProbe.h"
+#import "WavePluginDeauthentication.h"
+#import "WavePluginInjecting.h"
+#import "WavePluginAuthenticationFlood.h"
+#import "WavePluginBeaconFlood.h"
+#import "WavePcapDump.h"
+#import "WaveSpectrumDriver.h"
 
 @interface WaveScanner : NSObject {    
     NSTimer* _scanTimer;                //timer for refreshing the tables
@@ -60,25 +51,13 @@ struct __beaconFrame {
     
     NSArray *_drivers;                  // Array of drivers
     
-    bool _authenticationFlooding;  
-    struct ieee80211_auth _authFrame;
-
-    bool _beaconFlooding;
-    struct __beaconFrame _beaconFrame;
-    
     int _graphLength;
     NSTimeInterval _scanInterval;	//refresh interval
     
-    UInt8 _addr1[ETH_ALEN];
-    UInt8 _addr2[ETH_ALEN];
-    UInt8 _addr3[ETH_ALEN];
-
-    int  _injReplies;
     int  aPacketType;
     bool aScanRange;
     bool _scanning;
     bool _shouldResumeScan;
-    bool _injecting;
     bool _deauthing;
     double aFreq;
     int  _driver;
@@ -92,6 +71,9 @@ struct __beaconFrame {
     IBOutlet ScanController* aController;
     IBOutlet WaveContainer* _container;
    
+    NSMutableDictionary *_wavePlugins;
+    
+    WaveSpectrumDriver *_waveSpectrum;
 }
 
 - (void)readPCAPDump:(NSString*)dumpFile;
@@ -113,9 +95,9 @@ struct __beaconFrame {
 - (void) setDeauthingAll:(BOOL)deauthing;
 - (bool) authFloodNetwork:(WaveNet*)net;
 - (bool) deauthenticateNetwork:(WaveNet*)net atInterval:(int)interval;
-- (bool) deauthenticateClient:(UInt8*)client inNetworkWithBSSID:(UInt8*)bssid;
 - (bool) beaconFlood;
 - (bool) stopSendingFrames;
+- (bool) injectionTest: (WaveNet *)net withClient: (WaveClient *)client;
 
 - (void) sound:(NSSound *)sound didFinishPlaying:(bool)abool;
 @end

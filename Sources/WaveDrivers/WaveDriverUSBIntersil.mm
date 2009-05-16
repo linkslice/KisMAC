@@ -32,11 +32,11 @@ bool explicitlyLoadedUSBIntersil = NO;
 #pragma mark -
 
 + (NSString*) description {
-    return NSLocalizedString(@"USB Intersil device, passive mode", "long driver description");
+    return NSLocalizedString(@"USB Prism2 device, passive mode", "long driver description");
 }
 
 + (NSString*) deviceName {
-    return NSLocalizedString(@"USB Intersil device", "short driver description");
+    return NSLocalizedString(@"USB Prism2 device", "short driver description");
 }
 
 #pragma mark -
@@ -72,6 +72,22 @@ bool explicitlyLoadedUSBIntersil = NO;
 }
 
 #pragma mark -
+
+- (id) init {
+    self = [super init];
+    if (!self)
+        return nil;
+    
+    _permittedRates = [NSArray arrayWithObjects:
+        [NSNumber numberWithUnsignedInt:KMRate1],
+        [NSNumber numberWithUnsignedInt:KMRate2],
+        [NSNumber numberWithUnsignedInt:KMRate5_5],
+        [NSNumber numberWithUnsignedInt:KMRate11],
+        nil
+    ];
+    [_permittedRates retain];
+    return self;
+}
 
 - (bool) wakeDriver{
     [self sleepDriver];

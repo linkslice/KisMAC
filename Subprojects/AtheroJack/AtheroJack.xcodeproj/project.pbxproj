@@ -32,32 +32,6 @@
 		32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		06AA1265FFB2107B11CA28AA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				UNSTRIPPED_PRODUCT = YES;
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		06AA1266FFB2107B11CA28AA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		005DA60406C8D58400ACF77D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -94,7 +68,7 @@
 		1A224C3EFF42367911CA2CB7 /* AtheroJack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtheroJack.h; sourceTree = "<group>"; };
 		1A224C3FFF42367911CA2CB7 /* AtheroJack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtheroJack.cpp; sourceTree = "<group>"; };
 		2274D09509E9A2A600BE03D9 /* ieeeLite.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ieeeLite.cpp; path = OpenHAL/ieeeLite.cpp; sourceTree = "<group>"; };
-		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32D94FD00562CBF700B6AF17 /* AtheroJack.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtheroJack.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DA80CCF06AD972A00E5AC22 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = /System/Library/Frameworks/Kernel.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -212,14 +186,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				MODULE_NAME = de.binaervarianz.driver.AtheroJack;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = AtheroJack;
-				WRAPPER_EXTENSION = kext;
-			};
 			dependencies = (
 			);
 			name = AtheroJack;
@@ -234,15 +200,11 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 00AC266B0870A36C00885CB6 /* Build configuration list for PBXProject "AtheroJack" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				06AA1265FFB2107B11CA28AA /* Development */,
-				06AA1266FFB2107B11CA28AA /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* AtheroJack */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				32D94FC30562CBF700B6AF17 /* AtheroJack */,
 			);
@@ -313,40 +275,12 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
 				MODULE_NAME = de.binaervarianz.driver.AtheroJack;
 				MODULE_VERSION = 1.1.0d1;
-				OPTIMIZATION_CFLAGS = "-O0";
 				PRODUCT_NAME = AtheroJack;
 				UNSTRIPPED_PRODUCT = YES;
 				WRAPPER_EXTENSION = kext;
 				ZERO_LINK = YES;
 			};
 			name = Development;
-		};
-		00AC26690870A36C00885CB6 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				MODULE_NAME = de.binaervarianz.driver.AtheroJack;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = AtheroJack;
-				WRAPPER_EXTENSION = kext;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		00AC266A0870A36C00885CB6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				MODULE_NAME = de.binaervarianz.driver.AtheroJack;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = AtheroJack;
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Default;
 		};
 		00AC266C0870A36C00885CB6 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -355,21 +289,16 @@
 			};
 			name = Development;
 		};
-		00AC266D0870A36C00885CB6 /* Deployment */ = {
+		69DFB5CF0F8B1660000E5AF7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		00AC266E0870A36C00885CB6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
-			};
-			name = Default;
-		};
-		6C03D88E09B55164005B2316 /* Universal */ = {
+		69DFB5D00F8B1660000E5AF7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -382,18 +311,7 @@
 				WRAPPER_EXTENSION = kext;
 				ZERO_LINK = NO;
 			};
-			name = Universal;
-		};
-		6C03D88F09B55164005B2316 /* Universal */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Universal;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -402,23 +320,19 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00AC26680870A36C00885CB6 /* Development */,
-				00AC26690870A36C00885CB6 /* Deployment */,
-				6C03D88E09B55164005B2316 /* Universal */,
-				00AC266A0870A36C00885CB6 /* Default */,
+				69DFB5D00F8B1660000E5AF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		00AC266B0870A36C00885CB6 /* Build configuration list for PBXProject "AtheroJack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00AC266C0870A36C00885CB6 /* Development */,
-				00AC266D0870A36C00885CB6 /* Deployment */,
-				6C03D88F09B55164005B2316 /* Universal */,
-				00AC266E0870A36C00885CB6 /* Default */,
+				69DFB5CF0F8B1660000E5AF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

@@ -38,7 +38,7 @@ void ath_hal_printf(struct ath_hal *ah, const char* fmt, ...)
     static char buff[2048];
     va_list ap;
     va_start(ap, fmt);
-    vsprintf(buff, fmt, ap);
+    vsnprintf(buff, 2047, fmt, ap);
     IOLog(buff);
     va_end(ap);
 }

@@ -26,6 +26,7 @@
 #import <Cocoa/Cocoa.h>
 #import "../Core/80211b.h"
 #import "../Core/KisMAC80211.h"
+#import "../Core/KMCommon.h"
 
 extern char WaveDrivers [][30];
 
@@ -45,11 +46,14 @@ enum WaveDriverType {
     int _lastChannel;
     int _hopFailure;
     int _allowedChannels;
-    
+    KMRate _currentRate;
+	
     bool _autoAdjustTimer;
     bool _hop;
     bool _etsi;
     bool _fcc;
+    
+    NSArray *_permittedRates;
 }
 
 + (enum WaveDriverType) type;
@@ -99,9 +103,16 @@ enum WaveDriverType {
 -(bool) stoppedScanning;
 
 // for packet injection
-- (bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval;
-- (bool) stopSendingFrames;
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval;
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval notifyTarget:(id)target notifySelectorString:(NSString *)selector;
+-(bool) stopSendingFrames;
 
 //for the cards that support this
 - (int) allowedChannels;
+- (KMRate) currentRate;
+- (bool) setCurrentRate: (KMRate)rate;
+
+//For injection and other things
+- (NSArray *) permittedRates;
+
 @end

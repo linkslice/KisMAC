@@ -43,23 +43,12 @@
 
 #include <sys/types.h>
 
-/*typedef SInt8 int8_t;
-typedef SInt16 int16_t;
-typedef SInt32 int32_t;
-typedef SInt64 int64_t;
-
-typedef UInt8 u_int8_t;
-typedef UInt16 u_int16_t;
-typedef UInt32 u_int32_t;
-typedef UInt64 u_int64_t;*/
-
 /*
  * Linux/BSD gcc compatibility shims.
  */
-#define	__printflike(_a,_b) \
-	__attribute__ ((__format__ (__printf__, _a, _b)))
+//#define	__printflike(_a,_b)	__attribute__ ((__format__ (__printf__, _a, _b)))
 #define	__va_list	va_list 
-#define	OS_INLINE	__inline
+//#define	OS_INLINE	__inline
 
 typedef void* HAL_SOFTC;
 typedef int HAL_BUS_TAG;

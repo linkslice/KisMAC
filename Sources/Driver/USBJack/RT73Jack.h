@@ -176,8 +176,8 @@ public:
     
     bool _massagePacket(void *inBuf, void *outBuf, UInt16 len);
 
-    int         WriteTxDescriptor(void* theFrame, UInt16 length);
-    bool        sendFrame(UInt8* data, int size);
+    int         WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate);
+    bool        sendKFrame(KFrame *frame);
     IOReturn    _sendFrame(UInt8* data, IOByteCount size);
     
     void RTMPDescriptorEndianChange(unsigned char *  pData, unsigned long DescriptorType);

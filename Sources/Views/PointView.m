@@ -148,7 +148,7 @@
 
 - (void)setVisible:(BOOL)visible {
     [super setVisible:visible];
-    if (visible) [NSThread detachNewThreadSelector:@selector(animationThread:) toTarget:self withObject:nil];
+//    if (visible) [NSThread detachNewThreadSelector:@selector(animationThread:) toTarget:self withObject:nil];
 }
 
 - (void)setLocation:(NSPoint)loc {

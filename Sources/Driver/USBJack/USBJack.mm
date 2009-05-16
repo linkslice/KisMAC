@@ -51,6 +51,7 @@ USBJack::USBJack() {
     
     _numDevices = -1;
     _frameRing = NULL;
+    
     // Initialize internal frame queue
     initFrameQueue();
     
@@ -60,12 +61,11 @@ USBJack::USBJack() {
     // Start loop
     run();
     
-    while (_runLoop==NULL)
+    while (_runLoop == NULL)
         usleep(100);
 }
 
-USBJack::~USBJack()
-{
+USBJack::~USBJack() {
     // Stop
     stopRun();
     
@@ -124,7 +124,6 @@ void USBJack::startMatching()
 
     // Load property list
     loadPropertyList();
-
     
     _matchingDone = true;
     _deviceMatched = false;
@@ -210,7 +209,7 @@ KFrame *USBJack::receiveFrame()
     }
 }
 
-bool USBJack::sendFrame(UInt8* data, int size) {
+bool USBJack::sendKFrame(KFrame *data) {
     // Override in subclasses
     return NO;
 }
@@ -295,39 +294,17 @@ void USBJack::_interruptReceived(void *refCon, IOReturn result, int len)
     
     type = NSSwapLittleShortToHost(me->_receiveBuffer.type);
     if (_USB_ISRXFRM(type)) {
-        // Specific driver method to convert driver packet data to KFrame
-        // Return false if this is a bad packet
-        
-        frame = (KFrame*)&(me->_receiveBuffer.rxfrm);
-//        NSLog(@"dataReceived %d", len);
-        // Why do we needs to convert ?
-//        frameDescriptor->status = NSSwapLittleShortToHost(frameDescriptor->status);
-//        frameDescriptor->len = NSSwapLittleShortToHost(frameDescriptor->dataLen);
-
-        // Set channel
-//        frame->ctrl.channel = me->_channel;
-
-        // TODO: And for other channels?
-//        if (me->_channel > 14) 
-//            return;
-
-        /*
-            * If the frame has an FCS error, is received on a MAC port other
-            * than the monitor mode port, or is a message type other than
-            * normal, we don't want it.
-            */
-/*        if (frameDescriptor->status & 0x1 ||
-            (frameDescriptor->status & 0x700) != 0x700 ||
-            frameDescriptor->status & 0xe000) {
+        if (len > sizeof(KFrame)) {
             goto readon;
         }
-  */      
+            
+        // Get raw data pointer
+        frame = (KFrame*)&(me->_receiveBuffer.rxfrm);
         
-        /*
-            * Read in the packet data.  Read 8 extra bytes for IV + ICV if
-            * applicable.
-        */
-
+        // Here we insert raw data frame into queue because we need to do things
+        // as fast as possible. Remember that we are servicing an interrupt.
+        // Custom conversion will be done on dequeuing
+        
         // Lock for copying frame
         me->insertFrameIntoQueue(frame, len, me->_channel);
 
@@ -381,20 +358,16 @@ bool USBJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len){
 # pragma mark Internal Packet Queue
 # pragma mark -
 
-int USBJack::initFrameQueue(void)
-{
+int USBJack::initFrameQueue(void) {
     _frameRing = (struct __frameRing *)calloc(1, sizeof(struct __frameRing));
     memset(_frameRing, 0, sizeof(struct __frameRing));
     return 0;
 }
-
-int USBJack::destroyFrameQueue(void)
-{
+int USBJack::destroyFrameQueue(void) {
     free(_frameRing);
     return 0;
 }
-int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel) 
-{
+int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel)  {
     struct __frameRingSlot *slot = nil;
     
     if(_frameRing)
@@ -426,8 +399,7 @@ int USBJack::insertFrameIntoQueue(KFrame *f, UInt16 len, UInt16 channel)
     }
     return 0;
 }
-KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel)
-{
+KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel) {
     static KFrame f;
     struct __frameRingSlot *slot = nil;
     
@@ -439,7 +411,7 @@ KFrame *USBJack::getFrameFromQueue(UInt16 *len, UInt16 *channel)
         if(!slot) return nil;
 
         while (slot->state == FRAME_SLOT_FREE)
-            usleep(100);
+            usleep(10000);
 
         //we must return nil if a frame has zero length.
         //note returning nil generally indicates that the driver has faild :(
@@ -739,6 +711,7 @@ void USBJack::_addDevice(void *refCon, io_iterator_t iterator) {
             (*dev)->Release(dev);
     }
 }
+
 void USBJack::_handleDeviceRemoval(void *refCon, io_iterator_t iterator)
 {
     kern_return_t	kr;

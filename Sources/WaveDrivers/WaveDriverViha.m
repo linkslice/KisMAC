@@ -71,7 +71,7 @@ static bool explicitlyLoadedViha = NO;
     WirelessContextPtr airportContext;
     
     if ([WaveDriverAirport airportInstanceCount]) { //PseudoJack is up; this will cause problems...
-        NSLog(@"Could not instanciate Viha Driver, because of an active PseudoJack instance.");
+        NSLog(@"Could not instantiate Viha Driver, because of an active PseudoJack instance.");
         NSRunCriticalAlertPanel(
             NSLocalizedString(@"Could not load custom Airport Driver.", "Error dialog title"),
             NSLocalizedString(@"Could not load custom Airport Driver. description", "LONG description"),

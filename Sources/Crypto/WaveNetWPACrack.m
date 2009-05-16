@@ -370,7 +370,7 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     BOOL successful = NO;
 	
-	NSParameterAssert(_isWep == encryptionTypeWPA);    
+	NSParameterAssert((_isWep == encryptionTypeWPA) || (_isWep == encryptionTypeWPA2));
     NSParameterAssert(_SSID);
 	NSParameterAssert([_SSID length] <= 32);
 	NSParameterAssert([self capturedEAPOLKeys] > 0);

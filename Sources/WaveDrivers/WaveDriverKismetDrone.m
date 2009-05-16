@@ -449,18 +449,6 @@
 	return thisFrame; // finally!
 }
 
-
-
-#pragma mark -
-
--(bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
-    return NO;
-}
-
--(bool) stopSendingFrames {    
-    return NO;
-}
-
 #pragma mark -
 
 -(void) dealloc {

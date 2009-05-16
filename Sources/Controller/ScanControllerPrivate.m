@@ -407,6 +407,7 @@
     [scanner stopSendingFrames];
 	[scanner setDeauthingAll:NO];
     
+    [_deauthAllMenu setState: NSOffState];
     [_deauthMenu setState: NSOffState];
     [_deauthMenu setTitle: NSLocalizedString(@"Deauthenticate", "menu item. description must be the same as in MainMenu.nib!")];
     [_authFloodMenu setState: NSOffState];

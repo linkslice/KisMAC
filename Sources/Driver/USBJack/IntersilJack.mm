@@ -176,6 +176,7 @@ IOReturn IntersilJack::_reset() {
         _setValue(0xFC2A, 1); //auth type
         _setValue(0xFC2D, 1); //roaming by firmware
 		_setValue(0xFC28, 0x90); //set wep ignore
+		_setValue(0xFC83, 0); //set wep ignore
     }
     
     if (i==wlTimeout) {
@@ -194,11 +195,14 @@ IOReturn IntersilJack::_reset() {
     return kIOReturnSuccess;
 }
 
-bool IntersilJack::sendFrame(UInt8* data, int size) {
+bool IntersilJack::sendKFrame(KFrame *frame) {
     WLFrame *frameDescriptor;
+	UInt8 kmrate;
     UInt8 aData[2364];
     IOByteCount pktsize;
     int descriptorLength;
+    UInt8 *data = frame->data;
+    int size = frame->ctrl.len;
     
     struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)data;
     UInt16 type = (hdr->frame_ctl & IEEE80211_TYPE_MASK);
@@ -206,7 +210,7 @@ bool IntersilJack::sendFrame(UInt8* data, int size) {
     UInt16 isToDS = ((hdr->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
     UInt16 isFrDS = ((hdr->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
     UInt16 headerLength = 0;
-
+    
     switch (type) {
         case IEEE80211_TYPE_MGT:
             headerLength = sizeof(struct ieee80211_hdr_3addr);
@@ -238,13 +242,13 @@ bool IntersilJack::sendFrame(UInt8* data, int size) {
             break;
     }
     
-    // Write Tx Descriptor
     frameDescriptor = (WLFrame*)aData;
-    descriptorLength = WriteTxDescriptor(frameDescriptor);
+	kmrate = frame->ctrl.tx_rate;
+    descriptorLength = WriteTxDescriptor(frameDescriptor, kmrate);
     
     // Copy header
     memcpy(aData + sizeof(WLPrismHeader), data, headerLength);
-
+    
     // Copy Data
     if (size <= headerLength) {
         frameDescriptor->dataLen = 0;        
@@ -252,10 +256,10 @@ bool IntersilJack::sendFrame(UInt8* data, int size) {
         frameDescriptor->dataLen = (size - headerLength);
         memcpy(aData + sizeof(WLFrame), data + headerLength, frameDescriptor->dataLen);        
     }
-
+    
     pktsize = frameDescriptor->dataLen + sizeof(WLFrame);
     frameDescriptor->dataLen = NSSwapHostShortToLittle(frameDescriptor->dataLen);
-
+    
     //send the frame
     if (_sendFrame(aData, pktsize) != kIOReturnSuccess)
         return NO;
@@ -292,11 +296,11 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     isFrDS = ((head->frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
     switch(type) {
         case IEEE80211_TYPE_MGT:
-//            NSLog(@"MANAGEMENT");
+            NSLog(@"MANAGEMENT");
             headerLength = sizeof(struct ieee80211_hdr_3addr);
             break;
         case IEEE80211_TYPE_DATA:
-//            NSLog(@"DATA");
+            NSLog(@"DATA");
             if (subtype == IEEE80211_SUBTYPE_QOS_DATA) {
 //                NSLog(@"QOS");
                 if (isFrDS && isToDS) {
@@ -318,7 +322,7 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
             }
             break;
         case IEEE80211_TYPE_CTL:
-//            NSLog(@"CTL");
+            NSLog(@"CTL");
             switch(subtype) {
                 case IEEE80211_SUBTYPE_PS_POLL:
                 case IEEE80211_SUBTYPE_RTS:
@@ -350,10 +354,28 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     return true;
 }
 
-int IntersilJack::WriteTxDescriptor(WLFrame * theFrame){
+int IntersilJack::WriteTxDescriptor(WLFrame * theFrame, KMRate kmrate){
+	UInt8 rate;
     theFrame->txControl=NSSwapHostShortToLittle(0x08 | _TX_RETRYSTRAT_SET(3)| _TX_CFPOLL_SET(1) | _TX_TXEX_SET(0) | _TX_TXOK_SET(0) | _TX_MACPORT_SET(0));
-    theFrame->rate = 0x6e;	//11 MBit/s
-    theFrame->tx_rate = 0x6e;	//11 MBit/s 
+	switch (kmrate) {
+		case KMRate1:
+			rate = 0xa;
+			break;
+		case KMRate2:
+			rate = 0x14;
+			break;
+		case KMRate5_5:
+			rate = 0x37;
+			break;
+		case KMRate11:
+			rate = 0x6e;
+			break;
+		default:
+			rate = 0x6e;
+			break;
+	}
+    theFrame->rate = rate;
+	theFrame->tx_rate = rate;
     return sizeof(WLPrismHeader);
 }
 

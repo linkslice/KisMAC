@@ -67,7 +67,8 @@ inline void WirelessCryptMD5(char const *str, unsigned char *key) {
 static NSDictionary *_vendors = nil;	//Dictionary
 static BISpeechController *_speechController = nil;
 
-static NSMutableDictionary* _waveDrivers = Nil;   //interface to drivers
+// Global dictionary to keeps drivers
+static NSMutableDictionary* _waveDrivers = Nil;
 
 static NSWindow* aMainWindow;
 static GPSController* aGPSController;
@@ -78,12 +79,16 @@ static ImportController *_im;
 static ScanController *_scanController;
 static GPSInfoController *_gc;
 
-//converts a byte count to a human readable string
-+ (NSString*) bytesToString:(float) bytes {
-    if (bytes>700000000) return [NSString stringWithFormat:@"%1.2fGiB",bytes/1024/1024/1024];
-    else if (bytes>700000) return [NSString stringWithFormat:@"%1.2fMiB",bytes/1024/1024];
-    else if (bytes>700) return [NSString stringWithFormat:@"%1.2fKiB",bytes/1024];
-    else return [NSString stringWithFormat:@"%.fB",bytes];
+// Converts a byte count to a human readable string
++ (NSString *) bytesToString:(float) bytes {
+    if (bytes > 700000000)
+        return [NSString stringWithFormat:@"%1.2fGiB",bytes/1024/1024/1024];
+    else if (bytes > 700000)
+        return [NSString stringWithFormat:@"%1.2fMiB",bytes/1024/1024];
+    else if (bytes > 700)
+        return [NSString stringWithFormat:@"%1.2fKiB",bytes/1024];
+    else
+        return [NSString stringWithFormat:@"%.fB",bytes];
 }
 
 
@@ -122,6 +127,12 @@ static GPSInfoController *_gc;
     
     return outstring;
 }
+
+#pragma mark -
+#pragma mark MAC Utilities
+#pragma mark -
+
+// Encode a binary string into form XX:XX:XX.....
 + (NSString*) hexEncode:(UInt8*)data length:(int)len {
     NSParameterAssert(len > 0);
 	NSParameterAssert(data);
@@ -136,11 +147,18 @@ static GPSInfoController *_gc;
 	return ms;
 }
 
-//returns the vendor for a specific MAC-Address
++ (NSString*) macToString:(UInt8*)m {
+    if (!m)
+        return nil;
+    return [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", m[0], m[1], m[2], m[3], m[4], m[5], m[6]];
+}
+
+// Returns the vendor for a specific MAC-Address
 + (NSString *)vendorForMAC:(NSString*)MAC {
     NSString *aVendor;
     
-    if (_vendors==Nil) { //the dictionary is cached for speed, but it needs to be loaded the first time
+    // The dictionary is cached for speed, but it needs to be loaded the first time
+    if (_vendors == Nil) { 
         _vendors = [[NSDictionary dictionaryWithContentsOfFile:[[[NSBundle bundleForClass:[WaveHelper class]] resourcePath] stringByAppendingString:@"/vendor.db"]] retain];
 		if (!_vendors) {
 			NSLog(@"No vendors Database found!");
@@ -148,10 +166,11 @@ static GPSInfoController *_gc;
 		}
     }
 	
-    //do we have a valid MAC?
-    if ((MAC==nil)||([MAC length]<11)) return @"";
+    // Do we have a valid MAC?
+    if ((MAC == nil) || ([MAC length] < 11))
+        return @"";
     
-    //see if we can find a most matching dictionary entry
+    // See if we can find a most matching dictionary entry
     aVendor = [_vendors objectForKey:MAC];
     if (aVendor == nil) {
         aVendor = [_vendors objectForKey:[MAC substringToIndex:11]];
@@ -159,7 +178,9 @@ static GPSInfoController *_gc;
             aVendor = [_vendors objectForKey:[MAC substringToIndex:8]];
             if (aVendor == nil) {
                 aVendor = [_vendors objectForKey:[MAC substringToIndex:5]];
-                if (aVendor == nil) return @"unknown";
+                if (aVendor == nil) {
+                    return @"unknown";                    
+                } 
             }
         }
     }
@@ -175,21 +196,30 @@ static GPSInfoController *_gc;
 }
 
 #pragma mark -
+#pragma mark Channel utility functions
+#pragma mark -
 
 + (int)chan2freq:(int)channel {
-    if (channel == 14) return 2484;
-    if (channel >= 1 && channel <= 13) return 2407 + channel * 5;
-	if (channel < 200) return 5000 + channel * 5;
+    if (channel == 14)
+        return 2484;
+    if (channel >= 1 && channel <= 13)
+        return 2407 + channel * 5;
+	if (channel < 200)
+        return 5000 + channel * 5;
     return 0;
 }
-
 + (int)freq2chan:(int)frequency {
-    if (frequency == 2484) return 14;
-    if (frequency < 2484 && frequency > 2411 && ((frequency - 2407) % 5 == 0)) return (frequency - 2407) / 5;
-	if (frequency >= 5000 && frequency < 5900 && (frequency % 5) == 0) return (frequency - 5000) / 5;
+    if (frequency == 2484)
+        return 14;
+    if (frequency < 2484 && frequency > 2411 && ((frequency - 2407) % 5 == 0))
+        return (frequency - 2407) / 5;
+	if (frequency >= 5000 && frequency < 5900 && (frequency % 5) == 0)
+        return (frequency - 5000) / 5;
     return 0;
 }
 
+#pragma mark -
+#pragma mark Driver handling
 #pragma mark -
 
 + (bool)isServiceAvailable:(char*)service {
@@ -301,14 +331,20 @@ static GPSInfoController *_gc;
                 }
             }
             
-            //load the driver
+            // Get the class for driver
             driver = NSClassFromString(interfaceName);
-            if (![driver loadBackend]) return NO;
+            
+            // Call driver Class method "loadBackend"
+            if (![driver loadBackend]) {
+                return NO;
+            }
             
             //create an interface
             for (j = 0; j < 10; j++) {
                 w = [[driver alloc] init];
-                if (w) break;
+                if (w) {
+                    break;
+                }
                 [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.4]];
             }
             
@@ -316,15 +352,12 @@ static GPSInfoController *_gc;
                 [w setConfiguration: driverProps];
                 [_waveDrivers setObject:w forKey:name];
             } else {
-                NSRunCriticalAlertPanel(NSLocalizedString(@"Could not instanitiate Driver.", "Driver init failed"),
-                [NSString stringWithFormat: NSLocalizedString (@"Instanitiation Failure Description", @"LONG description of what might have gone wrong"),
-                // @"KisMAC was able to load the driver backend for %@, but it was unable to create an interface. "
-                //"Make sure your capture device is properly plugged in. If you think everything is correct, you can try to restart your "
-                //"computer. Maybe your console.log and system.log show more details."
+                NSRunCriticalAlertPanel(NSLocalizedString(@"Could not instantiate Driver.", "Driver init failed"),
+                [NSString stringWithFormat: NSLocalizedString (@"Instantiation Failure Description", @"LONG description of what might have gone wrong"),
                 name],
                 OK, Nil, Nil);
             
-                NSLog(@"Error could not instanciate driver %@", interfaceName);
+                NSLog(@"Error could not instantiate driver %@", interfaceName);
                 return NO;
             }
         }
@@ -374,83 +407,16 @@ static GPSInfoController *_gc;
 
 #pragma mark -
 
-+ (WLFrame*)dataToWLFrame:(UInt8*)data length:(int)len {
-    UInt16 *p;
-    unsigned int headerLength;
-	static WLFrame wf;
-	
-#ifndef USE_RAW_FRAMES
-    int type, subtype;
-    bool isToDS;
-    bool isFrDS;
-#endif
-    
-#ifdef USE_RAW_FRAMES
-    p = (UInt16*)&wf;						//p points to 802.11 header in our WLFrame	    
-    memcpy(p, data, ((len<60) ? len : 60));		//copy the whole frame into our WLFrame (or just the header)
-    
-    wf.channel = 0;
-    headerLength = sizeof(WLFrame);
-    if (len < headerLength) return NULL;	//corrupted frame
-    wf.dataLen = wf.length;	
-#else
-    p=(UInt16*)(((char*)&wf)+sizeof(struct sAirportFrame));	//p points to 802.11 header in our WLFrame	    
-    memcpy(p, data, ((len<30) ? len : 30));		//copy the whole frame into our WLFrame (or just the header)
-
-    type = (wf.frameControl & IEEE80211_TYPE_MASK);
-    subtype = (wf.frameControl & IEEE80211_SUBTYPE_MASK);
-    isToDS = ((wf.frameControl & IEEE80211_DIR_TODS) ? YES : NO);
-    isFrDS = ((wf.frameControl & IEEE80211_DIR_FROMDS) ? YES : NO);
-
-    //depending on the frame we have to figure the length of the header
-    switch(type) {
-        case IEEE80211_TYPE_DATA: //Data Frames
-            if (isToDS && isFrDS) headerLength = 30; //WDS Frames are longer
-            else headerLength = 24;
-            break;
-        case IEEE80211_TYPE_CTL: //Control Frames
-            switch(subtype) {
-                case IEEE80211_SUBTYPE_PS_POLL:
-                case IEEE80211_SUBTYPE_RTS:
-                    headerLength = 16;
-                    break;
-                case IEEE80211_SUBTYPE_CTS:
-                case IEEE80211_SUBTYPE_ACK:
-                    headerLength = 10;
-                    break;
-                default:
-                    return NULL;
-            }
-            break;
-        case IEEE80211_TYPE_MGT: //Management Frame
-            headerLength = 24;
-            break;
-        default:
-            return NULL;
-    }
-    if (len < headerLength) return NULL;	//corrupted frame
-    wf.dataLen = len - headerLength;	
-#endif
-
-    memcpy(((char*)&wf)+sizeof(WLFrame), data + headerLength, wf.dataLen);	//copy framebody into WLFrame
-
-    return &wf;   
-}
-
-#pragma mark -
-
 + (NSWindow*) mainWindow {
     return aMainWindow;
 }
-
 + (void) setMainWindow:(NSWindow*)mw {
-    aMainWindow=mw;
+    aMainWindow = mw;
 }
 
 + (ScanController*) scanController {
     return _scanController;
 }
-
 + (void) setScanController:(ScanController*)scanController {
     _scanController=scanController;
 }
@@ -458,7 +424,6 @@ static GPSInfoController *_gc;
 + (GPSInfoController*) GPSInfoController {
 	return _gc;
 }
-
 + (void) setGPSInfoController:(GPSInfoController*)GPSController {
     _gc=GPSController;
 }
@@ -476,7 +441,6 @@ static GPSInfoController *_gc;
 + (MapView*) mapView {
     return _mapView;
 }
-
 + (void) setMapView:(MapView*)mv {
     _mapView = mv;
 }
@@ -484,7 +448,6 @@ static GPSInfoController *_gc;
 + (Trace*) trace {
     return _trace;
 }
-
 + (void) setTrace:(Trace*)trace {
     _trace = trace;
 }
@@ -500,7 +463,6 @@ static GPSInfoController *_gc;
     
     return [NSColor colorWithCalibratedRed:r/255 green:g/255 blue:b/255 alpha:a/255];
 }
-
 + (NSNumber*)colorToInt:(NSColor*)c {
     unsigned int i;
     float a, r,g, b;
@@ -517,7 +479,6 @@ static GPSInfoController *_gc;
 + (ImportController*) importController {
     return _im;
 }
-
 + (void) setImportController:(ImportController*)im {
     _im = im;
 }
@@ -540,7 +501,6 @@ static GPSInfoController *_gc;
 + (bool)runScript:(NSString*)script {
     return [self runScript:script withArguments:Nil];
 }
-
 + (bool)runScript:(NSString*)script withArguments:(NSArray*)args {
     //int perm;
     bool ret;
@@ -571,7 +531,6 @@ static GPSInfoController *_gc;
     *object = Nil;
     [rel release];
 }
-
 + (void)secureReplace:(id*)oldObject withObject:(id)newObject {
     id rel = *oldObject;
     *oldObject = [newObject retain];
@@ -735,4 +694,131 @@ static GPSInfoController *_gc;
     return hasAltiVec;
 }
 
+#pragma mark -
+
++ (NSString*)frameControlToString:(UInt16)fc {
+    NSString *typeStr;
+    NSString *subtypeStr;
+    UInt16 type =    (fc & IEEE80211_TYPE_MASK);
+    UInt16 subtype = (fc & IEEE80211_SUBTYPE_MASK);
+	typeStr = @"UNKNOWN";
+	subtypeStr = @"UNKNOWN";
+    switch (type) {
+        case IEEE80211_TYPE_MGT:
+            typeStr = @"Management";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_ASSOC_REQ:
+                    subtypeStr = @"Association Request";
+                    break;
+                case IEEE80211_SUBTYPE_ASSOC_RESP:
+                    subtypeStr = @"Association Response";
+                    break;
+                case IEEE80211_SUBTYPE_REASSOC_REQ:
+                    subtypeStr = @"Reassociation Request";
+                    break;
+                case IEEE80211_SUBTYPE_REASSOC_RESP:
+                    subtypeStr = @"Reassociation Response";
+                    break;
+                case IEEE80211_SUBTYPE_PROBE_REQ:
+                    subtypeStr = @"Probe Request";
+                    break;
+                case IEEE80211_SUBTYPE_PROBE_RESP:
+                    subtypeStr = @"Probe Response";
+                    break;
+                case IEEE80211_SUBTYPE_BEACON:
+                    subtypeStr = @"Beacon";
+                    break;
+                case IEEE80211_SUBTYPE_ATIM:
+                    subtypeStr = @"Atim";
+                    break;
+                case IEEE80211_SUBTYPE_DISASSOC:
+                    subtypeStr = @"Dissassociation";
+                    break;
+                case IEEE80211_SUBTYPE_AUTH:
+                    subtypeStr = @"Authentication";
+                    break;
+                case IEEE80211_SUBTYPE_DEAUTH:
+                    subtypeStr = @"Deauthentication";
+                    break;
+                case IEEE80211_SUBTYPE_ACTION:
+                    subtypeStr = @"Action";
+                    break;                    
+            }
+            break;
+        case IEEE80211_TYPE_CTL:
+            typeStr = @"Control";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_PS_POLL:
+                    subtypeStr = @"PS Poll";
+                    break;
+                case IEEE80211_SUBTYPE_RTS:
+                    subtypeStr = @"RTS";
+                    break;
+                case IEEE80211_SUBTYPE_CTS:
+                    subtypeStr = @"CTS";
+                    break;
+                case IEEE80211_SUBTYPE_ACK:
+                    subtypeStr = @"ACK";
+                    break;
+                case IEEE80211_SUBTYPE_CF_END:
+                    subtypeStr = @"CF END";
+                    break;
+                case IEEE80211_SUBTYPE_CF_END_ACK:
+                    subtypeStr = @"CF END ACK";
+                    break;                    
+            }
+            break;
+        case IEEE80211_TYPE_DATA:
+            typeStr = @"Data";
+            switch (subtype) {
+                case IEEE80211_SUBTYPE_DATA:
+                    subtypeStr = @"Data";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFACK:
+                    subtypeStr = @"Data CF ACK";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFPOLL:
+                    subtypeStr = @"Data CF Poll";
+                    break;
+                case IEEE80211_SUBTYPE_DATA_CFACKPOLL:
+                    subtypeStr = @"Data CF ACK Poll";
+                    break;
+                case IEEE80211_SUBTYPE_NULLFUNC:
+                    subtypeStr = @"Null Function";
+                    break;
+                case IEEE80211_SUBTYPE_CFACK:
+                    subtypeStr = @"CF ACK";
+                    break;
+                case IEEE80211_SUBTYPE_CFPOLL:
+                    subtypeStr = @"CF POLL";
+                    break;
+                case IEEE80211_SUBTYPE_CFACKPOLL:
+                    subtypeStr = @"CF ACK POLL";
+                    break;
+                case IEEE80211_SUBTYPE_QOS_DATA:
+                    subtypeStr = @"QOS Data";
+                    break;                    
+            }
+            break;
+    }
+    return [NSString stringWithFormat:@"%@ %@", typeStr, subtypeStr];
+}
++ (void)dumpKFrame:(KFrame *)f {
+    UInt32 size = f->ctrl.len;
+    UInt8 *data = f->data;
+    NSLog(@"--FRAME LENGTH %d--", size);
+    int idx = 0;
+    int i,j;
+	for (i=0;i<size;i=i+8) {
+        fprintf(stderr, "0x%.4x ", i);
+        for (j=0;j<8;j++) {
+            if (idx < size)
+                fprintf(stderr, "%.2x ", data[idx]);
+            else
+                fprintf(stderr, "   ");
+            idx += 1;
+        }
+        fprintf(stderr, "\n");
+    }
+}
 @end

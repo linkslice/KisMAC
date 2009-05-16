@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
@@ -42,7 +42,7 @@
 	<key>CFBundleExecutable</key>
 	<string>KisMAC</string>
 	<key>CFBundleGetInfoString</key>
-	<string>KisMAC version 0.21a [$Revision: 316$]</string>
+	<string>KisMAC svn, © 2002-2009 KisMAC Community</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>KisMACHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -58,11 +58,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>KisMAC 0.21a [$Revision: 316$]</string>
+	<string>KisMAC svn</string>
 	<key>CFBundleSignature</key>
 	<string>BIKM</string>
 	<key>CFBundleVersion</key>
-	<string>0.21a [$Revision: 316$]</string>
+	<string>svn</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.0</string>
 	<key>NSAppleScriptEnabled</key>

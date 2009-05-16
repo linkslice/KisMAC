@@ -39,6 +39,14 @@ static bool explicitlyLoadedAiroJack = false;
 	_hop = NO; 
 		
     self = [super init];
+
+    _permittedRates = [NSArray arrayWithObjects:
+        [NSNumber numberWithUnsignedInt:KMRate1],
+        [NSNumber numberWithUnsignedInt:KMRate2],
+        [NSNumber numberWithUnsignedInt:KMRate5_5],
+        [NSNumber numberWithUnsignedInt:KMRate11],
+        nil
+    ];
     return self;
 }
 

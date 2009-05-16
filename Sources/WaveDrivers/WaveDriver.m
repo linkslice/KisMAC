@@ -45,6 +45,15 @@ char WaveDrivers [][30] = {
 
 @implementation WaveDriver
 
+- (id) init {
+    self = [super init];
+    if (!self)
+        return nil;
+    
+    _permittedRates = nil;
+	_currentRate = KMRate11;
+    return self;
+}
 //private
 - (unsigned short) getChannelUnCached {
     return 0;
@@ -326,12 +335,16 @@ char WaveDrivers [][30] = {
 }
 
 #pragma mark -
+#pragma mark Sending frame
+#pragma mark
 
-- (bool) sendFrame:(UInt8*)f withLength:(int) size atInterval:(int)interval {
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval {
     return NO;
 }
-
-- (bool) stopSendingFrames {
+-(bool) sendKFrame:(KFrame *)f howMany:(int)howMany atInterval:(int)interval notifyTarget:(id)target notifySelectorString:(NSString *)selector {
+    return NO;
+}
+-(bool) stopSendingFrames {
     return NO;
 }
 
@@ -339,6 +352,22 @@ char WaveDrivers [][30] = {
 
 - (int) allowedChannels {
     return 0xFFFF;
+}
+
+#pragma mark -
+
+- (NSArray *) permittedRates {
+    if (!_permittedRates) {
+        _permittedRates = [NSArray array];
+    }
+    return _permittedRates;
+}
+- (KMRate) currentRate {
+	return _currentRate;
+}
+- (bool) setCurrentRate: (KMRate)rate {
+	_currentRate = rate;
+	return YES;
 }
 
 @end

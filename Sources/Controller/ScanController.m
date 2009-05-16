@@ -102,8 +102,30 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"/dev/bpf0", @"bpfloc",
         [NSNumber numberWithInt:100], @"pr_interval",
         nil];
-
+    
+    NSDictionary  *networkTableFieldsVisibility = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithBool:YES], @"id",
+                                          [NSNumber numberWithBool:YES], @"channel",
+                                          [NSNumber numberWithBool:NO],  @"primaryChannel",
+                                          [NSNumber numberWithBool:YES], @"ssid",
+                                          [NSNumber numberWithBool:YES], @"bssid",
+                                          [NSNumber numberWithBool:YES], @"wep",
+                                          [NSNumber numberWithBool:YES], @"type",
+                                          [NSNumber numberWithBool:YES], @"signal",
+                                          [NSNumber numberWithBool:YES], @"avgsignal",
+                                          [NSNumber numberWithBool:YES], @"maxsignal",
+                                          [NSNumber numberWithBool:YES], @"packets",
+                                          [NSNumber numberWithBool:YES], @"data",
+                                          [NSNumber numberWithBool:YES], @"lastseen",
+                                          [NSNumber numberWithBool:YES], @"challengeResponse",
+                                                   nil];
+    NSArray *networkTableFieldsOrder = [NSArray arrayWithObjects:@"id", @"channel", @"ssid", @"bssid", @"wep", @"type", @"signal", @"avgsignal", @"maxsignal", @"packets", @"data", @"lastseen", @"challengeResponse", nil];
+    NSDictionary *networkTableFields = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        networkTableFieldsVisibility, @"networkTableFieldsVisibility",
+                                        networkTableFieldsOrder, @"networkTableFieldsOrder",
+                                        nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:registrationDict];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:networkTableFields];
 }
 
 -(id) init {
@@ -146,6 +168,39 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     [_showDetails  setImage: [NSImage imageNamed:@"details-button.tif"]];
     
     [_networkTable setDoubleAction:@selector(showDetails:)];
+    
+    // Custom table fields
+    NSMenu *menu = [[NSMenu alloc] initWithTitle:@"Network table columns"];
+    id tableColumn;
+    NSMenuItem *menuItem;
+    NSMutableArray *colsToRemove = [[NSMutableArray alloc] init];
+    NSArray *networkTableFieldsOrder = [[NSUserDefaults standardUserDefaults] objectForKey:@"networkTableFieldsOrder"];
+    NSDictionary *networkTableFieldsVisibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"networkTableFieldsVisibility"];
+    NSEnumerator *colsEnumerator = [[_networkTable tableColumns] objectEnumerator];
+    int i = 0;
+    while ((tableColumn = [colsEnumerator nextObject])) {
+        menuItem = [menu insertItemWithTitle:[[tableColumn headerCell] title]
+                                      action:@selector(selectedTableContextMenuItem:)
+                               keyEquivalent:@""
+                                     atIndex:i];
+        [menuItem setRepresentedObject:tableColumn];
+        if ([[networkTableFieldsVisibility objectForKey:[tableColumn identifier]] boolValue]) {
+            [menuItem setState:NSOnState];
+        } else {
+            [colsToRemove addObject:tableColumn];
+            [menuItem setState:NSOffState];
+        }
+            
+        [menuItem setTarget:self];
+        i++;
+    }
+    colsEnumerator = [colsToRemove objectEnumerator];
+    while ((tableColumn = [colsEnumerator nextObject])) {
+        [_networkTable removeTableColumn:tableColumn];
+    }
+    [[_networkTable headerView] setMenu:menu];
+    
+    //
     [_window makeFirstResponder:_networkTable]; //select the network table not the search box
     
     [self menuSetEnabled:NO menu:aNetworkMenu];
@@ -274,6 +329,15 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     [self stopScan];
 }
 
+#pragma mark -
+#pragma mark Columns layout
+#pragma mark -
+- (void) selectedColumnHeader {
+    
+}
+
+#pragma mark -
+#pragma mark Table datasource methods
 #pragma mark -
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *) aTableColumn row:(int) rowIndex {
@@ -653,6 +717,17 @@ void NotifySleep( void * refCon, io_service_t service,
 	[WaveNet setTrackString:bssid];
 	[WaveNet setTrackStringClient:mac];
 
+}
+
+- (void)selectedTableContextMenuItem:(id)sender{
+    if ([sender state] == NSOnState) {
+        [_networkTable removeTableColumn:[sender representedObject]];
+        [sender setState:NSOffState];
+    }
+    else {
+        [_networkTable addTableColumn:[sender representedObject]];
+        [sender setState:NSOnState];
+    }
 }
 
 @end

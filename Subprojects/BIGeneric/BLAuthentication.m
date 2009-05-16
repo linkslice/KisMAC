@@ -200,14 +200,14 @@
 	int pid = 0;
 	int len = 0;
     
-    outpipe = popen([popenArgs cString],"r");
+    outpipe = popen([popenArgs UTF8String],"r");
 
 	[popenArgs release];
 
 	if(!outpipe) {
         NSLog(@"Error opening pipe: %@",forProcess);
         NSBeep();
-        return nil;
+        return 0;
     }
 	
 	do {

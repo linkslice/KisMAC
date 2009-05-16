@@ -3,232 +3,209 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 39;
+	objectVersion = 42;
 	objects = {
-		00C8D0A3080C20DE0069E714 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = IOKit.framework;
-			path = /System/Library/Frameworks/IOKit.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+
+/* Begin PBXBuildFile section */
+		00C8D0A4080C20DE0069E714 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C8D0A3080C20DE0069E714 /* IOKit.framework */; };
+		8DD76FAC0486AB0100D96B5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8DD76FB00486AB0100D96B5E /* FirmwareFlasher.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* FirmwareFlasher.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76FB00486AB0100D96B5E /* FirmwareFlasher.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
-		00C8D0A4080C20DE0069E714 = {
-			fileRef = 00C8D0A3080C20DE0069E714;
-			isa = PBXBuildFile;
-			settings = {
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00C8D0A3080C20DE0069E714 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		08FB7796FE84155DC02AAC07 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8DD76FB20486AB0100D96B5E /* FirmwareFlasher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FirmwareFlasher; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6A0FF2C0290799A04C91782 /* FirmwareFlasher.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FirmwareFlasher.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00C8D0A4080C20DE0069E714 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* FirmwareFlasher */ = {
+			isa = PBXGroup;
+			children = (
+				00C8D0A3080C20DE0069E714 /* IOKit.framework */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6A0FF2B0290797F04C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = FirmwareFlasher;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7796FE84155DC02AAC07 /* main.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FB20486AB0100D96B5E /* FirmwareFlasher */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6A0FF2C0290799A04C91782 /* FirmwareFlasher.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* FirmwareFlasher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69AAA65C0F83641D000A72F5 /* Build configuration list for PBXNativeTarget "FirmwareFlasher" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FirmwareFlasher;
+			productInstallPath = "$(HOME)/bin";
+			productName = FirmwareFlasher;
+			productReference = 8DD76FB20486AB0100D96B5E /* FirmwareFlasher */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 69AAA65B0F83641D000A72F5 /* Build configuration list for PBXProject "FirmwareFlasher" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* FirmwareFlasher */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* FirmwareFlasher */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76FAC0486AB0100D96B5E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		69AAA6490F83640E000A72F5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 			};
+			name = Development;
 		};
-//000
-//001
-//002
-//003
-//004
-//010
-//011
-//012
-//013
-//014
-		014CEA520018CE5811CA2923 = {
+		69AAA64A0F83640E000A72F5 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		69AAA64B0F83640E000A72F5 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+		69AAA64C0F83640E000A72F5 /* Development */ = {
+			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = FirmwareFlasher;
 				ZERO_LINK = YES;
 			};
-			isa = PBXBuildStyle;
 			name = Development;
 		};
-		014CEA530018CE5811CA2923 = {
+		69AAA64D0F83640E000A72F5 /* Deployment */ = {
+			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = FirmwareFlasher;
 				ZERO_LINK = NO;
 			};
-			isa = PBXBuildStyle;
 			name = Deployment;
 		};
-//010
-//011
-//012
-//013
-//014
-//080
-//081
-//082
-//083
-//084
-		08FB7793FE84155DC02AAC07 = {
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA520018CE5811CA2923,
-				014CEA530018CE5811CA2923,
-			);
-			hasScannedForEncodings = 1;
-			isa = PBXProject;
-			mainGroup = 08FB7794FE84155DC02AAC07;
-			projectDirPath = "";
-			targets = (
-				8DD76FA90486AB0100D96B5E,
-			);
-		};
-		08FB7794FE84155DC02AAC07 = {
-			children = (
-				00C8D0A3080C20DE0069E714,
-				08FB7795FE84155DC02AAC07,
-				C6A0FF2B0290797F04C91782,
-				1AB674ADFE9D54B511CA2CBB,
-			);
-			isa = PBXGroup;
-			name = FirmwareFlasher;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		08FB7795FE84155DC02AAC07 = {
-			children = (
-				08FB7796FE84155DC02AAC07,
-			);
-			isa = PBXGroup;
-			name = Source;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		08FB7796FE84155DC02AAC07 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = main.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//080
-//081
-//082
-//083
-//084
-//1A0
-//1A1
-//1A2
-//1A3
-//1A4
-		1AB674ADFE9D54B511CA2CBB = {
-			children = (
-				8DD76FB20486AB0100D96B5E,
-			);
-			isa = PBXGroup;
-			name = Products;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//1A0
-//1A1
-//1A2
-//1A3
-//1A4
-//8D0
-//8D1
-//8D2
-//8D3
-//8D4
-		8DD76FA90486AB0100D96B5E = {
-			buildPhases = (
-				8DD76FAB0486AB0100D96B5E,
-				8DD76FAD0486AB0100D96B5E,
-				8DD76FAF0486AB0100D96B5E,
-			);
-			buildRules = (
-			);
+		69AAA64E0F83640E000A72F5 /* Default */ = {
+			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = FirmwareFlasher;
 			};
-			dependencies = (
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		69AAA65B0F83641D000A72F5 /* Build configuration list for PBXProject "FirmwareFlasher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69AAA6490F83640E000A72F5 /* Development */,
+				69AAA64A0F83640E000A72F5 /* Deployment */,
+				69AAA64B0F83640E000A72F5 /* Default */,
 			);
-			isa = PBXNativeTarget;
-			name = FirmwareFlasher;
-			productInstallPath = "$(HOME)/bin";
-			productName = FirmwareFlasher;
-			productReference = 8DD76FB20486AB0100D96B5E;
-			productType = "com.apple.product-type.tool";
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
-		8DD76FAB0486AB0100D96B5E = {
-			buildActionMask = 2147483647;
-			files = (
-				8DD76FAC0486AB0100D96B5E,
+		69AAA65C0F83641D000A72F5 /* Build configuration list for PBXNativeTarget "FirmwareFlasher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69AAA64C0F83640E000A72F5 /* Development */,
+				69AAA64D0F83640E000A72F5 /* Deployment */,
+				69AAA64E0F83640E000A72F5 /* Default */,
 			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
-		8DD76FAC0486AB0100D96B5E = {
-			fileRef = 08FB7796FE84155DC02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-				);
-			};
-		};
-		8DD76FAD0486AB0100D96B5E = {
-			buildActionMask = 2147483647;
-			files = (
-				00C8D0A4080C20DE0069E714,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DD76FAF0486AB0100D96B5E = {
-			buildActionMask = 8;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				8DD76FB00486AB0100D96B5E,
-			);
-			isa = PBXCopyFilesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		8DD76FB00486AB0100D96B5E = {
-			fileRef = C6A0FF2C0290799A04C91782;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8DD76FB20486AB0100D96B5E = {
-			explicitFileType = "compiled.mach-o.executable";
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = FirmwareFlasher;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-//8D0
-//8D1
-//8D2
-//8D3
-//8D4
-//C60
-//C61
-//C62
-//C63
-//C64
-		C6A0FF2B0290797F04C91782 = {
-			children = (
-				C6A0FF2C0290799A04C91782,
-			);
-			isa = PBXGroup;
-			name = Documentation;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		C6A0FF2C0290799A04C91782 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.man;
-			path = FirmwareFlasher.1;
-			refType = 4;
-			sourceTree = "<group>";
-		};
+/* End XCConfigurationList section */
 	};
-	rootObject = 08FB7793FE84155DC02AAC07;
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
 }

@@ -26,6 +26,7 @@
 #import <Cocoa/Cocoa.h>
 #import <UnitKit/UnitKit.h>
 #import "Apple80211.h"
+#import "KisMAC80211.h"
 #import "80211b.h"
 
 #ifdef __cplusplus
@@ -67,14 +68,13 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 + (NSString*) urlEncodeString:(NSString*)string;
 + (NSString*) vendorForMAC:(NSString*)MAC;
 + (NSString*) hexEncode:(UInt8*)data length:(int)len;
++ (NSString *) macToString:(UInt8*)m;
 
 + (void)speakSentence:(const char*)cSentence withVoice:(int)voice;
 + (bool)isServiceAvailable:(char*)service;
 
 + (int)chan2freq:(int)channel;
 + (int)freq2chan:(int)frequency;
-
-+ (WLFrame*)dataToWLFrame:(UInt8*)data length:(int)len;
 
 + (bool)unloadAllDrivers;
 + (bool)loadDrivers;
@@ -121,4 +121,9 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 
 /* Altivec */
 + (BOOL)isAltiVecAvailable;
+
+/* packet utilities */
++ (NSString*)frameControlToString:(UInt16)fc;
++ (void)dumpKFrame:(KFrame *)f;
+
 @end

@@ -511,7 +511,7 @@
     if (_importOpen) return NO;
     if (_curNet==Nil) return NO;
     if ([_curNet passwordAvailable]) return YES;
-    if ([_curNet wep] != encryptionTypeWPA) return NO;
+    if (([_curNet wep] != encryptionTypeWPA) && ([_curNet wep] != encryptionTypeWPA2)) return NO;
 	if ([_curNet SSID] == Nil) return NO;
 	if ([[_curNet SSID] length] > 32) return NO;
 	if ([_curNet capturedEAPOLKeys] == 0) return NO;

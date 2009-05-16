@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "KMCommon.h"
 #import "USBJack.h"
 
 class IntersilJack: public USBJack
@@ -25,8 +26,8 @@ public:
     bool    getChannel(UInt16* channel);
     bool    getAllowedChannels(UInt16* channel);
     bool    setChannel(UInt16 channel);
-    int     WriteTxDescriptor(WLFrame * theFrame);
-    bool    sendFrame(UInt8* data, int size);
+    int     WriteTxDescriptor(WLFrame * theFrame, KMRate kmrate);
+    bool    sendKFrame(KFrame *frame);
     bool    _massagePacket(void *inBuf, void *outBuf, UInt16 len);
     
     IOReturn    _doCommand(enum WLCommandCode cmd, UInt16 param0, UInt16 param1 = 0, UInt16 param2 = 0);

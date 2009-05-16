@@ -32,115 +32,6 @@
 #define AMOD(x, y) ((x) % (y) < 0 ? ((x) % (y)) + (y) : (x) % (y))
 #define N 256
 
-NSString *macToString(UInt8 *m) {
-    return [NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", m[0], m[1], m[2], m[3], m[4], m[5], m[6]];
-}
-
-NSString *frameControlToString(UInt16 fc) {
-    NSString *typeStr;
-    NSString *subtypeStr;
-    UInt16 type =    (fc & IEEE80211_TYPE_MASK);
-    UInt16 subtype = (fc & IEEE80211_SUBTYPE_MASK);
-    switch (type) {
-        case IEEE80211_TYPE_MGT:
-            typeStr = @"Management";
-            switch (subtype) {
-                case IEEE80211_SUBTYPE_ASSOC_REQ:
-                    subtypeStr = @"Association Request";
-                    break;
-                case IEEE80211_SUBTYPE_ASSOC_RESP:
-                    subtypeStr = @"Association Response";
-                    break;
-                case IEEE80211_SUBTYPE_REASSOC_REQ:
-                    subtypeStr = @"Reassociation Request";
-                    break;
-                case IEEE80211_SUBTYPE_REASSOC_RESP:
-                    subtypeStr = @"Reassociation Response";
-                    break;
-                case IEEE80211_SUBTYPE_PROBE_REQ:
-                    subtypeStr = @"Probe Request";
-                    break;
-                case IEEE80211_SUBTYPE_PROBE_RESP:
-                    subtypeStr = @"Probe Response";
-                    break;
-                case IEEE80211_SUBTYPE_BEACON:
-                    subtypeStr = @"Beacon";
-                    break;
-                case IEEE80211_SUBTYPE_ATIM:
-                    subtypeStr = @"Atim";
-                    break;
-                case IEEE80211_SUBTYPE_DISASSOC:
-                    subtypeStr = @"Dissassociation";
-                    break;
-                case IEEE80211_SUBTYPE_AUTH:
-                    subtypeStr = @"Authentication";
-                    break;
-                case IEEE80211_SUBTYPE_DEAUTH:
-                    subtypeStr = @"Deauthentication";
-                    break;
-                case IEEE80211_SUBTYPE_ACTION:
-                    subtypeStr = @"Action";
-                    break;                    
-            }
-            break;
-        case IEEE80211_TYPE_CTL:
-            typeStr = @"Control";
-            switch (subtype) {
-                case IEEE80211_SUBTYPE_PS_POLL:
-                    subtypeStr = @"PS Poll";
-                    break;
-                case IEEE80211_SUBTYPE_RTS:
-                    subtypeStr = @"RTS";
-                    break;
-                case IEEE80211_SUBTYPE_CTS:
-                    subtypeStr = @"CTS";
-                    break;
-                case IEEE80211_SUBTYPE_ACK:
-                    subtypeStr = @"ACK";
-                    break;
-                case IEEE80211_SUBTYPE_CF_END:
-                    subtypeStr = @"CF END";
-                    break;
-                case IEEE80211_SUBTYPE_CF_END_ACK:
-                    subtypeStr = @"CF END ACK";
-                    break;                    
-            }
-            break;
-        case IEEE80211_TYPE_DATA:
-            typeStr = @"Data";
-            switch (subtype) {
-                case IEEE80211_SUBTYPE_DATA:
-                    subtypeStr = @"Data";
-                    break;
-                case IEEE80211_SUBTYPE_DATA_CFACK:
-                    subtypeStr = @"Data CF ACK";
-                    break;
-                case IEEE80211_SUBTYPE_DATA_CFPOLL:
-                    subtypeStr = @"Data CF Poll";
-                    break;
-                case IEEE80211_SUBTYPE_DATA_CFACKPOLL:
-                    subtypeStr = @"Data CF ACK Poll";
-                    break;
-                case IEEE80211_SUBTYPE_NULLFUNC:
-                    subtypeStr = @"Null Function";
-                    break;
-                case IEEE80211_SUBTYPE_CFACK:
-                    subtypeStr = @"CF ACK";
-                    break;
-                case IEEE80211_SUBTYPE_CFPOLL:
-                    subtypeStr = @"CF POLL";
-                    break;
-                case IEEE80211_SUBTYPE_CFACKPOLL:
-                    subtypeStr = @"CF ACK POLL";
-                    break;
-                case IEEE80211_SUBTYPE_QOS_DATA:
-                    subtypeStr = @"QOS Data";
-                    break;                    
-            }
-            break;
-    }
-    return [NSString stringWithFormat:@"%@ %@", typeStr, subtypeStr];
-}
 bool inline is8021xPacket(const UInt8* fileData) {
     if (fileData[0] == 0xAA &&
         fileData[1] == 0xAA &&
@@ -205,7 +96,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
             if (len < 6)
                 break;
             if (memcmp(packet+4, RSN_OUI, 3) == 0)
-				_isWep = encryptionTypeWPA;       
+				_isWep = encryptionTypeWPA2;
             break;
         case IEEE80211_ELEMID_VENDOR:
             len=(*(packet+1));
@@ -256,7 +147,6 @@ bool inline is8021xPacket(const UInt8* fileData) {
 
 //this initializes the structure with a raw frame
 - (bool)parseFrame:(KFrame*) f {
-    //WLCryptedFrame *cf;
     int i;
     NSMutableArray *ar;
 	
@@ -270,7 +160,8 @@ bool inline is8021xPacket(const UInt8* fileData) {
     struct ieee80211_assoc_request *assoc_req;
     struct ieee80211_reassoc_request *reassoc_req;
     
-    if (f==NULL)
+    // If kframe is NULL, we reject it
+    if (f == NULL)
         return NO;
     
     hdr1 = (struct ieee80211_hdr *)(f->data);
@@ -296,27 +187,31 @@ bool inline is8021xPacket(const UInt8* fileData) {
     _isEAP = NO;
     _revelsKeyByte = -2;
 
-    // Set frame
-    _length=f->ctrl.len;
+    // Set frame pointer and length
+    _length = f->ctrl.len;
     _frame = (UInt8*)(f->data);
-
+    
+    // Initialize payload pointer and length
     _payload = NULL;
     _payloadLength = 0;
     
+    // Set type, subtype, toDS and fromDS
     _type =    (hdr1->frame_ctl & IEEE80211_TYPE_MASK);
     _subtype = (hdr1->frame_ctl & IEEE80211_SUBTYPE_MASK);
     _isToDS = ((hdr1->frame_ctl & IEEE80211_DIR_TODS) ? YES : NO);
     _isFrDS = ((hdr1->frame_ctl & IEEE80211_DIR_FROMDS) ? YES : NO);
     
+//    NSLog(@"%@", [WaveHelper frameControlToString:hdr1->frame_ctl]);
     // Determine frame signal strength
     _signal = f->ctrl.signal - f->ctrl.silence;
     if (_signal < 0)
         _signal=0;
     
-    // Determine frame channel
+    // Determine frame channel (received channel)
     _channel=(f->ctrl.channel>14 || f->ctrl.channel<1 ? 1 : f->ctrl.channel);
     
     // TODO: Determine frame rx rate
+//    NSLog(@"rx_rate %d", f->ctrl.rate);
     
     // Depending on the frame type we have to figure
     // the length of the header and payload
@@ -343,9 +238,10 @@ bool inline is8021xPacket(const UInt8* fileData) {
         
     }
     
-    
+    // Determine various aspect of frame
     switch(_type) {
         case IEEE80211_TYPE_DATA:               //Data Frames
+            NSLog(@"rx_rate %d", f->ctrl.rate);
             if (_isToDS && _isFrDS) {
                 _netType = networkTypeTunnel;   //what can i say? it is a tunnel
             } else {
@@ -390,14 +286,20 @@ bool inline is8021xPacket(const UInt8* fileData) {
                 case IEEE80211_SUBTYPE_RTS:
                 case IEEE80211_SUBTYPE_CTS:
                 case IEEE80211_SUBTYPE_ACK:
+                case IEEE80211_SUBTYPE_CF_END:
+                case IEEE80211_SUBTYPE_CF_END_ACK:
+				case IEEE80211_SUBTYPE_BLOCK_ACK:
+				case IEEE80211_SUBTYPE_BLOCK_ACK_REQ:
                     break;
                 default:
+                    NSLog(@"%d %d", _type, _subtype);
                     return NO;
             }
             break;
         case IEEE80211_TYPE_MGT: //Management Frame
             switch (_subtype) {
                 case IEEE80211_SUBTYPE_PROBE_REQ:
+                    // ProbeFloodDetection
                     if (IS_BCAST_MACADDR(probe_req->header.addr3)) {
                         ar = [WaveHelper getProbeArrayForID:(char*)probe_req->header.addr2];
                         i = [[ar objectAtIndex:1] intValue];
@@ -441,10 +343,17 @@ bool inline is8021xPacket(const UInt8* fileData) {
             }
             break;
         default:
+            NSLog(@"%d %d", _type, _subtype);
             return NO;
     }
-        
-
+	if ((memcmp(_addr2, "\x00\x90\xd0\xf8\x99\x00", 6) == 0) && (_type == IEEE80211_TYPE_DATA)) {
+		NSLog(@"%@ %@ %@ %@ %@", [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X%.2X%.2X", _addr1[0], _addr1[1], _addr1[2], _addr1[3], _addr1[4], _addr1[5], _addr1[6]],
+			  [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X%.2X%.2X", _addr2[0], _addr2[1], _addr2[2], _addr2[3], _addr2[4], _addr2[5], _addr2[6]], 
+			  [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X%.2X%.2X", _addr3[0], _addr3[1], _addr3[2], _addr3[3], _addr3[4], _addr3[5], _addr3[6]], 
+			  [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X%.2X%.2X", _addr4[0], _addr4[1], _addr4[2], _addr4[3], _addr4[4], _addr4[5], _addr4[6]], 
+			  [WaveHelper frameControlToString:hdr1->frame_ctl]);
+        [WaveHelper dumpKFrame:f];
+    }
     //copy all those interesting MAC addresses
     memcpy(_addr1, hdr4->addr1, ETH_ALEN);
     memcpy(_addr2, hdr4->addr2, ETH_ALEN);
@@ -529,13 +438,26 @@ bool inline is8021xPacket(const UInt8* fileData) {
     }
     return nil;
 }
-- (NSString*)clientFromID {
+- (NSString*)stringSenderID {
 	UInt8* mac;
 	mac = [self rawSenderID];
 	
     if (!mac)
         return nil;
-    return macToString(mac);
+    return [WaveHelper macToString:mac];
+}
+- (bool) isSenderEqualTo: (UInt8 *)senderID {
+	UInt8* mac;
+	mac = [self rawSenderID];
+	
+    if ((senderID == NULL) || (mac == NULL)) {
+        if (senderID == mac)
+            return YES;
+        return NO;
+    }
+    if (!memcmp(senderID, mac, ETH_ALEN))
+        return YES;
+    return NO;
 }
 
 #pragma mark -
@@ -547,8 +469,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
         case IEEE80211_TYPE_MGT:
             return _addr1;
         case IEEE80211_TYPE_CTL:
-            if (_subtype == IEEE80211_SUBTYPE_PS_POLL)
-                return _addr1;
+            return _addr1;
             break;
         case IEEE80211_TYPE_DATA:
             if (!_isToDS && !_isFrDS)
@@ -564,13 +485,26 @@ bool inline is8021xPacket(const UInt8* fileData) {
     }
     return nil;
 }
-- (NSString*)clientToID {
+- (NSString*)stringReceiverID {
 	UInt8* mac;
 	mac = [self rawReceiverID];
 	
     if (!mac)
         return nil;
-    return macToString(mac);
+    return [WaveHelper macToString:mac];
+}
+- (bool) isReceiverEqualTo: (UInt8 *)receiverID {
+	UInt8* mac;
+	mac = [self rawReceiverID];
+	
+    if ((receiverID == NULL) || (mac == NULL)) {
+        if (receiverID == mac)
+            return YES;
+        return NO;
+    }
+    if (!memcmp(receiverID, mac, ETH_ALEN))
+        return YES;
+    return NO;
 }
 
 #pragma mark -
@@ -578,13 +512,12 @@ bool inline is8021xPacket(const UInt8* fileData) {
 #pragma mark -
 
 - (UInt8*)rawBSSID {
-    UInt8 *m = nil;
-    
     switch (_type) {
         case IEEE80211_TYPE_MGT:
             //probe requests are BS
-            if (_subtype != IEEE80211_SUBTYPE_PROBE_REQ)
-                return _addr3;
+            if (_subtype != IEEE80211_SUBTYPE_PROBE_REQ) {
+                return _addr3;                
+            }
             else if (_netType == networkTypeProbe)
                 return _addr2;
             break; 
@@ -615,9 +548,21 @@ bool inline is8021xPacket(const UInt8* fileData) {
 	
     if (!mac)
         return @"<no bssid>";
-    return macToString(mac);
+    return [WaveHelper macToString:mac];
 }
-
+- (bool) isBSSIDEqualTo: (UInt8 *)BSSID {
+	UInt8* mac;
+	mac = [self rawBSSID];
+	
+    if ((BSSID == NULL) || (mac == NULL)) {
+        if (BSSID == mac)
+            return YES;
+        return NO;
+    }
+    if (!memcmp(BSSID, mac, ETH_ALEN))
+        return YES;
+    return NO;
+}
 - (bool)BSSID:(UInt8*)bssid {
 	UInt8* mac;
 	mac = [self rawBSSID];
@@ -672,21 +617,6 @@ bool inline is8021xPacket(const UInt8* fileData) {
 }
 
 #pragma mark -
-#pragma mark Pcap stuff
-#pragma mark -
-
-//writes the frame into the pcap file f
--(void)dump:(void*)f {
-    if (!f)
-        return; //this happens when dumping was switched on while scanning
-    pcap_pkthdr h;
-
-    memcpy(&h.ts, &_creationTime, sizeof(struct timeval));
-	h.len = h.caplen = _length;
-    pcap_dump((u_char*)f, &h, (u_char*)_frame);
-}
-
-#pragma mark -
 #pragma mark Initialization
 #pragma mark -
 
@@ -706,7 +636,9 @@ bool inline is8021xPacket(const UInt8* fileData) {
     [super dealloc];
 }
 
--(int)signal {
+#pragma mark -
+
+- (int)signal {
     return _signal;
 }
 - (int)length {
@@ -717,6 +649,9 @@ bool inline is8021xPacket(const UInt8* fileData) {
 }
 - (int)channel {
     return _channel;
+}
+- (int)primaryChannel {
+    return _primaryChannel;
 }
 - (int)type {
     return _type;
@@ -732,9 +667,6 @@ bool inline is8021xPacket(const UInt8* fileData) {
 }
 - (encryptionType)wep {
     return _isWep;
-}
-- (int)primaryChannel {
-    return _primaryChannel;
 }
 - (networkType)netType {
     return _netType;
@@ -757,6 +689,9 @@ bool inline is8021xPacket(const UInt8* fileData) {
 }
 - (bool)isEAPPacket {
     return _isEAP;
+}
+- (struct timeval *)creationTime {
+    return &_creationTime;
 }
 
 #pragma mark -
@@ -915,15 +850,6 @@ int isValidPacket(UInt8 *fileData, int fileLength) {
         // frame doesn't contain usable data.
         return -1;
     }
-}
-- (UInt8*) ipPacket {
-    UInt8* body;
-    
-    if (_type != IEEE80211_TYPE_DATA) return nil;
-    if (_isWep != encryptionTypeNone) return nil; // TODO decrypt if key is known. For later dissection
-    
-    if (isValidPacket(_payload, _payloadLength) != 4) return nil;
-    return body + 8;
 }
 
 // Methods for external use.

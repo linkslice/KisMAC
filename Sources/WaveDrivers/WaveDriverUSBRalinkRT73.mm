@@ -27,6 +27,31 @@
 
 @implementation WaveDriverUSBRalinkRT73
 
+- (id) init {
+    self = [super init];
+    if (!self)
+        return nil;
+    
+    _permittedRates = [NSArray arrayWithObjects:
+                       [NSNumber numberWithUnsignedInt:KMRate1],
+                       [NSNumber numberWithUnsignedInt:KMRate2],
+                       [NSNumber numberWithUnsignedInt:KMRate5_5],
+                       [NSNumber numberWithUnsignedInt:KMRate11],
+                       [NSNumber numberWithUnsignedInt:KMRate6],
+                       [NSNumber numberWithUnsignedInt:KMRate9],
+                       [NSNumber numberWithUnsignedInt:KMRate12],
+                       [NSNumber numberWithUnsignedInt:KMRate18],
+                       [NSNumber numberWithUnsignedInt:KMRate24],
+                       [NSNumber numberWithUnsignedInt:KMRate36],
+                       [NSNumber numberWithUnsignedInt:KMRate48],
+                       [NSNumber numberWithUnsignedInt:KMRate54],
+                       nil
+                       ];
+    [_permittedRates retain];
+	_currentRate = KMRate11;
+    return self;
+}
+
 - (bool) wakeDriver{
     [self sleepDriver];
     

@@ -78,7 +78,8 @@ typedef enum _encryptionType {
     encryptionTypeWEP       = 2,
     encryptionTypeWEP40     = 3,
     encryptionTypeWPA       = 4,
-    encryptionTypeLEAP      = 5
+    encryptionTypeLEAP      = 5,
+    encryptionTypeWPA2      = 6,    
 } encryptionType;
 
 typedef enum _leapAuthCode {
@@ -90,8 +91,9 @@ typedef enum _leapAuthCode {
 
 //this represents a packet
 @interface WavePacket : NSObject <UKTest> {
-    int _signal;		//current signal strength
-    int _channel;		//well the channel
+    int _signal;            // current signal strength
+    int _channel;           // well the channel
+    int  _primaryChannel;   // Primary channel
     int _type;			//type 0=management 1=control 2=data
     int _subtype;		//deprending on type, WARNING might be little endian
     
@@ -99,7 +101,6 @@ typedef enum _leapAuthCode {
     encryptionType _isWep;      //0=unknown, 1=disabled, 2=enabled
     leapAuthCode   _leapCode;
     
-    int  _primaryChannel;       
     bool _isToDS;		//to access point?
     bool _isFrDS;		//from access point?
     bool _isEAP;
@@ -117,14 +118,13 @@ typedef enum _leapAuthCode {
     struct timeval _creationTime; //time for cap
     
     UInt8* _frame;                  // 80211 frame
-
-    int _revelsKeyByte;         //-2 = no idea
-	    
     UInt8 *_payload;                // Payload
-    int _payloadLength;				// Length of payload
 
     int _length;                    // Length of 80211 frame
     int _headerLength;              // Length of 80211 header
+    int _payloadLength;				// Length of payload
+
+    int _revelsKeyByte;         //-2 = no idea
 
     UInt8 _addr1[ETH_ALEN];
     UInt8 _addr2[ETH_ALEN];
@@ -139,7 +139,6 @@ typedef enum _leapAuthCode {
 //input function
 - (bool)parseFrame:(KFrame*) f;
 
-- (void)dump:(void*)f;	//dumps packet to pcaphandle f
 - (int)length;          // Length of 80211 frame
 - (int)payloadLength;   // Length of payload
 - (int)signal;
@@ -159,17 +158,17 @@ typedef enum _leapAuthCode {
 - (UInt8)getRates:(UInt8*)rates;
 
 - (UInt8*)rawSenderID;
-- (NSString*)clientFromID;
+- (NSString*)stringSenderID;
 - (UInt8*)rawReceiverID;
-- (NSString*)clientToID;
+- (NSString*)stringReceiverID;
 - (UInt8*)rawBSSID;
 - (NSString*)BSSIDString;
 - (bool)BSSID:(UInt8*)bssid;
 - (bool)ID:(UInt8*)ident;
 - (NSString*)IDString;	//gives a unique for each net, bssid is not useful
 - (bool)isEAPPacket;
+- (struct timeval *)creationTime;
 
-- (UInt8*) ipPacket;
 // IP handling by Dylan Neild
 - (NSString *)sourceIPAsString;
 - (NSString *)destinationIPAsString;

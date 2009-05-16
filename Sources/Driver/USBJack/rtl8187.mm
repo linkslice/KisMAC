@@ -1182,12 +1182,12 @@ static int rtl8187_start(struct rtl8187_priv *priv) {
     RTL818X_RX_CONF_BSSID |
     RTL818X_RX_CONF_MGMT |
     RTL818X_RX_CONF_DATA |
+    RTL818X_RX_CONF_CTRL |
     (7 << 13 /* RX FIFO threshold NONE */) |
     (7 << 10 /* MAX RX DMA */) |
     RTL818X_RX_CONF_BROADCAST |
     RTL818X_RX_CONF_NICMAC |
     RTL818X_RX_CONF_MONITOR;
-    
 	priv->rx_conf = reg;
 	rtl818x_iowrite32(priv, RTL818X_ADDR_RX_CONF, reg);
     
@@ -1383,7 +1383,6 @@ int  RTL8187Jack::rtl8187_probe(void) {
     return 0;
 }
 bool RTL8187Jack::setChannel(UInt16 channel) {
-    struct rtl8187_priv *priv = _priv;
     rtl8187_set_channel(_priv, channel);
     _channel = channel;
     return YES;
@@ -1459,7 +1458,7 @@ bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
 			signal = 30;
 		signal = 95 - signal;
 	}
-    pFrame->ctrl.signal = signal;
+    pFrame->ctrl.signal = (UInt8)((100.0 / 65.0) * signal);
     pFrame->ctrl.silence = 0;
 
 //    dumpFrame(pData, len);
@@ -1470,13 +1469,14 @@ bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     //	dumpFrame(frame.data, len);
 	return true;
 }
-int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length) {
+
+int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate) {
     struct rtl8187_tx_hdr *hdr = (struct rtl8187_tx_hdr *)(theFrame);
     memset(hdr, 0, sizeof(struct rtl8187_tx_hdr));
     UInt32 flags = length;
     flags |= RTL8187_TX_FLAG_NO_ENCRYPT;
 //	flags |= control->rts_cts_rate << 19;
-	flags |= 11 << 24;    
+	flags |= rate << 24;
     hdr->flags = CFSwapInt32HostToLittle(flags);
     hdr->rts_duration = 0;
     hdr->len = 0;
@@ -1486,18 +1486,20 @@ int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length) {
     hdr->retry = CFSwapInt32HostToLittle(hdr->retry);
     return sizeof(struct rtl8187_tx_hdr);
 }
-bool RTL8187Jack::sendFrame(UInt8* data, int size) {
+
+bool RTL8187Jack::sendKFrame(KFrame* frame) {
     UInt8 aData[2364];
     unsigned int descriptorLength;
-    //    NSLog(@"sendFrame %d", size);
+    //    NSLog(@"sendKFrame %d", size);
     //    dumpFrame(data, size);
-    descriptorLength = WriteTxDescriptor(aData, size);
-    memcpy(aData+descriptorLength, data, size);
+    descriptorLength = WriteTxDescriptor(aData, frame->ctrl.len, frame->ctrl.tx_rate);
+    memcpy(aData+descriptorLength, frame->data, frame->ctrl.len);
     //send the frame
-    if (_sendFrame(aData, size + descriptorLength) != kIOReturnSuccess)
+    if (_sendFrame(aData, frame->ctrl.len + descriptorLength) != kIOReturnSuccess)
         return NO;
     return YES;
 }
+
 IOReturn RTL8187Jack::_sendFrame(UInt8* data, IOByteCount size) {
     UInt32      numBytes;
     IOReturn    kr;

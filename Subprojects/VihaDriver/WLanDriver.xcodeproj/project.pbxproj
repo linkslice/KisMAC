@@ -16,35 +16,9 @@
 		007313B506AC4A22007FD51E /* WLDriverInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 007313AC06AC4A22007FD51E /* WLDriverInterface.h */; };
 		007313B606AC4A22007FD51E /* WLDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 007313AD06AC4A22007FD51E /* WLDriver.h */; };
 		007313B706AC4A22007FD51E /* WLCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 007313AE06AC4A22007FD51E /* WLCard.cpp */; };
-		007313B806AC4A35007FD51E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32D94FCF0562CBF700B6AF17 /* Info.plist */; };
 		0073142206AC4AFA007FD51E /* WLanDriver.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 32D94FD00562CBF700B6AF17 /* WLanDriver.kext */; };
 		32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		06AA1265FFB2107B11CA28AA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		06AA1266FFB2107B11CA28AA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0073142106AC4ADD007FD51E /* CopyFiles */ = {
@@ -70,7 +44,7 @@
 		007313AD06AC4A22007FD51E /* WLDriver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WLDriver.h; sourceTree = "<group>"; };
 		007313AE06AC4A22007FD51E /* WLCard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WLCard.cpp; sourceTree = "<group>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		32D94FCF0562CBF700B6AF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32D94FD00562CBF700B6AF17 /* WLanDriver.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WLanDriver.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -162,24 +136,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				LIBRARY_SEARCH_PATHS = "";
-				MODULE_NAME = org.theta44.iokit.WLanDriver;
-				MODULE_VERSION = 0.0.2;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = WLanDriver;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = kext;
-			};
 			dependencies = (
 			);
 			name = WLanDriver;
@@ -194,15 +150,11 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 00AC26D2087141A400885CB6 /* Build configuration list for PBXProject "WLanDriver" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				06AA1265FFB2107B11CA28AA /* Development */,
-				06AA1266FFB2107B11CA28AA /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* WLANDriver */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				32D94FC30562CBF700B6AF17 /* WLanDriver */,
 			);
@@ -215,7 +167,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32D94FC80562CBF700B6AF17 /* InfoPlist.strings in Resources */,
-				007313B806AC4A35007FD51E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +249,6 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MODULE_NAME = org.theta44.iokit.WLanDriver;
 				MODULE_VERSION = 0.0.2;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -310,77 +260,24 @@
 			};
 			name = Development;
 		};
-		00AC26D0087141A400885CB6 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				LIBRARY_SEARCH_PATHS = "";
-				MODULE_NAME = org.theta44.iokit.WLanDriver;
-				MODULE_VERSION = 0.0.2;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = WLanDriver;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = kext;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		00AC26D1087141A400885CB6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-				LIBRARY_SEARCH_PATHS = "";
-				MODULE_NAME = org.theta44.iokit.WLanDriver;
-				MODULE_VERSION = 0.0.2;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = WLanDriver;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Default;
-		};
 		00AC26D3087141A400885CB6 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = Info.plist;
 			};
 			name = Development;
 		};
-		00AC26D4087141A400885CB6 /* Deployment */ = {
+		69DFB6090F8B16A0000E5AF7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				INFOPLIST_FILE = Info.plist;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		00AC26D5087141A400885CB6 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Default;
-		};
-		6C03D83309B54E36005B2316 /* Universal */ = {
+		69DFB60A0F8B16A0000E5AF7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -403,18 +300,7 @@
 				WRAPPER_EXTENSION = kext;
 				ZERO_LINK = NO;
 			};
-			name = Universal;
-		};
-		6C03D83409B54E36005B2316 /* Universal */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Universal;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -423,23 +309,19 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00AC26CF087141A400885CB6 /* Development */,
-				00AC26D0087141A400885CB6 /* Deployment */,
-				6C03D83309B54E36005B2316 /* Universal */,
-				00AC26D1087141A400885CB6 /* Default */,
+				69DFB60A0F8B16A0000E5AF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		00AC26D2087141A400885CB6 /* Build configuration list for PBXProject "WLanDriver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00AC26D3087141A400885CB6 /* Development */,
-				00AC26D4087141A400885CB6 /* Deployment */,
-				6C03D83409B54E36005B2316 /* Universal */,
-				00AC26D5087141A400885CB6 /* Default */,
+				69DFB6090F8B16A0000E5AF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

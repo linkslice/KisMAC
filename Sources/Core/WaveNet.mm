@@ -46,13 +46,11 @@
 
 #define min(a, b)	(a) < (b) ? a : b
 
-
 int _numMidi;
 NoteAllocator   na, na2;
 NoteChannel     nc, nc2;
 NoteRequest     nr, nr2;
 NSString *trackString,*trackStringClient;
-
 
 struct graphStruct zeroGraphData;
 
@@ -164,6 +162,8 @@ int lengthSort(id string1, id string2, void *context)
     _type=(networkType)[coder decodeIntForKey:@"aType"];
     _isWep = (encryptionType)[coder decodeIntForKey:@"aIsWep"];
     _dataPackets=[coder decodeIntForKey:@"aDataPackets"];
+    _mgmtPackets=[coder decodeIntForKey:@"aMgmtPackets"];
+    _ctrlPackets=[coder decodeIntForKey:@"aCtrlPackets"];
     _liveCaptured=[coder decodeBoolForKey:@"_liveCaptured"];;
     
     for(int x=0; x<14; x++)
@@ -369,6 +369,8 @@ int lengthSort(id string1, id string2, void *context)
     _type = (networkType)[[dict objectForKey:@"type"] intValue];
     _isWep = (encryptionType)[[dict objectForKey:@"encryption"] intValue];
     _dataPackets = [[dict objectForKey:@"dataPackets"] intValue];
+    _mgmtPackets = [[dict objectForKey:@"mgmtPackets"] intValue];
+    _ctrlPackets = [[dict objectForKey:@"ctrlPackets"] intValue];
     _liveCaptured = [[dict objectForKey:@"liveCaptured"] boolValue];
     
 	for(int x=0; x<14; x++)
@@ -542,6 +544,8 @@ int lengthSort(id string1, id string2, void *context)
 	[dict setObject:[NSNumber numberWithInt:_isWep] forKey:@"encryption"];
 	if (_packets > 0)  [dict setObject:[NSNumber numberWithInt:_packets] forKey:@"packets"];
 	if (_dataPackets > 0)  [dict setObject:[NSNumber numberWithInt:_dataPackets] forKey:@"dataPackets"];
+	if (_mgmtPackets > 0)  [dict setObject:[NSNumber numberWithInt:_mgmtPackets] forKey:@"mgmtPackets"];
+	if (_ctrlPackets > 0)  [dict setObject:[NSNumber numberWithInt:_ctrlPackets] forKey:@"ctrlPackets"];
 	[dict setObject:[NSNumber numberWithInt:_channel] forKey:@"channel"];
 	[dict setObject:[NSNumber numberWithInt:_primaryChannel] forKey:@"originalChannel"];
 	[dict setObject:[NSNumber numberWithInt:_netID] forKey:@"netID"];
@@ -640,6 +644,7 @@ int lengthSort(id string1, id string2, void *context)
 				case encryptionTypeWEP:
 				case encryptionTypeWEP40:
 				case encryptionTypeWPA:
+				case encryptionTypeWPA2:
 						oc = NSLocalizedString(@"closed", "for speech");
 						break;
 				default: oc=@"";
@@ -683,6 +688,7 @@ int lengthSort(id string1, id string2, void *context)
 			if (_isWep == encryptionTypeWEP) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
 			if (_isWep == encryptionTypeWEP40) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
 			if (_isWep == encryptionTypeWPA) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+			if (_isWep == encryptionTypeWPA2) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
 			if (_isWep == encryptionTypeLEAP) [GrowlController notifyGrowlLEAPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
 		} else if (_SSID != nil && ([_date timeIntervalSinceNow] < -120.0)) {
 			int lVoice=[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"];
@@ -772,6 +778,8 @@ int lengthSort(id string1, id string2, void *context)
         
     _packets +=     [net packets];
     _dataPackets += [net dataPackets];
+    _mgmtPackets += [net mgmtPackets];
+    _ctrlPackets += [net ctrlPackets];
     
     if (!_liveCaptured) _liveCaptured = [net liveCaptured];
     
@@ -813,18 +821,27 @@ int lengthSort(id string1, id string2, void *context)
     unsigned int bodyLength;
     UInt8 *body;
     
+    // Invalidate cache
+    _cacheValid = NO;
+
+    // Update global packets count
     _packets++;
-	_cacheValid = NO;
+    
+    // Update global bytes count
+    _bytes+=[w length];
 	
+    // If we doesn't have an ID already, try to update
     if (!_ID) {
         _ID = [[w IDString] retain];
         [w ID:_rawID];
     }
     
+    // Set current signal (Perhaps we need to differentiate AP from clients in the future?)
     _curSignal = [w signal];
     
+    // Set current channel
     _channel=[w channel];
-    _bytes+=[w length];
+    
     if ((_packetsPerChannel[_channel]==0) && (!_firstPacket))
         [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
     _packetsPerChannel[_channel]++;
@@ -842,7 +859,7 @@ int lengthSort(id string1, id string2, void *context)
 		
 		// themacuser - sounds here
 		
-		 if (([[w BSSIDString] isEqualToString:trackString] || [trackString isEqualToString:@"any"]) && ([[w clientFromID] isEqualToString:trackStringClient] || [trackStringClient isEqualToString:@"any"])) {
+		 if (([[w BSSIDString] isEqualToString:trackString] || [trackString isEqualToString:@"any"]) && ([[w stringSenderID] isEqualToString:trackStringClient] || [trackStringClient isEqualToString:@"any"])) {
 			
 			if (_numMidi == 200)
 			{
@@ -889,20 +906,19 @@ int lengthSort(id string1, id string2, void *context)
         curTrafficData += [w length];
     }
 
-    
-    if (_BSSID==Nil) {
-        _BSSID=[[NSString stringWithString:[w BSSIDString]] retain];
+    if (_BSSID == Nil) {
+        _BSSID = [[NSString stringWithString:[w BSSIDString]] retain];
         [w BSSID:_rawBSSID];
     }
     
     wep = [w wep];
     if (wep != encryptionTypeUnknown) {
-        if (_isWep<wep || ([w type] == IEEE80211_TYPE_MGT && wep != encryptionTypeUnknown && _isWep!=wep && _isWep!=encryptionTypeLEAP)) {
-            _isWep=wep;	//check if wep is enabled
+        if (_isWep < wep || ([w type] == IEEE80211_TYPE_MGT && wep != encryptionTypeUnknown && _isWep != wep && _isWep != encryptionTypeLEAP)) {
+            _isWep = wep;	//check if wep is enabled
             [_netView setWep:_isWep];
         }
     }
-    if ([w netType]) _type=[w netType];	//gets the type of network
+    if ([w netType]) _type = [w netType];	//gets the type of network
     
     [_dataLock lock];
     body = [w payload];
@@ -910,7 +926,7 @@ int lengthSort(id string1, id string2, void *context)
     
     //do some special parsing depending on the packet type
     switch ([w type]) {
-        case IEEE80211_TYPE_DATA: //Data frame                        
+        case IEEE80211_TYPE_DATA: //Data frame                     
             _dataPackets++;
             if (_isWep > encryptionTypeNone && bodyLength > 3)
                 memcpy(_IV, body, 3);	//sets the last IV thingy
@@ -929,9 +945,11 @@ int lengthSort(id string1, id string2, void *context)
                     //log those packets for reinjection attack
                     if (bodyLength == ARP_SIZE || bodyLength == ARP_SIZE_PADDING) {
 //						NSLog(@"ARP PACKET");
-                        if ([[w clientToID] isEqualToString:@"FF:FF:FF:FF:FF:FF"]) {
+                        if ([[w stringReceiverID] isEqualToString:@"FF:FF:FF:FF:FF:FF"]) {
                             [_ARPLog addObject:[NSData dataWithBytes:[w frame] length:[w length]]];
-							if ([_ARPLog count] > 100) [_ARPLog removeObjectAtIndex:0];
+							if ([_ARPLog count] > 100) {
+                                [_ARPLog removeObjectAtIndex:0];
+                            }
 						}
                     }
 //                    if (([_ACKLog count]<20)&&((bodyLength>=TCPACK_MIN_SIZE)||(bodyLength<=TCPACK_MAX_SIZE))) {
@@ -952,6 +970,7 @@ int lengthSort(id string1, id string2, void *context)
             }
             break;
         case IEEE80211_TYPE_MGT:        //this is a management packet
+            _mgmtPackets++;
 			if ([w SSIDs])
 				[WaveHelper secureReplace:&_SSIDs withObject:[w SSIDs]];
 			[self updateSSID:[w SSID] withSound:sound]; //might contain SSID infos
@@ -969,10 +988,10 @@ int lengthSort(id string1, id string2, void *context)
 						case 0:
 							switch (((Ieee80211_Auth_Frame *)[w frame])->wi_algo) {
 								case 0x00:
-									NSLog(@"Auth Type Open");
+									NSLog(@"Auth Type Open for net %@", [w BSSIDString]);
                                     break;
 								case 0x01:
-									NSLog(@"Auth Type Shared-Key");
+									NSLog(@"Auth Type Shared-Key %@", [w BSSIDString]);
                                     break;
 								default:
 									break;
@@ -987,26 +1006,31 @@ int lengthSort(id string1, id string2, void *context)
 					}
 					break;
 			}
+            break;
+        case IEEE80211_TYPE_CTL:
+            _ctrlPackets++;
+            break;
     }
 
-    //update the clients to out client array
-    //if they are not in add them
-    clientid=[w clientToID];
+    // Update client info (Incoming and Outgoing)
+    // If it doesn't exists, we will create it
+    
+    clientid = [w stringReceiverID];
     if (clientid != Nil) {
-        lWCl=[aClients objectForKey:clientid];
+        lWCl = [aClients objectForKey:clientid];
         if (lWCl == nil) {
-            lWCl=[[WaveClient alloc] init];
+            lWCl = [[WaveClient alloc] init];
             [aClients setObject:lWCl forKey:clientid];
             [aClientKeys addObject:clientid];  
             [lWCl release];        
         }
         [lWCl parseFrameAsIncoming:w];
     }
-    clientid=[w clientFromID];
-    if (clientid!=Nil) {
+    clientid = [w stringSenderID];
+    if (clientid != Nil) {
         lWCl=[aClients objectForKey:clientid];
-        if (lWCl==nil) {
-            lWCl=[[WaveClient alloc] init];
+        if (lWCl == nil) {
+            lWCl = [[WaveClient alloc] init];
             [aClients setObject:lWCl forKey:clientid];
             [aClientKeys addObject:clientid];
             [lWCl release];              
@@ -1392,6 +1416,12 @@ int lengthSort(id string1, id string2, void *context)
 - (int)dataPackets {
     return _dataPackets;
 }
+- (int)mgmtPackets {
+    return _mgmtPackets;
+}
+- (int)ctrlPackets {
+    return _ctrlPackets;
+}
 - (int*)packetsPerChannel {
     return _packetsPerChannel;
 }
@@ -1511,10 +1541,25 @@ int lengthSort(id string1, id string2, void *context)
 	NSImage *image = nil;
 	if (_cacheValid) return _cache;
 	
-	switch (_isWep) 
+	switch (_isWep)
     {
 		case encryptionTypeLEAP:
 			enc = NSLocalizedString(@"LEAP", "table description");
+			break;
+		case encryptionTypeWPA2:     
+			enc = NSLocalizedString(@"WPA2", "table description");
+            if(_challengeResponseStatus == chreResponse)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if(_challengeResponseStatus == chreChallenge)
+            {
+                image = [NSImage imageNamed:@"orangegem.png"];
+            }
+            else if(_challengeResponseStatus == chreComplete)
+            {
+                image = [NSImage imageNamed:@"greengem.png"];
+            }
 			break;
 		case encryptionTypeWPA:     
 			enc = NSLocalizedString(@"WPA", "table description");
@@ -1593,26 +1638,27 @@ int lengthSort(id string1, id string2, void *context)
 	}
     
     //if we didn't set the Gem yet, set it red here
-    if(nil == image)
+    if (image == nil)
     {
         image = [NSImage imageNamed:@"redgem.png"];
     }
 	
 	cache = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSString stringWithFormat:@"%i", _netID], @"id",
-		[self SSID], @"ssid",
-		[self BSSID], @"bssid", 
-		[NSString stringWithFormat:@"%i", _curSignal], @"signal",
-		[NSString stringWithFormat:@"%i", [self avgSignal]], @"avgsignal",
-		[NSString stringWithFormat:@"%i", _maxSignal], @"maxsignal",
-		[NSString stringWithFormat:@"%i", _channel], @"channel",
-		[NSString stringWithFormat:@"%i", _packets], @"packets",
-		[self data], @"data",
-		enc, @"wep",
-		type, @"type",
-		[NSString stringWithFormat:@"%@", _date], @"lastseen",
-        image, @"challengeResponse",
-		nil
+		[NSString stringWithFormat:@"%i", _netID],              @"id",
+		[self SSID],                                            @"ssid",
+		[self BSSID],                                           @"bssid", 
+		[NSString stringWithFormat:@"%i", _curSignal],          @"signal",
+		[NSString stringWithFormat:@"%i", [self avgSignal]],    @"avgsignal",
+		[NSString stringWithFormat:@"%i", _maxSignal],          @"maxsignal",
+		[NSString stringWithFormat:@"%i", _channel],            @"channel",
+        [NSString stringWithFormat:@"%i", _primaryChannel],     @"primaryChannel",
+		[NSString stringWithFormat:@"%i", _packets],            @"packets",
+		[self data],                                            @"data",
+		enc,                                                    @"wep",
+		type,                                                   @"type",
+		[NSString stringWithFormat:@"%@", _date],               @"lastseen",
+        image,                                                  @"challengeResponse",
+		nil                                                     // SENTINEL
 	];
 	
 	[WaveHelper secureReplace:&_cache withObject:cache];
@@ -1646,7 +1692,7 @@ int lengthSort(id string1, id string2, void *context)
             goto e2;
         }
         
-        if (_isWep == encryptionTypeWPA) {
+        if ((_isWep == encryptionTypeWPA) || (_isWep == encryptionTypeWPA2)) {
             a = [NSMutableArray arrayWithArray:[_password componentsSeparatedByString:@" "]];
             [a removeLastObject]; [a removeLastObject]; [a removeLastObject]; //delete the for client stuff
             
@@ -1689,7 +1735,6 @@ e1:
     if (!aLong) return @"0.000000E";
     return aLong;
 }
-
 - (NSString *)elevation {
     if (!aElev) return @"0";
     return aElev;
@@ -1718,7 +1763,6 @@ e1:
         return NSOrderedAscending;
     return NSOrderedDescending;
 }
-
 - (NSComparisonResult)comparePacketsTo:(id)aNet {
     if (curPackets == [aNet curPackets])
         return NSOrderedSame;
@@ -1726,7 +1770,6 @@ e1:
         return NSOrderedAscending;
     return NSOrderedDescending;
 }
-
 - (NSComparisonResult)compareTrafficTo:(id)aNet {
     if (curTraffic == [aNet curTraffic])
         return NSOrderedSame;
@@ -1906,69 +1949,6 @@ typedef int (*SORTFUNC)(id, id, void *);
     }
 	return keys;
 }
-
-#pragma mark -
-#pragma mark Reinjection stuff
-#pragma mark -
-
-- (void)doReinjectWithScanner:(WaveScanner*)scanner {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSString *error;
-    int i = 0;
-	int j = 0;
-    [scanner retain];
-    [WaveHelper secureRelease:&_crackErrorString];
-    
-    while (YES) {
-        [_im setStatusField:NSLocalizedString(@"Test suitable reinjection packets", "For Reinjection")];
-         
-        error = [scanner tryToInject:self];
-        if (!error) {
-            [_im terminateWithCode:1];
-            //look here!!!
-            break; //we are injecting
-        }
-        
-        if ([error length]) { //something stupid happend
-            _crackErrorString = [error retain];
-            [_im terminateWithCode:-1];
-            break;
-        }
-        
-        if ([_ARPLog count] == 0 && [_ACKLog count] == 0) {
-            if (i > 20) {
-				_crackErrorString = [NSLocalizedString(@"The networks seems to be not reacting.", "Reinjection error") retain];
-				[_im terminateWithCode:-1];
-				break;
-			} else {
-				[_im setStatusField:NSLocalizedString(@"Waiting for interesting packets...", "For Reinjection")];
-                for (i=0;j<40;j++) {
-                    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                    if ([_im canceled]) {
-                        break;
-                    }
-                }
-				i++;
-			}
-        }
-        if ([_im canceled]) {
-            [_im terminateWithCode:0];
-            break;
-        }        
-    }
-    
-	[scanner release];
-    [[NSNotificationCenter defaultCenter] postNotificationName:KisMACCrackDone object:self];
-    [pool release];
-}
-
-- (void)reinjectWithImportController:(ImportController*)im andScanner:(id)scanner {
-    _im = im;
-    
-    [NSThread detachNewThreadSelector:@selector(doReinjectWithScanner:) toTarget:self withObject:scanner];
-}
-
-
 
 #pragma mark -
 

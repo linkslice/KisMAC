@@ -68,7 +68,10 @@ typedef struct WaveNetEntry {
     unsigned int _netCount;
     unsigned int _sortedCount;
     unsigned int _cacheSize;
-    unsigned int _filterCount; 
+    unsigned int _filterCount;
+    
+    NSArray *_netFields;
+    NSMutableArray *_displayedNetFields;
 }
 
 //for initialisation etc...
@@ -86,7 +89,7 @@ typedef struct WaveNetEntry {
 - (void) setViewType:(int)type value:(id)val;
 - (void) setFilterType:(NSString*)filter; 
 - (void) setFilterString:(NSString*)filter;
-- (NSString*) getImageForChallengeResponse;
+- (NSString*) getImageForChallengeResponse:(int)challengeResponseStatus;
 - (NSString*) getStringForEncryptionType:(encryptionType)encryption; 
 - (NSString*) getStringForNetType:(networkType)type;
 

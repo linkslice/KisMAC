@@ -1048,7 +1048,7 @@ bool RalinkJack::getAllowedChannels(UInt16* channels) {
 bool RalinkJack::startCapture(UInt16 channel) {
     setChannel(channel);
     RTUSBWriteMACRegister(MAC_CSR20, 0x0002); //turn on led
-    RTUSBWriteMACRegister(TXRX_CSR2, 0x004e/*0x0046*/); //enable monitor mode?
+    RTUSBWriteMACRegister(TXRX_CSR2, 0x0046/*0x0046*/); //enable monitor mode?
     return true;   
 }
 
@@ -1058,7 +1058,9 @@ bool RalinkJack::stopCapture(){
     return true;
 }
 
-bool RalinkJack::sendFrame(UInt8* data, int size) {
+bool RalinkJack::sendKFrame(KFrame *frame) {
+    UInt8 *data = frame->data;
+    int size = frame->ctrl.len;
     UInt8 aData[2364];
     unsigned int descriptorLength;
     descriptorLength = WriteTxDescriptor(aData, size);
@@ -1188,6 +1190,11 @@ bool RalinkJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len){
     }
     // this is probablty not the most efficient way to do this
     pFrame->ctrl.signal = pRxD->BBR1;
+    if (pRxD->Ofdm) {
+        
+    } else {
+        pFrame->ctrl.rate = pRxD->BBR0 / 5;
+    }
     pFrame->ctrl.len = pRxD->DataByteCnt - 4;
     
     memcpy(pFrame->data, pData, pFrame->ctrl.len); 

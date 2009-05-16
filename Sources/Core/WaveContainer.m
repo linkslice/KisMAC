@@ -214,6 +214,8 @@ inline UInt32 hashForMAC(const UInt8* val) {
 			return @"WEP-40";
 		case encryptionTypeWPA:
 			return @"WPA";
+		case encryptionTypeWPA2:
+			return @"WPA2";
 		default:
 			return @"Unknown";
 	}
@@ -454,18 +456,21 @@ int channelSort(WaveSort* p, const int *index1, const int *index2) {
     int v2 = [(*p).idList[*index2].net channel];
     return (*p).ascend * compValues(v1,v2);
 }
+int primaryChannelSort(WaveSort* p, const int *index1, const int *index2) {
+    int v1 = [(*p).idList[*index1].net originalChannel];
+    int v2 = [(*p).idList[*index2].net originalChannel];
+    return (*p).ascend * compValues(v1,v2);
+}
 int idSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net netID];
     int v2 = [(*p).idList[*index2].net netID];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int bssidSort(WaveSort* p, const int *index1, const int *index2) {
     NSString *d1 = [(*p).idList[*index1].net BSSID];
     NSString *d2 = [(*p).idList[*index2].net BSSID];
     return (*p).ascend * [d1 compare:d2 options:NSLiteralSearch];
 }
-
 int ssidSort(WaveSort* p, const int *index1, const int *index2) {
     int i;
     NSString *d1 = [(*p).idList[*index1].net SSID];
@@ -473,43 +478,36 @@ int ssidSort(WaveSort* p, const int *index1, const int *index2) {
     i =  [d1 compare:d2 options:NSLiteralSearch|NSCaseInsensitiveSearch];
     return (*p).ascend * i;
 }
-
 int wepSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net wep];
     int v2 = [(*p).idList[*index2].net wep];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int typeSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net type];
     int v2 = [(*p).idList[*index2].net type];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int signalSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net curSignal];
     int v2 = [(*p).idList[*index2].net curSignal];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int maxSignalSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net maxSignal];
     int v2 = [(*p).idList[*index2].net maxSignal];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int avgSignalSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net avgSignal];
     int v2 = [(*p).idList[*index2].net avgSignal];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int packetsSort(WaveSort* p, const int *index1, const int *index2) {
     int v1 = [(*p).idList[*index1].net packets];
     int v2 = [(*p).idList[*index2].net packets];
     return (*p).ascend * compValues(v1,v2);
 }
-
 int dataSort(WaveSort* p, const int *index1, const int *index2) {
     float v1 = [(*p).idList[*index1].net dataCount];
     float v2 = [(*p).idList[*index2].net dataCount];
@@ -517,7 +515,6 @@ int dataSort(WaveSort* p, const int *index1, const int *index2) {
     else if (v1 > v2) return (*p).ascend * NSOrderedDescending;
     else return NSOrderedSame;
 }
-
 int lastSeenSort(WaveSort* p, const int *index1, const int *index2) {
     NSDate *d1 = [(*p).idList[*index1].net lastSeenDate];
     NSDate *d2 = [(*p).idList[*index2].net lastSeenDate];
@@ -536,6 +533,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     ws.idList = _idList;
     
     if ([ident isEqualToString:@"channel"])         qsort_kismac(_sortedList, _sortedCount, sizeof(unsigned int), &ws, (SORTFUNC)channelSort);
+    else if ([ident isEqualToString:@"primaryChannel"])         qsort_kismac(_sortedList, _sortedCount, sizeof(unsigned int), &ws, (SORTFUNC)primaryChannelSort);
     else if ([ident isEqualToString:@"id"])         qsort_kismac(_sortedList, _sortedCount, sizeof(unsigned int), &ws, (SORTFUNC)idSort);
     else if ([ident isEqualToString:@"bssid"])      qsort_kismac(_sortedList, _sortedCount, sizeof(unsigned int), &ws, (SORTFUNC)bssidSort);
     else if ([ident isEqualToString:@"ssid"])       qsort_kismac(_sortedList, _sortedCount, sizeof(unsigned int), &ws, (SORTFUNC)ssidSort);
@@ -567,6 +565,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     ws.sortedList = _sortedList;
     
     if ([ident isEqualToString:@"channel"]) func = (SORTFUNC)channelSort;
+    else if ([ident isEqualToString:@"primaryChannel"]) func = (SORTFUNC)primaryChannelSort;
     else if ([ident isEqualToString:@"id"]) func = (SORTFUNC)idSort;
     else if ([ident isEqualToString:@"bssid"]) func = (SORTFUNC)bssidSort;
     else if ([ident isEqualToString:@"ssid"]) func = (SORTFUNC)ssidSort;
@@ -884,4 +883,11 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
 	[super dealloc];
 }
 
+-(NSArray *)netFields {
+    return _netFields;
+}
+
+-(NSMutableArray *)displayedNetFields {
+    return _displayedNetFields;
+}
 @end

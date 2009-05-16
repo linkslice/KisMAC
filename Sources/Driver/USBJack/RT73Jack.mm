@@ -1762,7 +1762,8 @@ bool    RT73Jack::startCapture(UInt16 channel) {
 		setChannel(channel);
 		RTMPSetLED(LED_LNK_ON);
 		// RTUSBWriteMACRegister(TXRX_CSR2, 0x004e/*0x0046*/); //enable monitor mode?
-		RTUSBWriteMACRegister(TXRX_CSR0, 0x024eb032);    // enable RX of MAC block, Staion not drop control frame, Station not drop not to me unicast frame
+//		RTUSBWriteMACRegister(TXRX_CSR0, 0x024eb032);    // enable RX of MAC block, Staion not drop control frame, Station not drop not to me unicast frame
+		RTUSBWriteMACRegister(TXRX_CSR0, 0x0046b032);    // enable RX of MAC block, Staion not drop control frame, Station not drop not to me unicast frame
 		return true;
 	}
 	else {
@@ -1942,7 +1943,7 @@ void    RT73Jack::RTUSBWriteTxDescriptor(
     pTxD->Burst2 = pTxD->Burst;
 }
 
-int RT73Jack::WriteTxDescriptor(void* theFrame, UInt16 length){
+int RT73Jack::WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate){
     memset(theFrame, 0, sizeof(TXD_STRUC));
     RTUSBWriteTxDescriptor(
         (TXD_STRUC *)theFrame,
@@ -1954,7 +1955,7 @@ int RT73Jack::WriteTxDescriptor(void* theFrame, UInt16 length){
         0,
         1,
         1,
-        currentRate,
+        rate,
         length,
         0,
         0,
@@ -1967,15 +1968,18 @@ int RT73Jack::WriteTxDescriptor(void* theFrame, UInt16 length){
 }
 
 
-bool RT73Jack::sendFrame(UInt8* data, int size) {
+bool RT73Jack::sendKFrame(KFrame *frame) {
+    UInt8 *data = frame->data;
+    int size = frame->ctrl.len;
     UInt8 aData[2364];
     unsigned int descriptorLength;
 //    NSLog(@"sendFrame %d", size);
 //    dumpFrame(data, size);
-    descriptorLength = WriteTxDescriptor(aData, size);
+    descriptorLength = WriteTxDescriptor(aData, size, frame->ctrl.tx_rate);
     memcpy(aData+descriptorLength, data, size);
     //send the frame
-    if (_sendFrame(aData, size + descriptorLength) != kIOReturnSuccess)
+//	dumpFrame(aData, size + descriptorLength);
+	if (_sendFrame(aData, size + descriptorLength) != kIOReturnSuccess)
         return NO;
     return YES;
 }

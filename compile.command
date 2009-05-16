@@ -1,19 +1,17 @@
 #!/bin/bash
 
 if [ "x$1" == "x--help" ]; then
-  echo "Usage ./compile.command [Universal|Development|Deployment] [image]"
+  echo "Usage ./compile.command [Development|Release] [image]"
   exit 0
 fi
 
 case $1 in
-  "Deployment")
-    configuration=Deployment;;
   "Development")
     configuration=Development;;
-  "Universal" | "" | "image")
-    configuration=Universal;;
+  "Release" | "" )
+    configuration=Release;;
   *)
-    echo "Usage ./compile.command [Universal|Development|Deployment] [image]"
+    echo "Usage ./compile.command [Development|Release]"
     exit 1
 esac
 

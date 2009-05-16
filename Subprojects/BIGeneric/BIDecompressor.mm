@@ -33,7 +33,7 @@
 	self = [super init];
 	if (!self) return nil;
 	
-	_file = gzopen([[file standardPath] cString], "rb");
+	_file = gzopen([[file standardPath] UTF8String], "rb");
 	if (!_file) {
 		[self release];
 		return nil;

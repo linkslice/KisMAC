@@ -102,7 +102,11 @@ static NSImage* _networkStrange;
         _netImg = [_networkWPA retain];
         _netColor = [[NSColor blueColor] retain];
         break;
-    case encryptionTypeLEAP:
+    case encryptionTypeWPA2:
+        _netImg = [_networkWPA retain];
+        _netColor = [[NSColor blueColor] retain];
+        break;
+        case encryptionTypeLEAP:
         _netImg = [_networkLEAP retain];
         _netColor = [[NSColor cyanColor] retain];
         break;

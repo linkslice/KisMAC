@@ -395,6 +395,8 @@
 #pragma mark -
 #pragma mark CHANNEL MENU
 #pragma mark -
+- (IBAction)selRate:(id)sender {
+}
 
 - (IBAction)selChannel:(id)sender {
     WaveDriver *wd;
@@ -478,6 +480,23 @@
 #pragma mark NETWORK MENU
 #pragma mark -
 
+- (IBAction)testInjection:(id)sender {
+	WaveClient *client = nil;
+    if (!_curNet) {
+        NSBeep();
+        return;
+    }
+	if (_visibleTab == tabDetails) {
+        if ([aInfoController theRow] == nil) {
+            client = nil;
+        } else {
+            client = [[_curNet getClients] objectForKey:[aInfoController theRow]];
+        }
+	}
+    [scanner injectionTest:_curNet withClient:client];
+    return;
+}
+
 - (IBAction)clearNetwork:(id)sender {
     WaveNet* net = _curNet;
     
@@ -558,14 +577,9 @@
 		return;
     }
 	
-    if ([aInjPacketsMenu state]==NSOffState && [self startActiveAttack]) {
-        //either we are already active or we have to load the driver
-        if (!_scanning) [self startScan];
-        
+    if ([aInjPacketsMenu state] == NSOffState && [self startActiveAttack] && [scanner tryToInject:_curNet]) {
         _crackType = 5;
-        [self startCrackDialogWithTitle:NSLocalizedString(@"Setting up packet reinjection...", "busy dialog") stopScan:NO];
-        [_curNet reinjectWithImportController:_importController andScanner:scanner];
-    
+        [aInjPacketsMenu setState:NSOnState];
     } else {
         [self stopActiveAttacks];
     }

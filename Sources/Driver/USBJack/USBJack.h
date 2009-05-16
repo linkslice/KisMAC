@@ -2,7 +2,7 @@
         
         File:			USBIntersil.h
         Program:		KisMAC
-	Author:			Michael Roßberg
+	Author:			Michael Ro√überg
 				mick@binaervarianz.de
 	Description:		KisMAC is a wireless stumbler for MacOS X.
                 
@@ -68,7 +68,7 @@ public:
     bool            deviceMatched();
     
     KFrame *receiveFrame();
-    virtual bool    sendFrame(UInt8* data, int size);
+    virtual bool    sendKFrame(KFrame* data);
     
     void    startMatching();
     virtual IOReturn    _init();

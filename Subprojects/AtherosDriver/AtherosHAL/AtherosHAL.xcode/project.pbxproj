@@ -3,432 +3,331 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 39;
+	objectVersion = 42;
 	objects = {
-		06AA1264FFB2107B11CA28AA = {
+
+/* Begin PBXBuildFile section */
+		6971A2A60F7E977600949310 /* AtherosHAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A224C3EFF42367911CA2CB7 /* AtherosHAL.h */; };
+		6971A2A70F7E977600949310 /* ah_desc.h in Headers */ = {isa = PBXBuildFile; fileRef = BA489A510589014E004DB3DF /* ah_desc.h */; };
+		6971A2A80F7E977600949310 /* ah_devid.h in Headers */ = {isa = PBXBuildFile; fileRef = BA489A520589014E004DB3DF /* ah_devid.h */; };
+		6971A2A90F7E977600949310 /* ah_osdep.h in Headers */ = {isa = PBXBuildFile; fileRef = BA489A540589014E004DB3DF /* ah_osdep.h */; };
+		6971A2AA0F7E977600949310 /* ah.h in Headers */ = {isa = PBXBuildFile; fileRef = BA489A550589014E004DB3DF /* ah.h */; };
+		6971A2AB0F7E977600949310 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = BA489A560589014E004DB3DF /* version.h */; };
+		6971A2AF0F7E977600949310 /* AtherosHAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A224C3FFF42367911CA2CB7 /* AtherosHAL.cpp */; settings = {ATTRIBUTES = (); }; };
+		6971A2B10F7E977600949310 /* hal-release.o in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE85ECC059032E900F3F896 /* hal-release.o */; };
+		699E5EAB0F7EA24600D88264 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 699E5AA60F7EA1D000D88264 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1A224C3EFF42367911CA2CB7 /* AtherosHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosHAL.h; sourceTree = "<group>"; };
+		1A224C3FFF42367911CA2CB7 /* AtherosHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosHAL.cpp; sourceTree = "<group>"; };
+		6971A3320F7E9A6500949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		699E5A410F7EA05900D88264 /* AtherosHAL.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtherosHAL.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		699E5AA70F7EA1D000D88264 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BA489A510589014E004DB3DF /* ah_desc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ah_desc.h; sourceTree = "<group>"; };
+		BA489A520589014E004DB3DF /* ah_devid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ah_devid.h; sourceTree = "<group>"; };
+		BA489A540589014E004DB3DF /* ah_osdep.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ah_osdep.h; sourceTree = "<group>"; };
+		BA489A550589014E004DB3DF /* ah.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ah.h; sourceTree = "<group>"; };
+		BA489A560589014E004DB3DF /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		BAE85ECC059032E900F3F896 /* hal-release.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "hal-release.o"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6971A2B00F7E977600949310 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6971A2B10F7E977600949310 /* hal-release.o in Frameworks */,
 			);
-			isa = PBXShellScriptBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPostprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
 		};
-		06AA1265FFB2107B11CA28AA = {
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			isa = PBXBuildStyle;
-			name = Development;
-		};
-		06AA1266FFB2107B11CA28AA = {
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			isa = PBXBuildStyle;
-			name = Deployment;
-		};
-		06AA1267FFB2110C11CA28AA = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			isa = PBXShellScriptBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "script=\"${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPreprocess\";\nif [ -x \"$script\" ]; then\n    . \"$script\"\nfi";
-		};
-//060
-//061
-//062
-//063
-//064
-//080
-//081
-//082
-//083
-//084
-		089C1669FE841209C02AAC07 = {
-			buildSettings = {
-			};
-			buildStyles = (
-				06AA1265FFB2107B11CA28AA,
-				06AA1266FFB2107B11CA28AA,
-			);
-			hasScannedForEncodings = 1;
-			isa = PBXProject;
-			mainGroup = 089C166AFE841209C02AAC07;
-			projectDirPath = "";
-			targets = (
-				089C1673FE841209C02AAC07,
-			);
-		};
-		089C166AFE841209C02AAC07 = {
-			children = (
-				247142CAFF3F8F9811CA285C,
-				089C167CFE841241C02AAC07,
-				19C28FB6FE9D52B211CA2CBB,
-			);
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* AtherosHAL */ = {
 			isa = PBXGroup;
+			children = (
+				247142CAFF3F8F9811CA285C /* Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				19C28FB6FE9D52B211CA2CBB /* Products */,
+			);
 			name = AtherosHAL;
-			refType = 4;
 			sourceTree = "<group>";
 		};
-		089C1673FE841209C02AAC07 = {
-			buildPhases = (
-				06AA1267FFB2110C11CA28AA,
-				089C1674FE841209C02AAC07,
-				089C1675FE841209C02AAC07,
-				089C1676FE841209C02AAC07,
-				089C1677FE841209C02AAC07,
-				089C1679FE841209C02AAC07,
-				06AA1264FFB2107B11CA28AA,
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6971A3320F7E9A6500949310 /* Info.plist */,
+				699E5AA60F7EA1D000D88264 /* InfoPlist.strings */,
 			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		19C28FB6FE9D52B211CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				699E5A410F7EA05900D88264 /* AtherosHAL.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		247142CAFF3F8F9811CA285C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				BAE85ECC059032E900F3F896 /* hal-release.o */,
+				BA489A510589014E004DB3DF /* ah_desc.h */,
+				BA489A520589014E004DB3DF /* ah_devid.h */,
+				BA489A540589014E004DB3DF /* ah_osdep.h */,
+				BA489A550589014E004DB3DF /* ah.h */,
+				BA489A560589014E004DB3DF /* version.h */,
+				1A224C3EFF42367911CA2CB7 /* AtherosHAL.h */,
+				1A224C3FFF42367911CA2CB7 /* AtherosHAL.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6971A2A50F7E977600949310 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6971A2A60F7E977600949310 /* AtherosHAL.h in Headers */,
+				6971A2A70F7E977600949310 /* ah_desc.h in Headers */,
+				6971A2A80F7E977600949310 /* ah_devid.h in Headers */,
+				6971A2A90F7E977600949310 /* ah_osdep.h in Headers */,
+				6971A2AA0F7E977600949310 /* ah.h in Headers */,
+				6971A2AB0F7E977600949310 /* version.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6971A2A30F7E977600949310 /* AtherosHAL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6971A2B40F7E977600949310 /* Build configuration list for PBXNativeTarget "AtherosHAL" */;
+			buildPhases = (
+				6971A2A50F7E977600949310 /* Headers */,
+				6971A2AC0F7E977600949310 /* Resources */,
+				6971A2AE0F7E977600949310 /* Sources */,
+				6971A2B00F7E977600949310 /* Frameworks */,
+				6971A2B20F7E977600949310 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AtherosHAL;
+			productInstallPath = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+			productName = AtherosHAL;
+			productReference = 699E5A410F7EA05900D88264 /* AtherosHAL.kext */;
+			productType = "com.apple.product-type.kernel-extension.iokit";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 6971A2280F7E953400949310 /* Build configuration list for PBXProject "AtherosHAL" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* AtherosHAL */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6971A2A30F7E977600949310 /* AtherosHAL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6971A2AC0F7E977600949310 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699E5EAB0F7EA24600D88264 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		6971A2B20F7E977600949310 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6971A2AE0F7E977600949310 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6971A2AF0F7E977600949310 /* AtherosHAL.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		699E5AA60F7EA1D000D88264 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699E5AA70F7EA1D000D88264 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6971A21F0F7E953100949310 /* Development */ = {
+			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUGGING_SYMBOLS = NO;
+			};
+			name = Development;
+		};
+		6971A2200F7E953100949310 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		6971A2210F7E953100949310 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+		6971A2B50F7E977600949310 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = "AH_BYTE_ORDER=AH_BIG_ENDIAN";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
 				KERNEL_MODULE = YES;
 				LIBRARY_SEARCH_PATHS = "";
 				MODULE_IOKIT = YES;
 				MODULE_NAME = com.atheros.driver.HAL;
 				MODULE_VERSION = 1.0.0d1;
-				OPTIMIZATION_CFLAGS = "-O3";
-				OTHER_CFLAGS = "-DAH_BYTE_ORDER=AH_BIG_ENDIAN";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = AtherosHAL;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = kext;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		6971A2B60F7E977600949310 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = "AH_BYTE_ORDER=AH_BIG_ENDIAN";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				KERNEL_MODULE = YES;
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_IOKIT = YES;
+				MODULE_NAME = com.atheros.driver.HAL;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AtherosHAL;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = kext;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		6971A2B70F7E977600949310 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = "AH_BYTE_ORDER=AH_BIG_ENDIAN";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions";
+				KERNEL_MODULE = YES;
+				LIBRARY_SEARCH_PATHS = "";
+				MODULE_IOKIT = YES;
+				MODULE_NAME = com.atheros.driver.HAL;
+				MODULE_VERSION = 1.0.0d1;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AtherosHAL;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
 				WRAPPER_EXTENSION = kext;
 			};
-			dependencies = (
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6971A2280F7E953400949310 /* Build configuration list for PBXProject "AtherosHAL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6971A21F0F7E953100949310 /* Development */,
+				6971A2200F7E953100949310 /* Deployment */,
+				6971A2210F7E953100949310 /* Default */,
 			);
-			isa = PBXBundleTarget;
-			name = AtherosHAL;
-			productInstallPath = "$(SYSTEM_LIBRARY_DIR)/Extensions";
-			productName = AtherosHAL;
-			productReference = 0B81C263FFB7832611CA28AA;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>AtherosHAL</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>com.atheros.driver.HAL</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>KEXT</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
-	<key>IOKitPersonalities</key>
-	<dict/>
-	<key>OSBundleCompatibleVersion</key>
-	<string>0.0.0</string>
-	<key>OSBundleLibraries</key>
-	<dict>
-		<key>com.apple.kernel.bsd</key>
-		<string>6.0</string>
-		<key>com.apple.kernel.iokit</key>
-		<string>6.0</string>
-		<key>com.apple.kernel.libkern</key>
-		<string>6.0</string>
-		<key>com.apple.kernel.mach</key>
-		<string>6.0</string>
-	</dict>
-</dict>
-</plist>
-";
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
-		089C1674FE841209C02AAC07 = {
-			buildActionMask = 2147483647;
-			files = (
-				1A224C40FF42367911CA2CB7,
-				BA489A570589014E004DB3DF,
-				BA489A580589014E004DB3DF,
-				BA489A5A0589014E004DB3DF,
-				BA489A5B0589014E004DB3DF,
-				BA489A5C0589014E004DB3DF,
+		6971A2B40F7E977600949310 /* Build configuration list for PBXNativeTarget "AtherosHAL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6971A2B50F7E977600949310 /* Development */,
+				6971A2B60F7E977600949310 /* Deployment */,
+				6971A2B70F7E977600949310 /* Default */,
 			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
-		089C1675FE841209C02AAC07 = {
-			buildActionMask = 2147483647;
-			files = (
-				089C1680FE841241C02AAC07,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		089C1676FE841209C02AAC07 = {
-			buildActionMask = 2147483647;
-			files = (
-				1A224C41FF42367911CA2CB7,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		089C1677FE841209C02AAC07 = {
-			buildActionMask = 2147483647;
-			files = (
-				BAE85ECD059032E900F3F896,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		089C1679FE841209C02AAC07 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			isa = PBXRezBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		089C167CFE841241C02AAC07 = {
-			children = (
-				089C167DFE841241C02AAC07,
-			);
-			isa = PBXGroup;
-			name = Resources;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		089C167DFE841241C02AAC07 = {
-			children = (
-				089C167EFE841241C02AAC07,
-			);
-			isa = PBXVariantGroup;
-			name = InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		089C167EFE841241C02AAC07 = {
-			fileEncoding = 10;
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = English;
-			path = English.lproj/InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		089C1680FE841241C02AAC07 = {
-			fileRef = 089C167DFE841241C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//080
-//081
-//082
-//083
-//084
-//0B0
-//0B1
-//0B2
-//0B3
-//0B4
-		0B81C263FFB7832611CA28AA = {
-			explicitFileType = wrapper.cfbundle;
-			isa = PBXFileReference;
-			path = AtherosHAL.kext;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-//0B0
-//0B1
-//0B2
-//0B3
-//0B4
-//190
-//191
-//192
-//193
-//194
-		19C28FB6FE9D52B211CA2CBB = {
-			children = (
-				0B81C263FFB7832611CA28AA,
-			);
-			isa = PBXGroup;
-			name = Products;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//190
-//191
-//192
-//193
-//194
-//1A0
-//1A1
-//1A2
-//1A3
-//1A4
-		1A224C3EFF42367911CA2CB7 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = AtherosHAL.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1A224C3FFF42367911CA2CB7 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			path = AtherosHAL.cpp;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1A224C40FF42367911CA2CB7 = {
-			fileRef = 1A224C3EFF42367911CA2CB7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1A224C41FF42367911CA2CB7 = {
-			fileRef = 1A224C3FFF42367911CA2CB7;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-				);
-			};
-		};
-//1A0
-//1A1
-//1A2
-//1A3
-//1A4
-//240
-//241
-//242
-//243
-//244
-		247142CAFF3F8F9811CA285C = {
-			children = (
-				BAE85ECC059032E900F3F896,
-				BA489A510589014E004DB3DF,
-				BA489A520589014E004DB3DF,
-				BA489A540589014E004DB3DF,
-				BA489A550589014E004DB3DF,
-				BA489A560589014E004DB3DF,
-				1A224C3EFF42367911CA2CB7,
-				1A224C3FFF42367911CA2CB7,
-			);
-			isa = PBXGroup;
-			name = Source;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//240
-//241
-//242
-//243
-//244
-//BA0
-//BA1
-//BA2
-//BA3
-//BA4
-		BA489A510589014E004DB3DF = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = ah_desc.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BA489A520589014E004DB3DF = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = ah_devid.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BA489A540589014E004DB3DF = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = ah_osdep.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BA489A550589014E004DB3DF = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = ah.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BA489A560589014E004DB3DF = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = version.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BA489A570589014E004DB3DF = {
-			fileRef = BA489A510589014E004DB3DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		BA489A580589014E004DB3DF = {
-			fileRef = BA489A520589014E004DB3DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		BA489A5A0589014E004DB3DF = {
-			fileRef = BA489A540589014E004DB3DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		BA489A5B0589014E004DB3DF = {
-			fileRef = BA489A550589014E004DB3DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		BA489A5C0589014E004DB3DF = {
-			fileRef = BA489A560589014E004DB3DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		BAE85ECC059032E900F3F896 = {
-			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.objfile";
-			path = "hal-release.o";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		BAE85ECD059032E900F3F896 = {
-			fileRef = BAE85ECC059032E900F3F896;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
+/* End XCConfigurationList section */
 	};
-	rootObject = 089C1669FE841209C02AAC07;
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
 }

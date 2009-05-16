@@ -350,8 +350,11 @@ struct pointCoords {
             case encryptionTypeWEP40: 
                 wep = @"WEP-40";
                 break;
-            case encryptionTypeWPA: 
+            case encryptionTypeWPA:
                 wep = @"WPA";
+                break;
+            case encryptionTypeWPA2:
+                wep = @"WPA2";
                 break;
             case encryptionTypeLEAP: 
                 wep = @"LEAP";
@@ -812,6 +815,7 @@ struct pointCoords {
             case encryptionTypeWEP: 
             case encryptionTypeWEP40:
             case encryptionTypeWPA:
+            case encryptionTypeWPA2:
             case encryptionTypeLEAP:
                 fprintf(fd,"Yes");
                 break;
