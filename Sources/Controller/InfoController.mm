@@ -276,7 +276,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
     if([aTableView isEqualTo:aTable])
-        return 27;
+        return 29;
     else if([aTableView isEqualTo:aClientTable])
         return [aClientKeys count];
     else if([aTableView isEqualTo:aShortTable])

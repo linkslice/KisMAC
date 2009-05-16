@@ -119,7 +119,7 @@
 		<key>idProduct</key>
 		<integer>36955</integer>
 		<key>idVendor</key>
-		<string>1293</string>
+		<integer>1293</integer>
 	</dict>
 </dict>
 </plist>
