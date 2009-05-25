@@ -2817,7 +2817,7 @@
 	<key>00:05:68</key>
 	<string>Piltofish Networks AB</string>
 	<key>00:05:69</key>
-	<string>VMWARE, Inc.</string>
+	<string>VMware, Inc.</string>
 	<key>00:05:6A</key>
 	<string>Heuft Systemtechnik GmbH</string>
 	<key>00:05:6B</key>
@@ -4967,7 +4967,7 @@
 	<key>00:09:C1</key>
 	<string>PROCES-DATA A/S</string>
 	<key>00:09:C2</key>
-	<string>PRIVATE</string>
+	<string>Onity, Inc.</string>
 	<key>00:09:C3</key>
 	<string>NETAS</string>
 	<key>00:09:C4</key>
@@ -15543,7 +15543,7 @@
 	<key>00:1E:6B</key>
 	<string>Scientific Atlanta, A Cisco Company</string>
 	<key>00:1E:6C</key>
-	<string>Spliced Networks LLC</string>
+	<string>Carbon Mountain LLC</string>
 	<key>00:1E:6D</key>
 	<string>IT R&amp;D Center</string>
 	<key>00:1E:6E</key>
@@ -19546,6 +19546,44 @@
 	<string>Bachmann GmbH &amp; Co. KG</string>
 	<key>00:26:3D</key>
 	<string>MIA Corporation</string>
+	<key>00:26:3E</key>
+	<string>Trapeze Networks</string>
+	<key>00:26:3F</key>
+	<string>LIOS Technology GmbH</string>
+	<key>00:26:40</key>
+	<string>Baustem Broadband Technologies, Ltd.</string>
+	<key>00:26:41</key>
+	<string>Motorola, Inc</string>
+	<key>00:26:42</key>
+	<string>Motorola, Inc</string>
+	<key>00:26:43</key>
+	<string>Alps Electric Co., Ltd</string>
+	<key>00:26:44</key>
+	<string>Thomson Telecom Belgium</string>
+	<key>00:26:45</key>
+	<string>Circontrol S.A.</string>
+	<key>00:26:46</key>
+	<string>SHENYANG TONGFANG MULTIMEDIA TECHNOLOGY COMPANY LIMITED</string>
+	<key>00:26:47</key>
+	<string>WFE TECHNOLOGY CORP.</string>
+	<key>00:26:48</key>
+	<string>Emitech Corp.</string>
+	<key>00:26:49</key>
+	<string>PRIVATE</string>
+	<key>00:26:4A</key>
+	<string>Apple, Inc</string>
+	<key>00:26:4B</key>
+	<string>PRIVATE</string>
+	<key>00:26:4C</key>
+	<string>Shanghai DigiVision Technology Co., Ltd.</string>
+	<key>00:26:4D</key>
+	<string>Arcadyan Technology Corporation</string>
+	<key>00:26:4E</key>
+	<string>Rail &amp; Road Protec GmbH</string>
+	<key>00:26:4F</key>
+	<string>Krüger&amp;Gothe GmbH</string>
+	<key>00:26:50</key>
+	<string>2Wire</string>
 	<key>00:26:54</key>
 	<string>3Com Corporation</string>
 	<key>00:30:00</key>
@@ -19843,7 +19881,7 @@
 	<key>00:30:92</key>
 	<string>ModuNORM GmbH</string>
 	<key>00:30:93</key>
-	<string>SONNET TECHNOLOGIES, INC.</string>
+	<string>Sonnet Technologies, Inc</string>
 	<key>00:30:94</key>
 	<string>Cisco Systems, Inc.</string>
 	<key>00:30:95</key>
@@ -20735,7 +20773,7 @@
 	<key>00:50:55</key>
 	<string>DOMS A/S</string>
 	<key>00:50:56</key>
-	<string>VMWare, Inc.</string>
+	<string>VMware, Inc.</string>
 	<key>00:50:57</key>
 	<string>BROADBAND ACCESS SYSTEMS</string>
 	<key>00:50:58</key>
