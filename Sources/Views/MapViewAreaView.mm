@@ -68,6 +68,8 @@
     int **cache;
     int height, width;
     NSAutoreleasePool* subpool = [[NSAutoreleasePool alloc] init];
+    NSRect rec;
+	NSSize orgSize;
     
     NSParameterAssert(networks);
     NSParameterAssert(_mapImage);
@@ -156,8 +158,7 @@
         if ([im canceled]) goto exit;
     }
     
-    NSRect rec;
-	NSSize orgSize = [_mapImage size];
+	orgSize = [_mapImage size];
     rec.size = NSMakeSize(orgSize.width / width, orgSize.height / height);
     
     [_mapImage lockFocus];

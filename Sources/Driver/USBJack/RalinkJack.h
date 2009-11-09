@@ -45,7 +45,7 @@ public:
     
     RalinkJack();
     ~RalinkJack();
-    IOReturn RalinkJack::_init();
+    IOReturn _init();
     char *getPlistFile();
     IOReturn	RTUSB_VendorRequest(UInt8 direction,
                             UInt8 bRequest, 

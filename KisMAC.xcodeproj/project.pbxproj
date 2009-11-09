@@ -460,9 +460,6 @@
 		689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */ = {isa = PBXBuildFile; fileRef = 689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */; };
 		6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
 		690147C20F7FD6C600668BAA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
-		690148690F7FDEB800668BAA /* MACJack.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1A50F7E928B00949310 /* MACJack.kext */; };
-		6901499A0F7FDFA700668BAA /* AiroJack.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1740F7E928B00949310 /* AiroJack.kext */; };
-		6901499C0F7FDFB400668BAA /* AtheroJack.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A17E0F7E928B00949310 /* AtheroJack.kext */; };
 		690149AD0F7FDFE100668BAA /* WLanDriver.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1AB0F7E928B00949310 /* WLanDriver.kext */; };
 		690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1700F7E928B00949310 /* AirPortMenu */; };
 		6902662E0F25C0B500CEE671 /* wepInjection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6902662D0F25C0B500CEE671 /* wepInjection.xib */; };
@@ -566,27 +563,6 @@
 			remoteGlobalIDString = 8DD76F7E0486A8DE00D96B5E;
 			remoteInfo = AirPortMenu;
 		};
-		6971A1730F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719DCF0F7E928900949310 /* AiroJack.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 32D94FD00562CBF700B6AF17;
-			remoteInfo = AiroJack;
-		};
-		6971A17D0F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E040F7E928900949310 /* AtheroJack.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 32D94FD00562CBF700B6AF17;
-			remoteInfo = AtheroJack;
-		};
-		6971A1820F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E130F7E928900949310 /* FirmwareFlasher.xcode */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76FB20486AB0100D96B5E;
-			remoteInfo = FirmwareFlasher;
-		};
 		6971A1900F7E928B00949310 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719E780F7E928A00949310 /* BIGL.xcodeproj */;
@@ -601,26 +577,12 @@
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = BIGeneric;
 		};
-		6971A1A40F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719F6D0F7E928A00949310 /* MACJack.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 32D94FD00562CBF700B6AF17;
-			remoteInfo = MACJack;
-		};
 		6971A1AA0F7E928B00949310 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 32D94FD00562CBF700B6AF17;
 			remoteInfo = WLanDriver;
-		};
-		6971A1D80F7E93FA00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719F6D0F7E928A00949310 /* MACJack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 32D94FC30562CBF700B6AF17;
-			remoteInfo = MACJack;
 		};
 		6971A1EB0F7E945100949310 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -650,33 +612,12 @@
 			remoteGlobalIDString = 32D94FC30562CBF700B6AF17;
 			remoteInfo = WLanDriver;
 		};
-		699E591B0F7E9C2900D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719DCF0F7E928900949310 /* AiroJack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 32D94FC30562CBF700B6AF17;
-			remoteInfo = AiroJack;
-		};
 		699E591D0F7E9C2D00D88264 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719ECE0F7E928A00949310 /* BIGeneric.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = BIGeneric;
-		};
-		699E59210F7E9C3800D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E130F7E928900949310 /* FirmwareFlasher.xcode */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DD76FA90486AB0100D96B5E;
-			remoteInfo = FirmwareFlasher;
-		};
-		699E59230F7E9C3B00D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E040F7E928900949310 /* AtheroJack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 32D94FC30562CBF700B6AF17;
-			remoteInfo = AtheroJack;
 		};
 		699E59250F7E9C4000D88264 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -718,9 +659,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				690148690F7FDEB800668BAA /* MACJack.kext in CopyFiles */,
-				6901499A0F7FDFA700668BAA /* AiroJack.kext in CopyFiles */,
-				6901499C0F7FDFB400668BAA /* AtheroJack.kext in CopyFiles */,
 				690149AD0F7FDFE100668BAA /* WLanDriver.kext in CopyFiles */,
 				690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */,
 			);
@@ -1018,85 +956,6 @@
 		69719DB10F7E928900949310 /* AirPortMenu.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = AirPortMenu.1; sourceTree = "<group>"; };
 		69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AirPortMenu.xcodeproj; sourceTree = "<group>"; };
 		69719DCA0F7E928900949310 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		69719DCF0F7E928900949310 /* AiroJack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AiroJack.xcodeproj; sourceTree = "<group>"; };
-		69719DD20F7E928900949310 /* AiroJackCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackCard.cpp; sourceTree = "<group>"; };
-		69719DD30F7E928900949310 /* AiroJackCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackCard.h; sourceTree = "<group>"; };
-		69719DD40F7E928900949310 /* AiroJackDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackDriver.cpp; sourceTree = "<group>"; };
-		69719DD50F7E928900949310 /* AiroJackDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackDriver.h; sourceTree = "<group>"; };
-		69719DD60F7E928900949310 /* AiroJackDriverInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackDriverInterface.h; sourceTree = "<group>"; };
-		69719DD70F7E928900949310 /* AiroJackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackFrame.h; sourceTree = "<group>"; };
-		69719DD80F7E928900949310 /* AiroJackLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackLog.h; sourceTree = "<group>"; };
-		69719DD90F7E928900949310 /* AiroJackStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackStruct.h; sourceTree = "<group>"; };
-		69719DDA0F7E928900949310 /* AiroJackUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiroJackUserClient.cpp; sourceTree = "<group>"; };
-		69719DDB0F7E928900949310 /* AiroJackUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiroJackUserClient.h; sourceTree = "<group>"; };
-		69719DDD0F7E928900949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		69719DDF0F7E928900949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/locversion.plist; sourceTree = "<group>"; };
-		69719DE00F7E928900949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69719DFD0F7E928900949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
-		69719DFF0F7E928900949310 /* AtheroJack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtheroJack.cpp; sourceTree = "<group>"; };
-		69719E000F7E928900949310 /* AtheroJack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtheroJack.h; sourceTree = "<group>"; };
-		69719E040F7E928900949310 /* AtheroJack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AtheroJack.xcodeproj; sourceTree = "<group>"; };
-		69719E080F7E928900949310 /* AtherosHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosHAL.cpp; sourceTree = "<group>"; };
-		69719E090F7E928900949310 /* ah.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah.h; sourceTree = "<group>"; };
-		69719E0A0F7E928900949310 /* ah_desc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_desc.h; sourceTree = "<group>"; };
-		69719E0B0F7E928900949310 /* ah_devid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_devid.h; sourceTree = "<group>"; };
-		69719E0C0F7E928900949310 /* ah_osdep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_osdep.h; sourceTree = "<group>"; };
-		69719E0D0F7E928900949310 /* hal-release.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "hal-release.o"; sourceTree = "<group>"; };
-		69719E0E0F7E928900949310 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		69719E100F7E928900949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		69719E120F7E928900949310 /* FirmwareFlasher.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = FirmwareFlasher.1; sourceTree = "<group>"; };
-		69719E130F7E928900949310 /* FirmwareFlasher.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FirmwareFlasher.xcode; sourceTree = "<group>"; };
-		69719E160F7E928900949310 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		69719E170F7E928900949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69719E190F7E928900949310 /* OpenHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenHAL.cpp; sourceTree = "<group>"; };
-		69719E1A0F7E928900949310 /* OpenHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHAL.h; sourceTree = "<group>"; };
-		69719E1B0F7E928900949310 /* OpenHAL5212.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenHAL5212.cpp; sourceTree = "<group>"; };
-		69719E1C0F7E928900949310 /* OpenHAL5212.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHAL5212.h; sourceTree = "<group>"; };
-		69719E1D0F7E928900949310 /* OpenHALAbstracts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenHALAbstracts.cpp; sourceTree = "<group>"; };
-		69719E1E0F7E928900949310 /* OpenHALDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHALDefinitions.h; sourceTree = "<group>"; };
-		69719E1F0F7E928900949310 /* ar5212reg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ar5212reg.h; sourceTree = "<group>"; };
-		69719E200F7E928900949310 /* ar5212var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ar5212var.h; sourceTree = "<group>"; };
-		69719E210F7E928900949310 /* ieeeLite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ieeeLite.cpp; sourceTree = "<group>"; };
-		69719E220F7E928900949310 /* ieeeLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ieeeLite.h; sourceTree = "<group>"; };
-		69719E230F7E928900949310 /* WiFiController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WiFiController.cpp; sourceTree = "<group>"; };
-		69719E240F7E928900949310 /* WiFiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiController.h; sourceTree = "<group>"; };
-		69719E250F7E928900949310 /* WiFiControllerPCI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WiFiControllerPCI.cpp; sourceTree = "<group>"; };
-		69719E260F7E928900949310 /* WiFiControllerPCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiControllerPCI.h; sourceTree = "<group>"; };
-		69719E270F7E928900949310 /* WiFiLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiLogger.h; sourceTree = "<group>"; };
-		69719E280F7E928900949310 /* WiFiPower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WiFiPower.cpp; sourceTree = "<group>"; };
-		69719E290F7E928900949310 /* WiFiUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WiFiUserClient.cpp; sourceTree = "<group>"; };
-		69719E2A0F7E928900949310 /* WiFiUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiUserClient.h; sourceTree = "<group>"; };
-		69719E2B0F7E928900949310 /* WiFiUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiUserInterface.h; sourceTree = "<group>"; };
-		69719E300F7E928900949310 /* AtheroJack.dep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AtheroJack.dep; sourceTree = "<group>"; };
-		69719E310F7E928900949310 /* AtheroJack.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = AtheroJack.hmap; sourceTree = "<group>"; };
-		69719E320F7E928900949310 /* AtheroJack~.dep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "AtheroJack~.dep"; sourceTree = "<group>"; };
-		69719E340F7E928900949310 /* AtheroJack_info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AtheroJack_info.c; sourceTree = "<group>"; };
-		69719E370F7E928900949310 /* AtheroJack */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack; sourceTree = "<group>"; };
-		69719E380F7E928900949310 /* AtheroJack.LinkFileList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AtheroJack.LinkFileList; sourceTree = "<group>"; };
-		69719E390F7E928900949310 /* AtheroJack.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack.o; sourceTree = "<group>"; };
-		69719E3A0F7E928900949310 /* AtheroJack_info.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack_info.o; sourceTree = "<group>"; };
-		69719E3B0F7E928900949310 /* OpenHAL.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHAL.o; sourceTree = "<group>"; };
-		69719E3C0F7E928900949310 /* OpenHAL5212.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHAL5212.o; sourceTree = "<group>"; };
-		69719E3D0F7E928900949310 /* OpenHALAbstracts.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHALAbstracts.o; sourceTree = "<group>"; };
-		69719E3E0F7E928900949310 /* WiFiController.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiController.o; sourceTree = "<group>"; };
-		69719E3F0F7E928900949310 /* WiFiControllerPCI.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiControllerPCI.o; sourceTree = "<group>"; };
-		69719E400F7E928900949310 /* WiFiPower.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiPower.o; sourceTree = "<group>"; };
-		69719E410F7E928900949310 /* WiFiUserClient.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiUserClient.o; sourceTree = "<group>"; };
-		69719E420F7E928900949310 /* ieeeLite.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ieeeLite.o; sourceTree = "<group>"; };
-		69719E440F7E928900949310 /* AtheroJack */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack; sourceTree = "<group>"; };
-		69719E450F7E928900949310 /* AtheroJack.LinkFileList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AtheroJack.LinkFileList; sourceTree = "<group>"; };
-		69719E460F7E928900949310 /* AtheroJack.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack.o; sourceTree = "<group>"; };
-		69719E470F7E928900949310 /* AtheroJack_info.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AtheroJack_info.o; sourceTree = "<group>"; };
-		69719E480F7E928A00949310 /* OpenHAL.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHAL.o; sourceTree = "<group>"; };
-		69719E490F7E928A00949310 /* OpenHAL5212.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHAL5212.o; sourceTree = "<group>"; };
-		69719E4A0F7E928A00949310 /* OpenHALAbstracts.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = OpenHALAbstracts.o; sourceTree = "<group>"; };
-		69719E4B0F7E928A00949310 /* WiFiController.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiController.o; sourceTree = "<group>"; };
-		69719E4C0F7E928A00949310 /* WiFiControllerPCI.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiControllerPCI.o; sourceTree = "<group>"; };
-		69719E4D0F7E928A00949310 /* WiFiPower.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiPower.o; sourceTree = "<group>"; };
-		69719E4E0F7E928A00949310 /* WiFiUserClient.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = WiFiUserClient.o; sourceTree = "<group>"; };
-		69719E4F0F7E928A00949310 /* ieeeLite.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ieeeLite.o; sourceTree = "<group>"; };
-		69719E510F7E928A00949310 /* AtheroJack.kext */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.kernel-extension"; path = AtheroJack.kext; sourceTree = "<group>"; };
-		69719E520F7E928A00949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		69719E550F7E928A00949310 /* AtherosHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosHAL.cpp; sourceTree = "<group>"; };
 		69719E560F7E928A00949310 /* AtherosHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosHAL.h; sourceTree = "<group>"; };
 		69719E570F7E928A00949310 /* AtherosHAL.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AtherosHAL.xcode; sourceTree = "<group>"; };
@@ -1185,21 +1044,6 @@
 		69719F1C0F7E928A00949310 /* decrypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = decrypt.cpp; sourceTree = "<group>"; };
 		69719F1E0F7E928A00949310 /* Insomnia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Insomnia.cpp; sourceTree = "<group>"; };
 		69719F1F0F7E928A00949310 /* Insomnia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insomnia.h; sourceTree = "<group>"; };
-		69719F660F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		69719F680F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/locversion.plist; sourceTree = "<group>"; };
-		69719F690F7E928A00949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69719F6D0F7E928A00949310 /* MACJack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MACJack.xcodeproj; sourceTree = "<group>"; };
-		69719F700F7E928A00949310 /* MACJackCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MACJackCard.cpp; sourceTree = "<group>"; };
-		69719F710F7E928A00949310 /* MACJackCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackCard.h; sourceTree = "<group>"; };
-		69719F720F7E928A00949310 /* MACJackCardIDs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackCardIDs.h; sourceTree = "<group>"; };
-		69719F730F7E928A00949310 /* MACJackDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MACJackDriver.cpp; sourceTree = "<group>"; };
-		69719F740F7E928A00949310 /* MACJackDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackDriver.h; sourceTree = "<group>"; };
-		69719F750F7E928A00949310 /* MACJackDriverInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackDriverInterface.h; sourceTree = "<group>"; };
-		69719F760F7E928A00949310 /* MACJackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackFrame.h; sourceTree = "<group>"; };
-		69719F770F7E928A00949310 /* MACJackLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackLog.h; sourceTree = "<group>"; };
-		69719F780F7E928A00949310 /* MACJackUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MACJackUserClient.cpp; sourceTree = "<group>"; };
-		69719F790F7E928A00949310 /* MACJackUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACJackUserClient.h; sourceTree = "<group>"; };
-		69719FA40F7E928A00949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		69719FA90F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/locversion.plist; sourceTree = "<group>"; };
 		69719FAA0F7E928A00949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69719FAB0F7E928A00949310 /* WLCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WLCard.cpp; sourceTree = "<group>"; };
@@ -1962,14 +1806,11 @@
 			isa = PBXGroup;
 			children = (
 				69719DB00F7E928900949310 /* AirPortMenu */,
-				69719DCB0F7E928900949310 /* AiroJack */,
-				69719DFE0F7E928900949310 /* AtheroJack */,
 				69719E530F7E928A00949310 /* AtherosDriver */,
 				69719E730F7E928A00949310 /* BIGL */,
 				69719EC10F7E928A00949310 /* BIGeneric */,
 				69719F1B0F7E928A00949310 /* Decrypt Tool */,
 				69719F1D0F7E928A00949310 /* Insomnia */,
-				69719F640F7E928A00949310 /* MACJack */,
 				69719FA50F7E928A00949310 /* VihaDriver */,
 			);
 			path = Subprojects;
@@ -1991,219 +1832,6 @@
 				6971A1700F7E928B00949310 /* AirPortMenu */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		69719DCB0F7E928900949310 /* AiroJack */ = {
-			isa = PBXGroup;
-			children = (
-				69719DCF0F7E928900949310 /* AiroJack.xcodeproj */,
-				69719DD20F7E928900949310 /* AiroJackCard.cpp */,
-				69719DD30F7E928900949310 /* AiroJackCard.h */,
-				69719DD40F7E928900949310 /* AiroJackDriver.cpp */,
-				69719DD50F7E928900949310 /* AiroJackDriver.h */,
-				69719DD60F7E928900949310 /* AiroJackDriverInterface.h */,
-				69719DD70F7E928900949310 /* AiroJackFrame.h */,
-				69719DD80F7E928900949310 /* AiroJackLog.h */,
-				69719DD90F7E928900949310 /* AiroJackStruct.h */,
-				69719DDA0F7E928900949310 /* AiroJackUserClient.cpp */,
-				69719DDB0F7E928900949310 /* AiroJackUserClient.h */,
-				69719DDC0F7E928900949310 /* InfoPlist.strings */,
-				69719DDE0F7E928900949310 /* locversion.plist */,
-				69719DE00F7E928900949310 /* Info.plist */,
-				69719DFD0F7E928900949310 /* version.plist */,
-			);
-			path = AiroJack;
-			sourceTree = "<group>";
-		};
-		69719DD00F7E928900949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A1740F7E928B00949310 /* AiroJack.kext */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		69719DFE0F7E928900949310 /* AtheroJack */ = {
-			isa = PBXGroup;
-			children = (
-				69719DFF0F7E928900949310 /* AtheroJack.cpp */,
-				69719E000F7E928900949310 /* AtheroJack.h */,
-				69719E040F7E928900949310 /* AtheroJack.xcodeproj */,
-				69719E070F7E928900949310 /* Atheros */,
-				69719E0F0F7E928900949310 /* InfoPlist.strings */,
-				69719E110F7E928900949310 /* FirmwareFlasher */,
-				69719E170F7E928900949310 /* Info.plist */,
-				69719E180F7E928900949310 /* OpenHAL */,
-				69719E230F7E928900949310 /* WiFiController.cpp */,
-				69719E240F7E928900949310 /* WiFiController.h */,
-				69719E250F7E928900949310 /* WiFiControllerPCI.cpp */,
-				69719E260F7E928900949310 /* WiFiControllerPCI.h */,
-				69719E270F7E928900949310 /* WiFiLogger.h */,
-				69719E280F7E928900949310 /* WiFiPower.cpp */,
-				69719E290F7E928900949310 /* WiFiUserClient.cpp */,
-				69719E2A0F7E928900949310 /* WiFiUserClient.h */,
-				69719E2B0F7E928900949310 /* WiFiUserInterface.h */,
-				69719E2C0F7E928900949310 /* build */,
-				69719E520F7E928A00949310 /* version.plist */,
-			);
-			path = AtheroJack;
-			sourceTree = "<group>";
-		};
-		69719E050F7E928900949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A17E0F7E928B00949310 /* AtheroJack.kext */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		69719E070F7E928900949310 /* Atheros */ = {
-			isa = PBXGroup;
-			children = (
-				69719E080F7E928900949310 /* AtherosHAL.cpp */,
-				69719E090F7E928900949310 /* ah.h */,
-				69719E0A0F7E928900949310 /* ah_desc.h */,
-				69719E0B0F7E928900949310 /* ah_devid.h */,
-				69719E0C0F7E928900949310 /* ah_osdep.h */,
-				69719E0D0F7E928900949310 /* hal-release.o */,
-				69719E0E0F7E928900949310 /* version.h */,
-			);
-			path = Atheros;
-			sourceTree = "<group>";
-		};
-		69719E110F7E928900949310 /* FirmwareFlasher */ = {
-			isa = PBXGroup;
-			children = (
-				69719E120F7E928900949310 /* FirmwareFlasher.1 */,
-				69719E130F7E928900949310 /* FirmwareFlasher.xcode */,
-				69719E160F7E928900949310 /* main.m */,
-			);
-			path = FirmwareFlasher;
-			sourceTree = "<group>";
-		};
-		69719E140F7E928900949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A1830F7E928B00949310 /* FirmwareFlasher */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		69719E180F7E928900949310 /* OpenHAL */ = {
-			isa = PBXGroup;
-			children = (
-				69719E190F7E928900949310 /* OpenHAL.cpp */,
-				69719E1A0F7E928900949310 /* OpenHAL.h */,
-				69719E1B0F7E928900949310 /* OpenHAL5212.cpp */,
-				69719E1C0F7E928900949310 /* OpenHAL5212.h */,
-				69719E1D0F7E928900949310 /* OpenHALAbstracts.cpp */,
-				69719E1E0F7E928900949310 /* OpenHALDefinitions.h */,
-				69719E1F0F7E928900949310 /* ar5212reg.h */,
-				69719E200F7E928900949310 /* ar5212var.h */,
-				69719E210F7E928900949310 /* ieeeLite.cpp */,
-				69719E220F7E928900949310 /* ieeeLite.h */,
-			);
-			path = OpenHAL;
-			sourceTree = "<group>";
-		};
-		69719E2C0F7E928900949310 /* build */ = {
-			isa = PBXGroup;
-			children = (
-				69719E2D0F7E928900949310 /* AtheroJack.build */,
-				69719E500F7E928A00949310 /* Universal */,
-			);
-			path = build;
-			sourceTree = "<group>";
-		};
-		69719E2D0F7E928900949310 /* AtheroJack.build */ = {
-			isa = PBXGroup;
-			children = (
-				69719E2E0F7E928900949310 /* Universal */,
-			);
-			path = AtheroJack.build;
-			sourceTree = "<group>";
-		};
-		69719E2E0F7E928900949310 /* Universal */ = {
-			isa = PBXGroup;
-			children = (
-				69719E2F0F7E928900949310 /* AtheroJack.build */,
-			);
-			path = Universal;
-			sourceTree = "<group>";
-		};
-		69719E2F0F7E928900949310 /* AtheroJack.build */ = {
-			isa = PBXGroup;
-			children = (
-				69719E300F7E928900949310 /* AtheroJack.dep */,
-				69719E310F7E928900949310 /* AtheroJack.hmap */,
-				69719E320F7E928900949310 /* AtheroJack~.dep */,
-				69719E330F7E928900949310 /* DerivedSources */,
-				69719E350F7E928900949310 /* Objects-normal */,
-			);
-			path = AtheroJack.build;
-			sourceTree = "<group>";
-		};
-		69719E330F7E928900949310 /* DerivedSources */ = {
-			isa = PBXGroup;
-			children = (
-				69719E340F7E928900949310 /* AtheroJack_info.c */,
-			);
-			path = DerivedSources;
-			sourceTree = "<group>";
-		};
-		69719E350F7E928900949310 /* Objects-normal */ = {
-			isa = PBXGroup;
-			children = (
-				69719E360F7E928900949310 /* i386 */,
-				69719E430F7E928900949310 /* ppc */,
-			);
-			path = "Objects-normal";
-			sourceTree = "<group>";
-		};
-		69719E360F7E928900949310 /* i386 */ = {
-			isa = PBXGroup;
-			children = (
-				69719E370F7E928900949310 /* AtheroJack */,
-				69719E380F7E928900949310 /* AtheroJack.LinkFileList */,
-				69719E390F7E928900949310 /* AtheroJack.o */,
-				69719E3A0F7E928900949310 /* AtheroJack_info.o */,
-				69719E3B0F7E928900949310 /* OpenHAL.o */,
-				69719E3C0F7E928900949310 /* OpenHAL5212.o */,
-				69719E3D0F7E928900949310 /* OpenHALAbstracts.o */,
-				69719E3E0F7E928900949310 /* WiFiController.o */,
-				69719E3F0F7E928900949310 /* WiFiControllerPCI.o */,
-				69719E400F7E928900949310 /* WiFiPower.o */,
-				69719E410F7E928900949310 /* WiFiUserClient.o */,
-				69719E420F7E928900949310 /* ieeeLite.o */,
-			);
-			path = i386;
-			sourceTree = "<group>";
-		};
-		69719E430F7E928900949310 /* ppc */ = {
-			isa = PBXGroup;
-			children = (
-				69719E440F7E928900949310 /* AtheroJack */,
-				69719E450F7E928900949310 /* AtheroJack.LinkFileList */,
-				69719E460F7E928900949310 /* AtheroJack.o */,
-				69719E470F7E928900949310 /* AtheroJack_info.o */,
-				69719E480F7E928A00949310 /* OpenHAL.o */,
-				69719E490F7E928A00949310 /* OpenHAL5212.o */,
-				69719E4A0F7E928A00949310 /* OpenHALAbstracts.o */,
-				69719E4B0F7E928A00949310 /* WiFiController.o */,
-				69719E4C0F7E928A00949310 /* WiFiControllerPCI.o */,
-				69719E4D0F7E928A00949310 /* WiFiPower.o */,
-				69719E4E0F7E928A00949310 /* WiFiUserClient.o */,
-				69719E4F0F7E928A00949310 /* ieeeLite.o */,
-			);
-			path = ppc;
-			sourceTree = "<group>";
-		};
-		69719E500F7E928A00949310 /* Universal */ = {
-			isa = PBXGroup;
-			children = (
-				69719E510F7E928A00949310 /* AtheroJack.kext */,
-			);
-			path = Universal;
 			sourceTree = "<group>";
 		};
 		69719E530F7E928A00949310 /* AtherosDriver */ = {
@@ -2375,36 +2003,6 @@
 				69719F1F0F7E928A00949310 /* Insomnia.h */,
 			);
 			path = Insomnia;
-			sourceTree = "<group>";
-		};
-		69719F640F7E928A00949310 /* MACJack */ = {
-			isa = PBXGroup;
-			children = (
-				69719F650F7E928A00949310 /* InfoPlist.strings */,
-				69719F670F7E928A00949310 /* locversion.plist */,
-				69719F690F7E928A00949310 /* Info.plist */,
-				69719F6D0F7E928A00949310 /* MACJack.xcodeproj */,
-				69719F700F7E928A00949310 /* MACJackCard.cpp */,
-				69719F710F7E928A00949310 /* MACJackCard.h */,
-				69719F720F7E928A00949310 /* MACJackCardIDs.h */,
-				69719F730F7E928A00949310 /* MACJackDriver.cpp */,
-				69719F740F7E928A00949310 /* MACJackDriver.h */,
-				69719F750F7E928A00949310 /* MACJackDriverInterface.h */,
-				69719F760F7E928A00949310 /* MACJackFrame.h */,
-				69719F770F7E928A00949310 /* MACJackLog.h */,
-				69719F780F7E928A00949310 /* MACJackUserClient.cpp */,
-				69719F790F7E928A00949310 /* MACJackUserClient.h */,
-				69719FA40F7E928A00949310 /* version.plist */,
-			);
-			path = MACJack;
-			sourceTree = "<group>";
-		};
-		69719F6E0F7E928A00949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A1A50F7E928B00949310 /* MACJack.kext */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		69719FA50F7E928A00949310 /* VihaDriver */ = {
@@ -2752,13 +2350,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				6971A1D90F7E93FA00949310 /* PBXTargetDependency */,
 				699E591A0F7E9C2500D88264 /* PBXTargetDependency */,
-				699E591C0F7E9C2900D88264 /* PBXTargetDependency */,
-				699E59240F7E9C3B00D88264 /* PBXTargetDependency */,
 				6971A1EC0F7E945100949310 /* PBXTargetDependency */,
 				699E591E0F7E9C2D00D88264 /* PBXTargetDependency */,
-				699E59220F7E9C3800D88264 /* PBXTargetDependency */,
 				699E59260F7E9C4000D88264 /* PBXTargetDependency */,
 			);
 			name = KisMAC;
@@ -2789,16 +2383,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 69719DD00F7E928900949310 /* Products */;
-					ProjectRef = 69719DCF0F7E928900949310 /* AiroJack.xcodeproj */;
-				},
-				{
 					ProductGroup = 69719DB60F7E928900949310 /* Products */;
 					ProjectRef = 69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */;
-				},
-				{
-					ProductGroup = 69719E050F7E928900949310 /* Products */;
-					ProjectRef = 69719E040F7E928900949310 /* AtheroJack.xcodeproj */;
 				},
 				{
 					ProductGroup = 69719E580F7E928A00949310 /* Products */;
@@ -2815,14 +2401,6 @@
 				{
 					ProductGroup = 69719E790F7E928A00949310 /* Products */;
 					ProjectRef = 69719E780F7E928A00949310 /* BIGL.xcodeproj */;
-				},
-				{
-					ProductGroup = 69719E140F7E928900949310 /* Products */;
-					ProjectRef = 69719E130F7E928900949310 /* FirmwareFlasher.xcode */;
-				},
-				{
-					ProductGroup = 69719F6E0F7E928A00949310 /* Products */;
-					ProjectRef = 69719F6D0F7E928A00949310 /* MACJack.xcodeproj */;
 				},
 				{
 					ProductGroup = 69719FB80F7E928A00949310 /* Products */;
@@ -2846,27 +2424,6 @@
 			remoteRef = 6971A16F0F7E928B00949310 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6971A1740F7E928B00949310 /* AiroJack.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AiroJack.kext;
-			remoteRef = 6971A1730F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6971A17E0F7E928B00949310 /* AtheroJack.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AtheroJack.kext;
-			remoteRef = 6971A17D0F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6971A1830F7E928B00949310 /* FirmwareFlasher */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = FirmwareFlasher;
-			remoteRef = 6971A1820F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6971A1910F7E928B00949310 /* BIGL.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2879,13 +2436,6 @@
 			fileType = wrapper.framework;
 			path = BIGeneric.framework;
 			remoteRef = 6971A1960F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6971A1A50F7E928B00949310 /* MACJack.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MACJack.kext;
-			remoteRef = 6971A1A40F7E928B00949310 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		6971A1AB0F7E928B00949310 /* WLanDriver.kext */ = {
@@ -3309,12 +2859,6 @@
 			target = 8D1107260486CEB800E47090 /* KisMAC */;
 			targetProxy = 691030330F9E315D00C4E466 /* PBXContainerItemProxy */;
 		};
-		6971A1D90F7E93FA00949310 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			comments = " ";
-			name = MACJack;
-			targetProxy = 6971A1D80F7E93FA00949310 /* PBXContainerItemProxy */;
-		};
 		6971A1EC0F7E945100949310 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BIGL;
@@ -3325,25 +2869,10 @@
 			name = WLanDriver;
 			targetProxy = 699E59190F7E9C2500D88264 /* PBXContainerItemProxy */;
 		};
-		699E591C0F7E9C2900D88264 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AiroJack;
-			targetProxy = 699E591B0F7E9C2900D88264 /* PBXContainerItemProxy */;
-		};
 		699E591E0F7E9C2D00D88264 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BIGeneric;
 			targetProxy = 699E591D0F7E9C2D00D88264 /* PBXContainerItemProxy */;
-		};
-		699E59220F7E9C3800D88264 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FirmwareFlasher;
-			targetProxy = 699E59210F7E9C3800D88264 /* PBXContainerItemProxy */;
-		};
-		699E59240F7E9C3B00D88264 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AtheroJack;
-			targetProxy = 699E59230F7E9C3B00D88264 /* PBXContainerItemProxy */;
 		};
 		699E59260F7E9C4000D88264 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3505,30 +3034,6 @@
 			name = WayPointDialog.nib;
 			sourceTree = "<group>";
 		};
-		69719DDC0F7E928900949310 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719DDD0F7E928900949310 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		69719DDE0F7E928900949310 /* locversion.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719DDF0F7E928900949310 /* English */,
-			);
-			name = locversion.plist;
-			sourceTree = "<group>";
-		};
-		69719E0F0F7E928900949310 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719E100F7E928900949310 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		69719E5A0F7E928A00949310 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3573,22 +3078,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				69719EE70F7E928A00949310 /* English */,
-			);
-			name = locversion.plist;
-			sourceTree = "<group>";
-		};
-		69719F650F7E928A00949310 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719F660F7E928A00949310 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		69719F670F7E928A00949310 /* locversion.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719F680F7E928A00949310 /* English */,
 			);
 			name = locversion.plist;
 			sourceTree = "<group>";
@@ -3723,7 +3212,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Info.plist;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Development;
