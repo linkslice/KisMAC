@@ -52,7 +52,10 @@ static int AirPortInstances = 0;
         else
         {
             success = [airportInterface setPower: YES error: &error];
-            CFShow(error);
+            if(!success)
+            {
+                CFShow(error);
+            }
         }
     }
     
@@ -119,7 +122,10 @@ static int AirPortInstances = 0;
     
     networks = [airportInterface scanForNetworksWithParameters:params error: &error]; 
     
-    CFShow(error);
+    if(error)
+    {
+        CFShow(error);
+    }
     //CFShow(networks);
   
     return networks;
