@@ -117,9 +117,16 @@
 	<key>D-LINK DWA-110</key>
 	<dict>
 		<key>idProduct</key>
-		<integer>15367</integer>
-		<key>idVendor</key>
 		<integer>2001</integer>
+		<key>idVendor</key>
+		<integer>15367</integer>
+	</dict>
+	<key>D-LINK DWA-111</key>
+	<dict>
+		<key>idProduct</key>
+		<integer>2001</integer>
+		<key>idVendor</key>
+		<integer>15366</integer>
 	</dict>
 	<key>Belkin F5D9050 (2)</key>
 	<dict>
