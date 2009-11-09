@@ -33,9 +33,7 @@ static int AirPortInstances = 0;
     NSArray * availableInterfaces;
     BOOL success = NO;
     NSError * error;
-    
-    NSLog(@"init");
-    
+        
     //first we must find an interface
     availableInterfaces = [CWInterface supportedInterfaces];
     
