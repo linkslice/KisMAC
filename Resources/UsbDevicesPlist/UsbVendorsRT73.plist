@@ -142,5 +142,12 @@
 		<key>idVendor</key>
 		<integer>5263</integer>
 	</dict>
+	<key>7318USG</key>
+	<dict>
+		<key>idProduct</key>
+		<integer>29464</integer>
+		<key>idVendor</key>
+		<integer>29586</integer>
+	</dict>
 </dict>
 </plist>
