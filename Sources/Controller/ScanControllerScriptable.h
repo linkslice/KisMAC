@@ -71,5 +71,6 @@
 
 - (BOOL)weakSchedulingAttackForKeyLen:(int)keyLen andKeyID:(int)keyID;
 
-    BOOL saveAllNets;
 @end
+
+BOOL saveAllNets;
