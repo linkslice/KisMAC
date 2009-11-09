@@ -819,7 +819,8 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     _dropAll = NO;
 }
 
-- (void) clearEntry:(WaveNet*)net {
+- (void) clearEntry:(WaveNet*)net
+{
     unsigned char *ID = [net rawID];
     unsigned int i, l, entry = LOOKUPSIZE;
 	WaveNet* n;
@@ -830,26 +831,30 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     
 	n = net;
 	
-    for(i = 0; i < LOOKUPSIZE; i++) 
+    for(i = 0; i < LOOKUPSIZE; i++)
+    {
         _lookup[i] = LOOKUPSIZE;
+    }
         
     //find the entry in the sorted list
-    for (i=0; i<_sortedCount; i++) {
+    for (i=0; i<_sortedCount; i++) 
+    {
 		entry = _sortedList[i];
 		if (memcmp(ID, _idList[entry].ID, 6)==0) break;
     }
     //if the entry exists in the sorted list move all sorted items one down...
-    if(i < _sortedCount) {
+    if(i < _sortedCount)
+    {
         _sortedCount--;
         for (;i < _sortedCount; i++)
             _sortedList[i] = _sortedList[i+1];
     }
     
-	net = _idList[entry].net;
     _netCount--;
     
     //move down from the whole list
-    for (i = entry; i < _netCount; i++) {
+    for (i = entry; i < _netCount; i++)
+    {
         _idList[i] = _idList[i+1];
     }
     
@@ -858,11 +863,13 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     else _idList[entry].net = nil;
     
     
-    for (i=0; i < _netCount; i++) {
+    for (i=0; i < _netCount; i++)
+    {
         //add to hash table
         l = hashForMAC(_idList[i].ID);
         
-        while (_lookup[l]!=LOOKUPSIZE) {
+        while (_lookup[l]!=LOOKUPSIZE)
+        {
             l = (l + 1) % LOOKUPSIZE;
         }
         _lookup[l] = i;

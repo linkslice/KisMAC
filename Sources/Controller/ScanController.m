@@ -174,7 +174,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     id tableColumn;
     NSMenuItem *menuItem;
     NSMutableArray *colsToRemove = [[NSMutableArray alloc] init];
-    NSArray *networkTableFieldsOrder = [[NSUserDefaults standardUserDefaults] objectForKey:@"networkTableFieldsOrder"];
+   
     NSDictionary *networkTableFieldsVisibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"networkTableFieldsVisibility"];
     NSEnumerator *colsEnumerator = [[_networkTable tableColumns] objectEnumerator];
     int i = 0;
@@ -195,10 +195,13 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         i++;
     }
     colsEnumerator = [colsToRemove objectEnumerator];
-    while ((tableColumn = [colsEnumerator nextObject])) {
+    while ((tableColumn = [colsEnumerator nextObject]))
+    {
         [_networkTable removeTableColumn:tableColumn];
     }
+    [colsToRemove release];
     [[_networkTable headerView] setMenu:menu];
+    [menu release];
     
     //
     [_window makeFirstResponder:_networkTable]; //select the network table not the search box
@@ -508,9 +511,10 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
 }
 
 - (void)checkFilter:(id)sender {
+    NSAlert *alert;
     //written by themacuser
 	if(![[_searchField stringValue] isEqualToString:@""]){
-		NSAlert *alert = [[NSAlert alloc] init];
+		alert = [[NSAlert alloc] init];
 		[alert addButtonWithTitle:@"Save all nets"];
 		[alert addButtonWithTitle:@"Save filtered nets"];
 		[alert setMessageText:@"You are filtering the list of networks."];
@@ -522,6 +526,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         }else {
             _saveFilteredOnly = YES;
         }
+        [alert release];
     }
 }
 
@@ -605,6 +610,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         [crc setReport:crashLog];
         [crc showWindow:self];
         [[crc window] makeKeyAndOrderFront:self];
+        [crc release];
         
         NSLog(@"crash occured the last time kismac started");
     }
@@ -639,25 +645,32 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     return proposedFrameSize;
 }
 
-- (BOOL)windowShouldClose:(id)sender {
+- (BOOL)windowShouldClose:(id)sender 
+{
     NSUserDefaults *sets = [NSUserDefaults standardUserDefaults];
     
-    if ([sets boolForKey:@"terminateIfClosed"]) {
-        if (![self isSaved]) {
+    if ([sets boolForKey:@"terminateIfClosed"])
+    {
+        if (![self isSaved])
+        {
             [self showWantToSaveDialog:@selector(reallyCloseDidEnd:returnCode:contextInfo:)];
             return NO;
         }
 
-		[[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES] retain];
+		[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES];
 		return NO;
-	} else {
+	} 
+    else 
+    {
         [self new];
         return NO;
     }
 }
-- (void)reallyCloseDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)reallyCloseDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
 	[self menuSetEnabled:YES menu:[NSApp mainMenu]];
-	switch (returnCode) {
+	switch (returnCode) 
+    {
     case NSAlertDefaultReturn:
         [NSNotificationCenter postNotification:KisMACTryToSave];
     case NSAlertOtherReturn:
@@ -665,7 +678,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     case NSAlertAlternateReturn:
     default:
         [_window setDocumentEdited:NO];
-		[[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES] retain];
+		[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES];
     }
 }
 

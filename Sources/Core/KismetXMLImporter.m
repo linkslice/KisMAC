@@ -57,40 +57,51 @@
     
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if (!currentNet) {
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    if (!currentNet) 
+    {
         currentNet = [[NSMutableDictionary alloc] init];
     }
     
-    if([elementName isEqualToString:@"SSID"]){
+    if([elementName isEqualToString:@"SSID"])
+    {
         //NSLog(@"Net Found SSID = %@", currentStringValue);
         [currentNet setValue: currentStringValue forKey:@"SSID"];
     }
-    else if([elementName isEqualToString:@"BSSID"]){
+    else if([elementName isEqualToString:@"BSSID"])
+    {
         unsigned int ID[6];
         sscanf([currentStringValue UTF8String],
                "%2X:%2X:%2X:%2X:%2X:%2X",
                &ID[0], &ID[1], &ID[2], &ID[3], &ID[4], &ID[5]);
-        [currentNet setValue: [[NSString stringWithFormat:@"%2X%2X%2X%2X%2X%2X", ID[0], ID[1],ID[2], ID[3], ID[4], ID[5]] retain] forKey:@"ID"];
+        [currentNet setValue: [NSString stringWithFormat:@"%2X%2X%2X%2X%2X%2X", 
+                               ID[0], ID[1],ID[2], ID[3], ID[4], ID[5]] forKey:@"ID"];
         //NSLog(@"Net Found BSSID = %@", currentStringValue);
         [currentNet setValue: currentStringValue forKey:@"BSSID"];
     }
-    else if([elementName isEqualToString:@"channel"]){
+    else if([elementName isEqualToString:@"channel"])
+    {
         [currentNet setValue: currentStringValue forKey:@"channel"];
     }
-    else if([elementName isEqualToString:@"channel"]){
+    else if([elementName isEqualToString:@"channel"])
+    {
         [currentNet setValue: currentStringValue forKey:@"channel"];
     }
-    else if([elementName isEqualToString:@"total"]){
+    else if([elementName isEqualToString:@"total"])
+    {
         [currentNet setValue: currentStringValue forKey:@"packets"];
     }
-    else if([elementName isEqualToString:@"data"]){
+    else if([elementName isEqualToString:@"data"])
+    {
         [currentNet setValue: currentStringValue forKey:@"dataPackets"];
     }
-    else if([elementName isEqualToString:@"datasize"]){
+    else if([elementName isEqualToString:@"datasize"])
+    {
         [currentNet setValue: currentStringValue forKey:@"bytes"];
     }
-    else if([elementName isEqualToString:@"encryption"]){
+    else if([elementName isEqualToString:@"encryption"])
+    {
         if([currentStringValue isEqualToString: @"WEP"])
             [currentNet setValue: @"2" forKey:@"encryption"];
         else if([currentStringValue isEqualToString: @"WPA"])
@@ -100,28 +111,33 @@
         else
             [currentNet setValue: @"0" forKey:@"encryption"];
     }
-    else if([elementName isEqualToString:@"max-lat"]){
+    else if([elementName isEqualToString:@"max-lat"])
+    {
         [currentNet setValue: currentStringValue forKey:@"lat"];
     }
-    else if([elementName isEqualToString:@"max-lon"]){
+    else if([elementName isEqualToString:@"max-lon"])
+    {
         [currentNet setValue: currentStringValue forKey:@"long"];
     }
-    else if([elementName isEqualToString:@"max-alt"]){
+    else if([elementName isEqualToString:@"max-alt"])
+    {
         [currentNet setValue: currentStringValue forKey:@"elev"];
     }
-    else if([elementName isEqualToString:@"wireless-network"]){
+    else if([elementName isEqualToString:@"wireless-network"])
+    {
         //NSLog(@"End of Net Found");
         
         WaveNet* net = [[WaveNet alloc] initWithDataDictionary: currentNet];
         [currentNet release];
         currentNet = nil;
-        if (net) {
+        if (net)
+        {
             [importedNets addObject:net];
-        }else {
+        }else 
+        {
             NSLog(@"Invalid Net!");
         }
         [net release];
-
     }
 
     [currentStringValue release];
@@ -140,7 +156,9 @@
         [container importData:importedNets];
     }
     
-    else {
+    else 
+    {
+        [theData release];
         NSLog(@"Parsing Failed!!!\n");
         return nil;
        // hasValidData = NO;

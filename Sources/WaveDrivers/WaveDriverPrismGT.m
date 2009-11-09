@@ -234,10 +234,16 @@ typedef enum {
     return YES;
 }
 
--(bool) stopCapture {
+-(bool) stopCapture 
+{
     kern_return_t kernResult;
 
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort, kWiFiUserClientSetMode, 1, 0, modeClient);
+    if (kernResult != KERN_SUCCESS)
+    {
+        NSLog(@"stopCapture: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
+        return NO;
+    }
     while (IODataQueueDataAvailable(_packetQueue)) IODataQueueDequeue(_packetQueue, NULL, 0);
 
     return YES;
@@ -271,13 +277,20 @@ typedef struct {
         while (!IODataQueueDataAvailable(_packetQueue)) {
             kernResult = IODataQueueWaitForAvailableData(_packetQueue,
                                                          _packetQueuePort);
-            if (kernResult != KERN_SUCCESS) {
+            if (kernResult != KERN_SUCCESS)
+            {
                 NSLog(@"nextFrame: IODataQueueWaitForAvailableData: 0x%x\n", kernResult);
                 return NULL;
             }
         }
 
         kernResult = IODataQueueDequeue(_packetQueue, tempframe, &frameSize);
+        if (kernResult != KERN_SUCCESS)
+        {
+            NSLog(@"nextFrame: IODataQueueDequeue: 0x%x\n", kernResult);
+            return NULL;
+        }
+
         head = (rfmonHeader*)tempframe;
         f = (KFrame *)frame;
         memset(f, 0, sizeof(frame));
@@ -297,12 +310,15 @@ typedef struct {
 
 #pragma mark -
 
--(void) dealloc {
+-(void) dealloc 
+{
     kern_return_t kernResult;
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort, kWiFiUserClientClose, 0, 0);
     if (kernResult != KERN_SUCCESS) NSLog(@"close: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
     
     kernResult = [self _disconnect];
+    if (kernResult != KERN_SUCCESS) NSLog(@"close: _disconnect: 0x%x\n", kernResult);
+
     [super dealloc];
 }
 

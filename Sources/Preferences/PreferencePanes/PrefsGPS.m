@@ -36,12 +36,15 @@
 -(NSString*) getRegistryString:(io_object_t) sObj name:(char *)propName {
     static char resultStr[256];
     CFTypeRef nameCFstring;
+    CFTypeRef propNameString;
 
     resultStr[0] = 0;
+    propNameString = CFStringCreateWithCString (
+                                                kCFAllocatorDefault, propName, kCFStringEncodingASCII);
     nameCFstring = IORegistryEntryCreateCFProperty (
-        sObj, CFStringCreateWithCString (
-            kCFAllocatorDefault, propName, kCFStringEncodingASCII),
+        sObj, propNameString,
         kCFAllocatorDefault, 0);
+    CFRelease(propNameString);
     if (nameCFstring)
     {
         CFStringGetCString (

@@ -304,7 +304,8 @@ struct _Prism_HEADER {
     UInt16 txControl;
 } __attribute__((packed));
 
-- (KFrame*) nextFrame {
+- (KFrame*) nextFrame 
+{
     static UInt8 frame[2500];
     KFrame  *f = (KFrame *)frame;
 
@@ -324,29 +325,38 @@ struct _Prism_HEADER {
             }
         }
         kernResult = IODataQueueDequeue(_packetQueue, tempframe, &frameSize);
-        NSLog(@"Packet %d", frameSize);
-        
-        memset(f, 0, sizeof(KFrame));
-        
-        f->ctrl.len = frameSize - sizeof(struct _Prism_HEADER);
-        memcpy(f->data, tempframe + sizeof(struct _Prism_HEADER), f->ctrl.len);
+        if(kernResult != KERN_SUCCESS)
+        {
+            f = NULL;
+        }
+        else
+        {
+            NSLog(@"Packet %d", frameSize);
+            
+            memset(f, 0, sizeof(KFrame));
+            
+            f->ctrl.len = frameSize - sizeof(struct _Prism_HEADER);
+            memcpy(f->data, tempframe + sizeof(struct _Prism_HEADER), f->ctrl.len);
 
-        f->ctrl.channel = head->channel;
-        f->ctrl.silence = head->silence;
-        f->ctrl.signal  = head->signal;
+            f->ctrl.channel = head->channel;
+            f->ctrl.silence = head->silence;
+            f->ctrl.signal  = head->signal;
 
-        _packets++;
+            _packets++;
+        }
         return f;
     }
 }
 
 #pragma mark -
 
--(void) dealloc {
+-(void) dealloc
+{
     kern_return_t kernResult;
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort,kWiFiUserClientClose,0, 0);
     if (kernResult != KERN_SUCCESS) NSLog(@"close: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
     kernResult = [self _disconnect];
+    if (kernResult != KERN_SUCCESS) NSLog(@"close: _disconnect: 0x%x\n", kernResult);
     [super dealloc];
 }
 

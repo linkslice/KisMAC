@@ -38,7 +38,9 @@ static void RawDeviceAdded(void* refcon, io_iterator_t iterator) {
     NSLog(@"%@", matchingDict);
     //Create a master port for communication with the I/O Kit
     kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
-    if (kr || !masterPort)  {
+    if (kr || !masterPort)
+    {
+        [matchingDict release];
         NSLog(@"ERR: Couldn’t create a master I/O Kit port(%08x)\n", kr);
         return;
     }
@@ -69,6 +71,11 @@ static void RawDeviceAdded(void* refcon, io_iterator_t iterator) {
         kr = IOCreatePlugInInterfaceForService(usbDevice,
                                                kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID,
                                                &plugInInterface, &score);
+        if ((kIOReturnSuccess != kr) || !plugInInterface)
+        {
+            printf("Unable to create a plug-in (%08x)\n", kr);
+            continue;
+        }
         //Don’t need the device object after intermediate plug-in is created
         kr = IOObjectRelease(usbDevice);
         if ((kIOReturnSuccess != kr) || !plugInInterface)
@@ -93,9 +100,31 @@ static void RawDeviceAdded(void* refcon, io_iterator_t iterator) {
         
         //Check these values for confirmation
         kr = (*_dev)->GetDeviceVendor(_dev, &vendor);
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Unable to open device: %08x\n", kr);
+            (void) (*_dev)->Release(_dev);
+            continue;
+        }
+
         kr = (*_dev)->GetDeviceProduct(_dev, &product);
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Unable to open device: %08x\n", kr);
+            (void) (*_dev)->Release(_dev);
+            continue;
+        }
+
         kr = (*_dev)->GetDeviceReleaseNumber(_dev, &release);
-        if ((vendor != 0x1781) || (product != 0x083e)) {
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Unable to open device: %08x\n", kr);
+            (void) (*_dev)->Release(_dev);
+            continue;
+        }
+
+        if ((vendor != 0x1781) || (product != 0x083e))
+        {
             printf("Found unwanted device (vendor = %d, product = %d)\n",
                    vendor, product);
             (void) (*_dev)->Release(_dev);
@@ -149,7 +178,17 @@ static void RawDeviceAdded(void* refcon, io_iterator_t iterator) {
     kern_return_t kr;
     //Close this device and release object
     kr = (*_dev)->USBDeviceClose(_dev);
+    if (kr != kIOReturnSuccess)
+    {
+        printf("Unable to close device: %08x\n", kr);
+    }
+
     kr = (*_dev)->Release(_dev);
+    if (kr != kIOReturnSuccess)
+    {
+        printf("Unable to release device: %08x\n", kr);
+    }
+
     (*_dev) = NULL;
 }
 

@@ -423,15 +423,15 @@
     isInit = NO;
     
     memset(key,0,16);
-    l = 0;
     q = 0;
     j = 0;
-    k = 0;
     selKey = 0;
     
     //if we want to do it against 2,3,4 key we have to modifiy this
-    for (i= 0; i < KEYNUM; i++) {
-        for(x = 0; x < KEYLENGTH; x++) {
+    for (i= 0; i < KEYNUM; i++)
+    {
+        for(x = 0; x < KEYLENGTH; x++) 
+        {
             q *= 0x343fd;
             q += 0x269ec3;
             key[i][x+3] = q >> 16;

@@ -88,7 +88,6 @@
         map24 = YES;
     } else if ([[_server titleOfSelectedItem] isEqualToString:NSLocalizedString(@"Street-Directory.com.au", "menu item, needs to be like in DownloadMap.nib")]) {
         server = @"Street-Directory.com.au";
-        sdau = YES;
     } else if ([[_server titleOfSelectedItem] isEqualToString:NSLocalizedString(@"Census Bureau Maps (United States)", "menu item, needs to be like in DownloadMap.nib")]) {
         server = @"Census Bureau Maps (United States)";
     } else {
@@ -151,9 +150,10 @@
 
 #pragma mark Fade Out Code
 
-- (BOOL)windowShouldClose:(id)sender {
+- (BOOL)windowShouldClose:(id)sender 
+{
     // Set up our timer to periodically call the fade: method.
-    [[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES] retain];
+    [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES];
     
     return NO;
 }

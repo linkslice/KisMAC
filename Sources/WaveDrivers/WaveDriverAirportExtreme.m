@@ -109,20 +109,21 @@ WirelessContextPtr gWCtxt = NULL;
 }
 
 // return 0 for success, 1 for error, 2 for self handled error
-+ (int) initBackend {
-	int ret;
-    
-        if (NSAppKitVersionNumber < 949.00) 
-        {
-            NSLog(@"MacOS is not 10.5.1! AppKitVersion: %f < 949.00", NSAppKitVersionNumber);
-		
-            NSRunCriticalAlertPanel(
-                                NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
-                                NSLocalizedString(@"Incompatible MacOS version! You will need at least MacOS 10.5.1!. Please ensure that you are running Leopard, and have updated to the latest through Software Update.", "Error dialog description"),
-                                OK, nil, nil);
++ (int) initBackend
+{
+	int ret = -1;
 
-            ret = 2;
-        }
+    if (NSAppKitVersionNumber < 949.00) 
+    {
+        NSLog(@"MacOS is not 10.5.1! AppKitVersion: %f < 949.00", NSAppKitVersionNumber);
+    
+        NSRunCriticalAlertPanel(
+                            NSLocalizedString(@"Could not enable Monitor Mode for Airport Extreme.", "Error dialog title"),
+                            NSLocalizedString(@"Incompatible MacOS version! You will need at least MacOS 10.5.1!. Please ensure that you are running Leopard, and have updated to the latest through Software Update.", "Error dialog description"),
+                            OK, nil, nil);
+
+        ret = 2;
+    }
 
 	if ([WaveDriverAirportExtreme deviceAvailable]) ret = 0;
     

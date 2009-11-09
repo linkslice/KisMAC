@@ -274,11 +274,11 @@ static GPSInfoController *_gc;
     
     e = [_waveDrivers keyEnumerator];
     
-    while ((key = [e nextObject])) {
+    while ((key = [e nextObject]))
+    {
         w = [_waveDrivers objectForKey:key];
         [_waveDrivers removeObjectForKey:key];
         [w unloadBackend];
-        [w release];
         w = Nil;
     }
     
@@ -288,7 +288,7 @@ static GPSInfoController *_gc;
 //placeholder for later
 + (bool)loadDrivers {
     NSUserDefaults *d;
-    WaveDriver *w;
+    WaveDriver *w = nil;
     NSArray *a;
     NSDictionary *driverProps;
     NSString *name;
@@ -320,13 +320,15 @@ static GPSInfoController *_gc;
             if ([interfaceName isEqualToString:@"WaveDriverAirport"]) {
                 if ([_waveDrivers objectForKey:[WaveDriverViha deviceName]]) continue;
             }
-            if ([interfaceName isEqualToString:@"WaveDriverViha"]) {
+            if ([interfaceName isEqualToString:@"WaveDriverViha"]) 
+            {
                 airportName = [WaveDriverAirport deviceName];
-                if ([_waveDrivers objectForKey:airportName]) {
+                if ([_waveDrivers objectForKey:airportName])
+                {
+                    [w release];
                     w = [_waveDrivers objectForKey:airportName];
                     [_waveDrivers removeObjectForKey:airportName];
                     [w unloadBackend];
-                    [w release];
                     w = Nil;
                 }
             }
@@ -335,14 +337,19 @@ static GPSInfoController *_gc;
             driver = NSClassFromString(interfaceName);
             
             // Call driver Class method "loadBackend"
-            if (![driver loadBackend]) {
+            if (![driver loadBackend]) 
+            {
+                [w release];
                 return NO;
             }
             
             //create an interface
-            for (j = 0; j < 10; j++) {
+            for (j = 0; j < 10; j++) 
+            {
+                [w release];
                 w = [[driver alloc] init];
-                if (w) {
+                if (w)
+                {
                     break;
                 }
                 [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.4]];
@@ -365,6 +372,10 @@ static GPSInfoController *_gc;
     
     //now make sure any drivers that have been removed from the list are gone
     NSEnumerator *e = [_waveDrivers objectEnumerator];
+    if(nil != w)
+    {
+        [w release];
+    }
    
     while((w = [e nextObject]))
     {
@@ -618,6 +629,8 @@ static GPSInfoController *_gc;
          NULL,           //No attribute data to release
          passwordData    //Release data buffer allocated by SecKeychainFindGenericPassword
     );
+    
+    if (status != noErr) return nil;
     
     if (itemRef) CFRelease(itemRef);
 

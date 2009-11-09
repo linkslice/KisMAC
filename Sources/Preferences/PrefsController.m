@@ -326,15 +326,9 @@ void addToolbarItem(NSMutableDictionary *theDict,NSString *identifier,NSString *
     [currentClient updateUI];
 }
 
-- (IBAction)clickOk:(id)sender {
-    NSEnumerator* keyEnum = [changesDict keyEnumerator];
-    NSString* key;
-
+- (IBAction)clickOk:(id)sender
+{
     if (![currentClient updateDictionary]) return;
-    
-    while((key = [keyEnum nextObject])) {
-        //[defaults setObject:[changesDict objectForKey:key] forKey:key];
-    }
     
     [prefsWindow close];
     [changesDict removeAllObjects];

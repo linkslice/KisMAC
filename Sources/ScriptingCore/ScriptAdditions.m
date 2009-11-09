@@ -58,8 +58,9 @@
 
 #pragma mark -
 
-- (id)new:(NSScriptCommand *)command {
-    return [NSNumber numberWithBool:[(ScanController*)[NSApp delegate] new]];
+- (id)new:(NSScriptCommand *)command 
+{
+    return [[NSNumber numberWithBool:[(ScanController*)[NSApp delegate] new]] retain];
 }
 
 - (id)save:(NSScriptCommand *)command {

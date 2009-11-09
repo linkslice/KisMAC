@@ -67,25 +67,30 @@
 #pragma mark FILE MENU
 #pragma mark -
 
-- (IBAction)importKismetXML:(id)sender {
-    KismetXMLImporter * myImporter =  [[KismetXMLImporter alloc] init];
+- (IBAction)importKismetXML:(id)sender
+{
+    KismetXMLImporter * myImporter;
     
     aOP=[NSOpenPanel openPanel];
     [aOP setAllowsMultipleSelection:YES];
     [aOP setCanChooseFiles:YES];
     [aOP setCanChooseDirectories:NO];
-    if ([aOP runModalForTypes:[NSArray arrayWithObjects:@"txt", @"xml", nil]]==NSOKButton) {
+    if ([aOP runModalForTypes:[NSArray arrayWithObjects:@"txt", @"xml", nil]]==NSOKButton)
+    {
         [self stopActiveAttacks];
         [self stopScan];
         _refreshGUI = NO;
         
         int i;
-        for (i = 0; i < [[aOP filenames] count]; i++) {
+        myImporter =  [[KismetXMLImporter alloc] init];
+        for (i = 0; i < [[aOP filenames] count]; i++) 
+        {
             NSString *file = [[aOP filenames] objectAtIndex:i];
             [self showBusyWithText: [NSString stringWithFormat: @"Importing %@ as Kismet XML", [file lastPathComponent]]];    
             [myImporter performKismetImport: file withContainer:_container];
             [self busyDone];
         }
+        [myImporter release];
         _refreshGUI = YES;
         
         [self updateNetworkTable:self complete:YES];
@@ -95,7 +100,8 @@
     }
 }
 
-- (IBAction)importMapFromServer:(id)sender {
+- (IBAction)importMapFromServer:(id)sender
+{
     DownloadMapController* dmc = [[DownloadMapController alloc] initWithWindowNibName:@"DownloadMap"];
     
     [[dmc window] setFrameUsingName:@"aKisMAC_DownloadMap"];
@@ -104,6 +110,7 @@
     [dmc setCoordinates:[[WaveHelper gpsController] currentPoint]];
     [dmc showWindow:self];
     [[dmc window] makeKeyAndOrderFront:self];
+    [dmc release];
 }
 
 - (IBAction)importNetstumbler:(id)sender {
@@ -385,11 +392,13 @@
     
 #pragma mark -
 
-- (IBAction)decryptPCAPFile:(id)sender {
+- (IBAction)decryptPCAPFile:(id)sender 
+{
     DecryptController* d;
     
     d = [[DecryptController alloc] initWithWindowNibName:@"DecryptDialog"];
     [d showWindow:sender];
+    [d release];
 }
 
 #pragma mark -

@@ -101,7 +101,7 @@
 
 - (BOOL)windowShouldClose:(id)sender {
     // Set up our timer to periodically call the fade: method.
-    [[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES] retain];
+    [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(fade:) userInfo:nil repeats:YES];
     
     return NO;
 }

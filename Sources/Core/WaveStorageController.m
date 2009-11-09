@@ -401,17 +401,37 @@ struct pointCoords {
 	m = [[WaveHelper trace] trace];
 	if (!m) m = [NSMutableArray array];
 	data = [NSPropertyListSerialization dataFromPropertyList:m format:NSPropertyListBinaryFormat_v1_0 errorDescription:&error];
-	if (!data) return NO;
-	if (![c addData:data]) return NO;
+	if (!data)
+    {
+        [c release];
+        return NO;
+    }
+	if (![c addData:data])
+    {
+        [c release];
+        return NO;
+    }
 	
 	i = [container count];
-	if (![c addData:[NSData dataWithBytes:&i length:sizeof(i)]]) return NO;
+	if (![c addData:[NSData dataWithBytes:&i length:sizeof(i)]])
+    {
+        [c release];
+        return NO;
+    }
 
 	[im setMax:[container count]];
 	for (i = 0; i < [container count]; i++) {
 		data = [NSPropertyListSerialization dataFromPropertyList:[[container netAtIndex:i] dataDictionary] format:NSPropertyListBinaryFormat_v1_0 errorDescription:&error];
-		if (!data) return NO;
-		if (![c addData:data]) return NO;
+		if (!data)
+        {
+            [c release];
+            return NO;
+        }
+		if (![c addData:data])
+        {
+            [c release];
+            return NO;
+        }
 		
 		[im increment];
 	}

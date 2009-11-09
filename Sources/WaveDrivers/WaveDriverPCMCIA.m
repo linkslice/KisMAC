@@ -455,6 +455,7 @@ typedef enum WLUCMethods {
     kernResult = IOConnectMethodScalarIScalarO(_userClientPort,kWLUserClientClose,0, 0);
     if (kernResult != KERN_SUCCESS) NSLog(@"close: IOConnectMethodScalarIScalarO: 0x%x\n", kernResult);
     kernResult = [self _disconnect];
+    if (kernResult != KERN_SUCCESS) NSLog(@"close: _disconnect: 0x%x\n", kernResult);
     [super dealloc];
 }
 

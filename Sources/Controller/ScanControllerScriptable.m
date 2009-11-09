@@ -83,12 +83,16 @@
 	}
 }
 
-- (BOOL)startScan {
-    bool result;
+- (BOOL)startScan
+{
+    bool result = NO;
     
-    if ([WaveHelper loadDrivers]) {
-        if ([[WaveHelper getWaveDrivers] count] == 0) {
-            NSBeginAlertSheet(@"No driver selected.", NULL, NULL, NULL, _window, self, NULL, NULL, NULL, @"Please select a WiFi Driver in the Preferences Window!");
+    if ([WaveHelper loadDrivers])
+    {
+        if ([[WaveHelper getWaveDrivers] count] == 0) 
+        {
+            NSBeginAlertSheet(@"No driver selected.", NULL, NULL, NULL, _window, 
+                              self, NULL, NULL, NULL, @"Please select a WiFi Driver in the Preferences Window!");
             return NO;
         }
         
@@ -102,10 +106,11 @@
 	}
     
     [self updateChannelMenu];
-	return YES;
+	return result;
 }
 
-- (BOOL)stopScan {
+- (BOOL)stopScan
+{
     bool result;
     
 	[self stopActiveAttacks];
@@ -118,7 +123,7 @@
     [self updateChannelMenu];
     [_networkTable reloadData];
 
-    return YES;
+    return result;
 }
 
 - (BOOL)new {

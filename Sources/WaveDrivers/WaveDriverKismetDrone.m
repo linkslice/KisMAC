@@ -260,7 +260,8 @@
 
 				resyncing = 1;
 				
-				if ((ret = write(drone_fd, &cmd, 1)) < 1) {
+				if (write(drone_fd, &cmd, 1) < 1)
+                {
 					NSLog(@"write() error attempting to flush "
 							 "packet stream: %d %s",
 							 errno, strerror(errno));

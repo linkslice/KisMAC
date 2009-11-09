@@ -150,24 +150,27 @@ char WaveDrivers [][30] = {
     _currentChannel = _firstChannel;
 
     j = 0;
-    ch = 0;
     _fcc = NO;
     _etsi = NO;
     _hopFailure = 0;
     _lastChannel = 0;
     
     supChannelMask = [self allowedChannels];
-    for (i = 1; i <= 14; i++) {
+    for (i = 1; i <= 14; i++)
+    {
         key=[NSString stringWithFormat:@"useChannel%.2i", i];
-        if (((supChannelMask >> (i - 1)) & 0x0001) == 0) {
+        if (((supChannelMask >> (i - 1)) & 0x0001) == 0) 
+        {
             _useChannel[i - 1] = NO;
-        } else {
+        }
+        else 
+        {
             _useChannel[i - 1] = [[_config objectForKey: key] intValue];
         }
         
-        if (_useChannel[i - 1]) {
+        if (_useChannel[i - 1])
+        {
             j++;
-            ch = i;
         }
         
         if (i == 11 && j == 11) _fcc = YES;
@@ -184,8 +187,10 @@ char WaveDrivers [][30] = {
     
     sets = [NSUserDefaults standardUserDefaults];
     a = [[sets objectForKey:@"ActiveDrivers"] mutableCopy];
-    for (i = 0; i < [a count]; i++) {
-        if ([[[a objectAtIndex:i] objectForKey:@"deviceName"] isEqualToString:[self deviceName]]) {
+    for (i = 0; i < [a count]; i++) 
+    {
+        if ([[[a objectAtIndex:i] objectForKey:@"deviceName"] isEqualToString:[self deviceName]]) 
+        {
             [a replaceObjectAtIndex:i withObject: dict];
         }
     }

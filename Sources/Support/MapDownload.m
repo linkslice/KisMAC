@@ -47,7 +47,7 @@
 #pragma mark -
 
 - (NSString*)urlFromExpedia:(NSString*)server language:(NSString*)lang forPoint:(waypoint)w resolution:(NSSize)size zoomLevel:(int)zoom {
-    NSString *req, *error;
+    NSString *req = nil, *error = nil;
     int scale;
     float expediaFactorW, expediaFactorH;
     int sockd;
@@ -154,13 +154,17 @@ in Safari.");
     //NSLog(@"Response from expedia %@",s);
     
     myMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
-    if (!CFHTTPMessageAppendBytes(myMessage, (UInt8*)[s UTF8String], [s length])) {
+    if (!CFHTTPMessageAppendBytes(myMessage, (UInt8*)[s UTF8String], [s length]))
+    {
+        CFRelease(myMessage);
         error = @"CFTTPResponse Parsing error";
         close(sockd);
         goto err;
     }
     
-    if (!CFHTTPMessageIsHeaderComplete(myMessage)) {
+    if (!CFHTTPMessageIsHeaderComplete(myMessage)) 
+    {
+        CFRelease(myMessage);
         error = @"Incomplete Headers!";
         goto err;
     }
@@ -209,9 +213,15 @@ in Safari.");
         _w2._long = w._long - size.width / (expediaFactorW  * cos(_w2._lat * 0.017453292)); //the width depends on latitude
     }
     
+    CFRelease(myMessage);
     return req;
     
 err:
+    NSLog(@"%@",error);
+    if(req != nil) 
+    {
+        [req release];
+    }
     close(sockd);
     return nil;
 }
@@ -275,9 +285,6 @@ err:
         _p1.x = size.width;
         _p1.y = size.height;
         _p2 = NSZeroPoint;
-
-		rlat = w._lat * pi / 180;
-		rlong = w._long * pi / 180;
 
 	   numpx = 55;
 

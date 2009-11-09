@@ -66,30 +66,34 @@
 		err = AuthorizationCreate(&rights, kAuthorizationEmptyEnvironment, flags, &authorizationRef);
 	}
     	
-	if( numItems < 1 ) {
-		return authorized;
-	}
+    if(!err)
+    {
+            
+        if( numItems < 1 ) {
+            return authorized;
+        }
 
-	while( i < numItems && i < 20 ) {
-		 [[forCommands objectAtIndex:i] getCString:paths[i]];
-		
-		items[i].name = kAuthorizationRightExecute;
-		items[i].value = paths[i];
-		items[i].valueLength = [[forCommands objectAtIndex:i] cStringLength];
-		items[i].flags = 0;
-		
-		i++;
-	}
-	
-    rights.count = numItems;
-    rights.items = items;
-    
-    flags = kAuthorizationFlagExtendRights;
-    
-    err = AuthorizationCopyRights(authorizationRef, &rights, kAuthorizationEmptyEnvironment, flags, &authorizedRights);
+        while( i < numItems && i < 20 ) {
+             [[forCommands objectAtIndex:i] getCString:paths[i]];
+            
+            items[i].name = kAuthorizationRightExecute;
+            items[i].value = paths[i];
+            items[i].valueLength = [[forCommands objectAtIndex:i] cStringLength];
+            items[i].flags = 0;
+            
+            i++;
+        }
+        
+        rights.count = numItems;
+        rights.items = items;
+        
+        flags = kAuthorizationFlagExtendRights;
+        
+        err = AuthorizationCopyRights(authorizationRef, &rights, kAuthorizationEmptyEnvironment, flags, &authorizedRights);
 
-    authorized = (errAuthorizationSuccess==err);
+        authorized = (errAuthorizationSuccess==err);
 
+    }
 	if(authorized)
 		AuthorizationFreeItemSet(authorizedRights);
 	
@@ -204,7 +208,9 @@
 
 	[popenArgs release];
 
-	if(!outpipe) {
+	if(!outpipe) 
+    {
+        [tempData release];
         NSLog(@"Error opening pipe: %@",forProcess);
         NSBeep();
         return 0;

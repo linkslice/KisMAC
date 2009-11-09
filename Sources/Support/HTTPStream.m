@@ -70,7 +70,8 @@
     _reportErrors = reportErrors;
 }
 
-- (bool)execute {
+- (bool)execute 
+{
     NSEnumerator *e;
     NSString *var;
     CFIndex i;
@@ -106,14 +107,18 @@
 
 
     sockd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockd == -1) {
+    if (sockd == -1)
+    {
         errstr = @"Socket creation failed!";
+        CFRelease(myMessage);
         goto error;
     }
     
     hp = gethostbyname([[_url host] UTF8String]);
-    if (hp == NULL) {
+    if (hp == NULL)
+    {
         errstr = NSLocalizedString(@"Could not resolve Server", "Error for Crashreporter");
+        CFRelease(myMessage);
         goto error1;
     }
     ip = *(int *)hp->h_addr_list[0];
@@ -127,20 +132,32 @@
     status = connect(sockd, (struct sockaddr*)&serv_name, sizeof(serv_name));
     if (status == -1) {
         errstr = NSLocalizedString(@"Could not connect to server.", "Error for Crashreporter");
+        CFRelease(myMessage);
         goto error1;
     }
     
     i = write(sockd, [topost UTF8String], [topost length]);
+    if (i<=0)
+    {
+        CFRelease(myMessage);
+        errstr = NSLocalizedString(@"Could Not Write", "Error for Crashreporter");
+        goto error1;
+    }
     
-    while (!CFHTTPMessageIsHeaderComplete(myMessage)) {
+    while (!CFHTTPMessageIsHeaderComplete(myMessage))
+    {
         i = read(sockd, buf, 1024);
-        if (i<=0) {
+        if (i<=0)
+        {
+            CFRelease(myMessage);
             errstr = NSLocalizedString(@"Could not read Response", "Error for Crashreporter");
             goto error1;
         
         }
-        if (!CFHTTPMessageAppendBytes(myMessage, buf, i)) {
+        if (!CFHTTPMessageAppendBytes(myMessage, buf, i))
+        {
             //Handle parsing error.
+            CFRelease(myMessage);
             errstr = NSLocalizedString(@"Error reading response", "Error for Crashreporter");
             goto error1;
         }
@@ -148,6 +165,7 @@
     
     _errorCode = CFHTTPMessageGetResponseStatusCode(myMessage);
     
+    CFRelease(myMessage);
     close(sockd);
     
     _inProgress = NO;

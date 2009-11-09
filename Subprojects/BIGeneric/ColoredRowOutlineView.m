@@ -72,7 +72,6 @@
     }
     else
         isOddRow = ((countRows%2)==0); // next row is odd if last row is even
-    firstBlankRowYPos = nextRect.origin.y;
     row = countRows;
     while (nextRect.origin.y<(r.origin.y+r.size.height)) {
         if (isOddRow)
