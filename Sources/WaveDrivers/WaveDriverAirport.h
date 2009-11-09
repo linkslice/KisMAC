@@ -2,8 +2,7 @@
         
         File:			WaveDriverAirport.h
         Program:		KisMAC
-		Author:			Michael Rossberg
-						mick@binaervarianz.de
+		Author:			Geofrey Kruse
 		Description:	KisMAC is a wireless stumbler for MacOS X.
 	
         This file is part of KisMAC.
@@ -23,11 +22,13 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <CoreWLAN/CoreWLAN.h>
 #import "WaveDriver.h"
-#import "../3rd Party/Apple80211.h"
 
-@interface WaveDriverAirport : WaveDriver {
-    WirelessContextPtr  _context;
+
+@interface WaveDriverAirport : WaveDriver
+{
+    CWInterface * airportInterface;
 }
 
 + (int) airportInstanceCount;

@@ -25,7 +25,6 @@
 #import "ScanController.h"
 #import "ScanControllerScriptable.h"
 #import "WaveHelper.h"
-#import "Apple80211.h"
 #import "WaveDriver.h"
 #import "KisMACNotifications.h"
 #import "80211b.h"

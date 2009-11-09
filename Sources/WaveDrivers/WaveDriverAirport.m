@@ -2,8 +2,7 @@
         
         File:			WaveDriverAirport.m
         Program:		KisMAC
-		Author:			Michael Rossberg
-					mick@binaervarianz.de
+		Author:			Geoffrey Kruse
 		Description:	KisMAC is a wireless stumbler for MacOS X.
                 
         This file is part of KisMAC.
@@ -28,37 +27,41 @@ static int AirPortInstances = 0;
 
 @implementation WaveDriverAirport
 
-- (id)init {
-    self = [super init];
-    if (!self)  return nil;
+- (id)init 
+{
+    [super init];
+    NSArray * availableInterfaces;
+    BOOL success = NO;
+    NSError * error;
     
-    //if there is no wireless card, go talk to fishman
-    if (WirelessIsAvailable() == 0) 
-    {  
-        NSRunCriticalAlertPanel(
-            NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
-            NSLocalizedString(@"Could not load Airport Driver. Apple API gone mad", "LONG desc"),
-         //   @"KisMAC was able to find the driver, but the Apple API tells us, it is not there. No idea what this means.", 
-            OK, Nil, Nil);
-        return nil;
-    }
+    NSLog(@"init");
     
-    //must attach to the driver using _context before we can call any of the other
-    //api functions
-    if (WirelessAttach(&_context, 0)) 
+    //first we must find an interface
+    availableInterfaces = [CWInterface supportedInterfaces];
+    
+    //CFShow(availableInterfaces);
+    
+    //for now just grab the first one
+    if([availableInterfaces count] > 0)
     {
-        NSRunCriticalAlertPanel(
-            NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
-            NSLocalizedString(@"Could not load Airport Driver. Attachment error", "LONG desc"),
-          //  @"KisMAC could not attach to the Apple Airport Driver.", 
-            OK, Nil, Nil);
-        return nil;
+        airportInterface = [[CWInterface interfaceWithName: 
+                                         [availableInterfaces objectAtIndex: 0]] retain];
+        //CFShow(airportInterface);
+        if(YES == airportInterface.power)
+        {
+            success = YES;
+        }
+        else
+        {
+            success = [airportInterface setPower: YES error: &error];
+            CFShow(error);
+        }
     }
     
-    AirPortInstances++;
-    _hop = NO;
-    WirelessSetEnabled(_context, 1); //just make sure we can actually scan
-    WirelessSetPower(_context, 1);
+    if(!success)
+    {
+        self = nil;
+    }
     
     return self;
 }
@@ -77,7 +80,8 @@ static int AirPortInstances = 0;
 
 + (NSString*) description 
 {
-    return NSLocalizedString(@"Apple Airport or Airport Extreme card, active mode", "long driver description");
+    return NSLocalizedString(@"Apple Airport or Airport Extreme card, active mode", 
+                                                        "long driver description");
 }
 
 + (NSString*) deviceName 
@@ -89,19 +93,11 @@ static int AirPortInstances = 0;
 //apple knows best, ask api if wireless is available
 + (bool) loadBackend 
 {
-    if (!WirelessIsAvailable())
-    {
-        NSLog(@"Could not find an AirPortCard for PseudoJack.");
-        NSRunCriticalAlertPanel(
-            NSLocalizedString(@"Could not load Airport Driver.", "Error dialog title"),
-            NSLocalizedString(@"Could not load Airport Driver. Drivers not found", "LONG Error dialog description"),
-            //@"KisMAC could not find your Apple Airport drivers. Please "
-            //"make sure they are properly installed and not replaced it with the Viha driver.", 
-            OK, nil, nil);
-        return NO;
-    }
-   
-    return YES;
+    NSArray * availableInterfaces;
+    
+    availableInterfaces = [CWInterface supportedInterfaces];
+    
+    return ([availableInterfaces count] > 0);
 }
 
 + (bool) unloadBackend 
@@ -115,20 +111,20 @@ static int AirPortInstances = 0;
 //don't expect any more information than that in active mode
 - (NSArray*) networksInRange 
 {
-    CFArrayRef netsp = NULL, netsAdHocp = NULL;
-    WIErr res;
-
-    if (_context==Nil) return Nil;        //someone killed the aiport driver?!
+    NSArray * networks;
+    NSDictionary *params;
+    NSError * error = nil;
+        
+    //don't merge duplicate ssids
+    params = [NSDictionary dictionaryWithObject: [NSNumber numberWithBool: NO]
+                                                       forKey:kCWScanKeyMerge];
     
-	res = WirelessCreateScanResults(_context, 0, &netsp, &netsAdHocp, 0);
-	if (res) {
-        return Nil;
-    }
+    networks = [airportInterface scanForNetworksWithParameters:params error: &error]; 
     
-	NSMutableArray *ret = [NSMutableArray arrayWithArray:(NSArray*)netsp];
-	[ret addObjectsFromArray:(NSArray*)netsAdHocp];
-	
-    return ret;
+    CFShow(error);
+    //CFShow(networks);
+  
+    return networks;
 }
 
 #pragma mark -
@@ -143,11 +139,8 @@ static int AirPortInstances = 0;
 
 -(void) dealloc 
 {
-    WirelessDetach(_context);
-    _context = Nil;
-    
-    AirPortInstances--;
-    
+    [airportInterface release];
+    airportInterface = nil;
     [super dealloc];
 }
 

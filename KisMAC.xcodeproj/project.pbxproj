@@ -104,7 +104,6 @@
 		0035339D06A5DD5700AB4577 /* viha_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335306A5DD5700AB4577 /* viha_prep.sh */; };
 		0035339E06A5DD5700AB4577 /* viha_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335406A5DD5700AB4577 /* viha_unload.sh */; };
 		0035339F06A5DD5700AB4577 /* viha_unprep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335506A5DD5700AB4577 /* viha_unprep.sh */; };
-		0035342606A5DD8500AB4577 /* Apple80211.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A106A5DD8500AB4577 /* Apple80211.h */; };
 		0035342706A5DD8500AB4577 /* quicksort.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A206A5DD8500AB4577 /* quicksort.h */; };
 		0035342806A5DD8500AB4577 /* quicksort.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533A306A5DD8500AB4577 /* quicksort.m */; };
 		0035342B06A5DD8500AB4577 /* InfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A706A5DD8500AB4577 /* InfoController.h */; };
@@ -185,14 +184,10 @@
 		0035348C06A5DD8500AB4577 /* WaveDriverAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341406A5DD8500AB4577 /* WaveDriverAirport.m */; };
 		0035348D06A5DD8500AB4577 /* WaveDriverAtheros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */; };
 		0035348E06A5DD8500AB4577 /* WaveDriverAtheros.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */; };
-		0035348F06A5DD8500AB4577 /* WaveDriverMacJack.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341706A5DD8500AB4577 /* WaveDriverMacJack.h */; };
-		0035349006A5DD8500AB4577 /* WaveDriverMacJack.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341806A5DD8500AB4577 /* WaveDriverMacJack.m */; };
 		0035349106A5DD8500AB4577 /* WaveDriverPCMCIA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */; };
 		0035349206A5DD8500AB4577 /* WaveDriverPCMCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */; };
 		0035349306A5DD8500AB4577 /* WaveDriverUSBIntersil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */; };
 		0035349406A5DD8500AB4577 /* WaveDriverUSBIntersil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */; };
-		0035349506A5DD8500AB4577 /* WaveDriverViha.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341D06A5DD8500AB4577 /* WaveDriverViha.h */; };
-		0035349606A5DD8500AB4577 /* WaveDriverViha.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341E06A5DD8500AB4577 /* WaveDriverViha.m */; };
 		0035349706A5DD8500AB4577 /* CrashReportController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035342006A5DD8500AB4577 /* CrashReportController.h */; };
 		0035349806A5DD8500AB4577 /* CrashReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035342106A5DD8500AB4577 /* CrashReportController.m */; };
 		0035349906A5DD8500AB4577 /* DecryptController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035342206A5DD8500AB4577 /* DecryptController.h */; };
@@ -211,7 +206,6 @@
 		00875D1C0708ADB300CACFCB /* WaveHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 00875D1A0708ADB300CACFCB /* WaveHelper.m */; };
 		00875DAA07097D8D00CACFCB /* WaveWeakContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 00875DA807097D8D00CACFCB /* WaveWeakContainer.h */; };
 		00875DAB07097D8D00CACFCB /* WaveWeakContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 00875DA907097D8D00CACFCB /* WaveWeakContainer.m */; };
-		008ACA7607C3899200A76ADA /* Apple80211.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A106A5DD8500AB4577 /* Apple80211.h */; };
 		008ACA7807C3899600A76ADA /* 80211b.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533B306A5DD8500AB4577 /* 80211b.h */; };
 		008ACA7907C3899800A76ADA /* AirCrackWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 00D135D00707EA3A00D85D30 /* AirCrackWrapper.h */; };
 		008ACA7A07C3899A00A76ADA /* AirCrackWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D135D10707EA3A00D85D30 /* AirCrackWrapper.m */; };
@@ -322,16 +316,12 @@
 		008ACAEE07C38AA600A76ADA /* WaveDriverAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341406A5DD8500AB4577 /* WaveDriverAirport.m */; };
 		008ACAEF07C38AA700A76ADA /* WaveDriverAtheros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */; };
 		008ACAF007C38AA800A76ADA /* WaveDriverAtheros.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */; };
-		008ACAF107C38AA900A76ADA /* WaveDriverMacJack.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341706A5DD8500AB4577 /* WaveDriverMacJack.h */; };
-		008ACAF207C38AA900A76ADA /* WaveDriverMacJack.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341806A5DD8500AB4577 /* WaveDriverMacJack.m */; };
 		008ACAF307C38AAA00A76ADA /* WaveDriverPCMCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */; };
 		008ACAF407C38AAB00A76ADA /* WaveDriverPCMCIA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */; };
 		008ACAF507C38AAC00A76ADA /* WaveDriverPrismGT.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */; };
 		008ACAF607C38AAD00A76ADA /* WaveDriverPrismGT.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */; };
 		008ACAF707C38AAD00A76ADA /* WaveDriverUSBIntersil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */; };
 		008ACAF807C38AAE00A76ADA /* WaveDriverUSBIntersil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */; };
-		008ACAF907C38AAF00A76ADA /* WaveDriverViha.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341D06A5DD8500AB4577 /* WaveDriverViha.h */; };
-		008ACAFA07C38AB000A76ADA /* WaveDriverViha.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341E06A5DD8500AB4577 /* WaveDriverViha.m */; };
 		008ACAFB07C38AB100A76ADA /* WaveHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 00875D190708ADB300CACFCB /* WaveHelper.h */; };
 		008ACAFC07C38AB400A76ADA /* WaveHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 00875D1A0708ADB300CACFCB /* WaveHelper.m */; };
 		008ACAFD07C38AB500A76ADA /* WaveNet.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533BF06A5DD8500AB4577 /* WaveNet.h */; };
@@ -460,7 +450,6 @@
 		689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */ = {isa = PBXBuildFile; fileRef = 689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */; };
 		6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
 		690147C20F7FD6C600668BAA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
-		690149AD0F7FDFE100668BAA /* WLanDriver.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1AB0F7E928B00949310 /* WLanDriver.kext */; };
 		690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1700F7E928B00949310 /* AirPortMenu */; };
 		6902662E0F25C0B500CEE671 /* wepInjection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6902662D0F25C0B500CEE671 /* wepInjection.xib */; };
 		691CF1B00E4CC47C0042B146 /* UsbVendorsIntersil.plist in Resources */ = {isa = PBXBuildFile; fileRef = 691CF1AC0E4CC47B0042B146 /* UsbVendorsIntersil.plist */; };
@@ -535,6 +524,7 @@
 		6CA3BCCB09B2A58F00DCB407 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */; };
 		6CDAFD020AC4FA7D00A5D180 /* KismetXMLImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CDAFD000AC4FA7D00A5D180 /* KismetXMLImporter.h */; };
 		6CDAFD030AC4FA7D00A5D180 /* KismetXMLImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */; };
+		6CF938C410A7DFDF00B32F94 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CF938C310A7DFDF00B32F94 /* CoreWLAN.framework */; };
 		6CF9EE6E0B6E9D2A00F54524 /* WaveDriverKismet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF9EE6C0B6E9D2A00F54524 /* WaveDriverKismet.h */; };
 		6CF9EE6F0B6E9D2A00F54524 /* WaveDriverKismet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF9EE6D0B6E9D2A00F54524 /* WaveDriverKismet.m */; };
 		87C9272A0BAA137E0025A6AE /* WaveDriverKismetDrone.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */; };
@@ -577,13 +567,6 @@
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = BIGeneric;
 		};
-		6971A1AA0F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 32D94FD00562CBF700B6AF17;
-			remoteInfo = WLanDriver;
-		};
 		6971A1EB0F7E945100949310 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719E780F7E928A00949310 /* BIGL.xcodeproj */;
@@ -604,13 +587,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 699E586D0F7E9AF500D88264;
 			remoteInfo = "AtherosWifi (Upgraded)";
-		};
-		699E59190F7E9C2500D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 32D94FC30562CBF700B6AF17;
-			remoteInfo = WLanDriver;
 		};
 		699E591D0F7E9C2D00D88264 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -659,7 +635,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				690149AD0F7FDFE100668BAA /* WLanDriver.kext in CopyFiles */,
 				690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -750,7 +725,6 @@
 		0035335306A5DD5700AB4577 /* viha_prep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_prep.sh; sourceTree = "<group>"; };
 		0035335406A5DD5700AB4577 /* viha_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_unload.sh; sourceTree = "<group>"; };
 		0035335506A5DD5700AB4577 /* viha_unprep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_unprep.sh; sourceTree = "<group>"; };
-		003533A106A5DD8500AB4577 /* Apple80211.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Apple80211.h; sourceTree = "<group>"; };
 		003533A206A5DD8500AB4577 /* quicksort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = quicksort.h; sourceTree = "<group>"; };
 		003533A306A5DD8500AB4577 /* quicksort.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = quicksort.m; sourceTree = "<group>"; };
 		003533A706A5DD8500AB4577 /* InfoController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = InfoController.h; sourceTree = "<group>"; };
@@ -833,14 +807,10 @@
 		0035341406A5DD8500AB4577 /* WaveDriverAirport.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverAirport.m; sourceTree = "<group>"; };
 		0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverAtheros.h; sourceTree = "<group>"; };
 		0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverAtheros.m; sourceTree = "<group>"; };
-		0035341706A5DD8500AB4577 /* WaveDriverMacJack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverMacJack.h; sourceTree = "<group>"; };
-		0035341806A5DD8500AB4577 /* WaveDriverMacJack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveDriverMacJack.m; sourceTree = "<group>"; };
 		0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverPCMCIA.h; sourceTree = "<group>"; };
 		0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverPCMCIA.m; sourceTree = "<group>"; };
 		0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverUSBIntersil.h; sourceTree = "<group>"; };
 		0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveDriverUSBIntersil.mm; sourceTree = "<group>"; };
-		0035341D06A5DD8500AB4577 /* WaveDriverViha.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverViha.h; sourceTree = "<group>"; };
-		0035341E06A5DD8500AB4577 /* WaveDriverViha.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverViha.m; sourceTree = "<group>"; };
 		0035342006A5DD8500AB4577 /* CrashReportController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CrashReportController.h; sourceTree = "<group>"; };
 		0035342106A5DD8500AB4577 /* CrashReportController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CrashReportController.m; sourceTree = "<group>"; };
 		0035342206A5DD8500AB4577 /* DecryptController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DecryptController.h; sourceTree = "<group>"; };
@@ -1044,19 +1014,6 @@
 		69719F1C0F7E928A00949310 /* decrypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = decrypt.cpp; sourceTree = "<group>"; };
 		69719F1E0F7E928A00949310 /* Insomnia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Insomnia.cpp; sourceTree = "<group>"; };
 		69719F1F0F7E928A00949310 /* Insomnia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insomnia.h; sourceTree = "<group>"; };
-		69719FA90F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/locversion.plist; sourceTree = "<group>"; };
-		69719FAA0F7E928A00949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69719FAB0F7E928A00949310 /* WLCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WLCard.cpp; sourceTree = "<group>"; };
-		69719FAC0F7E928A00949310 /* WLCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCard.h; sourceTree = "<group>"; };
-		69719FAD0F7E928A00949310 /* WLDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WLDriver.cpp; sourceTree = "<group>"; };
-		69719FAE0F7E928A00949310 /* WLDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLDriver.h; sourceTree = "<group>"; };
-		69719FAF0F7E928A00949310 /* WLDriverInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLDriverInterface.h; sourceTree = "<group>"; };
-		69719FB00F7E928A00949310 /* WLFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFrame.h; sourceTree = "<group>"; };
-		69719FB10F7E928A00949310 /* WLLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLLog.h; sourceTree = "<group>"; };
-		69719FB20F7E928A00949310 /* WLUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WLUserClient.cpp; sourceTree = "<group>"; };
-		69719FB30F7E928A00949310 /* WLUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLUserClient.h; sourceTree = "<group>"; };
-		69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = WLanDriver.xcodeproj; sourceTree = "<group>"; };
-		69719FD60F7E928A00949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		697B463D0F0620DC00AC69EB /* WavePluginDeauthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavePluginDeauthentication.h; sourceTree = "<group>"; };
 		697B463E0F0620DC00AC69EB /* WavePluginDeauthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WavePluginDeauthentication.m; sourceTree = "<group>"; };
 		698665460FAF5899002D1A84 /* spin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spin.gif; sourceTree = "<group>"; };
@@ -1121,6 +1078,7 @@
 		6CA3BCCA09B2A58F00DCB407 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		6CDAFD000AC4FA7D00A5D180 /* KismetXMLImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KismetXMLImporter.h; sourceTree = "<group>"; };
 		6CDAFD010AC4FA7D00A5D180 /* KismetXMLImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KismetXMLImporter.m; sourceTree = "<group>"; };
+		6CF938C310A7DFDF00B32F94 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
 		6CF9EE6C0B6E9D2A00F54524 /* WaveDriverKismet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverKismet.h; sourceTree = "<group>"; };
 		6CF9EE6D0B6E9D2A00F54524 /* WaveDriverKismet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverKismet.m; sourceTree = "<group>"; };
 		87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverKismetDrone.h; sourceTree = "<group>"; };
@@ -1170,6 +1128,7 @@
 				6CA3BCCB09B2A58F00DCB407 /* Accelerate.framework in Frameworks */,
 				00C8DE630A6D23F000BB597C /* QuickTime.framework in Frameworks */,
 				6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */,
+				6CF938C410A7DFDF00B32F94 /* CoreWLAN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1303,7 +1262,6 @@
 		003533A006A5DD8500AB4577 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				003533A106A5DD8500AB4577 /* Apple80211.h */,
 				003533A206A5DD8500AB4577 /* quicksort.h */,
 				003533A306A5DD8500AB4577 /* quicksort.m */,
 				00122EA406B1A7E5007FA5FE /* FCS.h */,
@@ -1540,16 +1498,12 @@
 				87C927290BAA137E0025A6AE /* WaveDriverKismetDrone.m */,
 				0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */,
 				0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */,
-				0035341706A5DD8500AB4577 /* WaveDriverMacJack.h */,
-				0035341806A5DD8500AB4577 /* WaveDriverMacJack.m */,
 				0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */,
 				0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */,
 				00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */,
 				00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */,
 				0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */,
 				0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */,
-				0035341D06A5DD8500AB4577 /* WaveDriverViha.h */,
-				0035341E06A5DD8500AB4577 /* WaveDriverViha.m */,
 			);
 			name = WaveDrivers;
 			path = Sources/WaveDrivers;
@@ -1765,6 +1719,7 @@
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				6CF938C310A7DFDF00B32F94 /* CoreWLAN.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1811,7 +1766,6 @@
 				69719EC10F7E928A00949310 /* BIGeneric */,
 				69719F1B0F7E928A00949310 /* Decrypt Tool */,
 				69719F1D0F7E928A00949310 /* Insomnia */,
-				69719FA50F7E928A00949310 /* VihaDriver */,
 			);
 			path = Subprojects;
 			sourceTree = "<group>";
@@ -2005,34 +1959,6 @@
 			path = Insomnia;
 			sourceTree = "<group>";
 		};
-		69719FA50F7E928A00949310 /* VihaDriver */ = {
-			isa = PBXGroup;
-			children = (
-				69719FA80F7E928A00949310 /* locversion.plist */,
-				69719FAA0F7E928A00949310 /* Info.plist */,
-				69719FAB0F7E928A00949310 /* WLCard.cpp */,
-				69719FAC0F7E928A00949310 /* WLCard.h */,
-				69719FAD0F7E928A00949310 /* WLDriver.cpp */,
-				69719FAE0F7E928A00949310 /* WLDriver.h */,
-				69719FAF0F7E928A00949310 /* WLDriverInterface.h */,
-				69719FB00F7E928A00949310 /* WLFrame.h */,
-				69719FB10F7E928A00949310 /* WLLog.h */,
-				69719FB20F7E928A00949310 /* WLUserClient.cpp */,
-				69719FB30F7E928A00949310 /* WLUserClient.h */,
-				69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */,
-				69719FD60F7E928A00949310 /* version.plist */,
-			);
-			path = VihaDriver;
-			sourceTree = "<group>";
-		};
-		69719FB80F7E928A00949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A1AB0F7E928B00949310 /* WLanDriver.kext */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		698665B80FAF61CA002D1A84 /* DMG Artwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -2113,7 +2039,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008ACA7607C3899200A76ADA /* Apple80211.h in Headers */,
 				008ACA7807C3899600A76ADA /* 80211b.h in Headers */,
 				008ACA7907C3899800A76ADA /* AirCrackWrapper.h in Headers */,
 				008ACA7B07C389A100A76ADA /* BIImageView.h in Headers */,
@@ -2169,11 +2094,9 @@
 				008ACAEB07C38AA100A76ADA /* WaveDriverAironet.h in Headers */,
 				008ACAED07C38AA500A76ADA /* WaveDriverAirport.h in Headers */,
 				008ACAEF07C38AA700A76ADA /* WaveDriverAtheros.h in Headers */,
-				008ACAF107C38AA900A76ADA /* WaveDriverMacJack.h in Headers */,
 				008ACAF407C38AAB00A76ADA /* WaveDriverPCMCIA.h in Headers */,
 				008ACAF507C38AAC00A76ADA /* WaveDriverPrismGT.h in Headers */,
 				008ACAF707C38AAD00A76ADA /* WaveDriverUSBIntersil.h in Headers */,
-				008ACAF907C38AAF00A76ADA /* WaveDriverViha.h in Headers */,
 				008ACAFB07C38AB100A76ADA /* WaveHelper.h in Headers */,
 				008ACAFD07C38AB500A76ADA /* WaveNet.h in Headers */,
 				008ACAFF07C38AB600A76ADA /* WaveNetLEAPCrack.h in Headers */,
@@ -2198,7 +2121,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D1107280486CEB800E47090 /* KisMAC_Prefix.pch in Headers */,
-				0035342606A5DD8500AB4577 /* Apple80211.h in Headers */,
 				0035342706A5DD8500AB4577 /* quicksort.h in Headers */,
 				0035342B06A5DD8500AB4577 /* InfoController.h in Headers */,
 				0035342D06A5DD8500AB4577 /* ScanController.h in Headers */,
@@ -2240,10 +2162,8 @@
 				0035348906A5DD8500AB4577 /* WaveDriverAironet.h in Headers */,
 				0035348B06A5DD8500AB4577 /* WaveDriverAirport.h in Headers */,
 				0035348D06A5DD8500AB4577 /* WaveDriverAtheros.h in Headers */,
-				0035348F06A5DD8500AB4577 /* WaveDriverMacJack.h in Headers */,
 				0035349106A5DD8500AB4577 /* WaveDriverPCMCIA.h in Headers */,
 				0035349306A5DD8500AB4577 /* WaveDriverUSBIntersil.h in Headers */,
-				0035349506A5DD8500AB4577 /* WaveDriverViha.h in Headers */,
 				0035349706A5DD8500AB4577 /* CrashReportController.h in Headers */,
 				0035349906A5DD8500AB4577 /* DecryptController.h in Headers */,
 				0035349B06A5DD8500AB4577 /* WayPoint.h in Headers */,
@@ -2350,7 +2270,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				699E591A0F7E9C2500D88264 /* PBXTargetDependency */,
 				6971A1EC0F7E945100949310 /* PBXTargetDependency */,
 				699E591E0F7E9C2D00D88264 /* PBXTargetDependency */,
 				699E59260F7E9C4000D88264 /* PBXTargetDependency */,
@@ -2402,10 +2321,6 @@
 					ProductGroup = 69719E790F7E928A00949310 /* Products */;
 					ProjectRef = 69719E780F7E928A00949310 /* BIGL.xcodeproj */;
 				},
-				{
-					ProductGroup = 69719FB80F7E928A00949310 /* Products */;
-					ProjectRef = 69719FB70F7E928A00949310 /* WLanDriver.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2436,13 +2351,6 @@
 			fileType = wrapper.framework;
 			path = BIGeneric.framework;
 			remoteRef = 6971A1960F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6971A1AB0F7E928B00949310 /* WLanDriver.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = WLanDriver.kext;
-			remoteRef = 6971A1AA0F7E928B00949310 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		699E57EA0F7E9A7700D88264 /* AtherosHAL.kext */ = {
@@ -2715,11 +2623,9 @@
 				008ACAEC07C38AA200A76ADA /* WaveDriverAironet.m in Sources */,
 				008ACAEE07C38AA600A76ADA /* WaveDriverAirport.m in Sources */,
 				008ACAF007C38AA800A76ADA /* WaveDriverAtheros.m in Sources */,
-				008ACAF207C38AA900A76ADA /* WaveDriverMacJack.m in Sources */,
 				008ACAF307C38AAA00A76ADA /* WaveDriverPCMCIA.m in Sources */,
 				008ACAF607C38AAD00A76ADA /* WaveDriverPrismGT.m in Sources */,
 				008ACAF807C38AAE00A76ADA /* WaveDriverUSBIntersil.mm in Sources */,
-				008ACAFA07C38AB000A76ADA /* WaveDriverViha.m in Sources */,
 				008ACAFC07C38AB400A76ADA /* WaveHelper.m in Sources */,
 				008ACAFE07C38AB600A76ADA /* WaveNet.mm in Sources */,
 				008ACB0107C38AB900A76ADA /* WaveNetLEAPCrack.m in Sources */,
@@ -2787,10 +2693,8 @@
 				0035348A06A5DD8500AB4577 /* WaveDriverAironet.m in Sources */,
 				0035348C06A5DD8500AB4577 /* WaveDriverAirport.m in Sources */,
 				0035348E06A5DD8500AB4577 /* WaveDriverAtheros.m in Sources */,
-				0035349006A5DD8500AB4577 /* WaveDriverMacJack.m in Sources */,
 				0035349206A5DD8500AB4577 /* WaveDriverPCMCIA.m in Sources */,
 				0035349406A5DD8500AB4577 /* WaveDriverUSBIntersil.mm in Sources */,
-				0035349606A5DD8500AB4577 /* WaveDriverViha.m in Sources */,
 				0035349806A5DD8500AB4577 /* CrashReportController.m in Sources */,
 				0035349A06A5DD8500AB4577 /* DecryptController.m in Sources */,
 				0035349C06A5DD8500AB4577 /* WayPoint.m in Sources */,
@@ -2863,11 +2767,6 @@
 			isa = PBXTargetDependency;
 			name = BIGL;
 			targetProxy = 6971A1EB0F7E945100949310 /* PBXContainerItemProxy */;
-		};
-		699E591A0F7E9C2500D88264 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = WLanDriver;
-			targetProxy = 699E59190F7E9C2500D88264 /* PBXContainerItemProxy */;
 		};
 		699E591E0F7E9C2D00D88264 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3078,14 +2977,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				69719EE70F7E928A00949310 /* English */,
-			);
-			name = locversion.plist;
-			sourceTree = "<group>";
-		};
-		69719FA80F7E928A00949310 /* locversion.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719FA90F7E928A00949310 /* English */,
 			);
 			name = locversion.plist;
 			sourceTree = "<group>";

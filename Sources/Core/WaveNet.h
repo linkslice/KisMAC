@@ -25,6 +25,7 @@
 #import <Cocoa/Cocoa.h>
 #import <UnitKit/UnitKit.h>
 #include <QuickTime/QuickTime.h>
+#import <CoreWLAN/CoreWLAN.h>
 #import "WavePacket.h"
 #import "ImportController.h"
 #import "GrowlController.h"
@@ -209,7 +210,7 @@ struct graphStruct {
 - (bool)joinNetwork;
 
 - (void)parsePacket:(WavePacket*) w withSound:(bool)sound;
-- (void)parseAppleAPIData:(NSDictionary*)info;
+- (void)parseAppleAPIData:(CWNetwork*)info;
 
 - (void)sortByColumn:(NSString*)ident order:(bool)ascend;
 

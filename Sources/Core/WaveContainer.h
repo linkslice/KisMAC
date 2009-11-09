@@ -23,6 +23,7 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <CoreWLAN/CoreWLAN.h>
 #import "WaveNet.h"
 
 #define MAXNETS 1000000
@@ -99,7 +100,7 @@ typedef struct WaveNetEntry {
 //for adding data
 - (BOOL) IDFiltered:(const unsigned char*)ID;
 - (bool) addPacket:(WavePacket*)p liveCapture:(bool)live;
-- (bool) addAppleAPIData:(NSDictionary*)net;
+- (bool) addAppleAPIData:(CWNetwork*)net;
 - (bool) addNetwork:(WaveNet*)net;
 
 - (unsigned int) count;

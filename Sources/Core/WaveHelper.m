@@ -25,7 +25,6 @@
 #import "WaveHelper.h"
 #import <BIGeneric/BIGeneric.h>
 #import "../WaveDrivers/WaveDriverAirport.h"
-#import "../WaveDrivers/WaveDriverViha.h"
 #import "../WaveDrivers/WaveDriver.h"
 
 #include <openssl/md5.h>
@@ -316,21 +315,6 @@ static GPSInfoController *_gc;
             //ugly hack but it works, this makes sure that the airport card is used only once
             //prefers the viha driver
             interfaceName = [driverProps objectForKey:@"driverID"];
-            if ([interfaceName isEqualToString:@"WaveDriverAirport"]) {
-                if ([_waveDrivers objectForKey:[WaveDriverViha deviceName]]) continue;
-            }
-            if ([interfaceName isEqualToString:@"WaveDriverViha"]) 
-            {
-                airportName = [WaveDriverAirport deviceName];
-                if ([_waveDrivers objectForKey:airportName])
-                {
-                    [w release];
-                    w = [_waveDrivers objectForKey:airportName];
-                    [_waveDrivers removeObjectForKey:airportName];
-                    [w unloadBackend];
-                    w = Nil;
-                }
-            }
             
             // Get the class for driver
             driver = NSClassFromString(interfaceName);

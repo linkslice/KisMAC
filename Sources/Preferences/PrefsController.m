@@ -197,7 +197,8 @@ void addToolbarItem(NSMutableDictionary *theDict,NSString *identifier,NSString *
 
 #pragma mark -
 
-- (void)changeView:(NSToolbarItem*)sender {
+- (void)changeView:(NSToolbarItem*)sender 
+{
     int i, count;
     NSString* nibName = nil;
     NSString* className = nil;

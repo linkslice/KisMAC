@@ -25,7 +25,7 @@
 #import <Cocoa/Cocoa.h>
 #import <pcap.h>
 #import "WaveDriver.h"
-#import "Apple80211.h"
+#import "../3rd Party/Apple80211.h"
 
 enum APExtType {
 	APExtTypeUnknown,

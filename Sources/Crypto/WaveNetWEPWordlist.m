@@ -25,6 +25,7 @@
 #import "WaveNetWEPWordlist.h"
 #import "WaveHelper.h"
 #import "../3rd Party/FCS.h"
+#import "../3rd Party/Apple80211.h"
 #import "KisMACNotifications.h"
 #import <BIGeneric/BINSExtensions.h>
 

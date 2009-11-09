@@ -1052,18 +1052,18 @@ int lengthSort(id string1, id string2, void *context)
     [_dataLock unlock];
 }
 
-- (void)parseAppleAPIData:(NSDictionary*)info {
+- (void)parseAppleAPIData:(CWNetwork*)info
+{
     encryptionType wep;
     const char *mac;
-	int flags;
 	
 	NSParameterAssert(info);
 	
 	_cacheValid = NO;
 	
     if (!_ID) {
-        mac = (const char*)[[info objectForKey:@"BSSID"] bytes];
-		NSAssert([[info objectForKey:@"BSSID"] length] == 6, @"BSSID length is not 6");
+        mac = (const char*)[[info bssidData] bytes];
+		//NSAssert([[info objectForKey:@"BSSID"] length] == 6, @"BSSID length is not 6");
         memcpy(_rawID, mac, 6);
 		memcpy(_rawBSSID, mac, 6);
 
@@ -1115,15 +1115,11 @@ int lengthSort(id string1, id string2, void *context)
 		_numMidi++;
 		//	[self closeChannel];
 	}
-	
-	
-	
-	
-    
-	_curSignal = [[info objectForKey:@"signal"] intValue] - [[info objectForKey:@"noise"] intValue];
+
+	_curSignal = [info.rssi intValue] - [info.noise intValue];
     if (_curSignal<0) _curSignal = 0;
     
-    _primaryChannel = _channel = [[info objectForKey:@"channel"] intValue];
+    _primaryChannel = _channel = [info.channel intValue];
     if (_packetsPerChannel[_channel]==0) {
         if (!_firstPacket) [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
         _packetsPerChannel[_channel] = 1;
@@ -1133,32 +1129,55 @@ int lengthSort(id string1, id string2, void *context)
     //not much though
     curSignalData += _curSignal;
     curPacketData++;
-	
-	flags = [[info objectForKey:@"capability"] intValue];
     
-	if (CFBooleanGetValue((CFBooleanRef)[info objectForKey:@"isWPA"])) {
-		wep = encryptionTypeWPA;
-	} else {
-		wep = (flags & IEEE80211_CAPINFO_PRIVACY_LE) ? encryptionTypeWEP : encryptionTypeNone;
+    switch ([info.securityMode intValue])
+    {
+        case kCWSecurityModeOpen:
+            wep = encryptionTypeNone;
+        break;
+            
+        case kCWSecurityModeDynamicWEP:
+        case kCWSecurityModeWEP:
+            wep = encryptionTypeWEP;
+        break;
+            
+        case kCWSecurityModeWPA_PSK:
+        case kCWSecurityModeWPA_Enterprise:
+            wep = encryptionTypeWPA;
+        break;
+            
+        case kCWSecurityModeWPA2_PSK:
+        case kCWSecurityModeWPA2_Enterprise:
+            wep = encryptionTypeWPA2;
+        break;
+            
+        case kCWSecurityModeWPS:
+            wep = encryptionTypeUnknown;
+        break;
+            
+        default:
+            wep = encryptionTypeUnknown;
+        break;
     }
-	
-	if (_isWep != wep) {
+
+	if (_isWep != wep) 
+    {
         _isWep = wep;	//check if wep is enabled
         [_netView setWep:_isWep];
     }
-    
-    if (flags & IEEE80211_CAPINFO_ESS_LE) {
-        _type = networkTypeManaged;
-    } else if (flags & IEEE80211_CAPINFO_IBSS_LE) {
+
+    if (info.isIBSS)
+    {
         _type = networkTypeAdHoc;
+    } 
+    else
+    {
+        _type = networkTypeManaged;
     }
-	
-	if (flags & IEEE80211_CAPINFO_PROBE_REQ_LE) {
-		_type = networkTypeProbe;
-	}
 
     [_dataLock lock];
-    [self updateSSID:[info objectForKey:@"name"] withSound:YES];
+    [self updateSSID: info.ssid withSound:YES];
+
     [self generalEncounterStuff:YES];
     
     if (_firstPacket) {
@@ -1667,61 +1686,9 @@ int lengthSort(id string1, id string2, void *context)
 
 #pragma mark -
 
-- (bool)joinNetwork {
-    WirelessContextPtr wi_context;
-    NSString *error;
-    NSString *password;
-    NSMutableArray *a;
-    
-    WIErr err = WirelessAttach(&wi_context, 0);
-    if (err) {
-        error = NSLocalizedString(@"Could not attach to Airport device.", "Joining error");
-        //@"Could not attach to Airport device. Note: Joining a network is not possible, if the Airport passive driver is used!"
-        goto e1;
-    }
-    
-    if (!_SSID || [_SSID isEqualToString:@""]) {
-        error = NSLocalizedString(@"You cannot join a hidden network, before you reveal the SSID.", "Joining error");
-        goto e2;
-    }
-    
-    if (_isWep != encryptionTypeNone && _isWep != encryptionTypeUnknown) {
-        if (!_password) {
-            error = NSLocalizedString(@"You do not have a password for this network.", "Joining error");
-            goto e2;
-        }
-        
-        if ((_isWep == encryptionTypeWPA) || (_isWep == encryptionTypeWPA2)) {
-            a = [NSMutableArray arrayWithArray:[_password componentsSeparatedByString:@" "]];
-            [a removeLastObject]; [a removeLastObject]; [a removeLastObject]; //delete the for client stuff
-            
-            password = [a componentsJoinedByString:@" "];
-            
-            err = WirelessJoin8021x(wi_context, (CFStringRef)_SSID, (CFStringRef)password); 
-        } else {
-            password = [[_password componentsSeparatedByString:@" "] objectAtIndex:0]; //strip out the "for KeyID stuff"
-            password = [NSString stringWithFormat:@"0x%@", [[password stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF"] invertedSet]] lowercaseString]];
-            err = WirelessJoinWEP(wi_context, (CFStringRef)_SSID, (CFStringRef)password);        
-        }
-        
-    } else {
-        err = WirelessJoin(wi_context, (CFStringRef)_SSID);
-    }
-    
-    err = WirelessDetach(wi_context);
-
-    return YES;
-e2:
-    err = WirelessDetach(wi_context);
-e1:
-    NSBeginAlertSheet(
-        NSLocalizedString(@"Error joining Network", "title for join network dialog"), 
-        OK, nil, nil, [WaveHelper mainWindow], nil, nil, nil, nil, 
-        NSLocalizedString(@"KisMAC could not join the selected network, because of the following error: %@", "description for join network dialog"), 
-        error
-    );
-
-    return NO;
+- (bool)joinNetwork 
+{
+    NSLog(@"Todo fixme!! join support with new airport api");
 }
 
 #pragma mark -

@@ -26,7 +26,6 @@
 #import "WaveHelper.h"
 #import "KisMACNotifications.h"
 #import "quicksort.h"
-#import "Apple80211.h"
 
 //TODO make _idList binary search compatible 
 // AVL trees?!
@@ -708,16 +707,18 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     return YES;
 }
 
-- (bool) addAppleAPIData:(NSDictionary*)net {
+- (bool) addAppleAPIData:(CWNetwork*)net 
+{
     unsigned int entry;
 	NSParameterAssert(net);
 
     if (_dropAll) return YES;
-
-    entry = [self findNetwork:[[net objectForKey:@"BSSID"] bytes]];
+    
+    entry = [self findNetwork: [[net bssidData] bytes]];
     if (entry == 0xFFFFFFFF) return NO;                          //the object is filtered...
     
-	@synchronized(_idList[entry].net) {
+	@synchronized(_idList[entry].net)
+    {
 		[_idList[entry].net parseAppleAPIData:net];             //add the data to the network
     }
 	_idList[entry].changed = YES;

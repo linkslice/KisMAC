@@ -29,6 +29,7 @@
 #import <pcap.h>
 #import "WaveHelper.h"
 #import "FCS.h"
+#import "../3rd Party/Apple80211.h"
 
 typedef struct _header {
     /* 802.11 Header Info (Little Endian) */

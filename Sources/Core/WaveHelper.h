@@ -24,7 +24,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <UnitKit/UnitKit.h>
-#import "Apple80211.h"
 #import "KisMAC80211.h"
 #import "80211b.h"
 

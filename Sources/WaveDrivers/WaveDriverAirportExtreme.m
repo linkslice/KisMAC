@@ -26,7 +26,7 @@
 #import "ImportController.h"
 #import "WaveHelper.h"
 #import <BIGeneric/BIGeneric.h>
-#import "Apple80211.h"
+#import "../3rd Party/Apple80211.h"
 
 //stolen from kismet
 // Hack around some headers that don't seem to define all of these
