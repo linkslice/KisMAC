@@ -9,6 +9,13 @@
 		<key>idVendor</key>
 		<integer>5041</integer>
 	</dict>
+	<key>WLI-U2-SG54HG-AP</key>
+	<dict>
+		<key>idProduct</key>
+		<integer>244</integer>
+		<key>idVendor</key>
+		<integer>1089</integer>
+	</dict>
 	<key>WUSB54GC</key>
 	<dict>
 		<key>idProduct</key>
