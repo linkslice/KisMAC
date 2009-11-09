@@ -135,5 +135,12 @@
 		<key>idVendor</key>
 		<integer>1293</integer>
 	</dict>
+	<key>TechnicLAN WUSB-54GR</key>
+	<dict>
+		<key>idProduct</key>
+		<integer>9587</integer>
+		<key>idVendor</key>
+		<integer>5263</integer>
+	</dict>
 </dict>
 </plist>
