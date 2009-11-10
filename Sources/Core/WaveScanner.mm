@@ -285,7 +285,7 @@
         for (i = 0; i < [_drivers count]; i++) {
             w = [_drivers objectAtIndex:i];
             if ([w type] == passiveDriver) { //for PseudoJack this is done by the timer
-                [w startCapture:0];
+                [w startCapture:1];
             }
             
             [NSThread detachNewThreadSelector:@selector(doScan:) toTarget:self withObject:w];

@@ -25,9 +25,10 @@
 #import <Cocoa/Cocoa.h>
 #import <pcap.h>
 #import "WaveDriver.h"
-#import "../3rd Party/Apple80211.h"
+#import <CoreWLAN/CoreWLAN.h>
 
-enum APExtType {
+enum APExtType 
+{
 	APExtTypeUnknown,
 	APExtTypeBcm,
 	APExtTypeAth5414
@@ -45,9 +46,8 @@ enum APExtType {
 	pcap_t *_device;
 	enum APExtType _apeType;
     int DLTType;
-    NSTimer * channelEnforceTimer;
+    
+    CWInterface * airportInterface;
 }
-
-WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out);
 
 @end

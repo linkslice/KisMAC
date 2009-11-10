@@ -26,7 +26,6 @@
 #import "ImportController.h"
 #import "WaveHelper.h"
 #import <BIGeneric/BIGeneric.h>
-#import "../3rd Party/Apple80211.h"
 
 //stolen from kismet
 // Hack around some headers that don't seem to define all of these
@@ -54,24 +53,6 @@
 #ifndef IEEE80211_CHAN_GFSK
 #define IEEE80211_CHAN_GFSK     0x0800  /* GFSK channel (FHSS PHY) */
 #endif
-
-WirelessContextPtr gWCtxt = NULL;
-//defines for ioctls
-#define WLC_IOCTL_MAGIC         0x14e46c77
-	 
-#define WLC_GET_MAGIC                           0
-#define WLC_GET_BSSID                           23
-#define WLC_SET_BSSID                           24
-#define WLC_GET_SSID                            25
-#define WLC_SET_SSID                            26
-#define WLC_GET_CHANNEL                         29
-#define WLC_SET_CHANNEL                         30
-#define WLC_GET_MONITOR                         107     /* discovered by nbd */
-#define WLC_SET_MONITOR                         108     /* discovered by nbd */
-#define WLC_GET_AP                              117
-#define WLC_SET_AP                              118
-#define WLC_GET_RSSI                            127
-#define WLC_GET_ASSOCLIST                       159
 
 @implementation WaveDriverAirportExtreme
 
@@ -156,11 +137,9 @@ WirelessContextPtr gWCtxt = NULL;
     return (result==0);
 }
 
-+ (bool) unloadBackend {
++ (bool) unloadBackend
+{
 	
-	[NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport"
-		arguments:[NSArray arrayWithObject:@"-a"]];
-
 	return YES;
 }
 
@@ -178,12 +157,13 @@ pcap_dumper_t * dumper;
     int i;
 	_apeType = APExtTypeBcm;
     
+     //get the api based interface for changing channels
+    airportInterface =  [[CWInterface interfaceWithName:
+                          [[CWInterface supportedInterfaces] objectAtIndex: 0]] retain];
+    [airportInterface disassociate];
+    CFShow(airportInterface);
+    
     shouldPlayback = [[defs objectForKey: @"playback-rawdump"] boolValue];
-	
-    if( [[defs objectForKey: @"disassociateOnScan"] boolValue] && !shouldPlayback )
-    {
-        [NSTask launchedTaskWithLaunchPath:@"/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport" arguments:[NSArray arrayWithObject:@"-z"]];
-    }
 	
     if(shouldPlayback) _device = pcap_open_offline([[defs objectForKey: @"rawDumpInFile"] UTF8String], err);
 	else               _device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
@@ -232,8 +212,6 @@ pcap_dumper_t * dumper;
         return Nil;
     }
     
-    channelEnforceTimer = nil;
-
 	self=[super init];
     if(!self) return Nil;
 
@@ -244,115 +222,67 @@ pcap_dumper_t * dumper;
 
 - (unsigned short) getChannelUnCached 
 {
-    int channel = 0;
-  
-    //this is an elaborate plan to get the channel 
-    //from the airport driver.  Unfortunately switching
-    //in and out of monitor mode takes forever
-    //instead we work around the problem with the 
-    //enforce channel timer
-    #if 0
-        int success;
-        //this only seems to work if we reset the dlt :(
-        //clear the dlt
-        pcap_set_datalink(_device, 1);
-        WirelessAttach(&gWCtxt, 0);
-        wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
-        success = wlc_ioctl(WLC_GET_CHANNEL, 0, NULL, 8, &channel);
-        WirelessDetach(gWCtxt);    
-        //restore the dlt
-        pcap_set_datalink(_device, DLTType);
-    #else
-        channel = _currentChannel;
-    #endif
-    
-    //NSLog(@"Airport Extreme getChannel: %d, success %d", channel, success );
-    
-	return (UInt16)channel;
+	return (UInt16)[airportInterface.channel intValue];
 }
-
-WIErr wlc_ioctl(int command, int bufsize, void* buffer, int outsize, void* out) {
-	if (!buffer) bufsize = 0;
-	int* buf = malloc(bufsize+8);
-	buf[0] = 3; 
-	buf[1] = command;
-	if (bufsize && buffer)
-		memcpy(&buf[2], buffer, bufsize);
-	return WirelessPrivate(gWCtxt, buf, bufsize+8, out, outsize);
-}
-
-
 
 - (bool) setChannel:(unsigned short)newChannel 
 {
-    int chanint;
-	chanint = newChannel;
-    int error;
-      
-    WirelessAttach(&gWCtxt, 0);
-    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
-    error = wlc_ioctl(WLC_SET_CHANNEL, 8, &chanint, 0, NULL); //set channel       
-    WirelessDetach(gWCtxt);
-    
-    //only update it if the ioctl was successful
-    if(!error) _currentChannel = newChannel;
-    
-    //unfortunately the apple driver can not correctly get the channel when in monitor mode
-    //also, the channel can change behind our back for many reasons
-    //therefore we must enforce the channel periodically to be sure we are on the
-    //channel we want to be on.  This should only really affect single channel scans
-    [channelEnforceTimer invalidate];
-    channelEnforceTimer = nil;
-    channelEnforceTimer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self 
-                                                         selector:@selector(enforceChannel) userInfo: nil repeats: NO];
+    bool success = FALSE;
+    NSError * error = nil;
 
-    return YES;
-}
-
--(void)enforceChannel
-{
-    [self setChannel: _currentChannel];
+    success = [airportInterface setChannel: newChannel error: &error];
+    
+    //this is kindof a hack...  The airport interface may not go completely
+    //into monitor mode the first time.  It can be interrupted by a "sw beacon miss"
+    //The result of this is that the channel cannot be changed.  The only way to fix
+    //this is to come out of monitor mode, and then go back in.  The state machine 
+    //in the Apple driver must reach "Scan" mode for channel changing to work.
+    //If it only makes it to "Run" mode, you will see this problem.
+    //enable debug output of the driver using the airport utility
+    //to see what is happening here.
+    if(!success && newChannel != 0)
+    {
+        [airportInterface disassociate];
+        pcap_set_datalink(_device, 1);
+        pcap_set_datalink(_device, DLTType);
+        sleep(2);
+        success = [airportInterface setChannel: newChannel error: &error];
+    }
+        
+    _currentChannel = newChannel;
+    
+    //CFShow([airportInterface supportedChannels]);
+    if(!success)
+    {
+        CFShow(error);
+    }
+    return success;
 }
 
 - (bool) startCapture:(unsigned short)newChannel
 {
     bool success = FALSE;
-    int monitor = 1;
     
-    WirelessAttach(&gWCtxt, 0);
-    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
-    success = wlc_ioctl(WLC_SET_MONITOR, 8, &monitor, 0, NULL); //set channel
-    if(success)
-    {
-        success = wlc_ioctl(WLC_GET_MONITOR, 0, NULL, 8, &monitor);
-    }
-    WirelessDetach(gWCtxt);
+    //we lave to let go to scan...
+    [airportInterface disassociate];
     
     //set dlt
-    pcap_set_datalink(_device, DLTType);
+    success = pcap_set_datalink(_device, DLTType);
     
-	[self setChannel: newChannel];
-    return (success && monitor);
+    //sleep here in case it works the first time
+    sleep(2);
+    [self setChannel:newChannel];
+
+    return success;
 }
 
 -(bool) stopCapture
 {
-    bool success = FALSE;
-    int monitor = 0;
-    
+    bool success;
     //restore dlt
-    pcap_set_datalink(_device, 1);
+    success = pcap_set_datalink(_device, 1);
     
-    WirelessAttach(&gWCtxt, 0);
-    wlc_ioctl(52, 0, NULL, 0, NULL); // disassociate
-    success = wlc_ioctl(WLC_SET_MONITOR, 8, &monitor, 0, NULL); //set channel
-    if(success)
-    {
-        success = wlc_ioctl(WLC_GET_MONITOR, 0, NULL, 8, &monitor);
-    }
-    WirelessDetach(gWCtxt);
-    
-    return (success && !monitor);
+    return success;
 }
 
 #pragma mark -
