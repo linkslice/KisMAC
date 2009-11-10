@@ -240,7 +240,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
     // Determine various aspect of frame
     switch(_type) {
         case IEEE80211_TYPE_DATA:               //Data Frames
-            NSLog(@"rx_rate %d", f->ctrl.rate);
+            //NSLog(@"rx_rate %d", f->ctrl.rate);
             if (_isToDS && _isFrDS) {
                 _netType = networkTypeTunnel;   //what can i say? it is a tunnel
             } else {
