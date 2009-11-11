@@ -27,7 +27,6 @@
 #import "ScanControllerPrivate.h"
 #import "ScanControllerScriptable.h"
 #import "KisMACNotifications.h"
-#import "../WindowControllers/DownloadMapController.h"
 #import "DecryptController.h"
 #import "GPSInfoController.h"
 #import "HTTPStream.h"
@@ -101,7 +100,7 @@
 
 - (IBAction)importMapFromServer:(id)sender
 {
-    DownloadMapController* dmc = [[DownloadMapController alloc] initWithWindowNibName:@"DownloadMap"];
+    dmc = [[DownloadMapController alloc] initWithWindowNibName:@"DownloadMap"];
     
     [[dmc window] setFrameUsingName:@"aKisMAC_DownloadMap"];
     [[dmc window] setFrameAutosaveName:@"aKisMAC_DownloadMap"];
@@ -109,7 +108,6 @@
     [dmc setCoordinates:[[WaveHelper gpsController] currentPoint]];
     [dmc showWindow:self];
     [[dmc window] makeKeyAndOrderFront:self];
-    [dmc release];
 }
 
 - (IBAction)importNetstumbler:(id)sender {

@@ -30,7 +30,8 @@
 #import "PrefsController.h"
 #import "GrowlController.h"
 #import "GPSInfoController.h"
-//sleep studd
+#import "../WindowControllers/DownloadMapController.h"
+//sleep stuff
 #include <mach/mach_port.h>
 #include <mach/mach_interface.h>
 #include <mach/mach_init.h>
@@ -156,6 +157,7 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     IBOutlet SpinChannel        *_channelProg;
 	GPSInfoController* _g;
 	NSWindow *borderlessWindow;
+    DownloadMapController* dmc;
 }
 
 - (IBAction)updateNetworkTable:(id)sender complete:(bool)complete;
