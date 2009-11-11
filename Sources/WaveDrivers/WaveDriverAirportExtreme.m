@@ -166,7 +166,7 @@ pcap_dumper_t * dumper;
     shouldPlayback = [[defs objectForKey: @"playback-rawdump"] boolValue];
 	
     if(shouldPlayback) _device = pcap_open_offline([[defs objectForKey: @"rawDumpInFile"] UTF8String], err);
-	else               _device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
+	else               _device = pcap_open_live([[[CWInterface supportedInterfaces] objectAtIndex: 0] UTF8String], 3000, 1, 2, err);
     //todo fixme!! if we are playing back, this will be weird
 	if (!_device && !shouldPlayback)
     {
@@ -174,7 +174,7 @@ pcap_dumper_t * dumper;
 		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0777", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
 		[NSThread sleep:0.5];
 	
-		_device = pcap_open_live([[defs objectForKey:@"scandevice"] UTF8String], 3000, 1, 2, err);
+		_device = pcap_open_live([[[CWInterface supportedInterfaces] objectAtIndex: 0] UTF8String], 3000, 1, 2, err);
         
 		[[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"wheel", [defs objectForKey:@"bpfloc"], nil]];
 		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0600", [defs objectForKey:@"bpfloc"], nil]];

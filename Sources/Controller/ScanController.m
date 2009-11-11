@@ -97,7 +97,6 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"", @"webServiceAccount",
         [NSNumber numberWithInt:2], @"ac_ff", 
         [NSNumber numberWithFloat:0.1], @"bf_interval",
-        @"en1", @"scandevice", 
         @"/dev/bpf0", @"bpfloc",
         [NSNumber numberWithInt:100], @"pr_interval",
         nil];
