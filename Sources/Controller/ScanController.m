@@ -440,6 +440,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         case 38:
         case 40:
         case 41:
+        case 42:
             [self hideDetails];
             [_container setViewType:3 value:[NSNumber numberWithInt:[(ScanHierarch*)item type]-36]];
             if (_lastSorted) [_container sortByColumn:_lastSorted order:_ascending];

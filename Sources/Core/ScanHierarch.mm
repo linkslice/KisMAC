@@ -35,7 +35,9 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
 //TODO document this
 
 //creates a new item
-- (id)initWithName:(NSString *)name type:(int)newType parent:(ScanHierarch *)obj container:(WaveContainer*)container identkey:(NSString*)idkey {
+- (id)initWithName:(NSString *)name type:(int)newType parent:(ScanHierarch *)obj 
+         container:(WaveContainer*)container identkey:(NSString*)idkey 
+{
     self = [super init];
     if (!self) return nil;
     
@@ -49,16 +51,21 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
     return self;
 }
 
-+ (ScanHierarch *) rootItem:(WaveContainer*)container index:(int)idx {
-    switch (idx) {
++ (ScanHierarch *) rootItem:(WaveContainer*)container index:(int)idx
+{
+    switch (idx)
+    {
         case 0:
-            if (!rootItem) rootItem = [[ScanHierarch alloc] initWithName:@"Channel" type:1 parent:nil container:container identkey:@""];
+            if (!rootItem) rootItem = [[ScanHierarch alloc] initWithName:@"Channel" type:1 parent:nil 
+                                                               container:container identkey:@""];
             return rootItem;
         case 1:
-            if (!rootItem2) rootItem2 = [[ScanHierarch alloc] initWithName:@"SSID" type:2 parent:nil container:container identkey:@""];
+            if (!rootItem2) rootItem2 = [[ScanHierarch alloc] initWithName:@"SSID" type:2 parent:nil 
+                                                                 container:container identkey:@""];
             return rootItem2;
         case 2:
-            if (!rootItem3) rootItem3 = [[ScanHierarch alloc] initWithName:@"Encryption" type:36 parent:nil container:container identkey:@""];
+            if (!rootItem3) rootItem3 = [[ScanHierarch alloc] initWithName:@"Encryption" type:36 parent:nil 
+                                                                 container:container identkey:@""];
             return rootItem3;
         default:
             return Nil;
@@ -67,7 +74,8 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
 
 #pragma mark -
 
-- (void) setContainer:(WaveContainer*)container{
+- (void) setContainer:(WaveContainer*)container
+{
     unsigned int i;
     
     [WaveHelper secureReplace:&_container withObject:container];
@@ -76,7 +84,8 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
         [[children objectAtIndex:i] setContainer:container];
 }
 
-+ (void) setContainer:(WaveContainer*)container{
++ (void) setContainer:(WaveContainer*)container
+{
     [rootItem setContainer:container];
     [rootItem2 setContainer:container];
     [rootItem3 setContainer:container];
@@ -85,7 +94,8 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
 #pragma mark -
 
 
-- (void)updateKey {
+- (void)updateKey 
+{
     int *v, h, i;
     unsigned int b, d, u;
     bool found, addedItem;
@@ -96,56 +106,75 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
     
     addedItem = NO;
     
-    if (aType==1) { //channel root item
+    if (aType==1) 
+    { //channel root item
         for(b=0;b<14;b++) c[b]=0;
         
-        for (u=0; u<[_container count]; u++) {
+        for (u=0; u<[_container count]; u++)
+        {
             v=[[_container netAtIndex:u] packetsPerChannel];
             if (v) for(b=0;b<=14;b++) c[b]+=v[b];
         }
         
         for (h=1;h<14;h++) 
-            if (c[h]) { 
+            if (c[h])
+            { 
                 //we need this item, check whether it exists
                 found = NO;
                 for (d=0;d<[children count];d++)
-                    if (([(ScanHierarch*)[children objectAtIndex:d] type]-20)==h) {
+                    if (([(ScanHierarch*)[children objectAtIndex:d] type]-20)==h) 
+                    {
                         found = YES;
                         break;
                     }
-                if (!found) { 
+                if (!found) 
+                { 
                     // add a new item
                     tmp=[NSString stringWithFormat:@"%.2i",h];
-                    [children addObject:[[ScanHierarch alloc] initWithName:tmp type:20+h parent:self container:_container identkey:@""]];
+                    [children addObject:[[ScanHierarch alloc] initWithName:tmp type:20+h parent:self 
+                                                                 container:_container identkey:@""]];
                     addedItem = YES;
                 }
             }
-    } else if (aType==2) { // SSID root item
-        for (u=0; u<[_container count]; u++) {
+    } 
+    else if (aType==2)
+    { // SSID root item
+        for (u=0; u<[_container count]; u++)
+        {
             tmp=[[_container netAtIndex:u] SSID];
             
             //check whether item exists
             found = NO;
             for (d=0;d<[children count];d++) 
-                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp]) {
+            {
+                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp])
+                {
                     found = YES;
                     break;
                 }
+            }
                 
-            if (!found) {
+            if (!found)
+            {
                 // add item
-                [children addObject:[[ScanHierarch alloc] initWithName:tmp type:3 parent:self container:_container identkey:@""]];
+                [children addObject:[[ScanHierarch alloc] initWithName:tmp type:3 parent:self 
+                                                             container:_container identkey:@""]];
                 addedItem = YES;
-             }
+            }
         }
         
         // delete all entries which have no BSSIDs below them 
         for (i=[children count]-1;i>=0;i--) 
-            if ([[children objectAtIndex:i] numberOfChildren]==0) [children removeObjectAtIndex:i];
+        {
+            if ([[children objectAtIndex:i] numberOfChildren]==0) [children removeObjectAtIndex:i];            
+        }
     
-    } else if (aType==3) { // these are the different network SSIDS
+    }
+    else if (aType==3)  // these are the different network SSIDS
+    {
         a = [[NSMutableArray alloc] init];
-        for (u=0; u<[_container count]; u++) {
+        for (u=0; u<[_container count]; u++)
+        {
             n = [_container netAtIndex:u];
             
             if (![[n SSID] isEqualToString:aNameString]) continue;
@@ -159,24 +188,32 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
             found = NO;
             
             for (d=0;d<[children count];d++) 
-                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp]) {
+                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp]) 
+                {
                     found = YES;
                     break;
                 }
                 
-            if (!found) {
+            if (!found)
+            {
                 [children addObject:[[ScanHierarch alloc] initWithName:tmp type:99 parent:self container:_container identkey:ident]];
                 addedItem = YES;
-             }
+            }
         }
         
         //remove all items which are not in our list
         for (i=[children count]-1;i>=0;i--) 
+        {
             if ([a indexOfObject:[[children objectAtIndex:i] identKey]] == NSNotFound) 
                     [children removeObjectAtIndex:i];
+        }
         [a release];
-    } else if ((aType>20)&&(aType<35)) { //these are the channel items
-       for (u=0; u<[_container count]; u++) {
+    } 
+    //these are the channel items
+    else if ((aType>20)&&(aType<35))
+    {
+       for (u=0; u<[_container count]; u++)
+       {
             n = [_container netAtIndex:u];
             if (!n) continue;
             
@@ -186,23 +223,33 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
             tmp = [n BSSID];
             found = NO;
             for (d=0;d<[children count];d++) 
-                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp]) {
+            {
+                if ([[[children objectAtIndex:d] nameString] isEqualToString:tmp])
+                {
                     found = YES;
                     break;
                 }
+            }
                 
-            if (!found) {
-                [children addObject:[[ScanHierarch alloc] initWithName:tmp type:99 parent:self container:_container identkey:[n ID]]];
+            if (!found)
+            {
+                [children addObject:[[ScanHierarch alloc] initWithName:tmp type:99 parent:self
+                                                             container:_container identkey:[n ID]]];
                 addedItem = YES;
              }
         }
-    } else if (aType == 36) {
-        if ([children count]==0) {
+    } 
+    else if (aType == 36)
+    {
+        if ([children count]==0)
+        {
             //type 39 was reserved for WEP 40
+            //these values appear to be encryption type + 36
             [children addObject:[[ScanHierarch alloc] initWithName:@"None" type:37 parent:self container:_container identkey:@"None"]];
             [children addObject:[[ScanHierarch alloc] initWithName:@"WEP"  type:38 parent:self container:_container identkey:@"WEP"]];
             [children addObject:[[ScanHierarch alloc] initWithName:@"WPA"  type:40 parent:self container:_container identkey:@"WPA"]];
             [children addObject:[[ScanHierarch alloc] initWithName:@"LEAP" type:41 parent:self container:_container identkey:@"LEAP"]];
+            [children addObject:[[ScanHierarch alloc] initWithName:@"WPA2" type:42 parent:self container:_container identkey:@"WPA2"]];
         }
     }
     
@@ -211,88 +258,123 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
     
 }
 
-+ (void)updateTree {
++ (void)updateTree
+{
     if (rootItem  != nil) [rootItem updateKey];
     if (rootItem2 != nil) [rootItem2 updateKey];
     if (rootItem3 != nil) [rootItem3 updateKey];
 }
 
-- (NSArray *)children {
-    if (children == NULL) {
-        if (aType==1) {
+- (NSArray *)children 
+{
+    if (children == NULL) 
+    {
+        if (aType==1)
+        {
             children = [[NSMutableArray alloc] initWithCapacity:13];
             [self updateKey];
-        } else if (aType==2) {
+        } 
+        else if (aType==2)
+        {
             children = [[NSMutableArray alloc] init];
             [self updateKey];
-        } else if (aType==3) {
+        }
+        else if (aType==3)
+        {
             children = [[NSMutableArray alloc] init];
             [self updateKey];
-        } else if ((aType>20)&&(aType<35)) {
+        }
+        else if ((aType>20)&&(aType<35)) 
+        {
             children = [[NSMutableArray alloc] init];
             [self updateKey];
-        } else if (aType==36) {
+        }
+        else if (aType==36) 
+        {
             children = [[NSMutableArray alloc] initWithCapacity:3];
             [self updateKey];
-        } else {
+        }
+        else 
+        {
             children = IsALeafNode;
         }
     }
     return children;
 }
 
-- (NSString *)nameString {
+- (NSString *)nameString
+{
     return aNameString;
 }
-- (NSString *)identKey {
+
+- (NSString *)identKey 
+{
     return aIdentKey;
 }
-- (int)type {
+
+- (int)type 
+{
     return aType;
 }
-- (ScanHierarch *)childAtIndex:(int)n {
+
+- (ScanHierarch *)childAtIndex:(int)n
+{
     return [[self children] objectAtIndex:n];
 }
-- (int)numberOfChildren {
+
+- (int)numberOfChildren 
+{
     id tmp = [self children];
     if (tmp == IsALeafNode) 
         return -1;
     else
         return [tmp count];
 }
-- (NSComparisonResult)compare:(ScanHierarch *)aHier {
+
+- (NSComparisonResult)compare:(ScanHierarch *)aHier 
+{
     return [aNameString compare:[aHier nameString]];
 }
-- (NSComparisonResult)caseInsensitiveCompare:(ScanHierarch *)aHier {
+
+- (NSComparisonResult)caseInsensitiveCompare:(ScanHierarch *)aHier
+{
     return [aNameString caseInsensitiveCompare:[aHier nameString]];
 }
 
 #pragma mark -
 
-- (void)deleteKey {
+- (void)deleteKey
+{
     int d;
     if (children!=IsALeafNode)
-        for (d=[children count]-1;d>=0;d--) {
+        for (d=[children count]-1;d>=0;d--) 
+        {
             [[children objectAtIndex:d] deleteKey];
             [children removeObjectAtIndex:d];
         }
 }
-+ (void) clearAllItems {
-    if (rootItem!=Nil) {
+
++ (void) clearAllItems
+{
+    if (rootItem!=Nil)
+    {
         [rootItem deleteKey];
         [WaveHelper secureRelease:&rootItem];
     }
-    if (rootItem2!=Nil) { 
+    if (rootItem2!=Nil)
+    { 
         [rootItem2 deleteKey];
         [WaveHelper secureRelease:&rootItem2];
     }
-    if (rootItem3!=Nil) { 
+    if (rootItem3!=Nil) 
+    { 
         [rootItem3 deleteKey];
         [WaveHelper secureRelease:&rootItem3];
     }
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     if (children != IsALeafNode) [children release];
     [_container release];
     [aNameString release];

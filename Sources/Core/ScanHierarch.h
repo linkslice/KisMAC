@@ -27,7 +27,8 @@
 #import "WaveContainer.h"
 
 // this the responsible structure for the tree view. very ugly and dirty
-@interface ScanHierarch : NSObject {
+@interface ScanHierarch : NSObject
+{
     WaveContainer *_container;
     NSString *aNameString;
     NSString *aIdentKey;
