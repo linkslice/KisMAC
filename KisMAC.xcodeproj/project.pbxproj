@@ -450,7 +450,6 @@
 		689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */ = {isa = PBXBuildFile; fileRef = 689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */; };
 		6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
 		690147C20F7FD6C600668BAA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
-		690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6971A1700F7E928B00949310 /* AirPortMenu */; };
 		6902662E0F25C0B500CEE671 /* wepInjection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6902662D0F25C0B500CEE671 /* wepInjection.xib */; };
 		691CF1B00E4CC47C0042B146 /* UsbVendorsIntersil.plist in Resources */ = {isa = PBXBuildFile; fileRef = 691CF1AC0E4CC47B0042B146 /* UsbVendorsIntersil.plist */; };
 		691CF1B10E4CC47C0042B146 /* UsbVendorsRT73.plist in Resources */ = {isa = PBXBuildFile; fileRef = 691CF1AD0E4CC47C0042B146 /* UsbVendorsRT73.plist */; };
@@ -546,13 +545,6 @@
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = KisMAC;
 		};
-		6971A16F0F7E928B00949310 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76F7E0486A8DE00D96B5E;
-			remoteInfo = AirPortMenu;
-		};
 		6971A1900F7E928B00949310 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719E780F7E928A00949310 /* BIGL.xcodeproj */;
@@ -595,13 +587,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = BIGeneric;
 		};
-		699E59250F7E9C4000D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DD76F740486A8DE00D96B5E;
-			remoteInfo = AirPortMenu;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -635,7 +620,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				690149AE0F7FE05000668BAA /* AirPortMenu in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,9 +907,6 @@
 		694A888B0F3CD87E006B819C /* WavePcapDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WavePcapDump.m; sourceTree = "<group>"; };
 		694DB28B0F0FDF9E001CCEA6 /* IEEE80211Elements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEEE80211Elements.h; sourceTree = "<group>"; };
 		694DB28C0F0FDF9E001CCEA6 /* IEEE80211Elements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEEE80211Elements.m; sourceTree = "<group>"; };
-		69719DB10F7E928900949310 /* AirPortMenu.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = AirPortMenu.1; sourceTree = "<group>"; };
-		69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AirPortMenu.xcodeproj; sourceTree = "<group>"; };
-		69719DCA0F7E928900949310 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		69719E550F7E928A00949310 /* AtherosHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosHAL.cpp; sourceTree = "<group>"; };
 		69719E560F7E928A00949310 /* AtherosHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosHAL.h; sourceTree = "<group>"; };
 		69719E570F7E928A00949310 /* AtherosHAL.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AtherosHAL.xcode; sourceTree = "<group>"; };
@@ -1760,7 +1741,6 @@
 		69719DAF0F7E928900949310 /* Subprojects */ = {
 			isa = PBXGroup;
 			children = (
-				69719DB00F7E928900949310 /* AirPortMenu */,
 				69719E530F7E928A00949310 /* AtherosDriver */,
 				69719E730F7E928A00949310 /* BIGL */,
 				69719EC10F7E928A00949310 /* BIGeneric */,
@@ -1768,24 +1748,6 @@
 				69719F1D0F7E928A00949310 /* Insomnia */,
 			);
 			path = Subprojects;
-			sourceTree = "<group>";
-		};
-		69719DB00F7E928900949310 /* AirPortMenu */ = {
-			isa = PBXGroup;
-			children = (
-				69719DB10F7E928900949310 /* AirPortMenu.1 */,
-				69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */,
-				69719DCA0F7E928900949310 /* main.c */,
-			);
-			path = AirPortMenu;
-			sourceTree = "<group>";
-		};
-		69719DB60F7E928900949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6971A1700F7E928B00949310 /* AirPortMenu */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		69719E530F7E928A00949310 /* AtherosDriver */ = {
@@ -2272,7 +2234,6 @@
 			dependencies = (
 				6971A1EC0F7E945100949310 /* PBXTargetDependency */,
 				699E591E0F7E9C2D00D88264 /* PBXTargetDependency */,
-				699E59260F7E9C4000D88264 /* PBXTargetDependency */,
 			);
 			name = KisMAC;
 			productInstallPath = "$(HOME)/Applications";
@@ -2302,10 +2263,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 69719DB60F7E928900949310 /* Products */;
-					ProjectRef = 69719DB50F7E928900949310 /* AirPortMenu.xcodeproj */;
-				},
-				{
 					ProductGroup = 69719E580F7E928A00949310 /* Products */;
 					ProjectRef = 69719E570F7E928A00949310 /* AtherosHAL.xcode */;
 				},
@@ -2332,13 +2289,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6971A1700F7E928B00949310 /* AirPortMenu */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = AirPortMenu;
-			remoteRef = 6971A16F0F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6971A1910F7E928B00949310 /* BIGL.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2772,11 +2722,6 @@
 			isa = PBXTargetDependency;
 			name = BIGeneric;
 			targetProxy = 699E591D0F7E9C2D00D88264 /* PBXContainerItemProxy */;
-		};
-		699E59260F7E9C4000D88264 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AirPortMenu;
-			targetProxy = 699E59250F7E9C4000D88264 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

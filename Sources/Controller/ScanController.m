@@ -589,31 +589,54 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    NSString* crashPath;
-    NSFileManager *mang;
-    NSUserDefaults *sets;
- 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    NSString * logPath;
+    NSString * crashPath;
+    NSFileManager * mang;
+    NSUserDefaults * sets;
+    NSDirectoryEnumerator * enumerator;
+    NSMutableData * crashLogs = nil;
+    
     [self updatePrefs:nil];
     sets=[NSUserDefaults standardUserDefaults];
 
-    crashPath = [@"~/Library/Logs/CrashReporter/KisMAC.crash.log" stringByExpandingTildeInPath];
+    logPath = [@"~/Library/Logs/DiagnosticReports/" stringByExpandingTildeInPath];
     mang = [NSFileManager defaultManager];
     
-    if ([[sets objectForKey:@"SupressCrashReport"] intValue]!=1 && [mang fileExistsAtPath:crashPath] && [[[mang fileAttributesAtPath:crashPath traverseLink:NO] objectForKey:NSFileSize] intValue] != 0) {
-        NSData *crashLog = [mang contentsAtPath:crashPath];
-        CrashReportController* crc = [[CrashReportController alloc] initWithWindowNibName:@"CrashReporter"];
-        [[crc window] setFrameUsingName:@"aKisMAC_CRC"];
-        [[crc window] setFrameAutosaveName:@"aKisMAC_CRC"];
+    if ([[sets objectForKey:@"SupressCrashReport"] intValue]!=1)
+    {
+        enumerator = [mang enumeratorAtPath: logPath];
         
-        [crc setReport:crashLog];
-        [crc showWindow:self];
-        [[crc window] makeKeyAndOrderFront:self];
-        [crc release];
+        //find all the crash logs and turn them into one big data blob
+        for(NSString * file in enumerator)
+        {
+            if([file hasPrefix:@"KisMAC"])
+            {
+                //if we don't have any yet, allocate the data
+                if(nil == crashLogs)
+                {
+                    crashLogs = [[NSMutableData alloc] init];
+                }
+                crashPath = [NSString stringWithFormat:@"%@/%@", logPath, file];
+                NSLog(@"Found crash log at: %@", crashPath);
+                [crashLogs appendData: [mang contentsAtPath:crashPath]];
+            }
+        }
         
-        NSLog(@"crash occured the last time kismac started");
-    }
-
+        if(crashLogs != nil)
+        {
+            CrashReportController* crc = [[CrashReportController alloc] initWithWindowNibName:@"CrashReporter"];
+            [[crc window] setFrameUsingName:@"aKisMAC_CRC"];
+            [[crc window] setFrameAutosaveName:@"aKisMAC_CRC"];
+            
+            [crc setReport:crashLogs];
+            [crc showWindow:self];
+            [[crc window] makeKeyAndOrderFront:self];
+        
+            NSLog(@"crash occured the last time kismac started");
+        }
+    }//crash logs enabled
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {

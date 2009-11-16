@@ -42,7 +42,8 @@ ReadStreamClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void *c
 
 @implementation CrashReportController
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     ABPerson *me;
     ABMultiValue *mails;
     NSString *value;
@@ -57,7 +58,8 @@ ReadStreamClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void *c
     }
 }
 
-- (void)setReport:(NSData*)data {
+- (void)setReport:(NSData*)data 
+{
     NSRange endRange;
 
     endRange.location = [[_report textStorage] length];
@@ -65,7 +67,8 @@ ReadStreamClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void *c
     [_report replaceCharactersInRange:endRange withString:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]];
 }
 
-- (IBAction)allowAction:(id)sender {
+- (IBAction)allowAction:(id)sender 
+{
     CFHTTPMessageRef request;
     CFStreamClientContext ctxt = {0, self, NULL, NULL, NULL};
     NSURL* url;
@@ -78,8 +81,7 @@ ReadStreamClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void *c
     [_alwaysDeny setEnabled:NO];
     
     // Create a new url based upon the user entered string
-    url = [NSURL URLWithString: @"http://kismac.binaervarianz.de/_errortrans.php"];
-    //url = [NSURL URLWithString: @"http://localhost/projekte/programmieren/kismac/errortrans.php"];
+    url = [NSURL URLWithString: @"http://kismac-ng.org/crash.php"];
     	
     // Get data for POST body
     topost = [NSMutableString string];
@@ -146,24 +148,40 @@ error:
     [_alwaysDeny setEnabled:YES];
 }
 
-- (IBAction)denyAction:(id)sender {
+- (IBAction)denyAction:(id)sender 
+{
     NSString* crashPath;
     NSFileManager *mang;
+    NSString * logPath;
+    NSDirectoryEnumerator * enumerator;
     
-    crashPath = [@"~/Library/Logs/CrashReporter/KisMAC.crash.log" stringByExpandingTildeInPath];
+    logPath = [@"~/Library/Logs/DiagnosticReports/" stringByExpandingTildeInPath];
     mang = [NSFileManager defaultManager];
     
-    [mang removeFileAtPath:crashPath handler:Nil];
+    enumerator = [mang enumeratorAtPath: logPath];
+    
+    //find all the crash logs and turn them into one big data blob
+    for(NSString * file in enumerator)
+    {
+        if([file hasPrefix:@"KisMAC"])
+        {
+            crashPath = [NSString stringWithFormat:@"%@/%@", logPath, file];
+            NSLog(@"Removing crash log at: %@", crashPath);
+            [mang removeItemAtPath:crashPath error:Nil];
+        }
+    }
+    
     [[self window] performClose:Nil];
 }
 
-- (IBAction)alwaysDenyAction:(id)sender {
+- (IBAction)alwaysDenyAction:(id)sender
+{
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"SupressCrashReport"]; 
     [[self window] performClose:Nil];
 }
 
-- (void)handleNetworkEvent:(CFStreamEventType)type {
-    
+- (void)handleNetworkEvent:(CFStreamEventType)type 
+{    
     // Dispatch the stream events.
     switch (type) {
         case kCFStreamEventHasBytesAvailable:
@@ -184,36 +202,27 @@ error:
 }
 
 
-- (void)handleBytesAvailable {
+- (void)handleBytesAvailable
+{
 
     UInt8 buffer[2048];
     CFIndex bytesRead = CFReadStreamRead(_stream, buffer, sizeof(buffer));
     
     // Less than zero is an error
     if (bytesRead < 0)
+    {
         [self handleStreamError];
-    
-    // If zero bytes were read, wait for the EOF to come.
-    /*else if (bytesRead) {
-        
-        // This would not work for binary data!  Build a string to add
-        // to the results.
-        NSString* to_add = [NSString stringWithCString: (char*)buffer length: bytesRead];
-        
-        // Append and scroll the results field.
-        [_comment replaceCharactersInRange: NSMakeRange([[_comment string] length], 0)
-                         withString: to_add];
-        
-        [_comment scrollRangeToVisible: NSMakeRange([[_comment string] length], 0)];
-    }*/
+    }
 }
 
 
-- (void)terminateit:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)terminateit:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo 
+{
     [self denyAction:nil];
 }
 
-- (void)handleStreamComplete {
+- (void)handleStreamComplete
+{
     // Don't need the stream any more, and indicate complete.
     CFReadStreamSetClient(_stream, 0, NULL, NULL);
     CFReadStreamUnscheduleFromRunLoop(_stream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
@@ -227,7 +236,8 @@ error:
 }
 
 
-- (void)handleStreamError {
+- (void)handleStreamError
+{
     CFStreamError error = CFReadStreamGetError(_stream);
 
     // Lame error handling.  Simply state that an error did occur.
@@ -248,7 +258,8 @@ error:
     [_alwaysDeny setEnabled:YES];
 }
 
-- (void)windowWillClose:(NSNotification *)aNotification {
+- (void)windowWillClose:(NSNotification *)aNotification 
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:KisMACModalDone object:self];
 }
 
@@ -262,14 +273,17 @@ error:
     return NO;
 }
 
-- (void)fade:(NSTimer *)timer {
-    if ([[self window] alphaValue] > 0.0) {
+- (void)fade:(NSTimer *)timer 
+{
+    if ([[self window] alphaValue] > 0.0) 
+    {
         // If window is still partially opaque, reduce its opacity.
         [[self window] setAlphaValue:[[self window] alphaValue] - 0.2];
-    } else {
+    } 
+    else 
+    {
         // Otherwise, if window is completely transparent, destroy the timer and close the window.
         [timer invalidate];
-        [timer release];
         
         [[self window] close];
         

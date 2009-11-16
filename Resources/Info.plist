@@ -42,7 +42,7 @@
 	<key>CFBundleExecutable</key>
 	<string>KisMAC</string>
 	<key>CFBundleGetInfoString</key>
-	<string>KisMAC svn, © 2002-2009 KisMAC Community</string>
+	<string>KisMAC 0.3, © 2002-2009 Geoffrey Kruse &amp; KisMAC Community</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>KisMACHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -64,7 +64,7 @@
 	<key>CFBundleVersion</key>
 	<string>svn</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.4.0</string>
+	<string>10.6.0</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
