@@ -25,9 +25,11 @@ typedef struct {
 	UInt16 len;
 } KCtrlFrame;
 
-typedef struct {
+#define MAX_FRAME_BYTES 2364
+typedef struct
+{
 	KCtrlFrame ctrl;
-	UInt8 data[2364];
+	UInt8 data[MAX_FRAME_BYTES];
 } KFrame;
 
 #define BCAST_MACADDR "\xff\xff\xff\xff\xff\xff"

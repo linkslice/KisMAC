@@ -363,12 +363,11 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
     }
 }
 
-
 - (KFrame*) nextFrame 
 {
 	struct pcap_pkthdr			header;
 	const u_char				*data;
-	static UInt8				frame[2500];
+	static UInt8				frame[sizeof(KFrame)];
     KFrame						*f;
     avs_80211_1_header			*af;
     ieee80211_radiotap_header   *rtf;
@@ -489,15 +488,36 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 //NSLog(@"Data length: %u, caplen: %u", dataLen, header.caplen);
                 if (dataLen <= 0 || dataLen > header.caplen) continue;
                 f->ctrl.len = dataLen;
-                memcpy(f->data, rtDataPointer, dataLen);
+                if(dataLen <= MAX_FRAME_BYTES)
+                {
+                    memcpy(f->data, rtDataPointer, dataLen);
+                }
+                else
+                {
+                    //this is probaby a garbage frame.  We should consider 
+                    //skipping it but for now we just copy as much as we can 
+                    //instead of crashing. todo fixme!!
+                    memcpy(f->data, rtDataPointer, MAX_FRAME_BYTES);
+                }
+
                 break;
             case DLT_IEEE802_11_RADIO_AVS:
                 dataLen = header.caplen - sizeof(avs_80211_1_header);
                 dataLen -= 4;       // Skip fcs?
                 if (dataLen <= 0)
                     continue;
-                
-                memcpy(f->data, data + sizeof(avs_80211_1_header), dataLen);
+               
+                if(dataLen <= MAX_FRAME_BYTES)
+                {
+                    memcpy(f->data, data + sizeof(avs_80211_1_header), dataLen);
+                }
+                else
+                {
+                    //this is probaby a garbage frame.  We should consider 
+                    //skipping it but for now we just copy as much as we can 
+                    //instead of crashing. todo fixme!!
+                    memcpy(f->data, data + sizeof(avs_80211_1_header), MAX_FRAME_BYTES);
+                }
                 
                 af = (avs_80211_1_header*)data;
                 f->ctrl.signal = OSSwapBigToHostInt32(af->ssi_signal) + 155;
