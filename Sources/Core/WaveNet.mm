@@ -1329,9 +1329,23 @@ int lengthSort(id string1, id string2, void *context)
 - (NSArray *)SSIDs {
 	return _SSIDs;
 }
-- (NSString *)date {
-    return [NSString stringWithFormat:@"%@", _date]; //return [_date descriptionWithCalendarFormat:@"%H:%M %d-%m-%y" timeZone:nil locale:nil];
+
+- (NSString *)date
+{
+    NSString * dateString;
+    
+    if(nil == _date)
+    {
+        dateString = @"";
+    }
+    else
+    {
+        dateString = [NSString stringWithFormat:@"%@", _date];
+    }
+
+    return dateString;
 }
+
 - (NSDate*)lastSeenDate {
     return _date;
 }
