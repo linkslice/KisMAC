@@ -665,76 +665,81 @@ int lengthSort(id string1, id string2, void *context)
     NSNumber *v;
     NSString *s;
     
-    if (onlineCapture) {
-        gpsc = [WaveHelper gpsController];
-        cp = [gpsc currentPoint];    
-		//after the first packet we should play some sound 
-		if (_date == Nil) {
-			if (cp._lat != 100) {
-				// we have a new network with a GPS position - initialise _netView
-				_netView = [[NetView alloc] initWithNetwork:self];
-				[_netView setWep:_isWep];
-				if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
-				else [_netView setName:_SSID];
-				[_netView setCoord:cp];
-			}
-						
-			if (_isWep >= encryptionTypeWEP) [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"WEPSound"]] play];
-			else [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"noWEPSound"]] play];
-			
-			if (_isWep == encryptionTypeUnknown) [GrowlController notifyGrowlProbeRequest:@"" BSSID:_BSSID signal:_curSignal];
-			if (_isWep == encryptionTypeNone) [GrowlController notifyGrowlOpenNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-			if (_isWep == encryptionTypeWEP) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-			if (_isWep == encryptionTypeWEP40) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-			if (_isWep == encryptionTypeWPA) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-			if (_isWep == encryptionTypeWPA2) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-			if (_isWep == encryptionTypeLEAP) [GrowlController notifyGrowlLEAPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
-		} else if (_SSID != nil && ([_date timeIntervalSinceNow] < -120.0)) {
-			int lVoice=[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"];
-			if (lVoice) {
-				NSString * lSentence = [NSString stringWithFormat: NSLocalizedString(@"Reencountered network. SSID is %@", "this is for speech output"),
-					[_SSID length] == 0 ? NSLocalizedString(@"hidden", "for speech"): [_SSID uppercaseString]];
-				NS_DURING
-					[WaveHelper speakSentence:[lSentence UTF8String] withVoice:lVoice];
-				NS_HANDLER
-				NS_ENDHANDLER
-			}
-		}
-		
-		[WaveHelper secureReplace:&_date withObject:[NSDate date]];
+    //lock the data while we are modifying it as the GUI thread reads this
+    //data frequently
+    @synchronized(self)
+    {
+        if (onlineCapture) {
+            gpsc = [WaveHelper gpsController];
+            cp = [gpsc currentPoint];    
+            //after the first packet we should play some sound 
+            if (_date == Nil) {
+                if (cp._lat != 100) {
+                    // we have a new network with a GPS position - initialise _netView
+                    _netView = [[NetView alloc] initWithNetwork:self];
+                    [_netView setWep:_isWep];
+                    if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
+                    else [_netView setName:_SSID];
+                    [_netView setCoord:cp];
+                }
+                            
+                if (_isWep >= encryptionTypeWEP) [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"WEPSound"]] play];
+                else [[NSSound soundNamed:[[NSUserDefaults standardUserDefaults] objectForKey:@"noWEPSound"]] play];
+                
+                if (_isWep == encryptionTypeUnknown) [GrowlController notifyGrowlProbeRequest:@"" BSSID:_BSSID signal:_curSignal];
+                if (_isWep == encryptionTypeNone) [GrowlController notifyGrowlOpenNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+                if (_isWep == encryptionTypeWEP) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+                if (_isWep == encryptionTypeWEP40) [GrowlController notifyGrowlWEPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+                if (_isWep == encryptionTypeWPA) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+                if (_isWep == encryptionTypeWPA2) [GrowlController notifyGrowlWPANetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+                if (_isWep == encryptionTypeLEAP) [GrowlController notifyGrowlLEAPNetwork:@"" SSID:_SSID BSSID:_BSSID signal:_curSignal channel:_channel];
+            } else if (_SSID != nil && ([_date timeIntervalSinceNow] < -120.0)) {
+                int lVoice=[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"];
+                if (lVoice) {
+                    NSString * lSentence = [NSString stringWithFormat: NSLocalizedString(@"Reencountered network. SSID is %@", "this is for speech output"),
+                        [_SSID length] == 0 ? NSLocalizedString(@"hidden", "for speech"): [_SSID uppercaseString]];
+                    NS_DURING
+                        [WaveHelper speakSentence:[lSentence UTF8String] withVoice:lVoice];
+                    NS_HANDLER
+                    NS_ENDHANDLER
+                }
+            }
+            
+            [WaveHelper secureReplace:&_date withObject:[NSDate date]];
 
-        if (cp._lat!=100) {
-            pV = [BIValuePair new];
-            [pV setPairFromWaypoint:cp];
-            v = [_coordinates objectForKey:pV];
-            if ((v==Nil) || ([v intValue]<_curSignal))
-                [_coordinates setObject:[NSNumber numberWithInt:_curSignal] forKey:pV];
-            [pV release];
-			if(_curSignal>=_maxSignal || ([aLat floatValue] == 0)) {
-				if(!_netView) {
-					// we didn't have a GPS position when this was first found, so initialise _netView now
-					NSLog(@"First GPS fix for net %@ - initialising",_BSSID);
-					_netView = [[NetView alloc] initWithNetwork:self];
-					[_netView setWep:_isWep];
-					if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
-					else [_netView setName:_SSID];
-				}
-				gpsc = [WaveHelper gpsController];
-				s = [gpsc NSCoord];
-				if (s) [WaveHelper secureReplace:&aLat withObject:s];
-				s = [gpsc EWCoord];
-				if (s) [WaveHelper secureReplace:&aLong withObject:s];
-				s = [gpsc ElevCoord];
-				if (s) [WaveHelper secureReplace:&aElev withObject:s];
-				[_netView setCoord:cp];
-			}
+            if (cp._lat!=100) {
+                pV = [BIValuePair new];
+                [pV setPairFromWaypoint:cp];
+                v = [_coordinates objectForKey:pV];
+                if ((v==Nil) || ([v intValue]<_curSignal))
+                    [_coordinates setObject:[NSNumber numberWithInt:_curSignal] forKey:pV];
+                [pV release];
+                if(_curSignal>=_maxSignal || ([aLat floatValue] == 0)) {
+                    if(!_netView) {
+                        // we didn't have a GPS position when this was first found, so initialise _netView now
+                        NSLog(@"First GPS fix for net %@ - initialising",_BSSID);
+                        _netView = [[NetView alloc] initWithNetwork:self];
+                        [_netView setWep:_isWep];
+                        if (_SSID==Nil) [_netView setName:_BSSID]; // use BSSID for map label
+                        else [_netView setName:_SSID];
+                    }
+                    gpsc = [WaveHelper gpsController];
+                    s = [gpsc NSCoord];
+                    if (s) [WaveHelper secureReplace:&aLat withObject:s];
+                    s = [gpsc EWCoord];
+                    if (s) [WaveHelper secureReplace:&aLong withObject:s];
+                    s = [gpsc ElevCoord];
+                    if (s) [WaveHelper secureReplace:&aElev withObject:s];
+                    [_netView setCoord:cp];
+                }
+            }
         }
+        
+        if(_curSignal>=_maxSignal) _maxSignal=_curSignal;
+        
+        if (!_liveCaptured) _liveCaptured = onlineCapture;
+        _gotData = onlineCapture;
     }
-    
-    if(_curSignal>=_maxSignal) _maxSignal=_curSignal;
-    
-    if (!_liveCaptured) _liveCaptured = onlineCapture;
-    _gotData = onlineCapture;
 }
 
 - (void) mergeWithNet:(WaveNet*)net {
@@ -1334,13 +1339,16 @@ int lengthSort(id string1, id string2, void *context)
 {
     NSString * dateString;
     
-    if(nil == _date)
+    @synchronized(self)
     {
-        dateString = @"";
-    }
-    else
-    {
-        dateString = [NSString stringWithFormat:@"%@", _date];
+        if(nil == _date)
+        {
+            dateString = @"";
+        }
+        else
+        {
+            dateString = [NSString stringWithFormat:@"%@", _date];
+        }
     }
 
     return dateString;
