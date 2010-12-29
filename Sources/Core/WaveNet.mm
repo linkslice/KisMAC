@@ -705,7 +705,7 @@ int lengthSort(id string1, id string2, void *context)
                 }
             }
             
-            [WaveHelper secureReplace:&_date withObject:[NSDate date]];
+            [WaveHelper secureReplace:&_date withObject:[[NSDate date] retain]];
 
             if (cp._lat!=100) {
                 pV = [BIValuePair new];
