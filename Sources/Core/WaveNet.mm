@@ -937,7 +937,8 @@ int lengthSort(id string1, id string2, void *context)
             
             if (_isWep==encryptionTypeWEP || _isWep==encryptionTypeWEP40) {
                 
-                if (bodyLength>10) { //needs to have a fcs, an iv and two bytes of data at least
+                if( (bodyLength > 10) && (bodyLength < MAX_FRAME_BYTES) )
+                { //needs to have a fcs, an iv and two bytes of data at least
                     
                     //this packet might be interesting for password checking, use the packet if we do not have enough, or f it is smaller than our smallest
                     if ([_packetsLog count]<20 || [(NSString*)[_packetsLog objectAtIndex:0] length] > bodyLength) {
