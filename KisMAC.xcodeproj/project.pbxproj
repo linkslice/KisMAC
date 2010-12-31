@@ -82,7 +82,6 @@
 		0035338206A5DD5700AB4577 /* filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035333706A5DD5700AB4577 /* filter.png */; };
 		0035338306A5DD5700AB4577 /* FindPanel.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0035333806A5DD5700AB4577 /* FindPanel.tiff */; };
 		0035338406A5DD5700AB4577 /* gps.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035333906A5DD5700AB4577 /* gps.png */; };
-		0035338506A5DD5700AB4577 /* Internet.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0035333A06A5DD5700AB4577 /* Internet.tiff */; };
 		0035338606A5DD5700AB4577 /* KisMAC.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0035333B06A5DD5700AB4577 /* KisMAC.icns */; };
 		0035338706A5DD5700AB4577 /* KisMACTrans.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0035333C06A5DD5700AB4577 /* KisMACTrans.icns */; };
 		0035338806A5DD5700AB4577 /* map.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0035333D06A5DD5700AB4577 /* map.tiff */; };
@@ -145,8 +144,6 @@
 		0035346806A5DD8500AB4577 /* PrefsSounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533EB06A5DD8500AB4577 /* PrefsSounds.m */; };
 		0035346906A5DD8500AB4577 /* PrefsTraffic.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EC06A5DD8500AB4577 /* PrefsTraffic.h */; };
 		0035346A06A5DD8500AB4577 /* PrefsTraffic.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533ED06A5DD8500AB4577 /* PrefsTraffic.m */; };
-		0035346B06A5DD8500AB4577 /* PrefsWebService.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EE06A5DD8500AB4577 /* PrefsWebService.h */; };
-		0035346C06A5DD8500AB4577 /* PrefsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533EF06A5DD8500AB4577 /* PrefsWebService.m */; };
 		0035346D06A5DD8500AB4577 /* PrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533F006A5DD8500AB4577 /* PrefsController.h */; };
 		0035346E06A5DD8500AB4577 /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533F106A5DD8500AB4577 /* PrefsController.m */; };
 		0035346F06A5DD8500AB4577 /* PrefsWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533F206A5DD8500AB4577 /* PrefsWindow.h */; };
@@ -252,8 +249,6 @@
 		008ACABE07C38A5200A76ADA /* PrefsSounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533EB06A5DD8500AB4577 /* PrefsSounds.m */; };
 		008ACABF07C38A5300A76ADA /* PrefsTraffic.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EC06A5DD8500AB4577 /* PrefsTraffic.h */; };
 		008ACAC007C38A5400A76ADA /* PrefsTraffic.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533ED06A5DD8500AB4577 /* PrefsTraffic.m */; };
-		008ACAC107C38A5500A76ADA /* PrefsWebService.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533EE06A5DD8500AB4577 /* PrefsWebService.h */; };
-		008ACAC207C38A5600A76ADA /* PrefsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533EF06A5DD8500AB4577 /* PrefsWebService.m */; };
 		008ACAC307C38A5900A76ADA /* PrefsWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533F206A5DD8500AB4577 /* PrefsWindow.h */; };
 		008ACAC407C38A5A00A76ADA /* PrefsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533F306A5DD8500AB4577 /* PrefsWindow.m */; };
 		008ACAC607C38A5F00A76ADA /* quicksort.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A206A5DD8500AB4577 /* quicksort.h */; };
@@ -406,7 +401,6 @@
 		00F57C4506A886350035AE2F /* PrefsSleep.nib in Resources */ = {isa = PBXBuildFile; fileRef = 00F57C2F06A886350035AE2F /* PrefsSleep.nib */; };
 		00F57C4606A886350035AE2F /* PrefsSounds.nib in Resources */ = {isa = PBXBuildFile; fileRef = 00F57C3106A886350035AE2F /* PrefsSounds.nib */; };
 		00F57C4706A886350035AE2F /* PrefsTraffic.nib in Resources */ = {isa = PBXBuildFile; fileRef = 00F57C3306A886350035AE2F /* PrefsTraffic.nib */; };
-		00F57C4806A886350035AE2F /* PrefsWebService.nib in Resources */ = {isa = PBXBuildFile; fileRef = 00F57C3506A886350035AE2F /* PrefsWebService.nib */; };
 		00F57C4906A886350035AE2F /* WayPointDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 00F57C3706A886350035AE2F /* WayPointDialog.nib */; };
 		00F9C64006DB378F00E357F0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C63F06DB378F00E357F0 /* Security.framework */; };
 		00F9C65006DB37E200E357F0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C64E06DB37E200E357F0 /* Carbon.framework */; };
@@ -634,7 +628,6 @@
 		0035333706A5DD5700AB4577 /* filter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter.png; sourceTree = "<group>"; };
 		0035333806A5DD5700AB4577 /* FindPanel.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FindPanel.tiff; sourceTree = "<group>"; };
 		0035333906A5DD5700AB4577 /* gps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps.png; sourceTree = "<group>"; };
-		0035333A06A5DD5700AB4577 /* Internet.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Internet.tiff; sourceTree = "<group>"; };
 		0035333B06A5DD5700AB4577 /* KisMAC.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KisMAC.icns; sourceTree = "<group>"; };
 		0035333C06A5DD5700AB4577 /* KisMACTrans.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KisMACTrans.icns; sourceTree = "<group>"; };
 		0035333D06A5DD5700AB4577 /* map.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = map.tiff; sourceTree = "<group>"; };
@@ -700,8 +693,6 @@
 		003533EB06A5DD8500AB4577 /* PrefsSounds.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsSounds.m; sourceTree = "<group>"; };
 		003533EC06A5DD8500AB4577 /* PrefsTraffic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsTraffic.h; sourceTree = "<group>"; };
 		003533ED06A5DD8500AB4577 /* PrefsTraffic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsTraffic.m; sourceTree = "<group>"; };
-		003533EE06A5DD8500AB4577 /* PrefsWebService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsWebService.h; sourceTree = "<group>"; };
-		003533EF06A5DD8500AB4577 /* PrefsWebService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsWebService.m; sourceTree = "<group>"; };
 		003533F006A5DD8500AB4577 /* PrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
 		003533F106A5DD8500AB4577 /* PrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
 		003533F206A5DD8500AB4577 /* PrefsWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsWindow.h; sourceTree = "<group>"; };
@@ -804,7 +795,6 @@
 		00F57C3006A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefsSleep.nib; sourceTree = "<group>"; };
 		00F57C3206A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefsSounds.nib; sourceTree = "<group>"; };
 		00F57C3406A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefsTraffic.nib; sourceTree = "<group>"; };
-		00F57C3606A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefsWebService.nib; sourceTree = "<group>"; };
 		00F57C3806A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/WayPointDialog.nib; sourceTree = "<group>"; };
 		00F57C4C06A886630035AE2F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		00F57CAB06A8887F0035AE2F /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
@@ -1099,7 +1089,6 @@
 				0035333706A5DD5700AB4577 /* filter.png */,
 				0035333806A5DD5700AB4577 /* FindPanel.tiff */,
 				0035333906A5DD5700AB4577 /* gps.png */,
-				0035333A06A5DD5700AB4577 /* Internet.tiff */,
 				0035333B06A5DD5700AB4577 /* KisMAC.icns */,
 				0035333C06A5DD5700AB4577 /* KisMACTrans.icns */,
 				0035333D06A5DD5700AB4577 /* map.tiff */,
@@ -1271,8 +1260,6 @@
 				003533EB06A5DD8500AB4577 /* PrefsSounds.m */,
 				003533EC06A5DD8500AB4577 /* PrefsTraffic.h */,
 				003533ED06A5DD8500AB4577 /* PrefsTraffic.m */,
-				003533EE06A5DD8500AB4577 /* PrefsWebService.h */,
-				003533EF06A5DD8500AB4577 /* PrefsWebService.m */,
 			);
 			path = PreferencePanes;
 			sourceTree = "<group>";
@@ -1427,7 +1414,6 @@
 				00F57C2F06A886350035AE2F /* PrefsSleep.nib */,
 				00F57C3106A886350035AE2F /* PrefsSounds.nib */,
 				00F57C3306A886350035AE2F /* PrefsTraffic.nib */,
-				00F57C3506A886350035AE2F /* PrefsWebService.nib */,
 				00F57C3706A886350035AE2F /* WayPointDialog.nib */,
 				69DF19560F0CBF6A000E9B94 /* injectionProbe.xib */,
 				6902662D0F25C0B500CEE671 /* wepInjection.xib */,
@@ -1834,7 +1820,6 @@
 				008ACABB07C38A5000A76ADA /* PrefsSleep.h in Headers */,
 				008ACABD07C38A5100A76ADA /* PrefsSounds.h in Headers */,
 				008ACABF07C38A5300A76ADA /* PrefsTraffic.h in Headers */,
-				008ACAC107C38A5500A76ADA /* PrefsWebService.h in Headers */,
 				008ACAC307C38A5900A76ADA /* PrefsWindow.h in Headers */,
 				008ACAC607C38A5F00A76ADA /* quicksort.h in Headers */,
 				008ACAC807C38A6600A76ADA /* RC4.h in Headers */,
@@ -1904,7 +1889,6 @@
 				0035346306A5DD8500AB4577 /* PrefsScanning.h in Headers */,
 				0035346706A5DD8500AB4577 /* PrefsSounds.h in Headers */,
 				0035346906A5DD8500AB4577 /* PrefsTraffic.h in Headers */,
-				0035346B06A5DD8500AB4577 /* PrefsWebService.h in Headers */,
 				0035346D06A5DD8500AB4577 /* PrefsController.h in Headers */,
 				0035346F06A5DD8500AB4577 /* PrefsWindow.h in Headers */,
 				0035347106A5DD8500AB4577 /* ScriptAdditions.h in Headers */,
@@ -2151,7 +2135,6 @@
 				0035338206A5DD5700AB4577 /* filter.png in Resources */,
 				0035338306A5DD5700AB4577 /* FindPanel.tiff in Resources */,
 				0035338406A5DD5700AB4577 /* gps.png in Resources */,
-				0035338506A5DD5700AB4577 /* Internet.tiff in Resources */,
 				0035338606A5DD5700AB4577 /* KisMAC.icns in Resources */,
 				0035338706A5DD5700AB4577 /* KisMACTrans.icns in Resources */,
 				0035338806A5DD5700AB4577 /* map.tiff in Resources */,
@@ -2175,7 +2158,6 @@
 				00F57C4506A886350035AE2F /* PrefsSleep.nib in Resources */,
 				00F57C4606A886350035AE2F /* PrefsSounds.nib in Resources */,
 				00F57C4706A886350035AE2F /* PrefsTraffic.nib in Resources */,
-				00F57C4806A886350035AE2F /* PrefsWebService.nib in Resources */,
 				00F57C4906A886350035AE2F /* WayPointDialog.nib in Resources */,
 				00174DBA06B2AC8F003485E6 /* Localizable.strings in Resources */,
 				00A7F9D306C6D20A00A6BB8F /* devilDocument.icns in Resources */,
@@ -2303,7 +2285,6 @@
 				008ACABC07C38A5000A76ADA /* PrefsSleep.m in Sources */,
 				008ACABE07C38A5200A76ADA /* PrefsSounds.m in Sources */,
 				008ACAC007C38A5400A76ADA /* PrefsTraffic.m in Sources */,
-				008ACAC207C38A5600A76ADA /* PrefsWebService.m in Sources */,
 				008ACAC407C38A5A00A76ADA /* PrefsWindow.m in Sources */,
 				008ACAC707C38A6000A76ADA /* quicksort.m in Sources */,
 				008ACAC907C38A6700A76ADA /* RC4.mm in Sources */,
@@ -2376,7 +2357,6 @@
 				0035346406A5DD8500AB4577 /* PrefsScanning.m in Sources */,
 				0035346806A5DD8500AB4577 /* PrefsSounds.m in Sources */,
 				0035346A06A5DD8500AB4577 /* PrefsTraffic.m in Sources */,
-				0035346C06A5DD8500AB4577 /* PrefsWebService.m in Sources */,
 				0035346E06A5DD8500AB4577 /* PrefsController.m in Sources */,
 				0035347006A5DD8500AB4577 /* PrefsWindow.m in Sources */,
 				0035347206A5DD8500AB4577 /* ScriptAdditions.m in Sources */,
@@ -2601,14 +2581,6 @@
 				00F57C3406A886350035AE2F /* English */,
 			);
 			name = PrefsTraffic.nib;
-			sourceTree = "<group>";
-		};
-		00F57C3506A886350035AE2F /* PrefsWebService.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				00F57C3606A886350035AE2F /* English */,
-			);
-			name = PrefsWebService.nib;
 			sourceTree = "<group>";
 		};
 		00F57C3706A886350035AE2F /* WayPointDialog.nib */ = {

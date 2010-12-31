@@ -169,19 +169,6 @@ void addToolbarItem(NSMutableDictionary *theDict,NSString *identifier,NSString *
                    [NSImage imageNamed:@"EnergySaver"],
                    @selector(changeView:),
                    nil);
-	
-    [nibNamesDict setObject:@"PrefsWebService" forKey:@"WebService"];
-    [classNamesDict setObject:@"PrefsWebService" forKey:@"WebService"];
-    addToolbarItem(toolbarItems,
-                   @"WebService",
-                   @".kismac",
-                   @".kismac",
-                   @".kismac Options",
-                   self,
-                   @selector(setImage:),
-                   [NSImage imageNamed:@"Internet"],
-                   @selector(changeView:),
-                   nil);
 
     changesDict = [[NSMutableDictionary alloc] init];
     
@@ -261,7 +248,7 @@ void addToolbarItem(NSMutableDictionary *theDict,NSString *identifier,NSString *
 
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:@"Scanning", @"Filter", @"Sounds", @"Driver", @"GPS", @"Map", @"Traffic", @"WebService", @"Advanced", nil];
+    return [NSArray arrayWithObjects:@"Scanning", @"Filter", @"Sounds", @"Driver", @"GPS", @"Map", @"Traffic", @"Advanced", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
