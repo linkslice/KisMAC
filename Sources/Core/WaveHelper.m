@@ -675,21 +675,6 @@ static GPSInfoController *_gc;
 }
 
 #pragma mark -
-#pragma mark Altivec detection
-#pragma mark -
-
-+ (BOOL)isAltiVecAvailable {
-    long cpuAttributes;
-    BOOL hasAltiVec = NO;
-    
-    OSErr err = Gestalt( gestaltPowerPCProcessorFeatures, &cpuAttributes );
-
-    if (noErr == err)
-        hasAltiVec = ( 1 << gestaltPowerPCHasVectorInstructions) & cpuAttributes;
-
-    return hasAltiVec;
-}
-
 #pragma mark -
 
 + (NSString*)frameControlToString:(UInt16)fc {

@@ -117,9 +117,6 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 + (NSString*)getPasswordForAccount:(NSString*)account;
 + (bool)changePasswordForAccount:(NSString*)account toPassword:(NSString*)password;
 
-/* Altivec */
-+ (BOOL)isAltiVecAvailable;
-
 /* packet utilities */
 + (NSString*)frameControlToString:(UInt16)fc;
 + (void)dumpKFrame:(KFrame *)f;

@@ -23,7 +23,6 @@
 */
 
 #import "WaveNetWPACrack.h"
-#import "WaveNetWPACrackAltivec.h"
 #import "WaveHelper.h"
 #import "WaveClient.h"
 #import "WPA.h"
@@ -378,11 +377,8 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
 	
 	[wordlist retain];
 
-	if ([WaveHelper isAltiVecAvailable]) {
-		if ([self crackWPAWithWordlistAltivec:[wordlist stringByExpandingTildeInPath] andImportController:[WaveHelper importController]]) successful = YES;
-	} else {
-		if ([self crackWPAWithWordlist:[wordlist stringByExpandingTildeInPath] andImportController:[WaveHelper importController]]) successful = YES;
-	}
+    if ([self crackWPAWithWordlist:[wordlist stringByExpandingTildeInPath] 
+               andImportController:[WaveHelper importController]]) successful = YES;
     
     [[WaveHelper importController] terminateWithCode: (successful) ? 1 : -1];
     [wordlist release];

@@ -30,7 +30,6 @@
 #import "80211b.h"
 #import "WaveNetWPACrack.h"
 #import "WaveNetLEAPCrack.h"
-#import "WaveNetWPACrackAltivec.h"
 #import "WaveScanner.h"
 #import "KisMACNotifications.h"
 #import "GPSController.h"

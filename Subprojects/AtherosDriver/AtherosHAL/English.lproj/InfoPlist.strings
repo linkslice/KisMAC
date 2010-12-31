@@ -1,6 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-CFBundleName = "AtherosHAL";
-CFBundleShortVersionString = "1.0.0";
-CFBundleGetInfoString = "1.0.0d1, Copyright __MyCompanyName__ 2003";
-NSHumanReadableCopyright = "Copyright __MyCompanyName__ 2003";

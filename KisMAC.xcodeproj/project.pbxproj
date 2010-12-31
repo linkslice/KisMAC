@@ -141,8 +141,6 @@
 		0035344F06A5DD8500AB4577 /* WaveNetLEAPCrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533CD06A5DD8500AB4577 /* WaveNetLEAPCrack.m */; };
 		0035345006A5DD8500AB4577 /* WaveNetWPACrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533CE06A5DD8500AB4577 /* WaveNetWPACrack.h */; };
 		0035345106A5DD8500AB4577 /* WaveNetWPACrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533CF06A5DD8500AB4577 /* WaveNetWPACrack.m */; };
-		0035345206A5DD8500AB4577 /* WaveNetWPACrackAltivec.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533D006A5DD8500AB4577 /* WaveNetWPACrackAltivec.h */; };
-		0035345306A5DD8500AB4577 /* WaveNetWPACrackAltivec.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533D106A5DD8500AB4577 /* WaveNetWPACrackAltivec.m */; settings = {COMPILER_FLAGS = "-faltivec"; }; };
 		0035345806A5DD8500AB4577 /* WaveSecret.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533D906A5DD8500AB4577 /* WaveSecret.h */; };
 		0035345906A5DD8500AB4577 /* PrefsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533DC06A5DD8500AB4577 /* PrefsClient.h */; };
 		0035345A06A5DD8500AB4577 /* PrefsClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533DD06A5DD8500AB4577 /* PrefsClient.m */; };
@@ -335,9 +333,7 @@
 		008ACB0507C38ABC00A76ADA /* WaveNetWEPWordlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CBA25806DB7D09000ACD19 /* WaveNetWEPWordlist.h */; };
 		008ACB0607C38ABD00A76ADA /* WaveNetWEPWordlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CBA25906DB7D0A000ACD19 /* WaveNetWEPWordlist.m */; };
 		008ACB0707C38ABE00A76ADA /* WaveNetWPACrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533CE06A5DD8500AB4577 /* WaveNetWPACrack.h */; };
-		008ACB0807C38ABF00A76ADA /* WaveNetWPACrackAltivec.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533D006A5DD8500AB4577 /* WaveNetWPACrackAltivec.h */; };
 		008ACB0907C38AC000A76ADA /* WaveNetWPACrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533CF06A5DD8500AB4577 /* WaveNetWPACrack.m */; };
-		008ACB0A07C38AC100A76ADA /* WaveNetWPACrackAltivec.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533D106A5DD8500AB4577 /* WaveNetWPACrackAltivec.m */; settings = {COMPILER_FLAGS = "-faltivec"; }; };
 		008ACB0B07C38AC200A76ADA /* WavePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533C106A5DD8500AB4577 /* WavePacket.h */; };
 		008ACB0C07C38AC300A76ADA /* WavePacket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 003533C206A5DD8500AB4577 /* WavePacket.mm */; };
 		008ACB0D07C38AC400A76ADA /* WaveScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533C306A5DD8500AB4577 /* WaveScanner.h */; };
@@ -566,20 +562,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = BIGL;
 		};
-		699E57E90F7E9A7700D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E570F7E928A00949310 /* AtherosHAL.xcode */;
-			proxyType = 2;
-			remoteGlobalIDString = 6971A2FD0F7E98F600949310;
-			remoteInfo = AtherosHAL;
-		};
-		699E586F0F7E9AF500D88264 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69719E6A0F7E928A00949310 /* AtherosWifi.xcode */;
-			proxyType = 2;
-			remoteGlobalIDString = 699E586D0F7E9AF500D88264;
-			remoteInfo = "AtherosWifi (Upgraded)";
-		};
 		699E591D0F7E9C2D00D88264 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69719ECE0F7E928A00949310 /* BIGeneric.xcodeproj */;
@@ -746,8 +728,6 @@
 		003533CD06A5DD8500AB4577 /* WaveNetLEAPCrack.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveNetLEAPCrack.m; sourceTree = "<group>"; };
 		003533CE06A5DD8500AB4577 /* WaveNetWPACrack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveNetWPACrack.h; sourceTree = "<group>"; };
 		003533CF06A5DD8500AB4577 /* WaveNetWPACrack.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveNetWPACrack.m; sourceTree = "<group>"; };
-		003533D006A5DD8500AB4577 /* WaveNetWPACrackAltivec.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveNetWPACrackAltivec.h; sourceTree = "<group>"; };
-		003533D106A5DD8500AB4577 /* WaveNetWPACrackAltivec.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveNetWPACrackAltivec.m; sourceTree = "<group>"; };
 		003533D906A5DD8500AB4577 /* WaveSecret.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveSecret.h; sourceTree = "<group>"; };
 		003533DC06A5DD8500AB4577 /* PrefsClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsClient.h; sourceTree = "<group>"; };
 		003533DD06A5DD8500AB4577 /* PrefsClient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsClient.m; sourceTree = "<group>"; };
@@ -907,29 +887,6 @@
 		694A888B0F3CD87E006B819C /* WavePcapDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WavePcapDump.m; sourceTree = "<group>"; };
 		694DB28B0F0FDF9E001CCEA6 /* IEEE80211Elements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEEE80211Elements.h; sourceTree = "<group>"; };
 		694DB28C0F0FDF9E001CCEA6 /* IEEE80211Elements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEEE80211Elements.m; sourceTree = "<group>"; };
-		69719E550F7E928A00949310 /* AtherosHAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosHAL.cpp; sourceTree = "<group>"; };
-		69719E560F7E928A00949310 /* AtherosHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosHAL.h; sourceTree = "<group>"; };
-		69719E570F7E928A00949310 /* AtherosHAL.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AtherosHAL.xcode; sourceTree = "<group>"; };
-		69719E5B0F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		69719E5C0F7E928A00949310 /* ah.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah.h; sourceTree = "<group>"; };
-		69719E5D0F7E928A00949310 /* ah_desc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_desc.h; sourceTree = "<group>"; };
-		69719E5E0F7E928A00949310 /* ah_devid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_devid.h; sourceTree = "<group>"; };
-		69719E5F0F7E928A00949310 /* ah_osdep.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ah_osdep.c; sourceTree = "<group>"; };
-		69719E600F7E928A00949310 /* ah_osdep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ah_osdep.h; sourceTree = "<group>"; };
-		69719E610F7E928A00949310 /* hal-release.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "hal-release.o"; sourceTree = "<group>"; };
-		69719E620F7E928A00949310 /* load.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = load.sh; sourceTree = "<group>"; };
-		69719E630F7E928A00949310 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		69719E650F7E928A00949310 /* AtherosSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosSettings.h; sourceTree = "<group>"; };
-		69719E660F7E928A00949310 /* AtherosUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosUserClient.cpp; sourceTree = "<group>"; };
-		69719E670F7E928A00949310 /* AtherosUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosUserClient.h; sourceTree = "<group>"; };
-		69719E680F7E928A00949310 /* AtherosWifi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosWifi.cpp; sourceTree = "<group>"; };
-		69719E690F7E928A00949310 /* AtherosWifi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosWifi.h; sourceTree = "<group>"; };
-		69719E6A0F7E928A00949310 /* AtherosWifi.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AtherosWifi.xcode; sourceTree = "<group>"; };
-		69719E6D0F7E928A00949310 /* AtherosWifiInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosWifiInterface.cpp; sourceTree = "<group>"; };
-		69719E6E0F7E928A00949310 /* AtherosWifiInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosWifiInterface.h; sourceTree = "<group>"; };
-		69719E6F0F7E928A00949310 /* AtherosWifiPCCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AtherosWifiPCCard.cpp; sourceTree = "<group>"; };
-		69719E700F7E928A00949310 /* AtherosWifiPCCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtherosWifiPCCard.h; sourceTree = "<group>"; };
-		69719E720F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		69719E740F7E928A00949310 /* BIGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIGL.h; sourceTree = "<group>"; };
 		69719E780F7E928A00949310 /* BIGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = BIGL.xcodeproj; sourceTree = "<group>"; };
 		69719E7B0F7E928A00949310 /* BIGLCocoaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIGLCocoaView.h; sourceTree = "<group>"; };
@@ -993,8 +950,6 @@
 		69719F190F7E928A00949310 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		69719F1A0F7E928A00949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		69719F1C0F7E928A00949310 /* decrypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = decrypt.cpp; sourceTree = "<group>"; };
-		69719F1E0F7E928A00949310 /* Insomnia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Insomnia.cpp; sourceTree = "<group>"; };
-		69719F1F0F7E928A00949310 /* Insomnia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insomnia.h; sourceTree = "<group>"; };
 		697B463D0F0620DC00AC69EB /* WavePluginDeauthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavePluginDeauthentication.h; sourceTree = "<group>"; };
 		697B463E0F0620DC00AC69EB /* WavePluginDeauthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WavePluginDeauthentication.m; sourceTree = "<group>"; };
 		698665460FAF5899002D1A84 /* spin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spin.gif; sourceTree = "<group>"; };
@@ -1325,8 +1280,6 @@
 				00CBA25906DB7D0A000ACD19 /* WaveNetWEPWordlist.m */,
 				003533CE06A5DD8500AB4577 /* WaveNetWPACrack.h */,
 				003533CF06A5DD8500AB4577 /* WaveNetWPACrack.m */,
-				003533D006A5DD8500AB4577 /* WaveNetWPACrackAltivec.h */,
-				003533D106A5DD8500AB4577 /* WaveNetWPACrackAltivec.m */,
 				00B6296607058E2B006FC563 /* WaveNetWEPWeakCrack.h */,
 				00B6296707058E2B006FC563 /* WaveNetWEPWeakCrack.m */,
 				00D135D00707EA3A00D85D30 /* AirCrackWrapper.h */,
@@ -1741,75 +1694,11 @@
 		69719DAF0F7E928900949310 /* Subprojects */ = {
 			isa = PBXGroup;
 			children = (
-				69719E530F7E928A00949310 /* AtherosDriver */,
 				69719E730F7E928A00949310 /* BIGL */,
 				69719EC10F7E928A00949310 /* BIGeneric */,
 				69719F1B0F7E928A00949310 /* Decrypt Tool */,
-				69719F1D0F7E928A00949310 /* Insomnia */,
 			);
 			path = Subprojects;
-			sourceTree = "<group>";
-		};
-		69719E530F7E928A00949310 /* AtherosDriver */ = {
-			isa = PBXGroup;
-			children = (
-				69719E540F7E928A00949310 /* AtherosHAL */,
-				69719E640F7E928A00949310 /* AtherosWifi */,
-			);
-			path = AtherosDriver;
-			sourceTree = "<group>";
-		};
-		69719E540F7E928A00949310 /* AtherosHAL */ = {
-			isa = PBXGroup;
-			children = (
-				69719E550F7E928A00949310 /* AtherosHAL.cpp */,
-				69719E560F7E928A00949310 /* AtherosHAL.h */,
-				69719E570F7E928A00949310 /* AtherosHAL.xcode */,
-				69719E5A0F7E928A00949310 /* InfoPlist.strings */,
-				69719E5C0F7E928A00949310 /* ah.h */,
-				69719E5D0F7E928A00949310 /* ah_desc.h */,
-				69719E5E0F7E928A00949310 /* ah_devid.h */,
-				69719E5F0F7E928A00949310 /* ah_osdep.c */,
-				69719E600F7E928A00949310 /* ah_osdep.h */,
-				69719E610F7E928A00949310 /* hal-release.o */,
-				69719E620F7E928A00949310 /* load.sh */,
-				69719E630F7E928A00949310 /* version.h */,
-			);
-			path = AtherosHAL;
-			sourceTree = "<group>";
-		};
-		69719E580F7E928A00949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				699E57EA0F7E9A7700D88264 /* AtherosHAL.kext */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		69719E640F7E928A00949310 /* AtherosWifi */ = {
-			isa = PBXGroup;
-			children = (
-				69719E650F7E928A00949310 /* AtherosSettings.h */,
-				69719E660F7E928A00949310 /* AtherosUserClient.cpp */,
-				69719E670F7E928A00949310 /* AtherosUserClient.h */,
-				69719E680F7E928A00949310 /* AtherosWifi.cpp */,
-				69719E690F7E928A00949310 /* AtherosWifi.h */,
-				69719E6A0F7E928A00949310 /* AtherosWifi.xcode */,
-				69719E6D0F7E928A00949310 /* AtherosWifiInterface.cpp */,
-				69719E6E0F7E928A00949310 /* AtherosWifiInterface.h */,
-				69719E6F0F7E928A00949310 /* AtherosWifiPCCard.cpp */,
-				69719E700F7E928A00949310 /* AtherosWifiPCCard.h */,
-				69719E710F7E928A00949310 /* InfoPlist.strings */,
-			);
-			path = AtherosWifi;
-			sourceTree = "<group>";
-		};
-		69719E6B0F7E928A00949310 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				699E58700F7E9AF500D88264 /* AtherosWifi.kext */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		69719E730F7E928A00949310 /* BIGL */ = {
@@ -1910,15 +1799,6 @@
 				69719F1C0F7E928A00949310 /* decrypt.cpp */,
 			);
 			path = "Decrypt Tool";
-			sourceTree = "<group>";
-		};
-		69719F1D0F7E928A00949310 /* Insomnia */ = {
-			isa = PBXGroup;
-			children = (
-				69719F1E0F7E928A00949310 /* Insomnia.cpp */,
-				69719F1F0F7E928A00949310 /* Insomnia.h */,
-			);
-			path = Insomnia;
 			sourceTree = "<group>";
 		};
 		698665B80FAF61CA002D1A84 /* DMG Artwork */ = {
@@ -2066,7 +1946,6 @@
 				008ACB0307C38ABB00A76ADA /* WaveNetWEPWeakCrack.h in Headers */,
 				008ACB0507C38ABC00A76ADA /* WaveNetWEPWordlist.h in Headers */,
 				008ACB0707C38ABE00A76ADA /* WaveNetWPACrack.h in Headers */,
-				008ACB0807C38ABF00A76ADA /* WaveNetWPACrackAltivec.h in Headers */,
 				008ACB0B07C38AC200A76ADA /* WavePacket.h in Headers */,
 				008ACB0D07C38AC400A76ADA /* WaveScanner.h in Headers */,
 				008ACB0F07C38AC500A76ADA /* WaveSecret.h in Headers */,
@@ -2102,7 +1981,6 @@
 				0035344C06A5DD8500AB4577 /* RC4.h in Headers */,
 				0035344E06A5DD8500AB4577 /* WaveNetLEAPCrack.h in Headers */,
 				0035345006A5DD8500AB4577 /* WaveNetWPACrack.h in Headers */,
-				0035345206A5DD8500AB4577 /* WaveNetWPACrackAltivec.h in Headers */,
 				0035345806A5DD8500AB4577 /* WaveSecret.h in Headers */,
 				0035345906A5DD8500AB4577 /* PrefsClient.h in Headers */,
 				0035345B06A5DD8500AB4577 /* PrefsDriver.h in Headers */,
@@ -2264,14 +2142,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 69719E580F7E928A00949310 /* Products */;
-					ProjectRef = 69719E570F7E928A00949310 /* AtherosHAL.xcode */;
-				},
-				{
-					ProductGroup = 69719E6B0F7E928A00949310 /* Products */;
-					ProjectRef = 69719E6A0F7E928A00949310 /* AtherosWifi.xcode */;
-				},
-				{
 					ProductGroup = 69719ECF0F7E928A00949310 /* Products */;
 					ProjectRef = 69719ECE0F7E928A00949310 /* BIGeneric.xcodeproj */;
 				},
@@ -2302,20 +2172,6 @@
 			fileType = wrapper.framework;
 			path = BIGeneric.framework;
 			remoteRef = 6971A1960F7E928B00949310 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		699E57EA0F7E9A7700D88264 /* AtherosHAL.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AtherosHAL.kext;
-			remoteRef = 699E57E90F7E9A7700D88264 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		699E58700F7E9AF500D88264 /* AtherosWifi.kext */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AtherosWifi.kext;
-			remoteRef = 699E586F0F7E9AF500D88264 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2584,7 +2440,6 @@
 				008ACB0407C38ABB00A76ADA /* WaveNetWEPWeakCrack.m in Sources */,
 				008ACB0607C38ABD00A76ADA /* WaveNetWEPWordlist.m in Sources */,
 				008ACB0907C38AC000A76ADA /* WaveNetWPACrack.m in Sources */,
-				008ACB0A07C38AC100A76ADA /* WaveNetWPACrackAltivec.m in Sources */,
 				008ACB0C07C38AC300A76ADA /* WavePacket.mm in Sources */,
 				008ACB0E07C38AC400A76ADA /* WaveScanner.mm in Sources */,
 				008ACB1107C38AC900A76ADA /* WaveStorageController.m in Sources */,
@@ -2623,7 +2478,6 @@
 				0035344D06A5DD8500AB4577 /* RC4.mm in Sources */,
 				0035344F06A5DD8500AB4577 /* WaveNetLEAPCrack.m in Sources */,
 				0035345106A5DD8500AB4577 /* WaveNetWPACrack.m in Sources */,
-				0035345306A5DD8500AB4577 /* WaveNetWPACrackAltivec.m in Sources */,
 				0035345A06A5DD8500AB4577 /* PrefsClient.m in Sources */,
 				0035345C06A5DD8500AB4577 /* PrefsDriver.m in Sources */,
 				0035345E06A5DD8500AB4577 /* PrefsFilter.m in Sources */,
@@ -2877,22 +2731,6 @@
 				00F57C3806A886350035AE2F /* English */,
 			);
 			name = WayPointDialog.nib;
-			sourceTree = "<group>";
-		};
-		69719E5A0F7E928A00949310 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719E5B0F7E928A00949310 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		69719E710F7E928A00949310 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69719E720F7E928A00949310 /* English */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		69719E8C0F7E928A00949310 /* InfoPlist.strings */ = {
