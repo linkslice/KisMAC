@@ -13,7 +13,6 @@
 -(void)updateUI {
     [ac_ff setIntValue:[[controller objectForKey:@"ac_ff"]intValue]];
 	[bf_interval setFloatValue:[[controller objectForKey:@"bf_interval"] intValue]];
-	[bpfloc setStringValue:[controller objectForKey:@"bpfloc"]];
 	[pr_interval setIntValue:[[controller objectForKey:@"pr_interval"] intValue]];
 	[show_debugmenu setState:[[controller objectForKey:@"DebugMode"] intValue]];
 }
@@ -21,7 +20,6 @@
 -(BOOL)updateDictionary {
 	[controller setObject:[NSNumber numberWithInt:[ac_ff intValue]] forKey:@"ac_ff"];
 	[controller setObject:[NSNumber numberWithFloat:[bf_interval floatValue]] forKey:@"bf_interval"];
-	[controller setObject:[bpfloc stringValue] forKey:@"bpfloc"];
 	[controller setObject:[NSNumber numberWithInt:[pr_interval intValue]] forKey:@"pr_interval"];
 	[controller setObject:[NSNumber numberWithInt:[show_debugmenu state]] forKey:@"DebugMode"];
     return YES;
@@ -32,8 +30,6 @@
 	[controller setObject:[NSNumber numberWithInt:[ac_ff intValue]] forKey:@"ac_ff"];
     } else if(sender == bf_interval) {
 		[controller setObject:[NSNumber numberWithFloat:[bf_interval floatValue]] forKey:@"bf_interval"];
-    } else if(sender == bpfloc) {
-		[controller setObject:[bpfloc stringValue] forKey:@"bpfloc"];
     } else if(sender == pr_interval) {
        [controller setObject:[NSNumber numberWithInt:[pr_interval intValue]] forKey:@"pr_interval"];
 	} else if(sender == show_debugmenu) {
@@ -46,8 +42,6 @@
 -(IBAction)setDefaults:(id)sender {
 	[ac_ff setIntValue:2];
 	[bf_interval setFloatValue:0.1];
-	[bpfdevice setStringValue:@"en1"];
-	[bpfloc setStringValue:@"/dev/bpf0"];
 	[pr_interval setIntValue:100];
 	[show_debugmenu setState:NSOffState];
 }

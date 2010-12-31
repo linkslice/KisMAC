@@ -58,7 +58,7 @@ typedef struct WaveNetEntry {
     NSString *_filterString;
 	NSString *_filterType;
 	
-    WaveNetEntry *_idList;//[MAXNETS + 1];
+    WaveNetEntry *_idList;
     unsigned int _sortedList[MAXNETS + 1];
     unsigned int _lookup[LOOKUPSIZE];
     
