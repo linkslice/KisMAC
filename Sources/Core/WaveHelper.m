@@ -313,7 +313,6 @@ static GPSInfoController *_gc;
         if (![_waveDrivers objectForKey:name]) {
         
             //ugly hack but it works, this makes sure that the airport card is used only once
-            //prefers the viha driver
             interfaceName = [driverProps objectForKey:@"driverID"];
             
             // Get the class for driver

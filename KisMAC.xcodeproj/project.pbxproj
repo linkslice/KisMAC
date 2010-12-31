@@ -89,21 +89,8 @@
 		0035338906A5DD5700AB4577 /* Network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0035333E06A5DD5700AB4577 /* Network.tiff */; };
 		0035338A06A5DD5700AB4577 /* Sound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0035333F06A5DD5700AB4577 /* Sound.tiff */; };
 		0035338B06A5DD5700AB4577 /* traffic.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0035334006A5DD5700AB4577 /* traffic.icns */; };
-		0035338D06A5DD5700AB4577 /* airojack_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334306A5DD5700AB4577 /* airojack_load.sh */; };
-		0035338E06A5DD5700AB4577 /* airojack_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334406A5DD5700AB4577 /* airojack_unload.sh */; };
-		0035338F06A5DD5700AB4577 /* atheros_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334506A5DD5700AB4577 /* atheros_load.sh */; };
-		0035339006A5DD5700AB4577 /* atheros_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334606A5DD5700AB4577 /* atheros_unload.sh */; };
-		0035339106A5DD5700AB4577 /* exchangeKernel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334706A5DD5700AB4577 /* exchangeKernel.sh */; };
-		0035339206A5DD5700AB4577 /* macjack_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334806A5DD5700AB4577 /* macjack_load.sh */; };
-		0035339306A5DD5700AB4577 /* macjack_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334906A5DD5700AB4577 /* macjack_prep.sh */; };
-		0035339406A5DD5700AB4577 /* macjack_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334A06A5DD5700AB4577 /* macjack_unload.sh */; };
 		0035339906A5DD5700AB4577 /* usbprism2_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035334F06A5DD5700AB4577 /* usbprism2_prep.sh */; };
 		0035339A06A5DD5700AB4577 /* usbprism2_unprep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335006A5DD5700AB4577 /* usbprism2_unprep.sh */; };
-		0035339B06A5DD5700AB4577 /* viha_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335106A5DD5700AB4577 /* viha_driver.sh */; };
-		0035339C06A5DD5700AB4577 /* viha_kill.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335206A5DD5700AB4577 /* viha_kill.sh */; };
-		0035339D06A5DD5700AB4577 /* viha_prep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335306A5DD5700AB4577 /* viha_prep.sh */; };
-		0035339E06A5DD5700AB4577 /* viha_unload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335406A5DD5700AB4577 /* viha_unload.sh */; };
-		0035339F06A5DD5700AB4577 /* viha_unprep.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0035335506A5DD5700AB4577 /* viha_unprep.sh */; };
 		0035342706A5DD8500AB4577 /* quicksort.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A206A5DD8500AB4577 /* quicksort.h */; };
 		0035342806A5DD8500AB4577 /* quicksort.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533A306A5DD8500AB4577 /* quicksort.m */; };
 		0035342B06A5DD8500AB4577 /* InfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 003533A706A5DD8500AB4577 /* InfoController.h */; };
@@ -176,14 +163,8 @@
 		0035348606A5DD8500AB4577 /* SpinChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035340D06A5DD8500AB4577 /* SpinChannel.m */; };
 		0035348706A5DD8500AB4577 /* WaveDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035340F06A5DD8500AB4577 /* WaveDriver.h */; };
 		0035348806A5DD8500AB4577 /* WaveDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341006A5DD8500AB4577 /* WaveDriver.m */; };
-		0035348906A5DD8500AB4577 /* WaveDriverAironet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341106A5DD8500AB4577 /* WaveDriverAironet.h */; };
-		0035348A06A5DD8500AB4577 /* WaveDriverAironet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341206A5DD8500AB4577 /* WaveDriverAironet.m */; };
 		0035348B06A5DD8500AB4577 /* WaveDriverAirport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341306A5DD8500AB4577 /* WaveDriverAirport.h */; };
 		0035348C06A5DD8500AB4577 /* WaveDriverAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341406A5DD8500AB4577 /* WaveDriverAirport.m */; };
-		0035348D06A5DD8500AB4577 /* WaveDriverAtheros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */; };
-		0035348E06A5DD8500AB4577 /* WaveDriverAtheros.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */; };
-		0035349106A5DD8500AB4577 /* WaveDriverPCMCIA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */; };
-		0035349206A5DD8500AB4577 /* WaveDriverPCMCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */; };
 		0035349306A5DD8500AB4577 /* WaveDriverUSBIntersil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */; };
 		0035349406A5DD8500AB4577 /* WaveDriverUSBIntersil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */; };
 		0035349706A5DD8500AB4577 /* CrashReportController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035342006A5DD8500AB4577 /* CrashReportController.h */; };
@@ -192,8 +173,6 @@
 		0035349A06A5DD8500AB4577 /* DecryptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035342306A5DD8500AB4577 /* DecryptController.m */; };
 		0035349B06A5DD8500AB4577 /* WayPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035342406A5DD8500AB4577 /* WayPoint.h */; };
 		0035349C06A5DD8500AB4577 /* WayPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035342506A5DD8500AB4577 /* WayPoint.m */; };
-		00412E690826587C00E757BC /* viha_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00412E680826587C00E757BC /* viha_load.sh */; };
-		00412E6A0826587C00E757BC /* viha_load.sh in Resources */ = {isa = PBXBuildFile; fileRef = 00412E680826587C00E757BC /* viha_load.sh */; };
 		0042E7A609C0C8B600183F90 /* world.kismap in Resources */ = {isa = PBXBuildFile; fileRef = 0042E7A209C0C8B600183F90 /* world.kismap */; };
 		0042E7A709C0C8B600183F90 /* world.kismap in Resources */ = {isa = PBXBuildFile; fileRef = 0042E7A209C0C8B600183F90 /* world.kismap */; };
 		005B12680730051A00906C36 /* MapControlItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 005B12660730051A00906C36 /* MapControlItem.h */; };
@@ -308,16 +287,8 @@
 		008ACAE807C38A9F00A76ADA /* WaveContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 003533BA06A5DD8500AB4577 /* WaveContainer.m */; };
 		008ACAE907C38AA000A76ADA /* WaveDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035340F06A5DD8500AB4577 /* WaveDriver.h */; };
 		008ACAEA07C38AA100A76ADA /* WaveDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341006A5DD8500AB4577 /* WaveDriver.m */; };
-		008ACAEB07C38AA100A76ADA /* WaveDriverAironet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341106A5DD8500AB4577 /* WaveDriverAironet.h */; };
-		008ACAEC07C38AA200A76ADA /* WaveDriverAironet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341206A5DD8500AB4577 /* WaveDriverAironet.m */; };
 		008ACAED07C38AA500A76ADA /* WaveDriverAirport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341306A5DD8500AB4577 /* WaveDriverAirport.h */; };
 		008ACAEE07C38AA600A76ADA /* WaveDriverAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341406A5DD8500AB4577 /* WaveDriverAirport.m */; };
-		008ACAEF07C38AA700A76ADA /* WaveDriverAtheros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */; };
-		008ACAF007C38AA800A76ADA /* WaveDriverAtheros.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */; };
-		008ACAF307C38AAA00A76ADA /* WaveDriverPCMCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */; };
-		008ACAF407C38AAB00A76ADA /* WaveDriverPCMCIA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */; };
-		008ACAF507C38AAC00A76ADA /* WaveDriverPrismGT.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */; };
-		008ACAF607C38AAD00A76ADA /* WaveDriverPrismGT.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */; };
 		008ACAF707C38AAD00A76ADA /* WaveDriverUSBIntersil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */; };
 		008ACAF807C38AAE00A76ADA /* WaveDriverUSBIntersil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */; };
 		008ACAFB07C38AB100A76ADA /* WaveHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 00875D190708ADB300CACFCB /* WaveHelper.h */; };
@@ -378,7 +349,6 @@
 		009B192306FC83A800E8883A /* ScriptingEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 009B192106FC83A800E8883A /* ScriptingEngine.h */; };
 		009B192406FC83A800E8883A /* ScriptingEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B192206FC83A800E8883A /* ScriptingEngine.m */; };
 		009D64F306FF73BA00B0F1EC /* MapViewAreaView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 009D64F206FF73BA00B0F1EC /* MapViewAreaView.mm */; };
-		00A3EB170824E448003CD96A /* AirPortMenu in Resources */ = {isa = PBXBuildFile; fileRef = 00A3EB160824E448003CD96A /* AirPortMenu */; };
 		00A622A906FEE4FB005D248A /* Trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 00A622A706FEE4FB005D248A /* Trace.h */; };
 		00A622AA06FEE4FB005D248A /* Trace.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A622A806FEE4FB005D248A /* Trace.m */; };
 		00A7F9D306C6D20A00A6BB8F /* devilDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00A7F9D206C6D20A00A6BB8F /* devilDocument.icns */; };
@@ -441,8 +411,6 @@
 		00F9C64006DB378F00E357F0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C63F06DB378F00E357F0 /* Security.framework */; };
 		00F9C65006DB37E200E357F0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C64E06DB37E200E357F0 /* Carbon.framework */; };
 		00F9C65106DB37E200E357F0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9C64F06DB37E200E357F0 /* IOKit.framework */; };
-		00FF593E06C630CC006C7F1E /* WaveDriverPrismGT.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */; };
-		00FF593F06C630CC006C7F1E /* WaveDriverPrismGT.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */; };
 		689FF0720DB9AEF500ED7BE5 /* OUItoVendorDB.pl in Resources */ = {isa = PBXBuildFile; fileRef = 689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */; };
 		6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
 		690147C20F7FD6C600668BAA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6901479C0F7FD67700668BAA /* Sparkle.framework */; };
@@ -674,23 +642,8 @@
 		0035333F06A5DD5700AB4577 /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
 		0035334006A5DD5700AB4577 /* traffic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = traffic.icns; sourceTree = "<group>"; };
 		0035334106A5DD5700AB4577 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		0035334306A5DD5700AB4577 /* airojack_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = airojack_load.sh; sourceTree = "<group>"; };
-		0035334406A5DD5700AB4577 /* airojack_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = airojack_unload.sh; sourceTree = "<group>"; };
-		0035334506A5DD5700AB4577 /* atheros_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = atheros_load.sh; sourceTree = "<group>"; };
-		0035334606A5DD5700AB4577 /* atheros_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = atheros_unload.sh; sourceTree = "<group>"; };
-		0035334706A5DD5700AB4577 /* exchangeKernel.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = exchangeKernel.sh; sourceTree = "<group>"; };
-		0035334806A5DD5700AB4577 /* macjack_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = macjack_load.sh; sourceTree = "<group>"; };
-		0035334906A5DD5700AB4577 /* macjack_prep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = macjack_prep.sh; sourceTree = "<group>"; };
-		0035334A06A5DD5700AB4577 /* macjack_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = macjack_unload.sh; sourceTree = "<group>"; };
-		0035334B06A5DD5700AB4577 /* nosleep_disable.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = nosleep_disable.sh; sourceTree = "<group>"; };
-		0035334C06A5DD5700AB4577 /* nosleep_enable.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = nosleep_enable.sh; sourceTree = "<group>"; };
 		0035334F06A5DD5700AB4577 /* usbprism2_prep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = usbprism2_prep.sh; sourceTree = "<group>"; };
 		0035335006A5DD5700AB4577 /* usbprism2_unprep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = usbprism2_unprep.sh; sourceTree = "<group>"; };
-		0035335106A5DD5700AB4577 /* viha_driver.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_driver.sh; sourceTree = "<group>"; };
-		0035335206A5DD5700AB4577 /* viha_kill.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_kill.sh; sourceTree = "<group>"; };
-		0035335306A5DD5700AB4577 /* viha_prep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_prep.sh; sourceTree = "<group>"; };
-		0035335406A5DD5700AB4577 /* viha_unload.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_unload.sh; sourceTree = "<group>"; };
-		0035335506A5DD5700AB4577 /* viha_unprep.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_unprep.sh; sourceTree = "<group>"; };
 		003533A206A5DD8500AB4577 /* quicksort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = quicksort.h; sourceTree = "<group>"; };
 		003533A306A5DD8500AB4577 /* quicksort.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = quicksort.m; sourceTree = "<group>"; };
 		003533A706A5DD8500AB4577 /* InfoController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = InfoController.h; sourceTree = "<group>"; };
@@ -765,14 +718,8 @@
 		0035340D06A5DD8500AB4577 /* SpinChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SpinChannel.m; sourceTree = "<group>"; };
 		0035340F06A5DD8500AB4577 /* WaveDriver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriver.h; sourceTree = "<group>"; };
 		0035341006A5DD8500AB4577 /* WaveDriver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriver.m; sourceTree = "<group>"; };
-		0035341106A5DD8500AB4577 /* WaveDriverAironet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverAironet.h; sourceTree = "<group>"; };
-		0035341206A5DD8500AB4577 /* WaveDriverAironet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverAironet.m; sourceTree = "<group>"; };
 		0035341306A5DD8500AB4577 /* WaveDriverAirport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverAirport.h; sourceTree = "<group>"; };
 		0035341406A5DD8500AB4577 /* WaveDriverAirport.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverAirport.m; sourceTree = "<group>"; };
-		0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverAtheros.h; sourceTree = "<group>"; };
-		0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverAtheros.m; sourceTree = "<group>"; };
-		0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverPCMCIA.h; sourceTree = "<group>"; };
-		0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WaveDriverPCMCIA.m; sourceTree = "<group>"; };
 		0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaveDriverUSBIntersil.h; sourceTree = "<group>"; };
 		0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveDriverUSBIntersil.mm; sourceTree = "<group>"; };
 		0035342006A5DD8500AB4577 /* CrashReportController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CrashReportController.h; sourceTree = "<group>"; };
@@ -781,7 +728,6 @@
 		0035342306A5DD8500AB4577 /* DecryptController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DecryptController.m; sourceTree = "<group>"; };
 		0035342406A5DD8500AB4577 /* WayPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WayPoint.h; sourceTree = "<group>"; };
 		0035342506A5DD8500AB4577 /* WayPoint.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WayPoint.m; sourceTree = "<group>"; };
-		00412E680826587C00E757BC /* viha_load.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = viha_load.sh; sourceTree = "<group>"; };
 		0042E7A209C0C8B600183F90 /* world.kismap */ = {isa = PBXFileReference; lastKnownFileType = folder; name = world.kismap; path = Resources/Map/world.kismap; sourceTree = "<group>"; };
 		005B12660730051A00906C36 /* MapControlItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapControlItem.h; sourceTree = "<group>"; };
 		005B12670730051A00906C36 /* MapControlItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapControlItem.m; sourceTree = "<group>"; };
@@ -809,7 +755,6 @@
 		009B192106FC83A800E8883A /* ScriptingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptingEngine.h; sourceTree = "<group>"; };
 		009B192206FC83A800E8883A /* ScriptingEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptingEngine.m; sourceTree = "<group>"; };
 		009D64F206FF73BA00B0F1EC /* MapViewAreaView.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = MapViewAreaView.mm; sourceTree = "<group>"; };
-		00A3EB160824E448003CD96A /* AirPortMenu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = AirPortMenu; path = Subprojects/files/AirPortMenu; sourceTree = SOURCE_ROOT; };
 		00A622A706FEE4FB005D248A /* Trace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trace.h; sourceTree = "<group>"; };
 		00A622A806FEE4FB005D248A /* Trace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trace.m; sourceTree = "<group>"; };
 		00A7F9D206C6D20A00A6BB8F /* devilDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = devilDocument.icns; sourceTree = "<group>"; };
@@ -867,8 +812,6 @@
 		00F9C63F06DB378F00E357F0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		00F9C64E06DB37E200E357F0 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		00F9C64F06DB37E200E357F0 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveDriverPrismGT.h; sourceTree = "<group>"; };
-		00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveDriverPrismGT.m; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -1124,7 +1067,6 @@
 			isa = PBXGroup;
 			children = (
 				689FF0710DB9AEF500ED7BE5 /* OUItoVendorDB.pl */,
-				00A3EB160824E448003CD96A /* AirPortMenu */,
 				0035332E06A5DD5700AB4577 /* example.dump */,
 				0035332F06A5DD5700AB4577 /* KisMAC.scriptSuite */,
 				0035333006A5DD5700AB4577 /* KisMAC.scriptTerminology */,
@@ -1172,24 +1114,8 @@
 		0035334206A5DD5700AB4577 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				0035334306A5DD5700AB4577 /* airojack_load.sh */,
-				0035334406A5DD5700AB4577 /* airojack_unload.sh */,
-				0035334506A5DD5700AB4577 /* atheros_load.sh */,
-				0035334606A5DD5700AB4577 /* atheros_unload.sh */,
-				0035334706A5DD5700AB4577 /* exchangeKernel.sh */,
-				0035334806A5DD5700AB4577 /* macjack_load.sh */,
-				0035334906A5DD5700AB4577 /* macjack_prep.sh */,
-				0035334A06A5DD5700AB4577 /* macjack_unload.sh */,
-				0035334B06A5DD5700AB4577 /* nosleep_disable.sh */,
-				0035334C06A5DD5700AB4577 /* nosleep_enable.sh */,
 				0035334F06A5DD5700AB4577 /* usbprism2_prep.sh */,
 				0035335006A5DD5700AB4577 /* usbprism2_unprep.sh */,
-				00412E680826587C00E757BC /* viha_load.sh */,
-				0035335106A5DD5700AB4577 /* viha_driver.sh */,
-				0035335206A5DD5700AB4577 /* viha_kill.sh */,
-				0035335306A5DD5700AB4577 /* viha_prep.sh */,
-				0035335406A5DD5700AB4577 /* viha_unload.sh */,
-				0035335506A5DD5700AB4577 /* viha_unprep.sh */,
 			);
 			name = Scripts;
 			path = Resources/Scripts;
@@ -1422,20 +1348,12 @@
 				6CF9EE6D0B6E9D2A00F54524 /* WaveDriverKismet.m */,
 				0035340F06A5DD8500AB4577 /* WaveDriver.h */,
 				0035341006A5DD8500AB4577 /* WaveDriver.m */,
-				0035341106A5DD8500AB4577 /* WaveDriverAironet.h */,
-				0035341206A5DD8500AB4577 /* WaveDriverAironet.m */,
 				0035341306A5DD8500AB4577 /* WaveDriverAirport.h */,
 				0035341406A5DD8500AB4577 /* WaveDriverAirport.m */,
 				00DF456108B1E969003F3C7E /* WaveDriverAirportExtreme.h */,
 				00DF456208B1E969003F3C7E /* WaveDriverAirportExtreme.m */,
 				87C927280BAA137D0025A6AE /* WaveDriverKismetDrone.h */,
 				87C927290BAA137E0025A6AE /* WaveDriverKismetDrone.m */,
-				0035341506A5DD8500AB4577 /* WaveDriverAtheros.h */,
-				0035341606A5DD8500AB4577 /* WaveDriverAtheros.m */,
-				0035341906A5DD8500AB4577 /* WaveDriverPCMCIA.h */,
-				0035341A06A5DD8500AB4577 /* WaveDriverPCMCIA.m */,
-				00FF593C06C630CC006C7F1E /* WaveDriverPrismGT.h */,
-				00FF593D06C630CC006C7F1E /* WaveDriverPrismGT.m */,
 				0035341B06A5DD8500AB4577 /* WaveDriverUSBIntersil.h */,
 				0035341C06A5DD8500AB4577 /* WaveDriverUSBIntersil.mm */,
 			);
@@ -1933,11 +1851,7 @@
 				008ACAE507C38A9D00A76ADA /* WaveClient.h in Headers */,
 				008ACAE707C38A9E00A76ADA /* WaveContainer.h in Headers */,
 				008ACAE907C38AA000A76ADA /* WaveDriver.h in Headers */,
-				008ACAEB07C38AA100A76ADA /* WaveDriverAironet.h in Headers */,
 				008ACAED07C38AA500A76ADA /* WaveDriverAirport.h in Headers */,
-				008ACAEF07C38AA700A76ADA /* WaveDriverAtheros.h in Headers */,
-				008ACAF407C38AAB00A76ADA /* WaveDriverPCMCIA.h in Headers */,
-				008ACAF507C38AAC00A76ADA /* WaveDriverPrismGT.h in Headers */,
 				008ACAF707C38AAD00A76ADA /* WaveDriverUSBIntersil.h in Headers */,
 				008ACAFB07C38AB100A76ADA /* WaveHelper.h in Headers */,
 				008ACAFD07C38AB500A76ADA /* WaveNet.h in Headers */,
@@ -1999,10 +1913,7 @@
 				0035347706A5DD8500AB4577 /* HTTPStream.h in Headers */,
 				0035348506A5DD8500AB4577 /* SpinChannel.h in Headers */,
 				0035348706A5DD8500AB4577 /* WaveDriver.h in Headers */,
-				0035348906A5DD8500AB4577 /* WaveDriverAironet.h in Headers */,
 				0035348B06A5DD8500AB4577 /* WaveDriverAirport.h in Headers */,
-				0035348D06A5DD8500AB4577 /* WaveDriverAtheros.h in Headers */,
-				0035349106A5DD8500AB4577 /* WaveDriverPCMCIA.h in Headers */,
 				0035349306A5DD8500AB4577 /* WaveDriverUSBIntersil.h in Headers */,
 				0035349706A5DD8500AB4577 /* CrashReportController.h in Headers */,
 				0035349906A5DD8500AB4577 /* DecryptController.h in Headers */,
@@ -2012,7 +1923,6 @@
 				002E7E0006A86D7E00C9D931 /* WPA.h in Headers */,
 				00122E9B06B18A07007FA5FE /* WaveNetWEPCrack.h in Headers */,
 				00122EA606B1A7E5007FA5FE /* FCS.h in Headers */,
-				00FF593E06C630CC006C7F1E /* WaveDriverPrismGT.h in Headers */,
 				00CBA25A06DB7D0A000ACD19 /* WaveNetWEPWordlist.h in Headers */,
 				00CBA34006DB8FDE000ACD19 /* MapView.h in Headers */,
 				00C5F12C06DE0C98001EC02F /* MapViewPrivate.h in Headers */,
@@ -2184,8 +2094,6 @@
 				008ACA8107C389A700A76ADA /* BIToolbar.tif in Resources */,
 				008ACA9807C38A0400A76ADA /* Localizable.strings in Resources */,
 				008ACB1807C38ADF00A76ADA /* vendor.db in Resources */,
-				00A3EB170824E448003CD96A /* AirPortMenu in Resources */,
-				00412E690826587C00E757BC /* viha_load.sh in Resources */,
 				0042E7A709C0C8B600183F90 /* world.kismap in Resources */,
 				00D566BC09C74A8200FB787B /* growl-leap.png in Resources */,
 				00D566BD09C74A8200FB787B /* growl-noenc.png in Resources */,
@@ -2250,21 +2158,8 @@
 				0035338906A5DD5700AB4577 /* Network.tiff in Resources */,
 				0035338A06A5DD5700AB4577 /* Sound.tiff in Resources */,
 				0035338B06A5DD5700AB4577 /* traffic.icns in Resources */,
-				0035338D06A5DD5700AB4577 /* airojack_load.sh in Resources */,
-				0035338E06A5DD5700AB4577 /* airojack_unload.sh in Resources */,
-				0035338F06A5DD5700AB4577 /* atheros_load.sh in Resources */,
-				0035339006A5DD5700AB4577 /* atheros_unload.sh in Resources */,
-				0035339106A5DD5700AB4577 /* exchangeKernel.sh in Resources */,
-				0035339206A5DD5700AB4577 /* macjack_load.sh in Resources */,
-				0035339306A5DD5700AB4577 /* macjack_prep.sh in Resources */,
-				0035339406A5DD5700AB4577 /* macjack_unload.sh in Resources */,
 				0035339906A5DD5700AB4577 /* usbprism2_prep.sh in Resources */,
 				0035339A06A5DD5700AB4577 /* usbprism2_unprep.sh in Resources */,
-				0035339B06A5DD5700AB4577 /* viha_driver.sh in Resources */,
-				0035339C06A5DD5700AB4577 /* viha_kill.sh in Resources */,
-				0035339D06A5DD5700AB4577 /* viha_prep.sh in Resources */,
-				0035339E06A5DD5700AB4577 /* viha_unload.sh in Resources */,
-				0035339F06A5DD5700AB4577 /* viha_unprep.sh in Resources */,
 				00F57C3906A886350035AE2F /* Crack.nib in Resources */,
 				00F57C3A06A886350035AE2F /* CrashReporter.nib in Resources */,
 				00F57C3B06A886350035AE2F /* DecryptDialog.nib in Resources */,
@@ -2285,7 +2180,6 @@
 				00174DBA06B2AC8F003485E6 /* Localizable.strings in Resources */,
 				00A7F9D306C6D20A00A6BB8F /* devilDocument.icns in Resources */,
 				002F1F17070071F4004F5FEF /* KisMACHelp in Resources */,
-				00412E6A0826587C00E757BC /* viha_load.sh in Resources */,
 				0042E7A609C0C8B600183F90 /* world.kismap in Resources */,
 				00D566B709C74A8200FB787B /* growl-leap.png in Resources */,
 				00D566B809C74A8200FB787B /* growl-noenc.png in Resources */,
@@ -2427,11 +2321,7 @@
 				008ACAE607C38A9E00A76ADA /* WaveClient.m in Sources */,
 				008ACAE807C38A9F00A76ADA /* WaveContainer.m in Sources */,
 				008ACAEA07C38AA100A76ADA /* WaveDriver.m in Sources */,
-				008ACAEC07C38AA200A76ADA /* WaveDriverAironet.m in Sources */,
 				008ACAEE07C38AA600A76ADA /* WaveDriverAirport.m in Sources */,
-				008ACAF007C38AA800A76ADA /* WaveDriverAtheros.m in Sources */,
-				008ACAF307C38AAA00A76ADA /* WaveDriverPCMCIA.m in Sources */,
-				008ACAF607C38AAD00A76ADA /* WaveDriverPrismGT.m in Sources */,
 				008ACAF807C38AAE00A76ADA /* WaveDriverUSBIntersil.mm in Sources */,
 				008ACAFC07C38AB400A76ADA /* WaveHelper.m in Sources */,
 				008ACAFE07C38AB600A76ADA /* WaveNet.mm in Sources */,
@@ -2495,10 +2385,7 @@
 				0035347806A5DD8500AB4577 /* HTTPStream.m in Sources */,
 				0035348606A5DD8500AB4577 /* SpinChannel.m in Sources */,
 				0035348806A5DD8500AB4577 /* WaveDriver.m in Sources */,
-				0035348A06A5DD8500AB4577 /* WaveDriverAironet.m in Sources */,
 				0035348C06A5DD8500AB4577 /* WaveDriverAirport.m in Sources */,
-				0035348E06A5DD8500AB4577 /* WaveDriverAtheros.m in Sources */,
-				0035349206A5DD8500AB4577 /* WaveDriverPCMCIA.m in Sources */,
 				0035349406A5DD8500AB4577 /* WaveDriverUSBIntersil.mm in Sources */,
 				0035349806A5DD8500AB4577 /* CrashReportController.m in Sources */,
 				0035349A06A5DD8500AB4577 /* DecryptController.m in Sources */,
@@ -2508,7 +2395,6 @@
 				002E7DFF06A86D7E00C9D931 /* WPA.m in Sources */,
 				00122E9C06B18A07007FA5FE /* WaveNetWEPCrack.m in Sources */,
 				00122EA706B1A7E5007FA5FE /* FCS.m in Sources */,
-				00FF593F06C630CC006C7F1E /* WaveDriverPrismGT.m in Sources */,
 				00CBA25B06DB7D0A000ACD19 /* WaveNetWEPWordlist.m in Sources */,
 				00CBA34106DB8FDE000ACD19 /* MapView.m in Sources */,
 				00C5F12D06DE0C98001EC02F /* MapViewPrivate.m in Sources */,
