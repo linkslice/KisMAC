@@ -97,7 +97,7 @@
         [d release];
     }
     
-    [pool release];
+    [pool drain];
 }
 
 - (void)terminateWithCode:(int)code {

@@ -259,7 +259,7 @@ inline col delta(col c1, col c2, int speed) {
         [_zoomLock unlock];
     }
 
-    [subpool release];
+    [subpool drain];
 }
 
 - (void)slideThread:(id)object {
@@ -288,7 +288,7 @@ inline col delta(col c1, col c2, int speed) {
         [_slideLock unlock];
     }
 
-    [subpool release];
+    [subpool drain];
 }
 
 

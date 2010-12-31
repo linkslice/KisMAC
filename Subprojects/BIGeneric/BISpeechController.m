@@ -72,7 +72,7 @@
     
     _speakThread = NO;
     [_speakLock unlock];
-    [pool release];
+    [pool drain];
 }
 
 //adds a sentence tp the speak queue

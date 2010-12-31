@@ -190,7 +190,7 @@
         [_animLock unlock];
     }
 
-    [subpool release];
+    [subpool drain];
 }
 
 #pragma mark -

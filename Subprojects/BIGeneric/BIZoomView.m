@@ -36,7 +36,7 @@
     [_view setFrameSize:_frame.size];
     [_view display];
     */
-    [pool release];
+    [pool drain];
 }
 
 - (void)zoomFrom:(NSView*)oldV to:(NSView*)newV {

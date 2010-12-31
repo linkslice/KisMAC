@@ -149,7 +149,7 @@
     [chan drawAtPoint:NSMakePoint((size.width-txtsize.width)/2, (size.height-txtsize.height)/2) withAttributes:attrs];
     
     [attrs release];
-    [pool release];
+    [pool drain];
 }
 
 - (void)dealloc {

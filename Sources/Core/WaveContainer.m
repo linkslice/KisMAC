@@ -350,7 +350,6 @@ inline UInt32 hashForMAC(const UInt8* val) {
 				return NO;
 			}
 			n = [[WaveNet alloc] initWithDataDictionary:n];
-            CFRetain(n);
 			if (!n) continue;
         }
         
@@ -359,6 +358,7 @@ inline UInt32 hashForMAC(const UInt8* val) {
             return YES;
         }
         
+        CFRetain(n);
         net = n;
         
         [self addNetwork:net];
@@ -415,7 +415,6 @@ inline UInt32 hashForMAC(const UInt8* val) {
 				return NO;
 			}
 			n = [[WaveNet alloc] initWithDataDictionary:n];
-            CFRetain(n);
         }
         
         [n setNetID:0];
@@ -426,8 +425,10 @@ inline UInt32 hashForMAC(const UInt8* val) {
         }
         
         net = [self netForKey:[n rawID]];
+        CFRetain(n);
         
-        if (!net) {
+        if (!net) 
+        {
             [self addNetwork:n];
             [n setNetID:++maxID];
         } else [net mergeWithNet:n];

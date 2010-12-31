@@ -62,7 +62,7 @@
         [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     }
     
-    [pool release];
+    [pool drain];
     _status = WavePluginIdle;
 
     return;

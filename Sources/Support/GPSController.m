@@ -536,7 +536,7 @@ int ss(char* inp, char* outp) {
 	}
     
     [date release];
-    [subpool release];
+    [subpool drain];
 
     return YES;
 }
@@ -727,7 +727,7 @@ int ss(char* inp, char* outp) {
         date = [[NSDate alloc] initWithTimeIntervalSinceNow:0.1];
         [NSThread sleepUntilDate:date];
         [date release];
-		[subpool release];
+		[subpool drain];
     }
 }
 
@@ -743,7 +743,7 @@ int ss(char* inp, char* outp) {
         date = [[NSDate alloc] initWithTimeIntervalSinceNow:0.5];
         [NSThread sleepUntilDate:date];
         [date release];
-		[subpool release];
+		[subpool drain];
     }
 }
 
@@ -832,7 +832,7 @@ int ss(char* inp, char* outp) {
         NSLog(@"GPS LOCKING FAILURE!");
     }
     
-    [subpool release];
+    [subpool drain];
     return;
 }
 
@@ -913,7 +913,7 @@ int ss(char* inp, char* outp) {
         NSLog(@"GPS LOCKING FAILURE!");
     }
 
-    [subpool release];
+    [subpool drain];
     return;
 }
 
