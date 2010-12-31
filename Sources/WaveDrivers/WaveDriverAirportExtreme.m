@@ -148,6 +148,7 @@ pcap_dumper_t * dumper;
 - (id)init 
 {
 	NSUserDefaults *defs;
+    NSArray * args;
     defs = [NSUserDefaults standardUserDefaults];
     char err[PCAP_ERRBUF_SIZE];
     int retErr;
@@ -170,14 +171,14 @@ pcap_dumper_t * dumper;
     //todo fixme!! if we are playing back, this will be weird
 	if (!_device && !shouldPlayback)
     {
-		if (![[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"admin", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
-		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0777", [defs objectForKey:@"bpfloc"], nil]]) return Nil;
+        args = [NSArray arrayWithObjects:@"0777", @"/dev/bpf0", @"/dev/bpf1", @"/dev/bpf2", @"/dev/bpf3", Nil]; 
+		if (![[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs: args]) return Nil;
 		[NSThread sleep:0.5];
 	
+        CFShow([CWInterface supportedInterfaces]);
 		_device = pcap_open_live([[[CWInterface supportedInterfaces] objectAtIndex: 0] UTF8String], 3000, 1, 2, err);
         
-		[[BLAuthentication sharedInstance] executeCommand:@"/usr/bin/chgrp" withArgs:[NSArray arrayWithObjects:@"wheel", [defs objectForKey:@"bpfloc"], nil]];
-		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:[NSArray arrayWithObjects:@"0600", [defs objectForKey:@"bpfloc"], nil]];
+		[[BLAuthentication sharedInstance] executeCommand:@"/bin/chmod" withArgs:args];
 
 		if (!_device) return Nil;
     }

@@ -74,6 +74,10 @@ inline UInt32 hashForMAC(const UInt8* val) {
     self = [super init];
     if (!self) return Nil;
     
+    //todo fixme!! we should not allocate a fixed list
+    _idList = malloc(sizeof(WaveNetEntry) * MAXNETS);
+    if(!_idList) return Nil;
+    
     _order = -1;
     _dropAll = NO;
     
