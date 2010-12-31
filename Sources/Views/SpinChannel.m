@@ -30,65 +30,41 @@
 
 @implementation SpinChannel
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     int i;
     self = [super initWithFrame:frame];
-    if (self) {
-      _state=0;
-      _channel=0;
-      _shallAnimate = NO;
-      _animLock = [[NSLock alloc] init];
-      
-      for (i = 0; i < 12; i++) {
+    NSSize size = _frame.size;
+    NSFont* textFont;
+
+    if (self)
+    {
+        _state=0;
+        _channel=0;
+
+        for (i = 0; i < 12; i++)
+        {
         _stateImg[i] = [[NSImage imageNamed:[NSString stringWithFormat:@"ChanState%d.png", i]] retain];
-      }
+        }
+        
+        //setup the channel text
+        attrs = [[NSMutableDictionary alloc] init];
+        textFont =  [NSFont fontWithName:@"Monaco" size:(size.height>size.width ? size.width*0.8 : size.height*0.8)];
+        [attrs setObject:textFont forKey:NSFontAttributeName];
+        [attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
     }
+    
     return self;
 }
 
-- (void)animThread:(id)object {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    NSDate *date;
-    [NSThread setThreadPriority:0];
-    
-    if([_animLock tryLock]) {
-        while(_shallAnimate) {
-			@try {
-				[self setNeedsDisplay:YES];
-				date = [[NSDate alloc] initWithTimeIntervalSinceNow: 1.0/12.0];
-				[NSThread sleepUntilDate:date];
-				[date release];
-			}
-			@finally {
-				[pool release];
-				pool = [[NSAutoreleasePool alloc] init];
-			}
-        }
-        [_animLock unlock];
-    }
-        
-    [pool release];
-}
-
-- (IBAction)startAnimation:(id)sender {
-    _shallAnimate = YES;
-    [NSThread detachNewThreadSelector:@selector(animThread:) toTarget:self withObject:nil];
-}
-
-- (IBAction)stopAnimation:(id)sender {
-    _shallAnimate = NO;
-    _channel=0;
-    _state=0;
-    [self setNeedsDisplay:YES];
-}
-
-- (void)setChannel:(int)channel {
+- (void)setChannel:(int)channel
+{
     _channel = channel;
     [self setNeedsDisplay:YES];
 }
 
-- (void)drawRect:(NSRect)rect {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void)drawRect:(NSRect)rect
+{
     NSSize size = _frame.size;
     NSSize txtsize;
 #ifndef USE_FAST_BITMAP_METHOD
@@ -101,8 +77,6 @@
 #endif
     NSBezierPath *a;
     NSString *chan;
-    NSFont* textFont;
-    NSMutableDictionary* attrs = [[NSMutableDictionary alloc] init];
     
     float ratio = 4.0 / 30.0;
     
@@ -138,21 +112,29 @@
     a = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(ratio*size.width, ratio*size.height, (1-2*ratio)*size.width, (1-2*ratio)*size.height)];
     [a fill];
     
-    textFont =  [NSFont fontWithName:@"Monaco" size:(size.height>size.width ? size.width*0.8 : size.height*0.8)];
     if ((_channel!=0)&&(_shallAnimate)) chan = [NSString stringWithFormat:@"%X", _channel];
     else chan = @"/";
-    [attrs setObject:textFont forKey:NSFontAttributeName];
-    [attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    
-    txtsize = [chan sizeWithAttributes:attrs];
 
+    txtsize = [chan sizeWithAttributes:attrs];
     [chan drawAtPoint:NSMakePoint((size.width-txtsize.width)/2, (size.height-txtsize.height)/2) withAttributes:attrs];
-    
-    [attrs release];
-    [pool drain];
 }
 
-- (void)dealloc {
+- (IBAction)startAnimation:(id)sender 
+{
+    _shallAnimate = YES;
+    [self setNeedsDisplay:YES];
+}
+
+- (IBAction)stopAnimation:(id)sender
+{
+    _shallAnimate = NO;
+    _channel=0;
+    _state=0;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)dealloc 
+{
     int i;
     
     for(i = 0; i < 12; i++) {

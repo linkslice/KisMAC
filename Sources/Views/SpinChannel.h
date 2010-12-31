@@ -25,14 +25,17 @@
 #import <AppKit/AppKit.h>
 
 
-@interface SpinChannel : NSView {
-    int     _state;
+@interface SpinChannel : NSView 
+{
     bool    _shallAnimate;
-    NSLock *_animLock;
+    int     _state;
     int     _channel;
     NSImage *_stateImg[12];
+    
+    NSMutableDictionary * attrs;
 }
 - (void)setChannel:(int)channel;
-- (IBAction)startAnimation:(id)sender;
+- (IBAction)startAnimation:(id)sender; 
 - (IBAction)stopAnimation:(id)sender;
+
 @end
