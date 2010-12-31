@@ -349,7 +349,8 @@ inline UInt32 hashForMAC(const UInt8* val) {
 				NSLog(@"Could not load data, because it is bad!");
 				return NO;
 			}
-			n = [[[WaveNet alloc] initWithDataDictionary:n] autorelease];
+			n = [[WaveNet alloc] initWithDataDictionary:n];
+            CFRetain(n);
 			if (!n) continue;
         }
         
@@ -413,7 +414,8 @@ inline UInt32 hashForMAC(const UInt8* val) {
 				NSLog(@"Could not load data, because it is bad!");
 				return NO;
 			}
-			n = [[[WaveNet alloc] initWithDataDictionary:n] autorelease];
+			n = [[WaveNet alloc] initWithDataDictionary:n];
+            CFRetain(n);
         }
         
         [n setNetID:0];
@@ -676,6 +678,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
         entry = _netCount - 1;
         memcpy(&_idList[entry].ID, ID, 6);
         _idList[entry].net=[[WaveNet alloc] initWithID:entry];
+        CFRetain(_idList[entry].net);
         _lookup[l] = entry;
 
         [self addNetToView:entry];     
@@ -817,7 +820,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     for (i=0; i<oldcount; i++) {
         e = _idList[i].net;
         _idList[i].net = Nil;
-        [e release];
+        CFRelease(e);
     }
     
     _dropAll = NO;
@@ -834,6 +837,7 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
     [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
     
 	n = net;
+    CFRelease(n);
 	
     for(i = 0; i < LOOKUPSIZE; i++)
     {
@@ -881,7 +885,6 @@ typedef int (*SORTFUNC)(void *, const void *, const void *);
 
     //enable capture engine again
     _dropAll = NO;
-	[n autorelease];
 	
     return;
 }
