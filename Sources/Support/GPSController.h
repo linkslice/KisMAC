@@ -24,13 +24,15 @@
 
 #import <Foundation/Foundation.h>
 #import <BIGeneric/BIValuePair.h>
+#include <CoreLocation/CoreLocation.h>
 
 struct _position {
     char dir;
     float coordinates;
 };
 
-@interface GPSController : NSObject {
+@interface GPSController : NSObject <CLLocationManagerDelegate>
+{
     bool    _gpsThreadUp;
     bool    _gpsShallRun;
 	bool	_gpsdReconnect;
@@ -59,6 +61,8 @@ struct _position {
     NSDate*				_sectorStart;
     NSLock*             _gpsLock;
     NSString*           _status;
+    
+    CLLocationManager * clManager;
 }
 
 - (bool)startForDevice:(NSString*) device;

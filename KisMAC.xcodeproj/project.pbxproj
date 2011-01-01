@@ -470,6 +470,7 @@
 		6C1D31C009F37BC70005A9F8 /* PrefsAdvanced.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */; };
 		6C1D31C109F37BC70005A9F8 /* PrefsAdvanced.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */; };
 		6C1D31C409F37BE10005A9F8 /* PrefsAdvanced.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C1D31C209F37BE10005A9F8 /* PrefsAdvanced.nib */; };
+		6C32713412CFC4070033A649 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C32713312CFC4070033A649 /* CoreLocation.framework */; };
 		6C41BAB00AA0B52900E0B411 /* GPSInfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */; };
 		6C41BAB10AA0B52900E0B411 /* GPSInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */; };
 		6C41BAD50AA0B8E600E0B411 /* GPSDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C41BAD30AA0B8E600E0B411 /* GPSDialog.nib */; };
@@ -933,6 +934,7 @@
 		6C1D31BE09F37BC70005A9F8 /* PrefsAdvanced.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsAdvanced.h; sourceTree = "<group>"; };
 		6C1D31BF09F37BC70005A9F8 /* PrefsAdvanced.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsAdvanced.m; sourceTree = "<group>"; };
 		6C1D31C309F37BE10005A9F8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/Nibs/English.lproj/PrefsAdvanced.nib; sourceTree = SOURCE_ROOT; };
+		6C32713312CFC4070033A649 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GPSInfoController.h; sourceTree = "<group>"; };
 		6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GPSInfoController.m; sourceTree = "<group>"; };
 		6C41BAD40AA0B8E600E0B411 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GPSDialog.nib; sourceTree = "<group>"; };
@@ -997,6 +999,7 @@
 				00C8DE630A6D23F000BB597C /* QuickTime.framework in Frameworks */,
 				6901479D0F7FD67700668BAA /* Sparkle.framework in Frameworks */,
 				6CF938C410A7DFDF00B32F94 /* CoreWLAN.framework in Frameworks */,
+				6C32713412CFC4070033A649 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,6 +1520,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				6C32713312CFC4070033A649 /* CoreLocation.framework */,
 			);
 			name = KisMAC;
 			sourceTree = "<group>";

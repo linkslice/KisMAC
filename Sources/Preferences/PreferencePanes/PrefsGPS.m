@@ -128,6 +128,7 @@ err:
     found = NO;
     [aGPSSel addItemWithTitle: NSLocalizedString(@"<do not use GPS integration>", "menu item for GPS prefs")];
     [aGPSSel addItemWithTitle: NSLocalizedString(@"<use GPSd to get coordinates>", "menu item for GPS prefs")];
+    [aGPSSel addItemWithTitle: NSLocalizedString(@"<use CoreLocation to get coordinates>", "menu item for GPS prefs")];
     
     if ([a count] > 0) [[aGPSSel menu] addItem:[NSMenuItem separatorItem]];
     
@@ -138,6 +139,11 @@ err:
     
     if ([[controller objectForKey:@"GPSDevice"] isEqualToString:@"GPSd"]) {
         [aGPSSel selectItemAtIndex:1];
+        found = YES;
+    }
+    
+    if ([[controller objectForKey:@"GPSDevice"] isEqualToString:@"CoreLocation"]) {
+        [aGPSSel selectItemAtIndex:2];
         found = YES;
     }
     
@@ -164,6 +170,8 @@ err:
         [controller setObject:@"" forKey:@"GPSDevice"];
     } else if ([[aGPSSel titleOfSelectedItem] isEqualToString: NSLocalizedString(@"<use GPSd to get coordinates>", "menu item for GPS prefs")]) {
         [controller setObject:@"GPSd" forKey:@"GPSDevice"];
+    } else if ([[aGPSSel titleOfSelectedItem] isEqualToString: NSLocalizedString(@"<use CoreLocation to get coordinates>", "menu item for GPS prefs")]) {
+        [controller setObject:@"CoreLocation" forKey:@"GPSDevice"];
     } else {
         [controller setObject:[aGPSSel titleOfSelectedItem] forKey:@"GPSDevice"];
     }

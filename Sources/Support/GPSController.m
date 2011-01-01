@@ -108,6 +108,14 @@ struct termios ttyset;
     [self setStatus:NSLocalizedString(@"Starting GPS subsystem.", @"GPS status")];
     
     if ([_gpsDevice isEqualToString:@"GPSd"]) [NSThread detachNewThreadSelector:@selector(gpsThreadGPSd:) toTarget:self withObject:Nil];
+    else if([_gpsDevice isEqualToString:@"CoreLocation"])
+    {
+        //Initialize core location
+        clManager = [[CLLocationManager alloc] init];
+        clManager.delegate = self;
+        [clManager startUpdatingLocation];
+        [self setStatus:NSLocalizedString(@"CoreLocation initialized.", @"GPS status")];
+    }
     else [NSThread detachNewThreadSelector:@selector(gpsThreadSerial:) toTarget:self withObject:Nil];
     return YES;
 }
@@ -943,6 +951,57 @@ int ss(char* inp, char* outp) {
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// CoreLocation
+
++(BOOL)isValidLocation:(CLLocation*)location
+{
+    BOOL validLocation;
+    
+    //if either is set, consider it a valid location
+    validLocation = ( (location.coordinate.latitude != 0) || 
+                      (location.coordinate.longitude != 0) );
+    
+    return validLocation;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+	didUpdateToLocation:(CLLocation *)newLocation
+	fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"Got location update!");
+    CFShow(newLocation);
+    if([GPSController isValidLocation: newLocation])
+    {
+        [self setCurrentPointNS: newLocation.coordinate.latitude 
+                                 EW: newLocation.coordinate.longitude
+                                 ELV: newLocation.altitude];
+        [self setStatus:nil];
+        _reliable = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:KisMACGPSStatusChanged 
+                                                            object:[self status]];
+    }
+    else
+    {
+        _reliable = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:KisMACGPSStatusChanged 
+                                                            object:[self status]];
+    }
+
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+	didFailWithError:(NSError *)error
+{
+    CFShow(error);
+    _reliable = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:KisMACGPSStatusChanged 
+                                                        object:[self status]];
+}
+
+//CoreLocation
+///////////////////////////////////////////////////////////////////////////////
 
 - (void) dealloc {
     [WaveHelper secureRelease:&_status];
