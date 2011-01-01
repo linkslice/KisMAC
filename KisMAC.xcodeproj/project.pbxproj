@@ -473,6 +473,8 @@
 		6C41BAB00AA0B52900E0B411 /* GPSInfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */; };
 		6C41BAB10AA0B52900E0B411 /* GPSInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */; };
 		6C41BAD50AA0B8E600E0B411 /* GPSDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6C41BAD30AA0B8E600E0B411 /* GPSDialog.nib */; };
+		6C461C6E12CEC58100156CBF /* WavePluginMidi.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C461C6C12CEC58100156CBF /* WavePluginMidi.h */; };
+		6C461C6F12CEC58100156CBF /* WavePluginMidi.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C461C6D12CEC58100156CBF /* WavePluginMidi.m */; };
 		6C541AAB0A72002F00B58A95 /* growl-ap-revealed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */; };
 		6C541AAC0A72003000B58A95 /* growl-wpa-challenge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */; };
 		6C541AAD0A72003000B58A95 /* growl-wpa-response.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */; };
@@ -729,7 +731,6 @@
 		00875DA807097D8D00CACFCB /* WaveWeakContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveWeakContainer.h; sourceTree = "<group>"; };
 		00875DA907097D8D00CACFCB /* WaveWeakContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveWeakContainer.m; sourceTree = "<group>"; };
 		008AC9C007C3889400A76ADA /* KisMACUnitTest.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KisMACUnitTest.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		008AC9C107C3889400A76ADA /* KisMACUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "KisMACUnitTest-Info.plist"; path = "/Users/mick/openDev/KisMACng/KisMACUnitTest-Info.plist"; sourceTree = "<absolute>"; };
 		0090AC8306E5E3250096C5FC /* MapControlPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapControlPanel.h; sourceTree = "<group>"; };
 		0090AC8406E5E3250096C5FC /* MapControlPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapControlPanel.m; sourceTree = "<group>"; };
 		0090B7C907B2A43D005FEEB1 /* WaveStorageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveStorageController.h; sourceTree = "<group>"; };
@@ -844,10 +845,6 @@
 		69719E900F7E928A00949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69719EBF0F7E928A00949310 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		69719EC00F7E928A00949310 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
-		69719EC20F7E928A00949310 /* AMRollOverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMRollOverButton.h; sourceTree = "<group>"; };
-		69719EC30F7E928A00949310 /* AMRollOverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButton.m; sourceTree = "<group>"; };
-		69719EC40F7E928A00949310 /* AMRollOverButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMRollOverButtonCell.h; sourceTree = "<group>"; };
-		69719EC50F7E928A00949310 /* AMRollOverButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButtonCell.m; sourceTree = "<group>"; };
 		69719EC60F7E928A00949310 /* BICompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICompressor.h; sourceTree = "<group>"; };
 		69719EC70F7E928A00949310 /* BICompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICompressor.m; sourceTree = "<group>"; };
 		69719EC80F7E928A00949310 /* BIDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIDecompressor.h; sourceTree = "<group>"; };
@@ -939,6 +936,8 @@
 		6C41BAAE0AA0B52900E0B411 /* GPSInfoController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GPSInfoController.h; sourceTree = "<group>"; };
 		6C41BAAF0AA0B52900E0B411 /* GPSInfoController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GPSInfoController.m; sourceTree = "<group>"; };
 		6C41BAD40AA0B8E600E0B411 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GPSDialog.nib; sourceTree = "<group>"; };
+		6C461C6C12CEC58100156CBF /* WavePluginMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavePluginMidi.h; sourceTree = "<group>"; };
+		6C461C6D12CEC58100156CBF /* WavePluginMidi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WavePluginMidi.m; sourceTree = "<group>"; };
 		6C541AA80A72002F00B58A95 /* growl-ap-revealed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-ap-revealed.png"; sourceTree = "<group>"; };
 		6C541AA90A72002F00B58A95 /* growl-wpa-challenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-challenge.png"; sourceTree = "<group>"; };
 		6C541AAA0A72002F00B58A95 /* growl-wpa-response.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growl-wpa-response.png"; sourceTree = "<group>"; };
@@ -1546,7 +1545,6 @@
 				0035334206A5DD5700AB4577 /* Scripts */,
 				00F57C4A06A886630035AE2F /* Strings */,
 				0035334106A5DD5700AB4577 /* Info.plist */,
-				008AC9C107C3889400A76ADA /* KisMACUnitTest-Info.plist */,
 				69DFB55C0F8B1589000E5AF7 /* Info-Release.plist */,
 			);
 			name = Resources;
@@ -1647,10 +1645,6 @@
 		69719EC10F7E928A00949310 /* BIGeneric */ = {
 			isa = PBXGroup;
 			children = (
-				69719EC20F7E928A00949310 /* AMRollOverButton.h */,
-				69719EC30F7E928A00949310 /* AMRollOverButton.m */,
-				69719EC40F7E928A00949310 /* AMRollOverButtonCell.h */,
-				69719EC50F7E928A00949310 /* AMRollOverButtonCell.m */,
 				69719EC60F7E928A00949310 /* BICompressor.h */,
 				69719EC70F7E928A00949310 /* BICompressor.m */,
 				69719EC80F7E928A00949310 /* BIDecompressor.h */,
@@ -1731,6 +1725,8 @@
 				69BFC5F10F078532008DB1AF /* WavePluginBeaconFlood.m */,
 				694A888A0F3CD87E006B819C /* WavePcapDump.h */,
 				694A888B0F3CD87E006B819C /* WavePcapDump.m */,
+				6C461C6C12CEC58100156CBF /* WavePluginMidi.h */,
+				6C461C6D12CEC58100156CBF /* WavePluginMidi.m */,
 			);
 			name = WavePlugins;
 			path = Sources/WavePlugins;
@@ -1963,6 +1959,7 @@
 				694DB28D0F0FDF9E001CCEA6 /* IEEE80211Elements.h in Headers */,
 				694A888C0F3CD87E006B819C /* WavePcapDump.h in Headers */,
 				69359CB20FB05DD2008B8722 /* WaveSpectrumDriver.h in Headers */,
+				6C461C6E12CEC58100156CBF /* WavePluginMidi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2423,6 +2420,7 @@
 				694DB28E0F0FDF9E001CCEA6 /* IEEE80211Elements.m in Sources */,
 				694A888D0F3CD87E006B819C /* WavePcapDump.m in Sources */,
 				69359CB30FB05DD2008B8722 /* WaveSpectrumDriver.m in Sources */,
+				6C461C6F12CEC58100156CBF /* WavePluginMidi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2646,7 +2644,7 @@
 		00A9158F0858D6410093943F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2746,7 +2744,7 @@
 		00A915970858D6410093943F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
@@ -2758,7 +2756,8 @@
 		6903779F0F8B1D8F00627C6D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Info-Release.plist";
@@ -2770,7 +2769,8 @@
 		690377A00F8B1D8F00627C6D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Subprojects/files",

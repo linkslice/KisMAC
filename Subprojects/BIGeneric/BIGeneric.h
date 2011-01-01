@@ -13,7 +13,6 @@
 #include <BIGeneric/BINSExtensions.h>
 #include <BIGeneric/BISpeechController.h>
 #include <BIGeneric/BIValuePair.h>
-#include <BIGeneric/AMRollOverButton.h>
 #include <BIGeneric/BLAuthentication.h>
 #include <BIGeneric/ColoredRowOutlineView.h>
 #include <BIGeneric/ColoredRowTableView.h>

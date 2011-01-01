@@ -24,11 +24,6 @@
 		002E7E5106A874FB00C9D931 /* BLAuthentication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6606A8625700C9D931 /* BLAuthentication.h */; };
 		002E7E5206A874FB00C9D931 /* ColoredRowOutlineView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6806A8625700C9D931 /* ColoredRowOutlineView.h */; };
 		002E7E5306A874FB00C9D931 /* ColoredRowTableView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */; };
-		002E7E5406A874FB00C9D931 /* AMRollOverButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 004A8B6A069EC85F00CC8FAB /* AMRollOverButton.h */; };
-		004A8B70069EC85F00CC8FAB /* AMRollOverButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 004A8B6A069EC85F00CC8FAB /* AMRollOverButton.h */; settings = {ATTRIBUTES = (); }; };
-		004A8B71069EC85F00CC8FAB /* AMRollOverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 004A8B6B069EC85F00CC8FAB /* AMRollOverButton.m */; };
-		004A8B72069EC85F00CC8FAB /* AMRollOverButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 004A8B6C069EC85F00CC8FAB /* AMRollOverButtonCell.h */; };
-		004A8B73069EC85F00CC8FAB /* AMRollOverButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 004A8B6D069EC85F00CC8FAB /* AMRollOverButtonCell.m */; };
 		004A8B74069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h in Headers */ = {isa = PBXBuildFile; fileRef = 004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */; };
 		004A8B75069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = 004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */; };
 		0057F2FA07A428BD00D2EF91 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0057F2F907A428BD00D2EF91 /* libz.dylib */; };
@@ -87,7 +82,6 @@
 				002E7E5106A874FB00C9D931 /* BLAuthentication.h in CopyFiles */,
 				002E7E5206A874FB00C9D931 /* ColoredRowOutlineView.h in CopyFiles */,
 				002E7E5306A874FB00C9D931 /* ColoredRowTableView.h in CopyFiles */,
-				002E7E5406A874FB00C9D931 /* AMRollOverButton.h in CopyFiles */,
 				002E7E4B06A874ED00C9D931 /* BINSExtensions.h in CopyFiles */,
 				002E7E4C06A874ED00C9D931 /* BIGeneric.h in CopyFiles */,
 				002E7E4D06A874ED00C9D931 /* BIToolbar.h in CopyFiles */,
@@ -107,10 +101,6 @@
 		002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ColoredRowTableView.h; sourceTree = "<group>"; };
 		002E7A6B06A8625700C9D931 /* ColoredRowTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ColoredRowTableView.m; sourceTree = "<group>"; };
 		002E7A8106A865D500C9D931 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		004A8B6A069EC85F00CC8FAB /* AMRollOverButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRollOverButton.h; sourceTree = "<group>"; };
-		004A8B6B069EC85F00CC8FAB /* AMRollOverButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButton.m; sourceTree = "<group>"; };
-		004A8B6C069EC85F00CC8FAB /* AMRollOverButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRollOverButtonCell.h; sourceTree = "<group>"; };
-		004A8B6D069EC85F00CC8FAB /* AMRollOverButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButtonCell.m; sourceTree = "<group>"; };
 		004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMAdditons.h; sourceTree = "<group>"; };
 		004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMAdditons.m; sourceTree = "<group>"; };
 		0057F2F907A428BD00D2EF91 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
@@ -171,10 +161,6 @@
 				002E7A6906A8625700C9D931 /* ColoredRowOutlineView.m */,
 				002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */,
 				002E7A6B06A8625700C9D931 /* ColoredRowTableView.m */,
-				004A8B6A069EC85F00CC8FAB /* AMRollOverButton.h */,
-				004A8B6B069EC85F00CC8FAB /* AMRollOverButton.m */,
-				004A8B6C069EC85F00CC8FAB /* AMRollOverButtonCell.h */,
-				004A8B6D069EC85F00CC8FAB /* AMRollOverButtonCell.m */,
 				004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */,
 				004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */,
 			);
@@ -291,8 +277,6 @@
 				00C1368C0695E1DF004F02A8 /* NSToolbarView.h in Headers */,
 				00C1368F06960A97004F02A8 /* NSToolbar.h in Headers */,
 				00F15E4406975F6A00AF33BA /* BIZoomView.h in Headers */,
-				004A8B70069EC85F00CC8FAB /* AMRollOverButton.h in Headers */,
-				004A8B72069EC85F00CC8FAB /* AMRollOverButtonCell.h in Headers */,
 				004A8B74069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h in Headers */,
 				008E0F2206A441E60064AB5C /* BINSExtensions.h in Headers */,
 				002E7A6C06A8625700C9D931 /* BLAuthentication.h in Headers */,
@@ -372,8 +356,6 @@
 				00C135660695B3B6004F02A8 /* BIToolbar.m in Sources */,
 				00C136040695D1AA004F02A8 /* BIToolbarView.m in Sources */,
 				00F15E4506975F6A00AF33BA /* BIZoomView.m in Sources */,
-				004A8B71069EC85F00CC8FAB /* AMRollOverButton.m in Sources */,
-				004A8B73069EC85F00CC8FAB /* AMRollOverButtonCell.m in Sources */,
 				004A8B75069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m in Sources */,
 				008E0F2306A441E60064AB5C /* BINSExtensions.m in Sources */,
 				002E7A6D06A8625700C9D931 /* BLAuthentication.m in Sources */,
@@ -403,7 +385,7 @@
 		00B4DCCB086C6B8F009A8F23 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -447,8 +429,7 @@
 		00B4DCCF086C6B8F009A8F23 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
@@ -469,7 +450,8 @@
 		69DFB5E70F8B1681000E5AF7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;

@@ -525,14 +525,14 @@
 
 		   [_monitorMenu setTitle:[NSLocalizedString(@"Monitoring ", "menu item") stringByAppendingString:[_curNet BSSID]]];
 		   
-		   [WaveNet setTrackString:[_curNet BSSID]];
-		   [WaveNet setTrackStringClient:@"any"];
+		   [WavePluginMidi setTrackString:[_curNet BSSID]];
+		   [WavePluginMidi setTrackStringClient:@"any"];
 	   } else {
 			[_monitorMenu setState:NSOffState];
 			[_monitorMenu setTitle:NSLocalizedString(@"Monitor Signal Strength", "menu item")];
 
-			[WaveNet setTrackString:@""];
-			[WaveNet setTrackStringClient:@""];
+			[WavePluginMidi setTrackString:@""];
+			[WavePluginMidi setTrackStringClient:@""];
 	   }	
 }
 
@@ -543,13 +543,13 @@
 		[_monitorMenu setState:NSOffState];
 		[_monitorMenu setTitle:NSLocalizedString(@"Monitor Signal Strength", "menu item")];
 		
-		[WaveNet setTrackString:@"any"];
-		[WaveNet setTrackStringClient:@"any"];
+		[WavePluginMidi setTrackString:@"any"];
+		[WavePluginMidi setTrackStringClient:@"any"];
 	   } else {
 		   [_monitorAllMenu setState:NSOffState];
 		   [_monitorAllMenu setTitle:NSLocalizedString(@"Monitor all signals", "menu item")];
-		   [WaveNet setTrackString:@""];
-		   [WaveNet setTrackStringClient:@""];
+		   [WavePluginMidi setTrackString:@""];
+		   [WavePluginMidi setTrackStringClient:@""];
 	   }	
 }
 

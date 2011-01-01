@@ -218,12 +218,5 @@ struct graphStruct {
 - (int)capturedLEAPKeys;
 
 - (NSString*)crackError;
-
-- (void)openChannel2:(int)note;
-- (void)playChord:(int)	note;
-- (void)closeChannel;
-+ (void)setTrackString:(NSString*)cs;
-+ (void)setTrackStringClient:(NSString*)cs;
-
 - (NSString*)asciiKey;
 @end

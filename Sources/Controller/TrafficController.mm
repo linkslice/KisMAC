@@ -443,7 +443,7 @@
     [_curLabel  setString:currentStr withAttributes:attrs];
     
     [_maxLabel setLocation: NSMakePoint(15,rect.size.height - 5 - [textFont boundingRectForFont].size.height)];
-    [_curLabel setLocation: NSMakePoint(rect.size.width - 15 - [textFont widthOfString:currentStr], 8)];
+    [_curLabel setLocation: NSMakePoint(rect.size.width - 30 - [currentStr sizeWithAttributes:attrs].width, 8)];
 }
 
 - (void)drawLegendForRect:(NSRect)rect {

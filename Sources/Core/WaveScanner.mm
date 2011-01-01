@@ -92,7 +92,7 @@
 //does the active scanning (extra thread)
 - (void)doActiveScan:(WaveDriver*)wd {
     NSArray *nets;
-    NSDictionary *network;
+    CWNetwork *network;
     unsigned int i;
     float interval;
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -155,6 +155,10 @@
     
     _wavePlugin = [[WavePluginBeaconFlood alloc] initWithDriver:wd];
     [_wavePlugins setValue:_wavePlugin  forKey:@"BeaconFlood"];
+    [_wavePlugin release];
+    
+    _wavePlugin = [[WavePluginMidi alloc] initWithDriver: wd];
+    [_wavePlugins setValue:_wavePlugin  forKey:@"MidiTrack"];
     [_wavePlugin release];
     
     //tries to open the dump file

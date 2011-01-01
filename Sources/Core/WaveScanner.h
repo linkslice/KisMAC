@@ -34,6 +34,7 @@
 #import "WavePluginInjecting.h"
 #import "WavePluginAuthenticationFlood.h"
 #import "WavePluginBeaconFlood.h"
+#import "WavePluginMidi.h"
 #import "WavePcapDump.h"
 #import "WaveSpectrumDriver.h"
 
