@@ -71,6 +71,31 @@ typedef struct {
     UInt16 txControl;
 } __attribute__((packed)) WLPrismHeader;
 
+struct prism_value
+{
+  uint32 did;
+  uint16 status;
+  uint16 len;
+  uint32 data;
+};
+
+struct prism_header
+{
+  uint32 msgcode;
+  uint32 msglen;
+  uint8  devname[16];
+  struct prism_value hosttime;
+  struct prism_value mactime;
+  struct prism_value channel;
+  struct prism_value rssi;
+  struct prism_value sq;
+  struct prism_value signal;
+  struct prism_value noise;
+  struct prism_value rate;
+  struct prism_value istx;
+  struct prism_value frmlen;
+};
+
 typedef struct _WLIEEEFrame {
     UInt16 frameControl;
     UInt8  duration;

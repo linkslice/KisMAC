@@ -77,7 +77,7 @@
 }
 
 - (void)readPCAPDump:(NSString*)dumpFile;
-- (KFrame*) nextFrame:(bool*)corrupted;	//internal usage only
+-(KFrame*) nextFrame:(bool*)corrupted withOffset:(int) offset;
 
 //for communications with ScanController which does all the graphic stuff
 - (int) graphLength;

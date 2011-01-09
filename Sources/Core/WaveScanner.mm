@@ -286,10 +286,12 @@
         a = [WaveHelper getWaveDrivers];
         [WaveHelper secureReplace:&_drivers withObject:a];
 
-        for (i = 0; i < [_drivers count]; i++) {
+        for (i = 0; i < [_drivers count]; i++)
+        {
             w = [_drivers objectAtIndex:i];
-            if ([w type] == passiveDriver) { //for PseudoJack this is done by the timer
-                [w startCapture:1];
+            if ([w type] == passiveDriver) 
+            { //for PseudoJack this is done by the timer
+                [w startCapture:0];
             }
             
             [NSThread detachNewThreadSelector:@selector(doScan:) toTarget:self withObject:w];
@@ -391,6 +393,7 @@
     WavePacket *w;
     KFrame* frame=NULL;
     bool corrupted;
+    int offset;
     
 #ifdef DUMP_DUMPS
     pcap_dumper_t* f=NULL;
@@ -417,11 +420,23 @@
         return;
     }
 
-	if (pcap_datalink(_pcapP) != DLT_IEEE802_11) {
-	    NSLog(@"Could not open dump file: %@. Unsupported Datalink Type.", dumpFile);
-		pcap_close(_pcapP);
-        return;
-	}
+    switch (pcap_datalink(_pcapP))
+    {
+        case DLT_IEEE802_11:
+            offset = 0;
+        break;
+            
+        case DLT_PRISM_HEADER:
+            offset = sizeof(prism_header);
+        break;
+            
+        default:
+            NSLog(@"Could not open dump file: %@. Unsupported Datalink Type: %u.", 
+                  dumpFile, pcap_datalink(_pcapP));
+            pcap_close(_pcapP);
+            return;
+        break;
+    }
 	
     memset(aFrameBuf, 0, sizeof(aFrameBuf));
     aWF=(KFrame*)aFrameBuf;
@@ -429,7 +444,7 @@
     w=[[WavePacket alloc] init];
 
     while (true) {
-        frame = [self nextFrame:&corrupted];
+        frame = [self nextFrame:&corrupted withOffset: offset];
         if (frame == NULL) {
             if (corrupted)
                 continue;
@@ -464,7 +479,8 @@
 }
 
 //returns the next frame in a pcap file
--(KFrame*) nextFrame:(bool*)corrupted {
+-(KFrame*) nextFrame:(bool*)corrupted withOffset:(int) offset
+{
     UInt8 *b;
     struct pcap_pkthdr h;
 
@@ -484,7 +500,7 @@
     if ( h.caplen > 2364 )
         return NULL;	//corrupted frame
 
-    memcpy(aWF->data, b, h.caplen);
+    memcpy(aWF->data, b+offset, h.caplen);
     return aWF;   
 }
 
