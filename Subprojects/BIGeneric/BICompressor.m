@@ -27,7 +27,8 @@
 
 @implementation BICompressor
 
-- (id)initWithFile:(NSString*)file {
+- (id)initWithFile:(NSString*)file 
+{
 	UInt32 magic = 'BIGe';
     
     magic = CFSwapInt32HostToBig(magic);
@@ -36,20 +37,21 @@
 	if (!self) return nil;
 	
 	_file = gzopen([[file standardPath] UTF8String], "wb");
-	if (!_file) {
-		[self release];
+	if (!_file) 
+    {
 		return nil;
 	}
 
-	if (gzwrite(_file, &magic, sizeof(magic)) != sizeof(magic))  {
-		[self release];
+	if (gzwrite(_file, &magic, sizeof(magic)) != sizeof(magic)) 
+    {
 		return nil;
 	}
 
 	return self;
 }
 
-- (bool)addString:(NSString*)dataset {
+- (bool)addString:(NSString*)dataset 
+{
 	UInt32 size = [dataset length];
     
     UInt32 sizeToWrite = CFSwapInt32HostToBig(size);
@@ -60,19 +62,21 @@
 	return YES;
 }
 
-- (bool)addData:(NSData*)dataset {
+- (bool)addData:(NSData*)dataset 
+{
 	UInt32 size = [dataset length];
 	
     UInt32 sizeToWrite = CFSwapInt32HostToBig(size);
-    
+        
 	if (gzwrite(_file, &sizeToWrite, sizeof(sizeToWrite)) != sizeof(sizeToWrite)) return NO;
 	if (gzwrite(_file, (void*)[dataset bytes], size) != size) return NO;
 	
 	return YES;
 }
 
-- (void)dealloc {
-	gzclose(_file);
-	[super dealloc];
+- (void)close
+{
+    gzclose(_file);
 }
+
 @end

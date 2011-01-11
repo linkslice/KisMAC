@@ -26,12 +26,14 @@
 #import <Cocoa/Cocoa.h>
 #import <zlib.h>
 
-@interface BIDecompressor : NSObject {
+@interface BIDecompressor : NSObject
+{
 	gzFile	_file;
 }
 
 - (id)initWithFile:(NSString*)file;
 - (NSString*)nextString;
 - (NSData*)nextData;
+- (void)close;
 
 @end

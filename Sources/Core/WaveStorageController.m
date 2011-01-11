@@ -88,55 +88,67 @@ struct pointCoords {
     
 	//try to decompress from kismac file. if not successful try with legacy formats
 	deco = [[BIDecompressor alloc] initWithFile:filename];
-	if (!deco) return [WaveStorageController loadLegacyFromFile:filename withContainer:container andImportController:im];
+	if (!deco) return [WaveStorageController loadLegacyFromFile:filename 
+                                                  withContainer:container andImportController:im];
 	
 	creator = [deco nextString];
-	if (![creator isEqualToString:@"KisMAC"]) {
+	if (![creator isEqualToString:@"KisMAC"])
+    {
 		NSLog(@"Invaild creator code %@", creator);
-		[deco release];
+		[deco close];
 		return NO;
 	}
 	
 	version = [deco nextString];
 	NSLog(@"Loading KisMAC file created by: %@ %@", creator, version);
 	
-	data = [NSPropertyListSerialization propertyListFromData:[deco nextData] mutabilityOption:NSPropertyListImmutable format:nil errorDescription:&error];
-	if (!data) {
+	data = [NSPropertyListSerialization propertyListFromData:[deco nextData]
+                                            mutabilityOption:NSPropertyListImmutable 
+                                                      format:nil errorDescription:&error];
+	if (!data) 
+    {
 		NSLog(@"Could not decode trace: %@", error);
-		[deco release];
+		[deco close];
 		return NO;
 	}
 	
 	[[WaveHelper trace] setTrace:data];
 	data = [deco nextData];
-	if (!data || [(NSData*)data length] != sizeof(i)) {
+	if (!data || [(NSData*)data length] != sizeof(i))
+    {
 		NSLog(@"Could not decode net count");
-		[deco release];
+		[deco close];
 		return NO;
 	}
 	memcpy(&i, [(NSData*)data bytes], sizeof(i));
 	
 	[im setMax:i];
-	while ((data = [deco nextData]) != NULL) {
-		data = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable format:nil errorDescription:&error];
-		if (!data) {
+	while ((data = [deco nextData]) != NULL)
+    {
+		data = [NSPropertyListSerialization propertyListFromData:data
+                                                mutabilityOption:NSPropertyListImmutable 
+                                                          format:nil errorDescription:&error];
+		if (!data) 
+        {
 			NSLog(@"Could not decode wavenet: %@", error);
-			[deco release];
+			[deco close];
 			return NO;
 		}
 		
 		net = [[[WaveNet alloc] initWithDataDictionary:data] autorelease];
-		if (net) { //silently discard errors here
-			if (![container addNetwork: net]) {
+		if (net) 
+        { //silently discard errors here
+			if (![container addNetwork: net])
+            {
 				NSLog(@"Adding a network failed! Make sure you are not hitting MAXNETs");
-				[deco release];
+				[deco close];
 				return NO;
 			}
 		}
 		[im increment];
 	}
 	
-	[deco release];
+	[deco close];
 	return YES;
 }
 
@@ -402,19 +414,19 @@ struct pointCoords {
 	data = [NSPropertyListSerialization dataFromPropertyList:m format:NSPropertyListBinaryFormat_v1_0 errorDescription:&error];
 	if (!data)
     {
-        [c release];
+        [c close];
         return NO;
     }
 	if (![c addData:data])
     {
-        [c release];
+        [c close];
         return NO;
     }
 	
 	i = [container count];
 	if (![c addData:[NSData dataWithBytes:&i length:sizeof(i)]])
     {
-        [c release];
+        [c close];
         return NO;
     }
 
@@ -423,19 +435,19 @@ struct pointCoords {
 		data = [NSPropertyListSerialization dataFromPropertyList:[[container netAtIndex:i] dataDictionary] format:NSPropertyListBinaryFormat_v1_0 errorDescription:&error];
 		if (!data)
         {
-            [c release];
+            [c close];
             return NO;
         }
 		if (![c addData:data])
         {
-            [c release];
+            [c close];
             return NO;
         }
 		
 		[im increment];
 	}
 	
-	[c release];
+	[c close];
 	return YES;
 }
 

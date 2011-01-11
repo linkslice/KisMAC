@@ -26,12 +26,14 @@
 #import <Cocoa/Cocoa.h>
 #import <zlib.h>
 
-@interface BICompressor : NSObject {
+@interface BICompressor : NSObject 
+{
 	gzFile	_file;
 }
 
 - (id)initWithFile:(NSString*)file;
 - (bool)addString:(NSString*)dataset;
 - (bool)addData:(NSData*)dataset;
+- (void)close;
 
 @end
