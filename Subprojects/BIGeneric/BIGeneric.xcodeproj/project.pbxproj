@@ -479,7 +479,6 @@
 					0x11000000,
 				);
 				PRODUCT_NAME = BIGeneric;
-				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
