@@ -472,7 +472,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Dynamic;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
