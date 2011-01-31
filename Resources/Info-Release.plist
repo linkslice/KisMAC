@@ -72,7 +72,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://update.kismac-ng.org/updateFeed.xml</string>
+	<string>http://update.kismac-ng.org/sparkle/profileInfo.php</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>updatePubKey.pem</string>
 	<key>SUEnableSystemProfiling</key>
