@@ -473,7 +473,7 @@ struct pointCoords {
     fprintf(fd,"# $Creator: KisMAC NS export version 0.2\r\n");
     fprintf(fd,"# $Format: wi-scan with extensions\r\n");
     fprintf(fd,"# Latitude\tLongitude\t( SSID )	Type\t( BSSID )\tTime (GMT)\t[ SNR Sig Noise ]\t# ( Name )\tFlags\tChannelbits\tBcnIntvl\r\n");
-    fprintf(fd,[[[NSDate date] descriptionWithCalendarFormat:@"# $DateGMT: %Y-%m-%d\r\n" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
+    fprintf(fd, "%s", [[[NSDate date] descriptionWithCalendarFormat:@"# $DateGMT: %Y-%m-%d\r\n" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
     
 	[im setMax:[container count]];
     for (i=0; i<[container count]; i++) {
