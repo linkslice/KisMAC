@@ -363,7 +363,8 @@
         [a addObject:[NSNumber numberWithFloat:buffer[i] * vScale]];
         [curView setGraph:a];
         
-        if (![net graphColor]) {
+        if (![net graphColor])
+        {
             static int colorCount = 0;
             [net setGraphColor:[colorArray objectAtIndex:colorCount % [colorArray count]]];
             colorCount++;
@@ -483,8 +484,17 @@
     [legendPath stroke];
     [legendPath release];
 
-    for(i = 0 ; i < [allNets count] ; i++) {
-        [attrs setObject:[(WaveNet*)[allNets objectAtIndex:i] graphColor] forKey:NSForegroundColorAttributeName];
+    for(i = 0 ; i < [allNets count] ; i++) 
+    {
+        WaveNet * net = (WaveNet*)[allNets objectAtIndex:i];
+        //make sure there is a color
+        if (![net graphColor])
+        {
+            static int colorCount = 0;
+            [net setGraphColor:[colorArray objectAtIndex:colorCount % [colorArray count]]];
+            colorCount++;
+        }
+        [attrs setObject:[net graphColor] forKey: NSForegroundColorAttributeName];
         [[self stringForNetwork:[allNets objectAtIndex:i]] drawAtPoint:NSMakePoint(9, height - ((i+1) * 20)) withAttributes:attrs];
     }
     [image unlockFocus];
