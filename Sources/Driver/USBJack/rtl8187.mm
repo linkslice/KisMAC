@@ -356,14 +356,19 @@ UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr) {
     
     IOReturn ret;
     IOUSBDevRequest theRequest;
-    theRequest.bmRequestType = USBmakebmRequestType(kUSBIn, kUSBVendor, kUSBDevice);
-    theRequest.bRequest = 0x05;
-    theRequest.wValue = addr; 
-    theRequest.wIndex = 0; 
-    theRequest.pData = &val;
-    theRequest.wLength = sizeof(val);
-    ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
-    if (ret != kIOReturnSuccess) {
+    
+    if(priv->_interface != NULL)
+    {
+        theRequest.bmRequestType = USBmakebmRequestType(kUSBIn, kUSBVendor, kUSBDevice);
+        theRequest.bRequest = 0x05;
+        theRequest.wValue = addr; 
+        theRequest.wIndex = 0; 
+        theRequest.pData = &val;
+        theRequest.wLength = sizeof(val);
+        ret = (*(priv->_interface))->ControlRequest(priv->_interface, 0, &theRequest);
+    }
+    if (ret != kIOReturnSuccess)
+    {
         NSLog(@"%s addr %x %x", __func__, addr, ret);
     }
 //    NSLog(@"<<< 32 addr %x data %x (%x)", addr, val, CFSwapInt32LittleToHost(val));
