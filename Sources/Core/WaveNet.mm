@@ -75,12 +75,20 @@ NSInteger lengthSort(id string1, id string2, void *context)
     
     _dataLock = [[NSRecursiveLock alloc] init];
     [_dataLock lock];
+    
 	// we should only create a _netView for this network if we have the information to see it
 	// check with GPSController if we have a location or not!
 	gpsc = [WaveHelper gpsController];
-	cp = [gpsc currentPoint];    
+	cp = [gpsc currentPoint];  
+    
 	if (cp._lat != 100)
+    {
         _netView = [[NetView alloc] initWithNetwork:self];
+    }
+    else
+    {
+        _netView = nil;
+    }
 	
     _ID = nil;
 	graphData = &zeroGraphData;
@@ -225,12 +233,17 @@ NSInteger lengthSort(id string1, id string2, void *context)
     if (_primaryChannel == 0) _primaryChannel = _channel;
     _gotData = NO;
     
-    if (wp._long != 100) {
+    if (wp._long != 100)
+    {
 		_netView = [[NetView alloc] initWithNetwork:self];
 		[_netView setWep:_isWep];
 		[_netView setName:_SSID];
 		[_netView setCoord:wp];
 	}
+    else
+    {
+        _netView = nil;
+    }
 	
     _firstPacket = NO;
     
@@ -298,12 +311,17 @@ NSInteger lengthSort(id string1, id string2, void *context)
     wp._long = ew_coord * (ew_dir == 'E' ? 1.0 : -1.0);
     wp._elevation = 0;
 
-	if (!(wp._long == 100 || (wp._lat == 0 && wp._long == 0))) {
+	if (!(wp._long == 100 || (wp._lat == 0 && wp._long == 0))) 
+    {
 		_netView = [[NetView alloc] initWithNetwork:self];
 		[_netView setWep:_isWep];
 		[_netView setName:_SSID];
 		[_netView setCoord:wp];
 	}
+    else
+    {
+        _netView = nil;
+    }
 	
     _packetsLog = [[NSMutableArray arrayWithCapacity:20] retain];
     _ARPLog  = [[NSMutableArray arrayWithCapacity:20] retain];
@@ -468,12 +486,17 @@ NSInteger lengthSort(id string1, id string2, void *context)
     if (_primaryChannel == 0) _primaryChannel = _channel;
     _gotData = NO;
     
-	if(wp._long != 100) {
+	if(wp._long != 100)
+    {
 		_netView = [[NetView alloc] initWithNetwork:self];
 		[_netView setWep:_isWep];
 		[_netView setName:_SSID];
 		[_netView setCoord:wp];
 	}
+    else
+    {
+        _netView = nil;
+    }
 	
     _firstPacket = NO;
     
@@ -492,8 +515,8 @@ NSInteger lengthSort(id string1, id string2, void *context)
 	
 	[_dataLock lock];
 	
-	wp = [_netView coord];
-	if ([_coordinates count]) {
+	if ([_coordinates count])
+    {
 		BIValuePair *vp;
 		struct signalCoords *pL;
 		
@@ -547,9 +570,13 @@ NSInteger lengthSort(id string1, id string2, void *context)
 	
 	if (_rateCount) [dict setObject:[NSData dataWithBytes:_rates length:_rateCount] forKey:@"rates"];
 	
-	if (wp._lat != 0) [dict setObject:[NSNumber numberWithFloat:wp._lat] forKey:@"lat"];
-	if (wp._long != 0) [dict setObject:[NSNumber numberWithFloat:wp._long] forKey:@"long"];
-	if (wp._elevation != 0) [dict setObject:[NSNumber numberWithFloat:wp._elevation] forKey:@"elev"];
+    if(nil != _netView)
+    {
+        wp = [_netView coord];
+        if (wp._lat != 0) [dict setObject:[NSNumber numberWithFloat:wp._lat] forKey:@"lat"];
+        if (wp._long != 0) [dict setObject:[NSNumber numberWithFloat:wp._long] forKey:@"long"];
+        if (wp._elevation != 0) [dict setObject:[NSNumber numberWithFloat:wp._elevation] forKey:@"elev"];
+    }
 	
 	if (aLat  && [aLat  length]>0) [dict setObject:aLat forKey:@"latString"];
 	if (aLong && [aLong length]>0) [dict setObject:aLong forKey:@"longString"];
@@ -621,7 +648,11 @@ NSInteger lengthSort(id string1, id string2, void *context)
 		}
 	}
 
-	[_netView setName:_SSID];
+    if(nil != _netView)
+    {
+        [_netView setName:_SSID];
+    }
+    
 	if (!_firstPacket) [[NSNotificationCenter defaultCenter] postNotificationName:KisMACViewItemChanged object:self];
 
 	if (updatedSSID) return;
@@ -666,8 +697,10 @@ NSInteger lengthSort(id string1, id string2, void *context)
             gpsc = [WaveHelper gpsController];
             cp = [gpsc currentPoint];    
             //after the first packet we should play some sound 
-            if (_date == Nil) {
-                if (cp._lat != 100) {
+            if (_date == Nil)
+            {
+                if (cp._lat != 100) 
+                {
                     // we have a new network with a GPS position - initialise _netView
                     _netView = [[NetView alloc] initWithNetwork:self];
                     [_netView setWep:_isWep];
@@ -707,8 +740,10 @@ NSInteger lengthSort(id string1, id string2, void *context)
                 if ((v==Nil) || ([v intValue]<_curSignal))
                     [_coordinates setObject:[NSNumber numberWithInt:_curSignal] forKey:pV];
                 [pV release];
-                if(_curSignal>=_maxSignal || ([aLat floatValue] == 0)) {
-                    if(!_netView) {
+                if(_curSignal>=_maxSignal || ([aLat floatValue] == 0)) 
+                {
+                    if(nil == _netView) 
+                    {
                         // we didn't have a GPS position when this was first found, so initialise _netView now
                         NSLog(@"First GPS fix for net %@ - initialising",_BSSID);
                         _netView = [[NetView alloc] initWithNetwork:self];
@@ -862,10 +897,19 @@ NSInteger lengthSort(id string1, id string2, void *context)
     }
     
     wep = [w wep];
-    if (wep != encryptionTypeUnknown) {
-        if (_isWep < wep || ([w type] == IEEE80211_TYPE_MGT && wep != encryptionTypeUnknown && _isWep != wep && _isWep != encryptionTypeLEAP)) {
+    if (wep != encryptionTypeUnknown) 
+    {
+        if( (_isWep < wep) ||
+            (([w type] == IEEE80211_TYPE_MGT) &&
+             (wep != encryptionTypeUnknown) &&
+             (_isWep != wep) &&
+             (_isWep != encryptionTypeLEAP)) )
+        {
             _isWep = wep;	//check if wep is enabled
-            [_netView setWep:_isWep];
+            if(_netView != nil)
+            {
+                [_netView setWep:_isWep];
+            }
         }
     }
     if ([w netType]) _type = [w netType];	//gets the type of network
@@ -1072,7 +1116,10 @@ NSInteger lengthSort(id string1, id string2, void *context)
 	if (_isWep != wep) 
     {
         _isWep = wep;	//check if wep is enabled
-        [_netView setWep:_isWep];
+        if(_netView != nil)
+        {
+            [_netView setWep:_isWep];
+        }
     }
 
     if (info.isIBSS)
@@ -1177,7 +1224,8 @@ NSInteger lengthSort(id string1, id string2, void *context)
     return ret;
 }
 
-- (void)setVisible:(BOOL)visible {
+- (void)setVisible:(BOOL)visible 
+{
 	[_netView setFiltered: !visible];
 }
 
