@@ -123,11 +123,19 @@
 
 + (void)notifyGrowlStartScan
 {
+    NSData * iconData = nil;
+    NSImage * image = [NSImage imageNamed:@"devil.icns"];
+                       
+    if(image != nil)
+    {
+        iconData = [image TIFFRepresentation];
+    }
+    
 	[GrowlApplicationBridge
 	notifyWithTitle:@"KisMAC"
 		description:@"Starting Scan..."
    notificationName:@"Scan Started/Stopped"
-		   iconData:[NSData dataWithData:[[NSImage imageNamed:@"devil.icns"] TIFFRepresentation]]
+		   iconData:iconData
 		   priority:0
 		   isSticky:NO
 	   clickContext:nil];
