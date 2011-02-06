@@ -196,9 +196,8 @@ IOReturn	RalinkJack::RTUSB_VendorRequest(UInt8 direction,
                         bool swap) {
     
     IOReturn ret;
-    char * buf;
     
-	if (!_devicePresent)
+	if (!_devicePresent || (NULL == _interface))
 	{
 		NSLog(@"device not connected");
 		return kIOReturnNoDevice;
@@ -214,18 +213,6 @@ IOReturn	RalinkJack::RTUSB_VendorRequest(UInt8 direction,
         theRequest.wLength = wLength;
         
         ret = (*_interface)->ControlRequest(_interface, 0, &theRequest);
-        
-        #if __BIG_ENDIAN__
-        //data is returned in the bus endian
-        //we need to swap
-        //this is going to be bad when we run on intel
-        if (swap) {
-            buf = (char*) malloc(sizeof(char) * wLength);
-            swab(theRequest.pData, buf, wLength);
-            memcpy(pData, buf,wLength);
-            free(buf);
-        }
-       #endif
     }
 	return ret;    
 }

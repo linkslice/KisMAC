@@ -127,33 +127,14 @@ IOReturn	RT73Jack::RTUSB_VendorRequest(UInt8 direction,
                         UInt16 wLength) {
     
     IOReturn ret;
-#if 0
-    //__BIG_ENDIAN__
-    char * buf;
-#endif
     
-	if (!_devicePresent)
+	if (!_devicePresent || (NULL == _interface))
 	{
 		NSLog(@"device not connected");
 		return kIOReturnNoDevice;
 	}
 	else
 	{
-
-#if 0
-        //__BIG_ENDIAN__
-        //I don't think we ever need to swap going to the device --geoff
-        //data is returned in the bus endian
-        //we need to swap
-        //this is going to be bad when we run on intel
-        if (swap) {
-            buf = (char*) malloc(sizeof(char) * wLength);
-            swab(pData, buf, wLength);
-            memcpy(pData, buf,wLength);
-            free(buf);
-        }
-#endif
-
         IOUSBDevRequest theRequest;
         theRequest.bmRequestType = USBmakebmRequestType(direction, kUSBVendor, kUSBEndpoint);
         theRequest.bRequest = bRequest;
@@ -163,19 +144,6 @@ IOReturn	RT73Jack::RTUSB_VendorRequest(UInt8 direction,
         theRequest.wLength = wLength;
         
         ret = (*_interface)->ControlRequest(_interface, 0, &theRequest);
-        
-#if 0
-        //data is returned in the bus endian
-        //we need to swap
-        //this is going to be bad when we run on intel
-        if (swap) {
-            buf = (char*) malloc(sizeof(char) * wLength);
-            swab(theRequest.pData, buf, wLength);
-            memcpy(pData, buf,wLength);
-            free(buf);
-        }
-#endif
-
     }
 	return ret;    
 }
