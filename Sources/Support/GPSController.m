@@ -66,13 +66,16 @@ struct termios ttyset;
 	_gpsdReconnect	= YES;
     _lastAdd        = [[NSDate date] retain];
     _linesRead      = 0;
+    
+    clManager = nil;
 
     [self setStatus:NSLocalizedString(@"GPS subsystem initialized but not running.", @"GPS status")];
 
     return self;
 }
 
-- (bool)startForDevice:(NSString*) device {
+- (bool)startForDevice:(NSString*) device 
+{
     _reliable = NO;
     _ns.dir = 'N';
     _ns.coordinates = 100;
@@ -111,10 +114,13 @@ struct termios ttyset;
     else if([_gpsDevice isEqualToString:@"CoreLocation"])
     {
         //Initialize core location
-        clManager = [[CLLocationManager alloc] init];
-        clManager.delegate = self;
-        [clManager startUpdatingLocation];
-        [self setStatus:NSLocalizedString(@"CoreLocation initialized.", @"GPS status")];
+        if(nil == clManager)
+        {
+            clManager = [[CLLocationManager alloc] init];
+            clManager.delegate = self;
+            [clManager startUpdatingLocation];
+            [self setStatus:NSLocalizedString(@"CoreLocation initialized.", @"GPS status")];
+        }
     }
     else [NSThread detachNewThreadSelector:@selector(gpsThreadSerial:) toTarget:self withObject:Nil];
     return YES;
