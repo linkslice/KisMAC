@@ -117,16 +117,12 @@ static int AirPortInstances = 0;
     NSError * error = nil;
         
     //don't merge duplicate ssids
-    params = [NSDictionary dictionaryWithObject: [NSNumber numberWithBool: NO]
-                                                       forKey:kCWScanKeyMerge];
-    
+    params = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithBool:NO], kCWScanKeyMerge,
+                               [NSNumber numberWithInt:kCWScanTypePassive], kCWScanKeyScanType,
+                               [NSNumber numberWithInteger:0], kCWScanKeyRestTime,
+                               [NSNumber numberWithInteger:10], kCWScanKeyDwellTime, nil];
     networks = [airportInterface scanForNetworksWithParameters:params error: &error]; 
-    
-    if(error)
-    {
-        CFShow(error);
-    }
-    //CFShow(networks);
   
     return networks;
 }
