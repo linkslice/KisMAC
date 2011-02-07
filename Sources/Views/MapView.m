@@ -490,7 +490,7 @@
 }
 
 - (IBAction)zoomIn:(id)sender {
-    if (_zoomFact > 20) {
+    if (_zoomFact > 100) {
         NSBeep();
         return;
     }
