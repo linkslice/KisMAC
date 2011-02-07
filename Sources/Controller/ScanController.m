@@ -622,6 +622,10 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         
         if(crashLogs != nil)
         {
+            //append the last kismac log
+            crashPath = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Logs/KisMAC.log.1"];
+            [crashLogs appendData: [mang contentsAtPath:crashPath]];
+            
             CrashReportController* crc = [[CrashReportController alloc] initWithWindowNibName:@"CrashReporter"];
             [[crc window] setFrameUsingName:@"aKisMAC_CRC"];
             [[crc window] setFrameAutosaveName:@"aKisMAC_CRC"];

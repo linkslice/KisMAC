@@ -977,7 +977,7 @@ int ss(char* inp, char* outp) {
 	fromLocation:(CLLocation *)oldLocation
 {
     NSLog(@"Got location update!");
-    CFShow(newLocation);
+    //CFShow(newLocation);
     if([GPSController isValidLocation: newLocation])
     {
         [self setCurrentPointNS: newLocation.coordinate.latitude 
