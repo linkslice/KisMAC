@@ -35,6 +35,7 @@
 #import "GPSController.h"
 #import "NetView.h"
 #import "WaveWeakContainer.h"
+#import "WaveDriverAirport.h"
 
 #define WEP_GEM_ORANGE_LEVEL  80000
 #define WEP_GEM_GREEN_LEVEL   130000
@@ -300,7 +301,7 @@ NSInteger lengthSort(id string1, id string2, void *context)
     
     aLat  = [[NSString stringWithFormat:@"%f%c", ns_coord, ns_dir] retain];
     aLong = [[NSString stringWithFormat:@"%f%c", ew_coord, ew_dir] retain];
-    _SSID = [[NSString stringWithCString: ssid] retain];
+    _SSID = [[NSString stringWithUTF8String: ssid] retain];
 
     _ID = [[NSString stringWithFormat:@"%2X%2X%2X%2X%2X%2X", bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5]] retain];
     _BSSID = [[NSString stringWithFormat:@"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X", bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5]] retain];
@@ -626,7 +627,7 @@ NSInteger lengthSort(id string1, id string2, void *context)
     
     if (newSSID==Nil || [newSSID isEqualToString:_SSID]) return;
 
-	pc = [newSSID lossyCString];
+	pc = [newSSID UTF8String];
 	for (i = 0; i < [newSSID length]; i++) {
 		if (pc[i]) {
 			isHidden = NO;
@@ -1662,7 +1663,8 @@ NSInteger lengthSort(id string1, id string2, void *context)
 
 - (bool)joinNetwork 
 {
-    NSLog(@"Todo fixme!! join support with new airport api");
+    return [[WaveDriverAirport sharedInstance] joinBSSID: _rawBSSID 
+                                            withPassword: _password];
 }
 
 #pragma mark -

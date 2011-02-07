@@ -29,7 +29,11 @@
 @interface WaveDriverAirport : WaveDriver
 {
     CWInterface * airportInterface;
+    NSArray * networks;
 }
 
 + (int) airportInstanceCount;
++(WaveDriverAirport*)sharedInstance;
+
+- (bool)joinBSSID:(UInt8*) bssid withPassword:(NSString*)passwd;
 @end

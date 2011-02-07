@@ -24,6 +24,7 @@
 #import "WaveHelper.h"
 
 static int AirPortInstances = 0;
+static WaveDriverAirport * staticInstance = nil;
 
 @implementation WaveDriverAirport
 
@@ -33,43 +34,61 @@ static int AirPortInstances = 0;
     NSArray * availableInterfaces;
     BOOL success = NO;
     NSError * error;
+    
+    if(nil == staticInstance)
+    {        
+        //first we must find an interface
+        availableInterfaces = [CWInterface supportedInterfaces];
         
-    //first we must find an interface
-    availableInterfaces = [CWInterface supportedInterfaces];
-    
-    //CFShow(availableInterfaces);
-    
-    //for now just grab the first one
-    if([availableInterfaces count] > 0)
-    {
-        airportInterface = [[CWInterface interfaceWithName: 
-                                         [availableInterfaces objectAtIndex: 0]] retain];
-        //CFShow(airportInterface);
-        if(YES == airportInterface.power)
+        //CFShow(availableInterfaces);
+        
+        //for now just grab the first one
+        if([availableInterfaces count] > 0)
         {
-            success = YES;
-        }
-        else
-        {
-            success = [airportInterface setPower: YES error: &error];
-            if(!success)
+            airportInterface = [[CWInterface interfaceWithName: 
+                                             [availableInterfaces objectAtIndex: 0]] retain];
+            //CFShow(airportInterface);
+            if(YES == airportInterface.power)
             {
-                CFShow(error);
+                success = YES;
+            }
+            else
+            {
+                success = [airportInterface setPower: YES error: &error];
+                if(!success)
+                {
+                    CFShow(error);
+                }
             }
         }
+        
+        networks = nil;
+        
+        if(!success)
+        {
+            self = nil;
+        }
+
+        staticInstance = self;
+        
+        return self;
     }
     
-    if(!success)
-    {
-        self = nil;
-    }
-    
-    return self;
+    return staticInstance;
 }
 
 +(int) airportInstanceCount 
 {
     return AirPortInstances;
+}
+
++(WaveDriverAirport*)sharedInstance
+{
+    if(nil == staticInstance)
+    {
+        staticInstance = [[WaveDriverAirport alloc] init];
+    }
+    return staticInstance;
 }
 
 #pragma mark -
@@ -112,7 +131,6 @@ static int AirPortInstances = 0;
 //don't expect any more information than that in active mode
 - (NSArray*) networksInRange 
 {
-    NSArray * networks;
     NSDictionary *params;
     NSError * error = nil;
         
@@ -133,6 +151,45 @@ static int AirPortInstances = 0;
 - (void) hopToNextChannel 
 {
 	return;
+}
+
+- (bool)joinBSSID:(UInt8*) bssid withPassword:(NSString*)passwd;
+{
+    CWNetwork * netToJoin;
+    NSError * error = nil;
+    NSDictionary * assocDict;
+    NSEnumerator * enumerator;
+    bool foundNet = NO;
+    bool success = NO;
+
+    if(nil == networks)
+    {
+        networks = [self networksInRange];
+    }
+    
+    enumerator = [networks objectEnumerator];
+    
+    while((netToJoin = [enumerator nextObject]) != nil)
+    {
+        if(!memcmp([netToJoin.bssidData bytes], bssid, 6))
+        {
+            foundNet = YES;
+            break;
+        }
+    }
+    
+    if(YES == foundNet)
+    {
+        assocDict = [NSDictionary dictionaryWithObjectsAndKeys: passwd, kCWAssocKeyPassphrase,
+                     nil];
+        success = [airportInterface associateToNetwork: netToJoin parameters: assocDict error:&error];
+    }
+    
+    if(error)
+    {
+        CFShow(error);
+    }
+    return success;
 }
 
 #pragma mark -
