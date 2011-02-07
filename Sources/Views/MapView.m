@@ -480,6 +480,7 @@
 		[_controlPanel setRestrictedMode:YES];
 		[sender setState:NSOnState];
 		[[WaveHelper mainWindow] invalidateCursorRectsForView:self]; 
+        [self _centerCurPos];
 	} else {
 		_autoCenter = NO;
 		[_controlPanel setRestrictedMode:NO];
