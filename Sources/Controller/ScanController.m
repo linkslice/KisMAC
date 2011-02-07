@@ -52,6 +52,8 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
 @implementation ScanController
 + (void)initialize {
     id registrationDict = nil ;
+    NSDictionary * defaultDriverDict = [NSDictionary dictionaryWithObjectsAndKeys:@"WaveDriverAirport", 
+                                        @"driverID", @"Airport Card", @"deviceName", nil];
 
     registrationDict = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithFloat: 0.25], @"frequence",
@@ -72,7 +74,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"None", @"noWEPSound",
         @"None", @"GeigerSound",
 		[NSNumber numberWithBool:TRUE], @"playCrackSounds",
-        @"", @"GPSDevice",
+        @"CoreLocation", @"GPSDevice",
         [NSNumber numberWithInt:2], @"GPSTrace",
         [NSNumber numberWithInt:0], @"GPSNoFix",
         [NSNumber numberWithBool:NO], @"GPSTripmate",
@@ -91,7 +93,7 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         @"localhost", @"GPSDaemonHost",
         [NSNumber numberWithInt:0], @"DebugMode",
         [NSNumber numberWithInt:2], @"WaveNetAvgTime",
-        [NSArray array], @"ActiveDrivers",
+        [NSArray arrayWithObject: defaultDriverDict], @"ActiveDrivers",
         [NSNumber numberWithInt:2], @"ac_ff", 
         [NSNumber numberWithFloat:0.1], @"bf_interval",
         [NSNumber numberWithInt:100], @"pr_interval",
