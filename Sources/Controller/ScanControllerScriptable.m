@@ -390,9 +390,11 @@
     NSParameterAssert(BSSID);
     
     for (i = [_container count]; i>=0; i--)
-        if ([[[_container netAtIndex:i] BSSID] isEqualToString:BSSID]) {
+        if ([[[_container netAtIndex:i] BSSID] isEqualToString:BSSID]) 
+        {
             _selectedRow = i;
-            [_networkTable selectRow:i byExtendingSelection:NO];
+            [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex: i]
+                                                        byExtendingSelection: NO];
             return YES;
         }
         
@@ -406,7 +408,8 @@
     
     if (i < [_container count]) {
         _selectedRow = i;
-        [_networkTable selectRow:i byExtendingSelection:NO];
+        [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex: i]
+                                                    byExtendingSelection: NO];
         return YES;
     }
     

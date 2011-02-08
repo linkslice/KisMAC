@@ -263,9 +263,11 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
             if (_detailsPaneVisibile) [aInfoController reloadData];
             if ([_container netAtIndex:_selectedRow] != _curNet) { //we lost our selected network
                 for (i = [_container count]; i>=0; i--)
-                if ([_container netAtIndex:i] == _curNet) {
+                if ([_container netAtIndex:i] == _curNet)
+                {
                     _selectedRow = i;
-                    [_networkTable selectRow:i byExtendingSelection:NO];
+                    [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex:i]
+                                                             byExtendingSelection: NO];
                     break;
                 }
             }
@@ -273,10 +275,12 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
         else {
             row = [_container nextChangedRow:0xFFFFFFFF];
             while (row != 0xFFFFFFFF) {
-                if ([_container netAtIndex:row] == _curNet) {
+                if ([_container netAtIndex:row] == _curNet) 
+                {
                     if (_detailsPaneVisibile) [aInfoController reloadData];
                     _selectedRow = row;
-                    [_networkTable selectRow:row byExtendingSelection:NO];
+                    [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex: row]
+                                                             byExtendingSelection: NO];
                 }
                 [_networkTable displayRect:[_networkTable rectOfRow:row]];
                 row = [_container nextChangedRow:row];
@@ -287,19 +291,23 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
             [aInfoController reloadData];
             if ([_container netAtIndex:_selectedRow] != _curNet) { //we lost our selected network
                 for (i = [_container count]; i>=0; i--)
-                if ([_container netAtIndex:i] == _curNet) {
+                if ([_container netAtIndex:i] == _curNet) 
+                {
                     _selectedRow = i;
-                    [_networkTable selectRow:i byExtendingSelection:NO];
+                    [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex: i]
+                                                             byExtendingSelection: NO];
                     break;
                 }
             }
         } else {
             row = [_container nextChangedRow:0xFFFFFFFF];
             while (row != 0xFFFFFFFF) {
-                if ([_container netAtIndex:row] == _curNet) {
+                if ([_container netAtIndex:row] == _curNet)
+                {
                     [aInfoController reloadData];
                     _selectedRow = row;
-                    [_networkTable selectRow:row byExtendingSelection:NO];
+                    [_networkTable selectRowIndexes:[NSIndexSet indexSetWithIndex: row]
+                                                             byExtendingSelection: NO];
                 }
                 row = [_container nextChangedRow:row];
             }

@@ -301,7 +301,8 @@
     [controller setObject:drivers forKey:@"ActiveDrivers"];
     
     [_driverTable reloadData];
-    [_driverTable selectRow:[drivers count]-1 byExtendingSelection:NO];
+    [_driverTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[drivers count]-1]
+              byExtendingSelection:NO];
 	[self updateUI];
     [drivers release];
 }
