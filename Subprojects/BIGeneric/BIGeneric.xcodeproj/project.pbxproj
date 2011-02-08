@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		002E7A6C06A8625700C9D931 /* BLAuthentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 002E7A6606A8625700C9D931 /* BLAuthentication.h */; settings = {ATTRIBUTES = (); }; };
 		002E7A6D06A8625700C9D931 /* BLAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 002E7A6706A8625700C9D931 /* BLAuthentication.m */; };
-		002E7A6E06A8625700C9D931 /* ColoredRowOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 002E7A6806A8625700C9D931 /* ColoredRowOutlineView.h */; settings = {ATTRIBUTES = (); }; };
-		002E7A6F06A8625700C9D931 /* ColoredRowOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 002E7A6906A8625700C9D931 /* ColoredRowOutlineView.m */; };
-		002E7A7006A8625700C9D931 /* ColoredRowTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */; settings = {ATTRIBUTES = (); }; };
-		002E7A7106A8625700C9D931 /* ColoredRowTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 002E7A6B06A8625700C9D931 /* ColoredRowTableView.m */; };
 		002E7A7F06A8657400C9D931 /* BIGeneric.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* BIGeneric.framework */; };
 		002E7A8206A865D500C9D931 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002E7A8106A865D500C9D931 /* Security.framework */; };
 		002E7E4B06A874ED00C9D931 /* BINSExtensions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 008E0F2006A441E60064AB5C /* BINSExtensions.h */; };
@@ -22,8 +18,6 @@
 		002E7E4F06A874ED00C9D931 /* BIZoomView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00F15E4206975F6A00AF33BA /* BIZoomView.h */; };
 		002E7E5006A874ED00C9D931 /* NSToolbar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00C1368E06960A97004F02A8 /* NSToolbar.h */; };
 		002E7E5106A874FB00C9D931 /* BLAuthentication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6606A8625700C9D931 /* BLAuthentication.h */; };
-		002E7E5206A874FB00C9D931 /* ColoredRowOutlineView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6806A8625700C9D931 /* ColoredRowOutlineView.h */; };
-		002E7E5306A874FB00C9D931 /* ColoredRowTableView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */; };
 		004A8B74069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h in Headers */ = {isa = PBXBuildFile; fileRef = 004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */; };
 		004A8B75069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = 004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */; };
 		0057F2FA07A428BD00D2EF91 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0057F2F907A428BD00D2EF91 /* libz.dylib */; };
@@ -80,8 +74,6 @@
 				00F0FF6D06AD4CFE006D4119 /* BISpeechController.h in CopyFiles */,
 				00F57B8206A87BBD0035AE2F /* BIValuePair.h in CopyFiles */,
 				002E7E5106A874FB00C9D931 /* BLAuthentication.h in CopyFiles */,
-				002E7E5206A874FB00C9D931 /* ColoredRowOutlineView.h in CopyFiles */,
-				002E7E5306A874FB00C9D931 /* ColoredRowTableView.h in CopyFiles */,
 				002E7E4B06A874ED00C9D931 /* BINSExtensions.h in CopyFiles */,
 				002E7E4C06A874ED00C9D931 /* BIGeneric.h in CopyFiles */,
 				002E7E4D06A874ED00C9D931 /* BIToolbar.h in CopyFiles */,
@@ -96,10 +88,6 @@
 /* Begin PBXFileReference section */
 		002E7A6606A8625700C9D931 /* BLAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BLAuthentication.h; sourceTree = "<group>"; };
 		002E7A6706A8625700C9D931 /* BLAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BLAuthentication.m; sourceTree = "<group>"; };
-		002E7A6806A8625700C9D931 /* ColoredRowOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ColoredRowOutlineView.h; sourceTree = "<group>"; };
-		002E7A6906A8625700C9D931 /* ColoredRowOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ColoredRowOutlineView.m; sourceTree = "<group>"; };
-		002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ColoredRowTableView.h; sourceTree = "<group>"; };
-		002E7A6B06A8625700C9D931 /* ColoredRowTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ColoredRowTableView.m; sourceTree = "<group>"; };
 		002E7A8106A865D500C9D931 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMAdditons.h; sourceTree = "<group>"; };
 		004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMAdditons.m; sourceTree = "<group>"; };
@@ -157,10 +145,6 @@
 			children = (
 				002E7A6606A8625700C9D931 /* BLAuthentication.h */,
 				002E7A6706A8625700C9D931 /* BLAuthentication.m */,
-				002E7A6806A8625700C9D931 /* ColoredRowOutlineView.h */,
-				002E7A6906A8625700C9D931 /* ColoredRowOutlineView.m */,
-				002E7A6A06A8625700C9D931 /* ColoredRowTableView.h */,
-				002E7A6B06A8625700C9D931 /* ColoredRowTableView.m */,
 				004A8B6E069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h */,
 				004A8B6F069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m */,
 			);
@@ -280,8 +264,6 @@
 				004A8B74069EC85F00CC8FAB /* NSBezierPath_AMAdditons.h in Headers */,
 				008E0F2206A441E60064AB5C /* BINSExtensions.h in Headers */,
 				002E7A6C06A8625700C9D931 /* BLAuthentication.h in Headers */,
-				002E7A6E06A8625700C9D931 /* ColoredRowOutlineView.h in Headers */,
-				002E7A7006A8625700C9D931 /* ColoredRowTableView.h in Headers */,
 				00F57B1A06A87A0C0035AE2F /* BIValuePair.h in Headers */,
 				00F0FF6B06AD499B006D4119 /* BISpeechController.h in Headers */,
 				0090B74C07B29DE7005FEEB1 /* BIDecompressor.h in Headers */,
@@ -359,8 +341,6 @@
 				004A8B75069EC85F00CC8FAB /* NSBezierPath_AMAdditons.m in Sources */,
 				008E0F2306A441E60064AB5C /* BINSExtensions.m in Sources */,
 				002E7A6D06A8625700C9D931 /* BLAuthentication.m in Sources */,
-				002E7A6F06A8625700C9D931 /* ColoredRowOutlineView.m in Sources */,
-				002E7A7106A8625700C9D931 /* ColoredRowTableView.m in Sources */,
 				00F57B1B06A87A0C0035AE2F /* BIValuePair.m in Sources */,
 				00F0FF6C06AD499B006D4119 /* BISpeechController.m in Sources */,
 				0090B52807B289E7005FEEB1 /* BICompressor.m in Sources */,

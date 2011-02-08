@@ -867,10 +867,6 @@
 		69719EDD0F7E928A00949310 /* BIZoomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZoomView.m; sourceTree = "<group>"; };
 		69719EDE0F7E928A00949310 /* BLAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLAuthentication.h; sourceTree = "<group>"; };
 		69719EDF0F7E928A00949310 /* BLAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLAuthentication.m; sourceTree = "<group>"; };
-		69719EE00F7E928A00949310 /* ColoredRowOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredRowOutlineView.h; sourceTree = "<group>"; };
-		69719EE10F7E928A00949310 /* ColoredRowOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredRowOutlineView.m; sourceTree = "<group>"; };
-		69719EE20F7E928A00949310 /* ColoredRowTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredRowTableView.h; sourceTree = "<group>"; };
-		69719EE30F7E928A00949310 /* ColoredRowTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredRowTableView.m; sourceTree = "<group>"; };
 		69719EE50F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		69719EE70F7E928A00949310 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/locversion.plist; sourceTree = "<group>"; };
 		69719EE80F7E928A00949310 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1670,10 +1666,6 @@
 				69719EDD0F7E928A00949310 /* BIZoomView.m */,
 				69719EDE0F7E928A00949310 /* BLAuthentication.h */,
 				69719EDF0F7E928A00949310 /* BLAuthentication.m */,
-				69719EE00F7E928A00949310 /* ColoredRowOutlineView.h */,
-				69719EE10F7E928A00949310 /* ColoredRowOutlineView.m */,
-				69719EE20F7E928A00949310 /* ColoredRowTableView.h */,
-				69719EE30F7E928A00949310 /* ColoredRowTableView.m */,
 				69719EE40F7E928A00949310 /* InfoPlist.strings */,
 				69719EE60F7E928A00949310 /* locversion.plist */,
 				69719EE80F7E928A00949310 /* Info.plist */,

@@ -52,8 +52,6 @@ typedef enum {
 @class SpinChannel;
 @class BIZoomView;
 @class BIToolbarView;
-@class AMRollOverButton;
-@class ColoredRowTableView;
 @class MapView;
 
 io_connect_t  root_port;    // a reference to the Root Power Domain IOService
@@ -124,8 +122,8 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
     IBOutlet TrafficController  *_trafficController;
     IBOutlet InfoController     *aInfoController;
 	IBOutlet GrowlController	*aGrowlController;
-	IBOutlet ColoredRowTableView    *aDetailsTable;
-    IBOutlet ColoredRowTableView    *_networkTable;
+	IBOutlet NSTableView        *aDetailsTable;
+    IBOutlet NSTableView        *_networkTable;
     IBOutlet NSWindow           *_window;
     IBOutlet NSOutlineView      *aOutView;
     IBOutlet NSMenu             *aNetworkMenu;
