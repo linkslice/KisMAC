@@ -43,7 +43,6 @@ enum APExtType
 
 @interface WaveDriverAirportExtreme : WaveDriver
 {
-	pcap_t *_device;
 	enum APExtType _apeType;
     int DLTType;
     
