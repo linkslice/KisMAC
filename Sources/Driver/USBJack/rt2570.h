@@ -36,10 +36,6 @@
 
 #include "ralink.h"
 
-#define ULONG unsigned long
-#define UCHAR unsigned char
-#define USHORT unsigned short
-
 #define RETRY_LIMIT	3
 #define	LENGTH_802_11			24
 

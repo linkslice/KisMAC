@@ -24,8 +24,6 @@
 
 #include "WPA.h"
 
-#define ULONG unsigned long 
-
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>

@@ -10,13 +10,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import "USBJack.h"
+#import "ralink.h"
 
 //temporary to fix linking errors
 #define	NUM_EEPROM_BBP_PARMS		19
 #define	NUM_EEPROM_BBP_TUNING_PARMS	7
 
-#define USHORT unsigned short
-#define UCHAR unsigned char
 #ifdef __BIG_ENDIAN__
 typedef union  _MCU_LEDCS_STRUC {
 	struct	{
@@ -140,8 +139,8 @@ public:
                                       unsigned long	Value);
     
     IOReturn	RTUSBReadMACRegister(
-                                     unsigned short	Offset,
-                                     unsigned long	*pValue);
+                                     USHORT	Offset,
+                                     ULONG	*pValue);
     
     IOReturn	RTUSBReadBBPRegister(
                                      unsigned char	Id,

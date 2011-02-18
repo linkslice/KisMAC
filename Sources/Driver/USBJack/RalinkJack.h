@@ -11,6 +11,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "USBJack.h"
+#import "ralink.h"
 
 #define TYPE_TXD                                        0
 #define TYPE_RXD                                        1
@@ -20,7 +21,6 @@
 //this stuff goes here for now because something is funkey with the include order
 #define	NUM_EEPROM_BBP_PARMS		19
 #define	NUM_EEPROM_BBP_TUNING_PARMS	7
-#define UCHAR unsigned char
 
 typedef struct _BBP_TUNING_PARAMETERS_STRUC
 {

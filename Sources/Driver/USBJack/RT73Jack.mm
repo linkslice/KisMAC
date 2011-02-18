@@ -38,7 +38,7 @@ char *RT73Jack::getPlistFile() {
 }
 
 IOReturn RT73Jack::_init() {
-	unsigned long	temp;
+	ULONG	temp;
 	unsigned int	i;
     IOReturn	ret;
 	
@@ -342,8 +342,8 @@ IOReturn RT73Jack::RTUSBWriteMACRegister(
 }
 
 IOReturn	RT73Jack::RTUSBReadMACRegister(
-				unsigned short	Offset,
-				unsigned long	*pValue)
+				USHORT	Offset,
+				ULONG	*pValue)
 {
 	IOReturn Status;
 	UInt32 reg;
@@ -526,9 +526,9 @@ IOReturn	RT73Jack::RTUSBReadMacAddress(unsigned char	*pData)
 IOReturn RT73Jack::NICInitializeAsic()
 {
 	IOReturn	Status = kIOReturnSuccess;
-	unsigned long	Index, Counter;
+	ULONG	Index, Counter;
 	unsigned char	Value = 0xff;
-	unsigned long	Version;
+	ULONG	Version;
 	MAC_CSR12_STRUC	MacCsr12;
 
 	NSLog(@"--> NICInitializeAsic\n");
@@ -1026,9 +1026,9 @@ v*/
 
 void RT73Jack::NICInitAsicFromEEPROM()
 {
-	unsigned long					data;
-	unsigned short					i;
-	unsigned long					MiscMode;
+	ULONG					data;
+	USHORT					i;
+	ULONG					MiscMode;
 	EEPROM_ANTENNA_STRUC	Antenna;
 	EEPROM_NIC_CONFIG2_STRUC	NicConfig2;
 

@@ -24,4 +24,8 @@
 #define RATE_54                                 11      // OFDM
 #define RATE_FIRST_OFDM_RATE    RATE_6
 
+typedef UInt32 ULONG;
+typedef UInt16 USHORT;
+typedef UInt8  UCHAR;
+
 #endif __RALINK_H
