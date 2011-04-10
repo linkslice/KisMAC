@@ -108,7 +108,7 @@ protected:
     bool                _attachDevice();
     static void         _addDevice(void *refCon, io_iterator_t iterator);
     static void         _handleDeviceRemoval(void *refCon, io_iterator_t iterator);
-    static void         _interruptReceived(void *refCon, IOReturn result, int len);
+    static void         _interruptReceived(void *refCon, IOReturn result, unsigned int len);
 
     int                 initFrameQueue(void);
     int                 destroyFrameQueue(void);

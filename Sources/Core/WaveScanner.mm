@@ -547,7 +547,8 @@
     }
     return NO;    
 }
-- (bool) injectionTest: (WaveNet *)net withClient:(WaveClient *)client {
+- (bool) injectionTest: (WaveNet *)net withClient:(WaveClient *)client
+{
     WavePluginInjectionProbe *wavePlugin;
     wavePlugin = [_wavePlugins valueForKey:@"InjectionProbe"];
     if (wavePlugin == nil)

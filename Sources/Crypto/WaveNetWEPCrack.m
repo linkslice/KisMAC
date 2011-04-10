@@ -406,8 +406,8 @@
 - (void)performBruteforceNewsham:(NSObject*)obj {	
     unsigned char key[KEYNUM][KEYLENGTH + 3], skeletonStateArray[256], currentStateArray[256];
     unsigned int i, foundCRC, counter, length = 0;
-    unsigned char y, z, tmp, xov, l, j, curGuess[16];
-    unsigned int w, x, q, k, selKey;
+    unsigned char y, z, tmp, xov, j, curGuess[16];
+    unsigned int w, x, q, selKey;
     const char *data = nil;
     BOOL isInit;
     ImportController *controller;

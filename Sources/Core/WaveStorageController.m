@@ -509,8 +509,13 @@ struct pointCoords {
                 NSAssert(NO, @"Invalid network type");
         }
         fprintf(fd, "\t( %s )\t", [[net BSSID] UTF8String]);
-        fprintf(fd, [[[net lastSeenDate] descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] locale:nil] UTF8String]);
-        fprintf(fd, "[ %u %u %u ]\t# ( %s )\t00%s%s\t0000\t0\r\n", [net maxSignal], [net maxSignal], 0, [[net getVendor] UTF8String],[net wep] > encryptionTypeNone ? "1": "0", ([net type] == networkTypeAdHoc) ? "2": ([net type] == networkTypeManaged) ? "1" : "0");
+        fprintf(fd, "%s", [[[net lastSeenDate]
+                            descriptionWithCalendarFormat:@"%H:%M:%S (GMT)\t" 
+                            timeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"] 
+                            locale:nil] UTF8String]);
+        fprintf(fd, "[ %u %u %u ]\t# ( %s )\t00%s%s\t0000\t0\r\n", [net maxSignal], 
+                [net maxSignal], 0, [[net getVendor] UTF8String],[net wep] > encryptionTypeNone ? "1": "0",
+                ([net type] == networkTypeAdHoc) ? "2": ([net type] == networkTypeManaged) ? "1" : "0");
 
 		[im increment];
     }

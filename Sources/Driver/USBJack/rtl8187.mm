@@ -1239,8 +1239,9 @@ static void rtl8187_stop(struct rtl8187_priv *priv) {
 	return;
 }
 
-char *RTL8187Jack::getPlistFile() {
-    return "UsbVendorsRTL8187";
+char *RTL8187Jack::getPlistFile()
+{
+    return (char*)"UsbVendorsRTL8187";
 }
 
 IOReturn RTL8187Jack::_init() {

@@ -56,7 +56,7 @@ unsigned long doFCS(unsigned char* buf, int len) {
 
 - (void)awakeFromNib {
     [[self window] setDelegate:self];
-}
+} 
 
 - (IBAction)okAction:(id)sender {
     NSString *inFile, *outFile;
@@ -163,7 +163,8 @@ unsigned long doFCS(unsigned char* buf, int len) {
         c = [[_hexKey stringValue] UTF8String];
         
         val = 0;
-        for(i = 0; i < [[_hexKey stringValue] cStringLength]; i++) {
+        for(i = 0; i < [[_hexKey stringValue] length]; i++) 
+        {
             shift = i & 0x3;
             val ^= (c[i] << (shift * 8));
         }

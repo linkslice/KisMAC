@@ -26,7 +26,7 @@
     drivers = [controller objectForKey:@"ActiveDrivers"];
     
     while (WaveDrivers[i][0]) {
-        s = [NSString stringWithCString:WaveDrivers[i]];
+        s = [NSString stringWithUTF8String:WaveDrivers[i]];
         for (j = 0; j < [drivers count]; j++) {
             c = NSClassFromString(s);
             
@@ -263,7 +263,7 @@
     NSString *driverClassName;
 	NSNumber *kserverport;
     
-    driverClassName = [NSString stringWithCString:WaveDrivers[[[_driver selectedItem] tag]]];
+    driverClassName = [NSString stringWithUTF8String:WaveDrivers[[[_driver selectedItem] tag]]];
     
 	if ([driverClassName isEqualToString:@"WaveDriverKismet"]) {
 		kserverport = [NSNumber numberWithInt:2501];

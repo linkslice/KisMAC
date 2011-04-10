@@ -128,6 +128,10 @@ static NSString *trackString,*trackStringClient;
 		CloseComponent(na);
 	
 }
+#else
+- (void)openChannel2:(int)note {}
+- (void)playChord:(int)note {}
+- (void)closeChannel {}
 #endif
 
 + (void)setTrackString:(NSString*)cs

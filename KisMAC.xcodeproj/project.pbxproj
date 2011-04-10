@@ -1516,7 +1516,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				6C32713312CFC4070033A649 /* CoreLocation.framework */,
 			);
 			name = KisMAC;
 			sourceTree = "<group>";
@@ -1553,6 +1552,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C32713312CFC4070033A649 /* CoreLocation.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 				6CF938C310A7DFDF00B32F94 /* CoreWLAN.framework */,

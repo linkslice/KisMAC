@@ -131,8 +131,9 @@ char WaveDrivers [][30] = {
 
 #pragma mark -
 
-- (bool)setConfiguration:(NSDictionary*)dict {
-    int i, j, ch, supChannelMask;
+- (bool)setConfiguration:(NSDictionary*)dict 
+{
+    int i, j, supChannelMask;
     NSString *key;
     NSUserDefaults *sets;
     NSMutableArray *a;

@@ -44,12 +44,12 @@
 
 - (void)doBeaconFloodNetwork
 {
-	NSUserDefaults *defs;
     UInt16 x[3];
     KFrame *kframe = &_beaconFrame;
     struct ieee80211_probe_beacon *beacon = (struct ieee80211_probe_beacon *)(kframe->data);
 
-    if (_stopFlag == YES) {
+    if (_stopFlag == YES)
+    {
         _stopFlag = NO;
         _status = WavePluginIdle;
         return;

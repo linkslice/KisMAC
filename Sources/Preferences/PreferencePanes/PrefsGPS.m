@@ -51,7 +51,7 @@
             kCFStringEncodingASCII);
         CFRelease (nameCFstring);
     }
-    return [NSString stringWithCString:resultStr];
+    return [NSString stringWithUTF8String:resultStr];
 }
 
 - (void)updateRestrictions {

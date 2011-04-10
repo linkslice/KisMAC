@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "WavePlugin.h"
 
-@interface WavePluginInjectionProbe : WavePlugin {
+@interface WavePluginInjectionProbe : WavePlugin 
+{
     IBOutlet NSWindow *probeSheet;
     
     IBOutlet NSImageView *statusRate1;
@@ -44,7 +45,7 @@
 
 }
 
-- (bool) startTest: (WaveNet *)net;
+- (bool) startTest: (WaveNet *)net withClient:(WaveClient *)client ;
 - (void) stepTestProbeRequest;
 - (void) stepTestRTS;
 - (void) checkResponse;

@@ -23,7 +23,8 @@
 */
 #import <AppKit/AppKit.h>
 
-@interface DecryptController : NSWindowController {
+@interface DecryptController : NSWindowController <NSWindowDelegate>
+{
     IBOutlet NSButton* _okButton;
     IBOutlet NSButton* _cancelButton;
     IBOutlet NSTextField* _inFile;

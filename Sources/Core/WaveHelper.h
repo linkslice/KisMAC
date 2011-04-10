@@ -110,13 +110,6 @@ void WirelessCryptMD5(char const *str, unsigned char *key);
 
 + (int)showCouldNotInstaniciateDialog:(NSString*)driverName;
 
-/* Keychain functions */
-
-+ (bool)storePassword:(NSString*)password forAccount:(NSString*)account;
-+ (bool)deletePasswordForAccount:(NSString*)account;
-+ (NSString*)getPasswordForAccount:(NSString*)account;
-+ (bool)changePasswordForAccount:(NSString*)account toPassword:(NSString*)password;
-
 /* packet utilities */
 + (NSString*)frameControlToString:(UInt16)fc;
 + (void)dumpKFrame:(KFrame *)f;

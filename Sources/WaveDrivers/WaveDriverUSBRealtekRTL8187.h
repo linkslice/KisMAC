@@ -26,9 +26,7 @@
 #import "../Driver/USBJack/rtl8187.h"
 
 
-@interface WaveDriverUSBRealtekRTL8187 : WaveDriverUSB {
+@interface WaveDriverUSBRealtekRTL8187 : WaveDriverUSB 
+{
 }
-
-- (id)initAsMaster;
-//- (id)initWithMaster: (WaveDriverUSBIntersil) master;
 @end

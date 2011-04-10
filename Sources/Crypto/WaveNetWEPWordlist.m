@@ -69,7 +69,9 @@
         
         words++;
         
-        WirelessEncrypt((CFStringRef)[NSString stringWithCString:wrd length:i],(WirelessKey*)(key+3),0);
+        //Null terminate
+        wrd[i-1] = 0;
+        WirelessEncrypt((CFStringRef)[NSString stringWithUTF8String:wrd],(WirelessKey*)(key+3),0);
 
         for(i=0;i<[_packetsLog count];i++) {
             if (!isInit) {	
@@ -169,7 +171,9 @@
         
         words++;
         
-        WirelessEncrypt((CFStringRef)[NSString stringWithCString:wrd length:i],(WirelessKey*)(key+3),1);
+        //NULL terminate
+        wrd[i-1] = 0;
+        WirelessEncrypt((CFStringRef)[NSString stringWithUTF8String:wrd],(WirelessKey*)(key+3),1);
 
         for(i=0; i<[_packetsLog count]; i++) {
             if (!isInit) {	

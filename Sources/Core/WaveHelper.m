@@ -91,39 +91,9 @@ static GPSInfoController *_gc;
 
 
 //converts a string to an url encoded string
-+ (NSString*) urlEncodeString:(NSString*)string {
-    const char *input;
-    char *output;
-    int i, j, l, h;
-    char x[3];
-    NSString *outstring;
-    
-    input = [string UTF8String];
-    l = [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-    j = 0;
-    
-    output = malloc(l*3);
-    
-    for (i=0; i<l; i++) {
-        if (input[i] == ' ') output[j++] = '+';
-        else if (input[i] == '.' || input[i] == '-' || input[i] == '_' || input[i] == '*') output[j++] = input[i];
-        else if(input[i] >= 'a' && input[i] <= 'z') output[j++] = input[i];
-        else if(input[i] >= 'A' && input[i] <= 'Z') output[j++] = input[i];
-        else if(input[i] >= '0' && input[i] <= '9') output[j++] = input[i];
-        else {
-            h = input[i];
-            sprintf(x, "%.2x", h);
-            output[j++] = '%';
-            output[j++] = x[0];
-            output[j++] = x[1];            
-        }
-    }
-    
-    outstring = [NSString stringWithCString:output length:j];
-    
-    free(output);
-    
-    return outstring;
++ (NSString*) urlEncodeString:(NSString*)string 
+{
+    return [string stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
 }
 
 #pragma mark -
@@ -284,7 +254,8 @@ static GPSInfoController *_gc;
 }
 
 //placeholder for later
-+ (bool)loadDrivers {
++ (bool)loadDrivers
+{
     NSUserDefaults *d;
     WaveDriver *w = nil;
     NSArray *a;
@@ -293,7 +264,6 @@ static GPSInfoController *_gc;
     NSString *interfaceName;
     Class driver;
     unsigned int i, j;
-    NSString *airportName;
     
     //if our dictionary does not exist then create it.
     if (!_waveDrivers) {
@@ -387,7 +357,7 @@ static GPSInfoController *_gc;
     
     e = [_waveDrivers keyEnumerator];
     while ((k = [e nextObject])) {
-        d = [[_waveDrivers objectForKey:k] configuration];
+        d = [(WaveDriver*)[_waveDrivers objectForKey:k] configuration];
         if ([[d objectForKey:@"injectionDevice"] intValue]) return [_waveDrivers objectForKey:k];
     }
     

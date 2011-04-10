@@ -240,7 +240,6 @@
 			// Validate it
 			if (ntohl(fhdr.frame_sentinel) != STREAM_SENTINEL) {
 				int8_t cmd = STREAM_COMMAND_FLUSH;
-				int ret = 0;
 
 				stream_recv_bytes = 0;
 				resyncs++;

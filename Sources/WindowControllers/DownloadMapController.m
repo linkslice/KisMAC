@@ -69,7 +69,6 @@
     NSMutableDictionary *d;
     NSAppleEventDescriptor *serv, *lat, *lon, *zoom, *width, *height;
     BOOL map24 = NO;
-    BOOL sdau = NO;
 
     w._lat  = [_latitude  floatValue] * ([[_nsButton titleOfSelectedItem] isEqualToString:@"N"] ? 1.0 : -1.0);
     w._long = [_longitude floatValue] * ([[_ewButton titleOfSelectedItem] isEqualToString:@"E"] ? 1.0 : -1.0);

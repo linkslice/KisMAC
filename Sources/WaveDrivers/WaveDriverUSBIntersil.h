@@ -27,10 +27,7 @@
 #import "WaveHelper.h"
 #import "../Driver/USBJack/IntersilJack.h"
 
-@interface WaveDriverUSBIntersil : WaveDriverUSB {
-
+@interface WaveDriverUSBIntersil : WaveDriverUSB 
+{
 }
-
-- (id)initAsMaster;
-//- (id)initWithMaster: (WaveDriverUSBIntersil) master;
 @end

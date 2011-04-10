@@ -270,7 +270,7 @@ void  USBJack::_lockDevice() {
 void  USBJack::_unlockDevice() {
     pthread_mutex_unlock(&_wait_mutex);
 }
-void USBJack::_interruptReceived(void *refCon, IOReturn result, int len)
+void USBJack::_interruptReceived(void *refCon, IOReturn result, unsigned int len)
 {
     USBJack             *me = (USBJack*) refCon;
     IOReturn                    kr;

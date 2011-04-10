@@ -219,8 +219,6 @@ io_connect_t  root_port;    // a reference to the Root Power Domain IOService
 - (IBAction)debugTestWPAHashingFunction:(id)sender;
 - (IBAction)debugExportTrafficView:(id)sender;
 
-- (void)selectedTableContextMenuItem:(id)sender;
-
 void NotifySleep( void * refCon, io_service_t service,
                       natural_t messageType, void * messageArgument );
 @end

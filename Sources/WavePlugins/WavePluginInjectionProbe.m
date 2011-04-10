@@ -10,7 +10,8 @@
 
 @implementation WavePluginInjectionProbe
 
-- (bool) startTest: (WaveNet *)net withClient:(WaveClient *)client {
+- (bool) startTest: (WaveNet *)net withClient:(WaveClient *)client 
+{
     int i;
     
     // No vaild network, return

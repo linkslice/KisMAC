@@ -2262,7 +2262,8 @@ unsigned long	BIT32[] = {0x00000001, 0x00000002, 0x00000004, 0x00000008,
     0x01000000, 0x02000000, 0x04000000, 0x08000000,
     0x10000000, 0x20000000, 0x40000000, 0x80000000};
 
-char*	CipherName[] = {"none","wep64","wep128","TKIP","AES","CKIP64","CKIP128"};
+char*	CipherName[] = {(char*)"none",(char*)"wep64",(char*)"wep128",(char*)"TKIP",
+                        (char*)"AES",(char*)"CKIP64",(char*)"CKIP128"};
 
 const unsigned short ccitt_16Table[] = {
 	0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7,

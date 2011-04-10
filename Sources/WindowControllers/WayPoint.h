@@ -26,7 +26,8 @@
 #import "GPSController.h"
 #import "MapView.h"
 
-@interface WayPoint : NSWindowController {
+@interface WayPoint : NSWindowController <NSWindowDelegate>
+{
     enum selmode    _mode;
     waypoint        _w;
     NSPoint         _p;

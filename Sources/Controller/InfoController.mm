@@ -335,10 +335,13 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
     [super dealloc];
 }
 
-- (NSString *) theRow {
-    UInt32 selectedRow = [aClientTable selectedRow];
-    if (selectedRow == -1)
+- (NSString *) theRow 
+{
+    SInt32 row = [aClientTable selectedRow];
+    if (row == -1)
+    {
         return nil;
+    }
 	return [aClientKeys objectAtIndex:[aClientTable selectedRow]];
 }
 

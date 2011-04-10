@@ -142,9 +142,12 @@ in Safari.");
                 goto err;
             }
             [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-        } else {
+        } else 
+        {
             errcount = 0;
-            s = [s stringByAppendingString:[NSString stringWithCString:buf length:bytesread]];
+            //NULL Terminate
+            buf[bytesread] = 0;
+            s = [s stringByAppendingString:[NSString stringWithUTF8String:buf]];
         }
         bytesread = read(sockd, buf, 2024);
     }
@@ -229,7 +232,7 @@ err:
     NSString *req;
     int scale,zone;
     float scalef;
-       double utme,utmn,K1,K2,K3,K4,K5,p,S,k0,sin1sec,nu,eprimesqd,e,rlat,rlong,mperdeglat,mperdeglon,numpx,lon0;
+       double utme,utmn,K1,K2,K3,K4,K5,p,S,k0,sin1sec,nu,eprimesqd,e,rlat,mperdeglat,mperdeglon,numpx,lon0;
 
     
     if ((int)size.width == 0) { size.width = 1000; }
@@ -361,7 +364,7 @@ err:
 			   else zone = floor(w._long/6)+31;
 			   lon0 = zone * 6 - 183;
 
-			   NSLog([NSString stringWithFormat:@"UTM zone %d, central meridian %d",zone,(int)lon0]);
+			   NSLog(@"UTM zone %d, central meridian %d", zone, (int)lon0);
 
 			   e = sqrt(1 - pow(b_WGS84,2)/pow(a_WGS84,2));
 			   eprimesqd = pow(e,2)/(1-pow(e,2));
@@ -400,10 +403,10 @@ err:
         _w2._lat  = w._lat  - 1000 * scalef * size.height / 2 / numpx / mperdeglat;
         _w2._long = w._long - 1000 * scalef * size.width / 2 / numpx / mperdeglat; // should use mperdeglon... but mperdeglat appears to work instead
 		
-		NSLog([NSString stringWithFormat:@"mperdeglon %f, mperdeglat %f, numpx %f",mperdeglon,mperdeglat,numpx]);
-		NSLog([NSString stringWithFormat:@"Waypoint 1: %f %f",_w1._lat,_w1._long]);
-		NSLog([NSString stringWithFormat:@"Waypoint 2: %f %f",_w2._lat,_w2._long]);
-		NSLog([NSString stringWithFormat:@"Center: %f %f",w._lat,w._long]);
+		NSLog(@"mperdeglon %f, mperdeglat %f, numpx %f",mperdeglon,mperdeglat,numpx);
+		NSLog(@"Waypoint 1: %f %f",_w1._lat,_w1._long);
+		NSLog(@"Waypoint 2: %f %f",_w2._lat,_w2._long);
+		NSLog(@"Center: %f %f",w._lat,w._long);
     } else {
         NSLog(@"Invalid server!");
         return NO;

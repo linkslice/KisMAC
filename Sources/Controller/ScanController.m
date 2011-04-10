@@ -233,7 +233,8 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
     
     // register to receive system sleep notifications
     root_port = IORegisterForSystemPower( scanner, &notifyPortRef, NotifySleep, &notifierObject );
-    if ( (void *)root_port == NULL ) {
+    if ( MACH_PORT_NULL == root_port ) 
+    {
         printf("IORegisterForSystemPower failed\n");
     } else {		
 		// add the notification port to the application runloop
@@ -405,9 +406,14 @@ NSString *const KisMACGPSStatusChanged      = @"KisMACGPSStatusChanged";
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
     return ([item numberOfChildren] != -1);
 }
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
-    if (item!=Nil) return [item childAtIndex:index];
-    else {
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+{
+    if (item != Nil)
+    {
+        return [(ScanHierarch*)item childAtIndex:index];
+    }
+    else
+    {
         return [ScanHierarch rootItem:_container index:index];
     }
 }

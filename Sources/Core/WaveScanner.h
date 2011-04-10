@@ -38,7 +38,8 @@
 #import "WavePcapDump.h"
 #import "WaveSpectrumDriver.h"
 
-@interface WaveScanner : NSObject {    
+@interface WaveScanner : NSObject <NSSoundDelegate> 
+{    
     NSTimer* _scanTimer;                //timer for refreshing the tables
     NSTimer* _hopTimer;                 //channel hopper
 

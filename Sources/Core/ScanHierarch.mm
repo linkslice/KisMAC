@@ -324,7 +324,7 @@ static ScanHierarch *rootItem3 = nil;	//root item ssids
 
 - (int)numberOfChildren 
 {
-    id tmp = [self children];
+    NSArray * tmp = [self children];
     if (tmp == IsALeafNode) 
         return -1;
     else

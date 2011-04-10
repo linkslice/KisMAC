@@ -172,7 +172,9 @@ static int KismetInstances = 0;
 	}
 	
 	netarray = [NSArray array];
-	netrcvd = [NSString stringWithCString:netbuf length:len];
+    //NULL terminate
+    netbuf[len] = 0;
+	netrcvd = [NSString stringWithUTF8String:netbuf];
 	rcvd2 = [netrcvd componentsSeparatedByString:@"\n"]; // split packet into lines
 	int arrayCount = [rcvd2 count];
 	for (i = 0; i < arrayCount; i++) { // iterate through each line - 1 line = 1 network

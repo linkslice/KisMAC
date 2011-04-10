@@ -345,7 +345,7 @@ inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int s
             if (c[curKey].wpaKeyCipher == 1)
                 fast_hmac_md5(c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
             else
-                fast_hmac_sha1(c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
+                fast_hmac_sha1((unsigned char*)c[curKey].data, c[curKey].dataLen, ptk, 16, digest);
             
             if (memcmp(digest, c[curKey].mic, 16) == 0) {
                 _password = [[NSString stringWithFormat:@"%s for Client %@", wrd, c[curKey].clientID] retain];

@@ -34,7 +34,7 @@ void RT73Jack::dumpFrame(UInt8 *data, UInt16 size) {
 }
 
 char *RT73Jack::getPlistFile() {
-    return "UsbVendorsRT73";
+    return (char*)"UsbVendorsRT73";
 }
 
 IOReturn RT73Jack::_init() {

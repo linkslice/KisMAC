@@ -101,7 +101,6 @@
 	}
 	
 	[[self window] display];
-	[[self window] updateInDock]; // undocumented method
 }
 
 - (void)updateSatPRNForSat:(int)sat prn:(int)prn {

@@ -680,13 +680,17 @@ int ss(char* inp, char* outp) {
 			return NO;
 		}
     
-		if((len = read(fd, &gpsbufII[0], MAX_GPSBUF_LEN)) < 0) {
+		if((len = read(fd, gpsbufII, MAX_GPSBUF_LEN)) < 0) 
+        {
 			NSLog(@"GPSd read failed");
 			return NO;
 		}
 
-		@try {
-			gpsbuf2	= [NSString stringWithCString:gpsbufII length:len];
+		@try 
+        {
+            //NULL terminate
+            gpsbufII[MAX_GPSBUF_LEN-1] = 0;
+			gpsbuf2	= [NSString stringWithUTF8String:gpsbufII];
 			
 			range = [gpsbuf2 rangeOfString:@":"];
 			range2 = NSMakeRange(range.location - 2,2);

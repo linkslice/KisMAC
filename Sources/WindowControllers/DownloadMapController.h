@@ -24,7 +24,8 @@
 #import <AppKit/AppKit.h>
 #import "GPSController.h"
 
-@interface DownloadMapController : NSWindowController {
+@interface DownloadMapController : NSWindowController <NSWindowDelegate>
+{
     IBOutlet NSButton* _okButton;
     IBOutlet NSButton* _cancelButton;
     IBOutlet NSTextField* _width;

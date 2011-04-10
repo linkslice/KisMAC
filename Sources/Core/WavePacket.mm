@@ -72,7 +72,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 					_SSID = [[NSString stringWithUTF8String:ssid] retain];
 				}
 				@catch (NSException *exception) { //fallback if not UTF-8 encoded
-					_SSID = [[NSString stringWithCString:(char*)(packet+2) length:len] retain];
+					_SSID = [[NSString stringWithCharacters:(unichar*)(packet+2) length:len] retain];
 				}
 			}
             break;
@@ -128,7 +128,7 @@ bool inline is8021xPacket(const UInt8* fileData) {
 						[_SSIDs addObject:[NSString stringWithUTF8String:ssid]];
 					}
 					@catch (NSException *exception) {
-						[_SSIDs addObject:[NSString stringWithCString:(char*)(ssidl) length:slen]];
+						[_SSIDs addObject:[NSString stringWithCharacters:(unichar*)(ssidl) length:slen]];
 					}
 
 					ssidl += slen;
@@ -1027,7 +1027,7 @@ int isValidPacket(UInt8 *fileData, int fileLength) {
             userLength = l->length-16;
             if (_payloadLength-24 < userLength) return NO;
             [WaveHelper secureReplace:&_challenge   withObject:[NSData dataWithBytes:l->challenge length:8]];
-            [WaveHelper secureReplace:&_username    withObject:[NSString stringWithCString:(char*)&l->name length:userLength]];
+            [WaveHelper secureReplace:&_username    withObject:[NSString stringWithCharacters:(unichar*)&l->name length:userLength]];
             break;
         case leapAuthCodeResponse:  //handle response
             if (_payloadLength-16 < 24) return NO;

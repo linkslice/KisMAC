@@ -26,15 +26,12 @@
 #import "WaveDriver.h"
 #import "../Driver/USBJack/USBJack.h"
 
-@interface WaveDriverUSB : WaveDriver {
+@interface WaveDriverUSB : WaveDriver 
+{
     USBJack *_driver;
     //stuff for timed sending
     float           _interval;
     bool            _transmitting;
 	int				_errors;
-
 }
-
-- (id)initAsMaster;
-//- (id)initWithMaster: (WaveDriverUSBIntersil) master;
 @end

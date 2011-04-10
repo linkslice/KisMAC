@@ -20,6 +20,7 @@
     VoiceSpec theVoiceSpec;
 
     NSEnumerator* sounds;
+    NSError * error;
     id object;
 
     CountVoices(&numOfVoices);
@@ -38,7 +39,7 @@
     [aNOWEPSounds removeAllItems];
 
     sounds = [[[NSFileManager defaultManager]
-            directoryContentsAtPath:@"/System/Library/Sounds"] objectEnumerator];
+               contentsOfDirectoryAtPath:@"/System/Library/Sounds" error: &error] objectEnumerator];
 
     [aGeigerSounds addItemWithTitle:[NSString stringWithString:@"None"]];
     [aWEPSounds addItemWithTitle:[NSString stringWithString:@"None"]];

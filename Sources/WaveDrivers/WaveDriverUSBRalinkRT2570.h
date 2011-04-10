@@ -26,9 +26,7 @@
 #import "../Driver/USBJack/RalinkJack.h"
 
 
-@interface WaveDriverUSBRalinkRT2570 : WaveDriverUSB {
+@interface WaveDriverUSBRalinkRT2570 : WaveDriverUSB 
+{
 }
-
-- (id)initAsMaster;
-//- (id)initWithMaster: (WaveDriverUSBIntersil) master;
 @end

@@ -29,8 +29,9 @@ unsigned char   RT2570_RateIdToPlcpSignal[12] = {
     12  /* RATE_54  */
 };
 
-char *RalinkJack::getPlistFile() {
-    return "UsbVendorsRT2570";
+char *RalinkJack::getPlistFile() 
+{
+    return (char*)"UsbVendorsRT2570";
 }
 
 IOReturn RalinkJack::_init() {
@@ -1039,9 +1040,10 @@ bool RalinkJack::startCapture(UInt16 channel) {
     return true;   
 }
 
-bool RalinkJack::stopCapture(){
+bool RalinkJack::stopCapture()
+{
     RTUSBWriteMACRegister(MAC_CSR20, 0x0000); //turn off led
-    RTUSBWriteMACRegister(TXRX_CSR2, 0xffffffff); //disable rx
+    RTUSBWriteMACRegister(TXRX_CSR2, 0xffff); //disable rx
     return true;
 }
 

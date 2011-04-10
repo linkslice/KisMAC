@@ -24,7 +24,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ImportController : NSWindowController
+@interface ImportController : NSWindowController <NSWindowDelegate>
 {
     bool _canceled;
     bool _animate;
@@ -40,7 +40,6 @@
 - (IBAction)cancelAction:(id)sender;
 - (void)setMax:(float)max;
 - (void)increment;
-- (void)animate;
 - (void)stopAnimation;
 - (bool)canceled;
 - (void)terminateWithCode:(int)code;

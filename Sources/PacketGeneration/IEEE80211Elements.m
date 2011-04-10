@@ -9,6 +9,6 @@
 #import "IEEE80211Elements.h"
 
 
-@implementation IEEE80211Elements
+@interface IEEE80211Elements
 
 @end

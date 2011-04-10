@@ -30,7 +30,7 @@
 
 #define defaults	[NSUserDefaults standardUserDefaults]
 
-@interface PrefsController : NSObject
+@interface PrefsController : NSObject <NSToolbarDelegate>
 {
     IBOutlet PrefsWindow* prefsWindow;
     IBOutlet NSBox* prefsBox;

@@ -25,7 +25,8 @@
 #import "../Views/GPSSatInfo/GPSSatInfo.h"
 
 
-@interface GPSInfoController : NSWindowController {
+@interface GPSInfoController : NSWindowController <NSWindowDelegate>
+{
 	NSMenuItem* _showMenu;
 	IBOutlet NSLevelIndicator* _hdop_indicator;
 	IBOutlet NSLevelIndicator* _fix_indicator;

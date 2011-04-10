@@ -107,8 +107,9 @@ bool IntersilJack::setChannel(UInt16 channel) {
     return true;
 }
 
-char *IntersilJack::getPlistFile() {
-    return "UsbVendorsIntersil";
+char *IntersilJack::getPlistFile()
+{
+    return (char*)"UsbVendorsIntersil";
 }
 IOReturn IntersilJack::_init() {
     WLIdentity ident;

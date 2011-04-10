@@ -24,7 +24,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CrashReportController : NSWindowController {
+@interface CrashReportController : NSWindowController <NSWindowDelegate>
+{
     IBOutlet NSButton *_allow;
     IBOutlet NSButton *_deny;
     IBOutlet NSButton *_alwaysDeny;

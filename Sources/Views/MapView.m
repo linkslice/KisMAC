@@ -95,13 +95,15 @@
     NSData *data;
     NSMutableDictionary *wp[3];
     NSString *error = nil;
+    NSError * err;
     int i;
     
     if (!_orgImage) return NO;
     
     mapName = [fileName stringByExpandingTildeInPath];
     fMgr = [NSFileManager defaultManager];
-    [fMgr createDirectoryAtPath:mapName attributes:nil];
+    [fMgr createDirectoryAtPath: mapName withIntermediateDirectories: YES
+                     attributes: nil error: &err];
 
     NSImageView *view = [[NSImageView alloc] init];
     [view setImage: _orgImage];

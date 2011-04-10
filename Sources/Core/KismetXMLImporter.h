@@ -10,7 +10,8 @@
 #import "WaveContainer.h"
 
 
-@interface KismetXMLImporter : NSObject {
+@interface KismetXMLImporter : NSObject <NSXMLParserDelegate>
+{
 
      NSMutableString * currentStringValue;
      NSMutableArray * importedNets;
