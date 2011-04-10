@@ -799,8 +799,6 @@
 		00F57C3406A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefsTraffic.nib; sourceTree = "<group>"; };
 		00F57C3806A886350035AE2F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/WayPointDialog.nib; sourceTree = "<group>"; };
 		00F57C4C06A886630035AE2F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		00F57CAB06A8887F0035AE2F /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
-		00F57CAC06A8887F0035AE2F /* TODO */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		00F9C63F06DB378F00E357F0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		00F9C64E06DB37E200E357F0 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		00F9C64F06DB37E200E357F0 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -1508,8 +1506,6 @@
 			isa = PBXGroup;
 			children = (
 				69719DAF0F7E928900949310 /* Subprojects */,
-				00F57CAB06A8887F0035AE2F /* CHANGES */,
-				00F57CAC06A8887F0035AE2F /* TODO */,
 				698665B80FAF61CA002D1A84 /* DMG Artwork */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
