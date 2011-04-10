@@ -63,6 +63,8 @@
 	<string>BIKM</string>
 	<key>CFBundleVersion</key>
 	<string>svn</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.6.0</string>
 	<key>NSAppleScriptEnabled</key>

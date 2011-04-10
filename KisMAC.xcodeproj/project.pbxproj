@@ -2210,7 +2210,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$TARGET_BUILD_DIR/../../Resources/Generic/OUItoVendorDB.pl -d /tmp/OUI.txt $TARGET_BUILD_DIR/../../Resources/Generic/vendor.db";
+			shellScript = "$PROJECT_DIR/Resources/Generic/OUItoVendorDB.pl -d /tmp/OUI.txt $PROJECT_DIR/Resources/Generic/vendor.db";
 		};
 		6910302B0F9E313700C4E466 /* Create DMG */ = {
 			isa = PBXShellScriptBuildPhase;
