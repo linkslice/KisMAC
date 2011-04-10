@@ -154,7 +154,7 @@ pcap_dumper_t * dumper;
     int retErr;
     BOOL shouldPlayback;
 //    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
-    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO};
+    int dataLinks[] = {DLT_PRISM_HEADER, DLT_IEEE802_11_RADIO_AVS, DLT_IEEE802_11_RADIO, 0};
     int i;
 	_apeType = APExtTypeBcm;
     

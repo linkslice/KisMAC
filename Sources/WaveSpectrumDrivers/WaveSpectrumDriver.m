@@ -40,7 +40,7 @@ static void RawDeviceAdded(void* refcon, io_iterator_t iterator) {
     kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
     if (kr || !masterPort)
     {
-        [matchingDict release];
+        CFRelease(matchingDict);
         NSLog(@"ERR: Couldn’t create a master I/O Kit port(%08x)\n", kr);
         return;
     }
