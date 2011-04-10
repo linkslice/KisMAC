@@ -138,8 +138,9 @@
 	if( numItems < 1 )
 		return authorized;
 	
-	while( i < numItems && i < 20 ) {
-        NSLog([forCommands objectAtIndex:i]);
+	while( i < numItems && i < 20 )
+    {
+        NSLog(@"%@", [forCommands objectAtIndex:i]);
 		[[forCommands objectAtIndex:i] getCString:paths[i]];
 		
 		items[i].name = kAuthorizationRightExecute;

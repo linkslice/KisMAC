@@ -101,10 +101,6 @@
     return copy;
 }
 
-- (unsigned)hash {
-    return ( ((unsigned*)&_x)[0] ^ ((unsigned*)&_x)[1] ^ ((unsigned*)&_y)[0] ^ ((unsigned*)&_y)[1] );
-}
-
 - (BOOL)isEqual:(id)anObject {
     if ([self isMemberOfClass:[self class]] && ([anObject getX]==_x) && ([anObject getY]==_y)) return YES;
     return NO;

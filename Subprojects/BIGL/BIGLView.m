@@ -175,7 +175,7 @@ NSString *const BIGLMainViewResized = @"BIGLMainViewResized";
     int bytesPerPixel = 4;
     int bytesPerImage, x, y;
     char *imageBuffer;
-    unsigned char *src, *end, *dest;
+    unsigned char *src, *dest;
         
     width = rect.size.width;
     height = rect.size.height;

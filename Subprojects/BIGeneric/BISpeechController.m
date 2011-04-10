@@ -77,7 +77,7 @@
 
 //adds a sentence tp the speak queue
 - (void)addSentenceToQueue:(const char*)cSentence withVoice:(int)voice {
-    [_sentenceQueue addObject:[NSString stringWithCString: cSentence]];
+    [_sentenceQueue addObject:[NSString stringWithUTF8String: cSentence]];
     [_sentenceQueue addObject:[NSNumber numberWithInt: voice]];
     
     if (!_speakThread) [NSThread detachNewThreadSelector:@selector(speakThread:) toTarget:self withObject:nil];

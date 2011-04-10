@@ -47,7 +47,9 @@
     
     _texSize = [bitmap size];
     
-    if (_cgl_ctx = CGLGetCurrentContext ()) { // if we successfully retrieve a current context (required)
+    // if we successfully retrieve a current context (required)
+    if ((_cgl_ctx = CGLGetCurrentContext())) 
+    { 
         glGenTextures(1, &_texName);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _texName);
         glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, _texSize.width, _texSize.height, 0, ([bitmap bitsPerPixel] == 24 ? GL_RGB : GL_RGBA), GL_UNSIGNED_BYTE, [bitmap bitmapData]);
