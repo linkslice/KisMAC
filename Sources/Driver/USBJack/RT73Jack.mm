@@ -820,7 +820,7 @@ void	RT73Jack::NICReadEEPROMParameters()
 		RfFreqOffset = (ULONG) value;
 	else
 		RfFreqOffset = 0;
-	NSLog(@"E2PROM: RF freq offset=0x%x\n", RfFreqOffset);
+	NSLog(@"E2PROM: RF freq offset=%lu\n", RfFreqOffset);
 
 /*
 	//CountryRegion byte offset = 0x25
@@ -1770,7 +1770,7 @@ bool RT73Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     bzero(outBuf, sizeof(KFrame));
     
     if (len < sizeof(RXD_STRUC)) {
-        NSLog(@"WTF, packet len %d shorter than footer %d!", len, sizeof(RXD_STRUC));
+        NSLog(@"WTF, packet len %d shorter than footer %lu!", len, sizeof(RXD_STRUC));
         return false;
     }
     

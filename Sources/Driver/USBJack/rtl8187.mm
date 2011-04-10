@@ -149,7 +149,7 @@ static const UInt8 rtl8225z2_gain_bg[] = {
 	0x63, 0x15, 0xc5  /* -66dBm */
 };
 
-static inline void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom) {
+static void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom) {
 	eeprom->reg_data_clock = 1;
 	eeprom->register_write(eeprom);
     
@@ -161,7 +161,7 @@ static inline void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom) {
 //	ndelay(450);
 	usleep(1);
 }
-static inline void eeprom_93cx6_pulse_low(struct eeprom_93cx6 *eeprom) {
+static void eeprom_93cx6_pulse_low(struct eeprom_93cx6 *eeprom) {
 	eeprom->reg_data_clock = 0;
 	eeprom->register_write(eeprom);
     
@@ -456,10 +456,10 @@ void rtl8187_write_phy(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
     
 	usleep(1000);
 }
-static inline void rtl8225_write_phy_ofdm(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
+static void rtl8225_write_phy_ofdm(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
 	rtl8187_write_phy(priv, addr, data);
 }
-static inline void rtl8225_write_phy_cck(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
+static void rtl8225_write_phy_cck(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
 	rtl8187_write_phy(priv, addr, data | 0x10000);
 }
 
@@ -1055,7 +1055,7 @@ static int rtl8187_init_hw(struct rtl8187_priv *priv) {
 	} while (--i);
     
 	if (!i) {
-		NSLog(@"%s: eeprom reset timeout!\n");
+		NSLog(@"eeprom reset timeout!\n");
 		return -ETIMEDOUT;
 	}
     

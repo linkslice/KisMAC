@@ -24,7 +24,7 @@
 
 #include <Carbon/Carbon.h>
 
-inline void DesEncrypt(const unsigned char *clear, unsigned char *key, unsigned char *cipher);
-inline int gethashlast2(const unsigned char *challenge, const unsigned char *response, unsigned char* endofhash);
-inline void NtPasswordHash(char *secret, int secret_len, unsigned char *hash);
-inline int testChallenge(const unsigned char* challenge, const unsigned char* response, unsigned char *zpwhash);
+void DesEncrypt(const unsigned char *clear, unsigned char *key, unsigned char *cipher);
+int gethashlast2(const unsigned char *challenge, const unsigned char *response, unsigned char* endofhash);
+void NtPasswordHash(char *secret, int secret_len, unsigned char *hash);
+int testChallenge(const unsigned char* challenge, const unsigned char* response, unsigned char *zpwhash);

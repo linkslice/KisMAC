@@ -1743,13 +1743,13 @@ NSInteger lengthSort(id string1, id string2, void *context)
 
 #pragma mark -
 
-inline int compValues(int v1, int v2) {
+int compValues(int v1, int v2) {
     if (v1 < v2) return NSOrderedAscending;
     else if (v1 > v2) return NSOrderedDescending;
     else return NSOrderedSame;
 }
 
-inline int compFloatValues(float v1, float v2) {
+int compFloatValues(float v1, float v2) {
     if (v1 < v2) return NSOrderedAscending;
     else if (v1 > v2) return NSOrderedDescending;
     else return NSOrderedSame;

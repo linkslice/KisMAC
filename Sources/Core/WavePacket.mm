@@ -31,7 +31,7 @@
 #define AMOD(x, y) ((x) % (y) < 0 ? ((x) % (y)) + (y) : (x) % (y))
 #define N 256
 
-bool inline is8021xPacket(const UInt8* fileData) {
+bool is8021xPacket(const UInt8* fileData) {
     if (fileData[0] == 0xAA &&
         fileData[1] == 0xAA &&
         fileData[2] == 0x03 &&
@@ -941,7 +941,7 @@ int isValidPacket(UInt8 *fileData, int fileLength) {
         
     flags = *((UInt16*)(_payload+13));
     
-    if (flags & WPA_FLAG_KEYTYPE == WPA_FLAG_KEYTYPE_GROUPWISE)
+    if ((flags & WPA_FLAG_KEYTYPE) == WPA_FLAG_KEYTYPE_GROUPWISE)
          return NO; //this is not interesting
     
     _wpaKeyCipher = flags & WPA_FLAG_KEYCIPHER_MASK;

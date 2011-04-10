@@ -37,7 +37,7 @@ typedef struct WaveSort {
     WaveNetEntry *idList;
 } WaveSort;
 
-inline UInt32 hashForMAC(const UInt8* val) {
+UInt32 hashForMAC(const UInt8* val) {
     UInt32 l, j, k;
 #if BYTE_ORDER == BIG_ENDIAN
     //add to hash table
@@ -451,7 +451,7 @@ inline UInt32 hashForMAC(const UInt8* val) {
 #pragma mark -
 
 
-inline int compValues(int v1, int v2) {
+int compValues(int v1, int v2) {
     if (v1 < v2) return NSOrderedAscending;
     else if (v1 > v2) return NSOrderedDescending;
     else return NSOrderedSame;

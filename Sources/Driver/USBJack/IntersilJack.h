@@ -43,7 +43,7 @@ public:
 
     IOReturn    _getValue(UInt16 rid, UInt16* v);
     IOReturn    _setValue(UInt16 rid, UInt16 v);
-    inline IOReturn    _writeWaitForResponse(UInt32 size);
+    IOReturn    _writeWaitForResponse(UInt32 size);
     IOReturn    _getHardwareAddress(struct WLHardwareAddress* addr);
     IOReturn    _getIdentity(WLIdentity* wli);
     int         _getFirmwareType();

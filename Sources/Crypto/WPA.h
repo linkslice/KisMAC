@@ -25,12 +25,12 @@
 #include <Carbon/Carbon.h>
 #include <stdbool.h>
 
-inline void fast_hmac_md5(const unsigned char *text, int text_len, unsigned char *key, int key_len, void * digest);
+void fast_hmac_md5(const unsigned char *text, int text_len, unsigned char *key, int key_len, void * digest);
 void hmac_md5 (const unsigned char *text, int text_len, unsigned char *key, int key_len, void * digest);
-inline void fast_hmac_sha1( unsigned char *text, int text_len, unsigned char *key, int key_len, unsigned char *digest);
+void fast_hmac_sha1( unsigned char *text, int text_len, unsigned char *key, int key_len, unsigned char *digest);
 void hmac_sha1(unsigned char *text, int text_len, unsigned char *key, int key_len, unsigned char *digest);
 int wpaPasswordHash(char *password, const unsigned char *ssid, int ssidlength, unsigned char *output);
-inline void PRF(unsigned char *key, int key_len, unsigned char *prefix, int prefix_len, unsigned char *data, int data_len, unsigned char *output, int len);
+void PRF(unsigned char *key, int key_len, unsigned char *prefix, int prefix_len, unsigned char *data, int data_len, unsigned char *output, int len);
 void generatePTK512(UInt8* ptk, UInt8* pmk, const UInt8* anonce, const UInt8* snonce, const UInt8* bssid, const UInt8* clientMAC);
 
 

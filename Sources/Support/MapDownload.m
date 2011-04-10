@@ -115,7 +115,7 @@ in Safari.");
     serv_name.sin_addr.s_addr = ip;
     serv_name.sin_port = htons(80);
     
-    NSLog(@"Connecting to expedia (%s, %x)",inet_ntoa(serv_name.sin_addr), ip);
+    NSLog(@"Connecting to expedia (%s, %lu)",inet_ntoa(serv_name.sin_addr), ip);
     
     /* connect to the server */
     status = connect(sockd, (struct sockaddr*)&serv_name, sizeof(serv_name));

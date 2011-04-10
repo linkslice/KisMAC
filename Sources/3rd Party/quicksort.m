@@ -35,8 +35,8 @@
 #include <stdlib.h>
 #include "quicksort.h"
 
-static inline char	*med3(char *, char *, char *, cmp_t *, void *);
-static inline void	 swapfunc(char *, char *, int, int);
+static char	*med3(char *, char *, char *, cmp_t *, void *);
+static void	 swapfunc(char *, char *, int, int);
 
 #define min(a, b)	(a) < (b) ? a : b
 
@@ -57,7 +57,7 @@ static inline void	 swapfunc(char *, char *, int, int);
 #define SWAPINIT(a, es) swaptype = ((char *)a - (char *)0) % sizeof(long) || \
 	es % sizeof(long) ? 2 : es == sizeof(long)? 0 : 1;
 
-static inline void
+static void
 swapfunc(a, b, n, swaptype)
 	char *a, *b;
 	int n, swaptype;
@@ -80,7 +80,7 @@ swapfunc(a, b, n, swaptype)
 
 #define	CMP(t, x, y) (cmp((t), (x), (y)))
 
-static inline char *
+static char *
 med3(char *a, char *b, char *c, cmp_t *cmp, void *thunk)
 {
 	return CMP(thunk, a, b) < 0 ?

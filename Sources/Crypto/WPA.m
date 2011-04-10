@@ -35,7 +35,7 @@
  * Function: hmac_md5 from rfc2104; uses an MD5 library 
  */ 
 
-inline void fast_hmac_md5 (
+void fast_hmac_md5 (
     const unsigned char *text, int text_len, 
     unsigned char *key, int key_len,
     void * digest) 
@@ -138,7 +138,7 @@ void hmac_md5 (
     //memcpy(digest, context.digest, 16);
 } 
 
-inline void fast_hmac_sha1( unsigned char *text, int text_len, unsigned char *key, int key_len, unsigned char *digest) {
+void fast_hmac_sha1( unsigned char *text, int text_len, unsigned char *key, int key_len, unsigned char *digest) {
     SHA_CTX context; 
     unsigned char k_ipad[65]; /* inner padding - key XORd with ipad */ 
     unsigned char k_opad[65]; /* outer padding - key XORd with opad */
@@ -316,7 +316,7 @@ int wpaPasswordHash (
  *     output array must be 80 octets to allow for sha1 overflow
  */
 
-inline void PRF(
+void PRF(
     unsigned char *key, int key_len,
     unsigned char *prefix, int prefix_len,
     unsigned char *data, int data_len,

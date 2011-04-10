@@ -87,7 +87,7 @@ typedef struct {
 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
 
-inline void SHA1Transform(UInt32 state[5], unsigned long buffer[16]) {
+void SHA1Transform(UInt32 state[5], unsigned long buffer[16]) {
 	UInt32 a, b, c, d, e;
 	/*typedef union {
 		unsigned char c[64];
@@ -134,7 +134,7 @@ inline void SHA1Transform(UInt32 state[5], unsigned long buffer[16]) {
 
 
 /* SHA1InitAndUpdateFistSmall64 - Initialize new context And fillup 64*/
-inline void SHA1InitWithStatic64(SHA1_CTX* context, unsigned char* staticT) {
+void SHA1InitWithStatic64(SHA1_CTX* context, unsigned char* staticT) {
 	context->state[0] = 0x67452301;
 	context->state[1] = 0xEFCDAB89;
 	context->state[2] = 0x98BADCFE;
@@ -144,7 +144,7 @@ inline void SHA1InitWithStatic64(SHA1_CTX* context, unsigned char* staticT) {
 }
 
 /* Add padding and return the message digest. */
-inline void SHA1FinalFastWith20ByteData(unsigned char digest[20], SHA1_CTX* context,unsigned char data[64]) {
+void SHA1FinalFastWith20ByteData(unsigned char digest[20], SHA1_CTX* context,unsigned char data[64]) {
 	UInt32 i;
 
         //memcpy(buffer, data, 20);
@@ -161,7 +161,7 @@ inline void SHA1FinalFastWith20ByteData(unsigned char digest[20], SHA1_CTX* cont
 	}
 }
 
-inline void prepared_hmac_sha1(const SHA1_CTX *k_ipad, const SHA1_CTX *k_opad, unsigned char digest[64]) {
+void prepared_hmac_sha1(const SHA1_CTX *k_ipad, const SHA1_CTX *k_opad, unsigned char digest[64]) {
     SHA1_CTX ipad, opad; 
 
     memcpy(&ipad, k_ipad, sizeof(ipad));
@@ -178,7 +178,7 @@ inline void prepared_hmac_sha1(const SHA1_CTX *k_ipad, const SHA1_CTX *k_opad, u
 #pragma mark optimized WPA password -> PMK mapping
 #pragma mark -
 
-inline void fastF(unsigned char *password, int pwdLen, const unsigned char *ssid, int ssidlength, const SHA1_CTX *ipadContext, const SHA1_CTX *opadContext, int count, unsigned char output[40]) {
+void fastF(unsigned char *password, int pwdLen, const unsigned char *ssid, int ssidlength, const SHA1_CTX *ipadContext, const SHA1_CTX *opadContext, int count, unsigned char output[40]) {
     unsigned char digest[64], digest1[64];
     int i, j; 
     
@@ -209,7 +209,7 @@ inline void fastF(unsigned char *password, int pwdLen, const unsigned char *ssid
 } 
 
 
-inline void fastWP_passwordHash(char *password, const unsigned char *ssid, int ssidlength, unsigned char output[40]) { 
+void fastWP_passwordHash(char *password, const unsigned char *ssid, int ssidlength, unsigned char output[40]) { 
     unsigned char k_ipad[65]; /* inner padding - key XORd with ipad */ 
     unsigned char k_opad[65]; /* outer padding - key XORd with opad */
     SHA1_CTX ipadContext, opadContext;

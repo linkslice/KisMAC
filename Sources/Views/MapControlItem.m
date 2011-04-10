@@ -32,7 +32,8 @@
 #define OFFSET (CURVERAD + BORDER)
 #define TRIANGLESIZE 15.0
 
-inline col fillColor() {
+col fillColor() 
+{
     col c;
     c.red = 35.0/255.0;
     c.green = 45.33333/255.0;
@@ -41,7 +42,8 @@ inline col fillColor() {
     return c;
 }
 
-inline col borderColor() {
+col borderColor() 
+{
     col c;
     c.red = 105.0/255.0;
     c.green = 136.0/255.0;
@@ -50,7 +52,8 @@ inline col borderColor() {
     return c;
 }
 
-inline col highBorderColor() {
+col highBorderColor()
+{
     col c;
     c.red = 1;
     c.green = 1;
@@ -59,7 +62,8 @@ inline col highBorderColor() {
     return c;
 }
 
-inline col highFillColor() {
+col highFillColor()
+{
     col c;
     c.red = .333333;
     c.green = .333333;
@@ -68,19 +72,19 @@ inline col highFillColor() {
     return c;
 }
 
-inline col clickBorderColor() {
+col clickBorderColor() {
     return fillColor();
 }
 
-inline col clickFillColor() {
+col clickFillColor() {
     return borderColor();
 }
 
-inline NSColor* col2NSColor(col c) {
+NSColor* col2NSColor(col c) {
     return [NSColor colorWithDeviceRed:c.red green:c.green blue:c.blue alpha:c.alpha];
 }
 
-inline col delta(col c1, col c2, int speed) {
+col delta(col c1, col c2, int speed) {
     col c;
     c.red   = (c1.red   - c2.red)   / speed;
     c.green = (c1.green - c2.green) / speed;

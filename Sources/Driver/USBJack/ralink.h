@@ -28,4 +28,4 @@ typedef UInt32 ULONG;
 typedef UInt16 USHORT;
 typedef UInt8  UCHAR;
 
-#endif __RALINK_H
+#endif //__RALINK_H

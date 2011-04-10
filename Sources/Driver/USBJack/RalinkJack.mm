@@ -1149,7 +1149,7 @@ bool RalinkJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len){
     KFrame *pFrame = (KFrame *)outBuf;
     PRXD_STRUC pRxD;
     if (len < sizeof(RXD_STRUC)) {
-        NSLog(@"WTF, packet len %d shorter than footer %d!", len, sizeof(RXD_STRUC));
+        NSLog(@"WTF, packet len %d shorter than footer %lu!", len, sizeof(RXD_STRUC));
         return false;
     }
     

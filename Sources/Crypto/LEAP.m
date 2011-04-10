@@ -32,7 +32,8 @@
 /*  taken from ppp/pppd/extra_crypto.c 
  *  Copyright (c) Tim Hockin, Cobalt Networks Inc. and others 
  */
-inline unsigned char Get7Bits(const unsigned char *input, int startBit) {
+unsigned char Get7Bits(const unsigned char *input, int startBit) 
+{
     register unsigned int word;
 
     word = (unsigned) input[startBit / 8] << 8;
@@ -43,7 +44,8 @@ inline unsigned char Get7Bits(const unsigned char *input, int startBit) {
     return word & 0xFE;
 }
 
-inline void MakeKey(const unsigned char *key, unsigned char *des_key) {
+void MakeKey(const unsigned char *key, unsigned char *des_key) 
+{
     des_key[0] = Get7Bits(key, 0);
     des_key[1] = Get7Bits(key, 7);
     des_key[2] = Get7Bits(key, 14);
@@ -56,7 +58,8 @@ inline void MakeKey(const unsigned char *key, unsigned char *des_key) {
     des_set_odd_parity((des_cblock *)des_key);
 }
 
-inline void DesEncrypt(const unsigned char *clear, unsigned char *key, unsigned char *cipher) {
+void DesEncrypt(const unsigned char *clear, unsigned char *key, unsigned char *cipher)
+{
     des_cblock		des_key;
     des_key_schedule	key_schedule;
 
@@ -90,7 +93,8 @@ int gethashlast2(const unsigned char *challenge, const unsigned char *response, 
 }
 
 /* quick wrapper for easy md4 */
-inline void md4(unsigned char *from, int from_len, unsigned char *to) {
+void md4(unsigned char *from, int from_len, unsigned char *to)
+{
     MD4_CTX Context;
 
     MD4_Init(&Context);
@@ -98,7 +102,8 @@ inline void md4(unsigned char *from, int from_len, unsigned char *to) {
     MD4_Final(to, &Context);
 }
 
-inline void NtPasswordHash(char *secret, int secret_len, unsigned char *hash) {
+void NtPasswordHash(char *secret, int secret_len, unsigned char *hash)
+{
     int i;
     unsigned char unicodePassword[64];
 
@@ -113,7 +118,8 @@ inline void NtPasswordHash(char *secret, int secret_len, unsigned char *hash) {
     md4(unicodePassword, secret_len * 2, hash);
 }
 
-inline int testChallenge(const unsigned char* challenge, const unsigned char* response, unsigned char *zpwhash) {
+int testChallenge(const unsigned char* challenge, const unsigned char* response, unsigned char *zpwhash) 
+{
     unsigned char cipher[8];
 
     DesEncrypt(challenge, zpwhash, cipher);

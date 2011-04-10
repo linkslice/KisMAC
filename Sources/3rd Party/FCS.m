@@ -57,6 +57,7 @@ static UNS_32_BITS crc_32_tab[] = { /* CRC polynomial 0xedb88320 */
     0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-inline unsigned long UPDC32(unsigned long octet, unsigned long crc) {
+unsigned long UPDC32(unsigned long octet, unsigned long crc) 
+{
     return (crc_32_tab[((crc) ^ (octet)) & 0xff] ^ ((crc) >> 8));
 }

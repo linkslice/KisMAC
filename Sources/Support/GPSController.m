@@ -911,7 +911,7 @@ int ss(char* inp, char* outp) {
 			status = connect(sockd, (struct sockaddr*)&serv_name, sizeof(serv_name));
 			
 			if (status == -1) {
-				NSLog(@"Could not connect to %s port %d", hostname, [sets integerForKey:@"GPSDaemonPort"]);
+				NSLog(@"Could not connect to %s port %ld", hostname, [sets integerForKey:@"GPSDaemonPort"]);
 				[self setStatus:NSLocalizedString(@"Could not connect to GPSd.", @"GPS status")];
 				goto err;
 			}

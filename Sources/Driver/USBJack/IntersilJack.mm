@@ -277,7 +277,7 @@ bool IntersilJack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     UInt16 type;
 //    NSLog(@"_massagePacket %d", len);
     if (len < sizeof(WLFrame)) {
-        NSLog(@"WTF, packet len %d shorter than header %d!", len, sizeof(WLFrame));
+        NSLog(@"WTF, packet len %d shorter than header %lu!", len, sizeof(WLFrame));
         return false;
     }
 

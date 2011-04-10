@@ -42,7 +42,7 @@
 /*
  * generate 104-bit key based on the supplied string
  */
-inline void WirelessCryptMD5(char const *str, unsigned char *key) {
+void WirelessCryptMD5(char const *str, unsigned char *key) {
     int i, j;
     u_char md5_buf[64];
     MD5_CTX ctx;
