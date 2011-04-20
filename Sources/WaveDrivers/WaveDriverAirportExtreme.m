@@ -308,14 +308,6 @@ typedef struct __avs_80211_1_header
         uint32_t encoding;
 } __attribute__((__packed__)) avs_80211_1_header;
 
-typedef struct __ieee80211_radiotap_header
-{
-    u_int8_t        it_version;     /* set to 0 */
-    u_int8_t        it_pad;
-    u_int16_t       it_len;         /* entire length */
-    u_int32_t       it_present;     /* fields present */
-} __attribute__((__packed__)) ieee80211_radiotap_header;
-
 //radiotap field types
 #define IEEE80211_RADIOTAP_TSFT_BIT      0
 #define IEEE80211_RADIOTAP_TSFT_BYTES    8

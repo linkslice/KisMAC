@@ -388,38 +388,99 @@
 }
 
 //reads in a pcap file
--(void)readPCAPDump:(NSString*) dumpFile {
+-(void)readPCAPDump:(NSString*) dumpFile
+{
     char err[PCAP_ERRBUF_SIZE];
     WavePacket *w;
     KFrame* frame=NULL;
     bool corrupted;
-    int offset;
     
-#ifdef DUMP_DUMPS
-    pcap_dumper_t* f=NULL;
-    pcap_t* p=NULL;
-    NSString *aPath;
-    
-    if (aDumpLevel) {
-        //in the example dump are informations like 802.11 network
-        aPath=[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/example.dump"];
-        p=pcap_open_offline([aPath UTF8String],err);
-        if (p==NULL)
-            return;
-        //opens output
-        aPath=[[NSDate date] descriptionWithCalendarFormat:[aDumpFile stringByExpandingTildeInPath] timeZone:nil locale:nil];
-        f=pcap_dump_open(p,[aPath UTF8String]);
-        if (f==NULL)
-            return;
-    }
-#endif
+    #ifdef DUMP_DUMPS
+        pcap_dumper_t* f=NULL;
+        pcap_t* p=NULL;
+        NSString *aPath;
+        
+        if (aDumpLevel)
+        {
+            //in the example dump are informations like 802.11 network
+            aPath=[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/example.dump"];
+            p=pcap_open_offline([aPath UTF8String],err);
+            if (p==NULL)
+                return;
+            //opens output
+            aPath=[[NSDate date] descriptionWithCalendarFormat:[aDumpFile stringByExpandingTildeInPath] 
+                                                      timeZone:nil locale:nil];
+            f=pcap_dump_open(p,[aPath UTF8String]);
+            if (f==NULL) 
+                return;
+        }
+    #endif
     
     _pcapP=pcap_open_offline([dumpFile UTF8String],err);
-    if (_pcapP == NULL) {
+    if (_pcapP == NULL) 
+    {
         NSLog(@"Could not open dump file: %@. Reason: %s", dumpFile, err);
         return;
     }
 
+    memset(aFrameBuf, 0, sizeof(aFrameBuf));
+    aWF=(KFrame*)aFrameBuf;
+    
+    w=[[WavePacket alloc] init];
+
+    while (true) 
+    {
+        frame = [self nextFrame:&corrupted];
+        if (frame == NULL) 
+        {
+            if (corrupted) continue;
+            else break;
+        }
+                
+        if ([w parseFrame:frame] != NO) 
+        {
+
+            if ([_container addPacket:w liveCapture:NO] == NO)
+                continue; // the packet shall be dropped
+            
+            #ifdef DUMP_DUMPS
+                if ((aDumpLevel==1) || 
+                    ((aDumpLevel==2)&&([w type]==IEEE80211_TYPE_DATA)) || 
+                    ((aDumpLevel==3)&&([w isResolved]!=-1))) [w dump:f]; //dump if needed
+            #endif
+        }
+    }//while
+
+    #ifdef DUMP_DUMPS
+        if (f) pcap_dump_close(f);
+        if (p) pcap_close(p);
+    #endif
+
+    [w release];
+    pcap_close(_pcapP);
+}
+
+//returns the next frame in a pcap file
+-(KFrame*) nextFrame:(bool*)corrupted
+{
+    UInt8 *b;
+    struct pcap_pkthdr h;
+    int offset;
+
+    *corrupted = NO;
+    
+    b=(UInt8*)pcap_next(_pcapP,&h);	//get frame from current pcap file
+
+    if(b == NULL) return NULL;
+
+    *corrupted = YES;
+    
+    aWF->ctrl.channel = 0;
+    aWF->ctrl.len = h.caplen;
+    
+    //corrupted frame
+    if ( h.caplen > 2364 ) return NULL;
+    
     switch (pcap_datalink(_pcapP))
     {
         case DLT_IEEE802_11:
@@ -430,75 +491,16 @@
             offset = sizeof(prism_header);
         break;
             
+        case DLT_IEEE802_11_RADIO:
+            offset = ((ieee80211_radiotap_header*)b)->it_len;
+        break;
+            
         default:
-            NSLog(@"Could not open dump file: %@. Unsupported Datalink Type: %u.", 
-                  dumpFile, pcap_datalink(_pcapP));
+            NSLog(@"Unsupported Datalink Type: %u.", pcap_datalink(_pcapP));
             pcap_close(_pcapP);
-            return;
+            return NULL;
         break;
     }
-	
-    memset(aFrameBuf, 0, sizeof(aFrameBuf));
-    aWF=(KFrame*)aFrameBuf;
-    
-    w=[[WavePacket alloc] init];
-
-    while (true) {
-        frame = [self nextFrame:&corrupted withOffset: offset];
-        if (frame == NULL) {
-            if (corrupted)
-                continue;
-            else
-                break;
-        }
-        
-//        NSLog(@"frame %d", frameNum++);
-        
-        if ([w parseFrame:frame] != NO) {
-
-            if ([_container addPacket:w liveCapture:NO] == NO)
-                continue; // the packet shall be dropped
-            
-#ifdef DUMP_DUMPS
-            if ((aDumpLevel==1) || 
-                ((aDumpLevel==2)&&([w type]==IEEE80211_TYPE_DATA)) || 
-                ((aDumpLevel==3)&&([w isResolved]!=-1))) [w dump:f]; //dump if needed
-#endif
-        }
-    }
-
-#ifdef DUMP_DUMPS
-    if (f)
-        pcap_dump_close(f);
-    if (p)
-        pcap_close(p);
-#endif
-
-    [w release];
-    pcap_close(_pcapP);
-}
-
-//returns the next frame in a pcap file
--(KFrame*) nextFrame:(bool*)corrupted withOffset:(int) offset
-{
-    UInt8 *b;
-    struct pcap_pkthdr h;
-
-    *corrupted = NO;
-    
-    b=(UInt8*)pcap_next(_pcapP,&h);	//get frame from current pcap file
-
-    if(b == NULL)
-        return NULL;
-
-    *corrupted = YES;
-    
-    aWF->ctrl.channel = 0;
-    aWF->ctrl.len = h.caplen;
-    
-
-    if ( h.caplen > 2364 )
-        return NULL;	//corrupted frame
 
     memcpy(aWF->data, b+offset, h.caplen);
     return aWF;   
